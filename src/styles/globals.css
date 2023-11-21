@@ -75,8 +75,9 @@ small {
 
 @layer base {
   :root {
-    --primaryColor: 255 8% 10%;
     font-family: "Rubik", sans-serif;
+
+    --primaryColor: 255 8% 10%;
     --secondaryColor: 0 0% 95%;
     --accentColor: 356 100% 52%;
     --contrastColor: 0 0% 18%;
