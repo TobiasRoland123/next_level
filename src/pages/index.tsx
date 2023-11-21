@@ -1,11 +1,10 @@
 import { Button } from "@/components/Button/Button";
+import { Header } from "@/components/Header/Header";
 
 export default function Home() {
   return (
     <>
-      <h1>Hello World</h1>
-
-      <Button className="bg-green-500">test button</Button>
+      <Header />
     </>
   );
 }
