@@ -13,7 +13,7 @@ export default function Home() {
 
       <Modal title="Open modal" />
 
-      <Button variant="default">Button</Button>
+      <Button>Button</Button>
     </>
   );
 }

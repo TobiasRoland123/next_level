@@ -79,8 +79,12 @@ small {
 
 @layer base {
   :root {
-    color: #f2f2f2;
+    --primaryColor: 255 8% 10%;
     font-family: "Rubik", sans-serif;
+    --secondaryColor: 0 0% 95%;
+    --accentColor: 356 100% 52%;
+    --contrastColor: 0 0% 18%;
+
     --background: 255, 8%, 10%, 1;
     --foreground: 0 0% 95%;
     --card: 24 9.8% 10%;
