@@ -21,7 +21,6 @@ h2 {
 
 h3 {
   font-size: 35.5px;
-  font-style: normal;
   font-weight: 700;
   line-height: normal;
   text-transform: uppercase;
@@ -29,21 +28,18 @@ h3 {
 
 h4 {
   font-size: 24px;
-  font-style: normal;
   font-weight: 700;
   line-height: normal;
   text-transform: uppercase;
 }
 p {
   font-size: 16px;
-  font-style: normal;
   font-weight: 300;
   line-height: normal;
 }
 
 small {
   font-size: 12.5px;
-  font-style: normal;
   font-weight: 400;
   line-height: normal;
 }
@@ -106,7 +102,7 @@ small {
     --border: 0, 0%, 95%, 1;
     --input: 0, 0%, 95%, 1;
     --ring: 356, 100%, 52%, 1;
-    --radius: 0.5rem;
+    --radius: 2px;
   }
 }
 
