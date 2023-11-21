@@ -6,7 +6,8 @@ export default function Home() {
     <>
       <h1>Hello World</h1>
 
-
+      <Input labelText="Label text"></Input>
+      <Input labelText="Label another text"></Input>
     </>
   );
 }
