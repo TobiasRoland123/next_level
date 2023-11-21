@@ -5,7 +5,9 @@ export default function Home() {
     <>
       <h1>Hello World</h1>
 
-      <Button className="bg-green-500">test button</Button>
+      <Button size={"lg"}>
+        <a href="#">klik på mig, svin!</a>
+      </Button>
     </>
   );
 }
