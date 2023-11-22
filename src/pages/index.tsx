@@ -11,6 +11,9 @@ export default function Home() {
       <Card
         variant={'level1'}
         header="ye mum"
+        timeAntal={100}
+        timePris={20}
+        totalPris={500}
       ></Card>
       <Card
         variant={'level2'}

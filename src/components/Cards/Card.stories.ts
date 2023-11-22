@@ -13,7 +13,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Level1: Story = {
-  args: { header: 'header', timeAntal: 20, timePris: 12 },
+  args: { header: 'header', timeAntal: 20, timePris: 12, totalPris: 100 },
 };
 export const Level2: Story = {
   args: { variant: 'level2', header: 'header', timeAntal: 20, timePris: 12 },

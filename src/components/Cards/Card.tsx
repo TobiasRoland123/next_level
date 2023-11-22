@@ -30,10 +30,11 @@ export interface CardProps
   header?: string;
   timeAntal?: number;
   timePris?: number;
+  totalPris?: number;
 }
 
 const Card = React.forwardRef<HTMLDivElement, CardProps>(
-  ({ variant, header, timeAntal, timePris, size, className, ...props }, ref) => {
+  ({ variant, header, timeAntal, timePris, totalPris, size, className, ...props }, ref) => {
     const cardClassName = cn(cardVariants({ variant, size, className }));
     const cardNamesStuff = cardVariants();
 
@@ -45,16 +46,33 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
         className={cardClassName}
         {...props}
       >
-        <div className="bg-primaryCol w-full h-72 rounded">
+        <div className="bg-primaryCol flex flex-col p-4 w-full h-72 rounded">
           <h2 className={clsx(variant, 'text-center text-4xl')}>{header}</h2>
           <h3 className=" text-secondaryCol text-center text-3xl">{timeAntal} timer</h3>
-          <div className="h-[1px] mx-5 my-3 bg-secondaryCol rounded"></div>
-          <div className="flex flex-row gap-3 justify-center">
-            <IoMdCheckmark
-              className="text-green-400"
-              size="18"
-            />
-            <p className=" text-center text-secondaryCol">{timePris}kr. pr. time</p>
+          <div className="h-[1px] my-3 bg-secondaryCol rounded"></div>
+          <div className="flex flex-col justify-between h-3/4">
+            <div className="flex flex-col gap-2">
+              <div className="flex flex-row gap-3">
+                <IoMdCheckmark
+                  className="text-green-400 shrink-0"
+                  size="18"
+                />
+                <p className=" text-center text-secondaryCol">
+                  {timeAntal && totalPris && Math.round(totalPris / timeAntal)}kr. pr. time
+                </p>
+              </div>
+              <div className="flex flex-row gap-3">
+                <IoMdCheckmark
+                  className="text-green-400 shrink-0"
+                  size="18"
+                />
+                <p className="max-w-[15ch] text-secondaryCol">
+                  Svarer til {timeAntal ? Math.round((timeAntal * 60) / 34) : 3} spil CS eller{' '}
+                  {timeAntal ? Math.round((timeAntal * 60) / 30) : 3} spil PubG
+                </p>
+              </div>
+            </div>
+            <h3 className="text-secondaryCol text-center text-4xl">{totalPris},-</h3>
           </div>
         </div>
       </div>
