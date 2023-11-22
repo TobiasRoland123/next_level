@@ -5,7 +5,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/nav-dropdown-menu";
+} from "../ui/nav-dropdown-menu";
 import { useEffect, useState } from "react";
 
 interface NavLinkDropDownProp {
@@ -21,7 +21,7 @@ export const NavLinkDropDown = ({ ItemList, href, title }: NavLinkDropDownProp) 
     console.log(isHovered);
   }, [isHovered]);
 
-  // TODO: find better solution for how to make dropdown apear, so it doesn't come and go so much
+  // TODO: find better solution for how to make dropdown apear, so it doesn't flicker
 
   return (
     <>

@@ -17,7 +17,7 @@ interface HeaderProps {
 }
 
 export const Header = ({ pageList }: HeaderProps) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
 
   const ToggleMenu = () => {
     setIsOpen(!isOpen);
@@ -30,14 +30,44 @@ export const Header = ({ pageList }: HeaderProps) => {
       <div
         className={` bg-primaryCol w-screen h-screen absolute top-0 transition-all md:hidden  ${
           isOpen ? "right-0" : "right-full"
-        } flex justify-center items-center`}
+        } flex  items-center`}
       >
-        <ul className="flex justify-center items-center flex-col">
+        <ul className="flex mx-8 flex-col gap-8">
           {pageList.map((pages) => {
             return (
               <>
                 <li>
-                  <a href={pages.page.href}>{pages.page.pageTitle}</a>
+                  {pages.page.subPages ? (
+                    <div>
+                      <a
+                        href={pages.page.href}
+                        className="font-bold uppercase text-2xl"
+                      >
+                        {pages.page.pageTitle}
+                      </a>
+                      <div className="pl-8 flex flex-col gap-2 mt-3 ">
+                        {pages.page.subPages.map((subpage) => {
+                          return (
+                            <>
+                              <a
+                                href={subpage.href}
+                                className=""
+                              >
+                                {subpage.pageTitle}
+                              </a>
+                            </>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  ) : (
+                    <a
+                      href={pages.page.href}
+                      className="border-2 uppercase text-2xl font-bold border-transparent hover:border-b-accentCol "
+                    >
+                      {pages.page.pageTitle}
+                    </a>
+                  )}
                 </li>
               </>
             );
@@ -45,9 +75,9 @@ export const Header = ({ pageList }: HeaderProps) => {
         </ul>
       </div>
       <nav
-        className={`mx-4 mt-6 md:mx-6 my-3 backdrop-blur-sm ${
+        className={`mx-4  md:mx-6 my-3 backdrop-blur-sm ${
           isOpen ? "bg-primaryCol" : "bg-contrastCol/50"
-        } flex justify-between sticky top-6 items-center px-4 py-3 gap-6 rounded-sm`}
+        } flex justify-between sticky top-2 items-center px-4 gap-6 rounded-sm`}
       >
         <button
           className="w-8 flex flex-col gap-2 justify-center items-center h-14 z-10 md:hidden"
