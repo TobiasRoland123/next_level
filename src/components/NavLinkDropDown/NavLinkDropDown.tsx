@@ -21,6 +21,8 @@ export const NavLinkDropDown = ({ ItemList, href, title }: NavLinkDropDownProp) 
     console.log(isHovered);
   }, [isHovered]);
 
+  // TODO: find better solution for how to make dropdown apear, so it doesn't come and go so much
+
   return (
     <>
       <DropdownMenu open={isHovered}>
@@ -42,12 +44,12 @@ export const NavLinkDropDown = ({ ItemList, href, title }: NavLinkDropDownProp) 
           onMouseLeave={() => {
             setIsHovered(false);
           }}
-          className="border-0 border-t-accentCol border-t-2 bg-contrastCol"
+          className="border-0 border-t-accentCol border-t-2 bg-contrastCol flex flex-col gap-2"
         >
           {ItemList?.map((item) => (
             <DropdownMenuItem
               key={item.href}
-              className="flex justify-center font-bold"
+              className="flex justify-center font-bold border-2 border-transparent hover:border-b-accentCol"
             >
               <a href={item.href}>{item.pageTitle}</a>
             </DropdownMenuItem>
