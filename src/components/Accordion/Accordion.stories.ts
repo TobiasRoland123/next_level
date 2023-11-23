@@ -13,8 +13,11 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  args: {},
-};
-export const Secondary: Story = {
-  args: { variant: "secondary" },
+  args: {
+    items: [
+      { item: { itemHeader: "Noget", itemContent: "Noget mere" } },
+      { item: { itemHeader: "Noget", itemContent: "Noget mere" } },
+      { item: { itemHeader: "Noget", itemContent: "Noget mere" } },
+    ],
+  },
 };
