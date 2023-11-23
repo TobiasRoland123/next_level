@@ -1,9 +1,9 @@
 import { Button } from "@/components/Button/Button";
 
-import { Header } from "@/components/Header/Header";
+import { Header } from "../modules/Header/Header";
 
 import { Input } from "@/components/Inputfields/Inputfield";
-
+import { Footer } from "@/modules/Footer/Footer";
 
 export default function Home() {
   return (
@@ -26,7 +26,6 @@ export default function Home() {
           { page: { href: "/om-os", pageTitle: "Om os", subPages: [{ href: "/kontakt", pageTitle: "Kontakt os" }] } },
         ]}
       />
-
 
       <div>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum eu quam sed augue ultrices cursus. Vivamus eget metus
@@ -61,7 +60,7 @@ export default function Home() {
 
       <Input labelText="Label text"></Input>
       <Input labelText="Label another text"></Input>
-
+      <Footer />
     </>
   );
 }
