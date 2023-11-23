@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { Button } from "../Button/Button";
-import { NavLinkDropDown } from "../NavLinkDropDown/NavLinkDropDown";
+import { Button } from "../../components/Button/Button";
+import { NavLinkDropDown } from "../../components/NavLinkDropDown/NavLinkDropDown";
 
 interface HeaderProps {
   pageList: Array<{
