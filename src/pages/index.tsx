@@ -1,11 +1,11 @@
 import { Button } from "@/components/Button/Button";
 
 import { Header } from "../modules/Header/Header";
+import { Accordions } from "../components/Accordion/Accordion";
 
 import { Input } from "@/components/Inputfields/Inputfield";
 
 import { Footer } from "@/modules/Footer/Footer";
-
 
 export default function Home() {
   return (
@@ -29,12 +29,11 @@ export default function Home() {
         ]}
       />
 
-
       <Input
         isSearch
         labelText="Bitch"
       />
-
+      <Accordions></Accordions>
       <div>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum eu quam sed augue ultrices cursus. Vivamus eget metus at sapien mollis auctor. Mauris ac odio non arcu sollicitudin ultrices. Nullam in tempor mauris. Pellentesque pharetra tincidunt venenatis. Nulla purus ligula, convallis sodales blandit ut, iaculis vel nunc. Suspendisse nulla nulla, convallis id dolor vitae, vestibulum gravida ipsum. Donec blandit tristique tristique. Aenean interdum finibus ante nec vulputate. Phasellus quis tincidunt quam. Donec nec fringilla arcu, in rutrum enim. Vestibulum vitae dolor eget ante feugiat placerat. In non condimentum lectus, ut suscipit felis. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Integer congue, mi vitae fermentum ultrices,
         elit mauris accumsan ex, nec facilisis turpis turpis id metus. Sed rhoncus purus id nulla elementum, a congue nulla mollis. Sed aliquam arcu sed dolor varius, a pulvinar enim sagittis. Nullam arcu justo, commodo ut posuere quis, venenatis sit amet urna. Nam blandit eros porttitor libero auctor, id dictum felis tempus. Sed accumsan tincidunt ipsum, sed tincidunt lacus venenatis placerat. Praesent quis magna suscipit, tristique urna id, congue leo. Donec at dolor pretium, ultrices massa sit amet, pharetra libero. Mauris eu vestibulum nulla. Fusce convallis diam lacus, at mattis massa porta eu. Vivamus tincidunt, ligula sed elementum dictum, odio dolor suscipit lorem, et fermentum libero elit sed mauris. Praesent non elit eget sem tempus gravida nec et ligula. Cras sagittis convallis
@@ -46,9 +45,7 @@ export default function Home() {
       <Input labelText="Label text"></Input>
       <Input labelText="Label another text"></Input>
 
-
       <Footer />
-
     </>
   );
 }
