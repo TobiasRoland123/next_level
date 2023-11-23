@@ -27,9 +27,8 @@ export default function Home() {
       />
 
       <Input
-        search
+        isSearch
         labelText="Bitch"
-        searchLabel="Search"
       />
 
       <div>

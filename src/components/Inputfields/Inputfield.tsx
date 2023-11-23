@@ -6,10 +6,10 @@ import { useState } from "react";
 
 export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   labelText?: string;
-  search?: boolean;
+  isSearch?: boolean;
 }
 
-const Input = React.forwardRef<HTMLInputElement, InputProps>(({ className, type, labelText, search, ...props }, ref) => {
+const Input = React.forwardRef<HTMLInputElement, InputProps>(({ className, type, labelText, isSearch, ...props }, ref) => {
   const [inputValue, setInputValue] = React.useState("");
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -27,7 +27,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(({ className, type,
         ref={ref}
         {...props}
       />
-      {search && inputValue === "" && (
+      {isSearch && inputValue === "" && (
         <div className={`absolute h-2 ${labelText ? "inset-y-10" : "inset-y-4"} right-0 pr-3 flex items-center pointer-events-none`}>
           <div>
             <IoIosSearch />
