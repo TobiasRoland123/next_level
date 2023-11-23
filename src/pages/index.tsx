@@ -1,8 +1,11 @@
 import { Button } from "@/components/Button/Button";
 
-import { Header } from "@/components/Header/Header";
+import { Header } from "../modules/Header/Header";
 
 import { Input } from "@/components/Inputfields/Inputfield";
+
+import { Footer } from "@/modules/Footer/Footer";
+
 
 export default function Home() {
   return (
@@ -26,6 +29,7 @@ export default function Home() {
         ]}
       />
 
+
       <Input
         isSearch
         labelText="Bitch"
@@ -41,6 +45,10 @@ export default function Home() {
 
       <Input labelText="Label text"></Input>
       <Input labelText="Label another text"></Input>
+
+
+      <Footer />
+
     </>
   );
 }
