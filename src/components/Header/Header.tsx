@@ -17,7 +17,7 @@ interface HeaderProps {
 }
 
 export const Header = ({ pageList }: HeaderProps) => {
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
 
   const ToggleMenu = () => {
     setIsOpen(!isOpen);
