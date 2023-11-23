@@ -77,22 +77,22 @@ export const Header = ({ pageList }: HeaderProps) => {
       <nav
         className={`mx-4  md:mx-6 my-3 backdrop-blur-sm ${
           isOpen ? "bg-primaryCol" : "bg-contrastCol/50"
-        } flex justify-between sticky top-2 items-center px-4 gap-6 rounded-sm`}
+        } flex justify-between sticky top-2 items-center px-4 gap-6 rounded-sm md:py-2 md:bg-contrastCol/50`}
       >
-        <button
+        {/* <button
           className="w-8 flex flex-col gap-2 justify-center items-center h-14 z-10 md:hidden"
           onClick={ToggleMenu}
         >
           <span className={`h-1 bg-secondaryCol w-full ${isOpen && "translate-y-[0.4rem] rotate-45"}  transition-all	`}></span>
           <span className={`h-1 bg-secondaryCol w-full ${isOpen && "hidden"}`}></span>
           <span className={`h-1 bg-secondaryCol w-full ${isOpen && "translate-y-[-0.35rem] -rotate-45 "}  transition-all	`}></span>
-        </button>
+        </button> */}
 
-        <div className="hidden md:flex gap-8 font-bold">
+        <div className=" flex gap-8 font-bold ">
           <a href="/">
             <svg
-              width="59"
-              height="45"
+              width="40"
+              height="auto"
               viewBox="0 0 59 45"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
@@ -112,7 +112,7 @@ export const Header = ({ pageList }: HeaderProps) => {
             </svg>
           </a>
 
-          <ul className="flex items-center border-l-2 border-l-accentCol pl-8 gap-6 ">
+          <ul className="md:flex hidden items-center border-l-2 border-l-accentCol pl-8 gap-6 ">
             {pageList.map((pages) => {
               return (
                 <>
@@ -136,7 +136,16 @@ export const Header = ({ pageList }: HeaderProps) => {
           </ul>
         </div>
 
-        <Button>Book tid</Button>
+        <button
+          className="w-8 flex flex-col gap-2 justify-center items-center h-14 z-10 md:hidden"
+          onClick={ToggleMenu}
+        >
+          <span className={`h-1 bg-accentCol  w-full ${isOpen && "translate-y-[0.4rem] rotate-45"}  transition-all	`}></span>
+          <span className={`h-1 bg-accentCol  w-full ${isOpen && "hidden"}`}></span>
+          <span className={`h-1 bg-accentCol  w-full ${isOpen && "translate-y-[-0.35rem] -rotate-45 "}  transition-all	`}></span>
+        </button>
+
+        <Button className="hidden md:block">Book tid</Button>
       </nav>
     </>
   );
