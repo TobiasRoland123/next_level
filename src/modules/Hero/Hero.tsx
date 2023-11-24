@@ -11,9 +11,13 @@ interface heroProps {
    * If word is lowercase in header, then it also needs to be lowercase here.
    */
   redWord?: string;
+  /**
+   * If used on front page set to true
+   */
+  isFrontPage: boolean;
 }
 
-export const Hero = ({ header, content, buttonLabel, redWord }: heroProps) => {
+export const Hero = ({ header, content, buttonLabel, redWord, isFrontPage }: heroProps) => {
   const renderHeader = () => {
     if (!header) return null;
 
@@ -37,7 +41,11 @@ export const Hero = ({ header, content, buttonLabel, redWord }: heroProps) => {
 
   return (
     <>
-      <header className="w-full flex min-h-screen bg-hero1 bg-cover bg-no-repeat pb-10">
+      <header
+        className={`w-full flex min-h-screen ${
+          isFrontPage ? "bg-hero2" : "bg-hero1"
+        } bg-center md:bg-left bg-cover bg-no-repeat pb-10`}
+      >
         <div className="max-w-screen-xl w-full mx-auto ">
           <section className=" bg-contrastCol/50 backdrop-blur-sm mt-28 mx-4  xl:mx-0 px-4 py-6 rounded-sm h-fit md:max-w-[66%]  lg:max-w-3xl  ">
             {renderHeader()}
