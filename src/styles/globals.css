@@ -36,6 +36,7 @@ p {
   font-size: 16px;
   font-weight: 300;
   line-height: normal;
+  max-width: 65ch;
 }
 
 small {
