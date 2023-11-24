@@ -28,11 +28,11 @@ export const Header = ({ pageList }: HeaderProps) => {
   return (
     <>
       <div
-        className={` bg-primaryCol w-screen h-screen absolute top-0 transition-all md:hidden   ${
+        className={` bg-primaryCol w-screen h-screen fixed top-0 transition-all md:hidden  z-10  ${
           isOpen ? "right-0" : "right-full"
-        } flex flex-col mt-10`}
+        } flex flex-col pt-28`}
       >
-        <ul className="flex mx-8 flex-col gap-8">
+        <ul className="flex mx-8 flex-col gap-8  ">
           {pageList.map((pages) => {
             return (
               <>
@@ -74,14 +74,16 @@ export const Header = ({ pageList }: HeaderProps) => {
           })}
         </ul>
 
-        <div className="flex justify-center mt-20">
+        <div className="flex justify-center mt-10">
           <Button className="text-2xl font-bold px-8 py-6">Book tid</Button>
         </div>
       </div>
       <nav
-        className={`mx-4  md:mx-6 my-3 backdrop-blur-sm ${
-          isOpen ? "bg-primaryCol" : "bg-contrastCol/50"
-        } flex justify-between sticky top-2 items-center px-4 gap-6 rounded-sm md:py-2 md:bg-contrastCol/50 max-w-screen-xl xl:mx-auto`}
+        className={`my-3 backdrop-blur-sm ${
+          isOpen ? "bg-primaryCol" : "bg-contrastCol/70"
+        } flex justify-between fixed top-2  left-1/2 transform -translate-x-1/2  ${
+          isOpen ? "w-full" : "w-[90%]"
+        } z-10 items-center px-4 gap-6 rounded-sm md:py-2 md:bg-contrastCol/70 max-w-screen-xl xl:mx-auto`}
       >
         <div className=" flex gap-8 font-bold ">
           <a href="/">
