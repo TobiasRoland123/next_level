@@ -7,40 +7,44 @@ export default function Home() {
       <h1>Hello World</h1>
 
       <Button className="bg-green-500">test button</Button>
-      <div className="flex gap-5 m-auto">
-        <Card
-          variant={'level1'}
-          header="Level 1"
-          timeAntal={5}
-          totalPris={70}
-        ></Card>
-        <Card
-          variant={'level2'}
-          header="Level 2"
-          timeAntal={10}
-          totalPris={120}
-        ></Card>
-        <Card
-          variant={'level3'}
-          header="Level 3"
-          timeAntal={15}
-          totalPris={150}
-          oprettelseInkl
-        ></Card>
-        <Card
-          variant={'expert'}
-          header="Expert"
-          timeAntal={50}
-          totalPris={450}
-          oprettelseInkl
-        ></Card>
-        <Card
-          variant={'master'}
-          header="Master"
-          timeAntal={100}
-          totalPris={700}
-          oprettelseInkl
-        ></Card>
+      <div className="flex flex-col gap-20 m-auto justify-center ">
+        <div className="flex gap-16 justify-center">
+          <Card
+            variant={'level1'}
+            header="Level 1"
+            timeAntal={5}
+            totalPris={70}
+          ></Card>
+          <Card
+            variant={'level2'}
+            header="Level 2"
+            timeAntal={10}
+            totalPris={120}
+          ></Card>
+          <Card
+            variant={'level3'}
+            header="Level 3"
+            timeAntal={15}
+            totalPris={150}
+            oprettelseInkl
+          ></Card>
+        </div>
+        <div className="flex gap-16 justify-center">
+          <Card
+            variant={'expert'}
+            header="Expert"
+            timeAntal={50}
+            totalPris={450}
+            oprettelseInkl
+          ></Card>
+          <Card
+            variant={'master'}
+            header="Master"
+            timeAntal={100}
+            totalPris={700}
+            oprettelseInkl
+          ></Card>
+        </div>
       </div>
       <div className="m-auto">
         <Card
@@ -50,6 +54,7 @@ export default function Home() {
           oprettelseInkl
         ></Card>
       </div>
+      <div className="m-auto"></div>
     </div>
   );
 }
