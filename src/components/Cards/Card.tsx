@@ -86,7 +86,7 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
             whileHover={
               variant !== 'nlp'
                 ? {
-                    scale: [null, 1.45, 1.3],
+                    scale: [null, 1.25, 1.2],
                     backgroundImage: `linear-gradient(var(--rotate), var(--${variant}Gradient))`,
                     animation: 'spin 1.7s linear infinite',
                     zIndex: 50,
@@ -224,7 +224,12 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
                   transition={{ duration: 0.1 }}
                   className="flex justify-end -mt-1"
                 >
-                  <p className="text-secondaryCol uppercase font-bold">Book nu</p>
+                  {variant === 'bday1' || variant === 'bday2' ? (
+                    <p className="text-secondaryCol uppercase font-bold">Send forespørgsel</p>
+                  ) : (
+                    <p className="text-secondaryCol uppercase font-bold">Book nu</p>
+                  )}
+
                   <IoIosArrowForward
                     className="self-center"
                     size="16"

@@ -54,11 +54,11 @@ export default function Home() {
           oprettelseInkl
         ></Card>
       </div>
-      <div className="m-auto">
+      <div className="m-auto flex w-full justify-evenly">
         <Card
           variant={'bday1'}
           header="Fødselsdag"
-          totalPris={150}
+          totalPris={120}
         ></Card>
         <Card
           variant={'bday2'}
