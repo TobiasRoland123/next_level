@@ -45,3 +45,11 @@ export const Master: Story = {
     oprettelseInkl: true,
   },
 };
+export const NLP: Story = {
+  args: {
+    variant: 'nlp',
+    header: 'Nlp',
+    timePris: 30,
+    oprettelseInkl: true,
+  },
+};

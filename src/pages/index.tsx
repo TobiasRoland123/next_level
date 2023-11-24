@@ -3,11 +3,11 @@ import { Card } from '@/components/Cards/Card';
 
 export default function Home() {
   return (
-    <>
+    <div className="m-auto max-w-7xl flex flex-col gap-12 my-5">
       <h1>Hello World</h1>
 
       <Button className="bg-green-500">test button</Button>
-      <div className="flex gap-5">
+      <div className="flex gap-5 m-auto">
         <Card
           variant={'level1'}
           header="Level 1"
@@ -23,19 +23,33 @@ export default function Home() {
         <Card
           variant={'level3'}
           header="Level 3"
+          timeAntal={15}
+          totalPris={150}
           oprettelseInkl
         ></Card>
         <Card
           variant={'expert'}
           header="Expert"
+          timeAntal={50}
+          totalPris={450}
           oprettelseInkl
         ></Card>
         <Card
           variant={'master'}
           header="Master"
+          timeAntal={100}
+          totalPris={700}
           oprettelseInkl
         ></Card>
       </div>
-    </>
+      <div className="m-auto">
+        <Card
+          variant={'nlp'}
+          header="nlp"
+          timePris={30}
+          oprettelseInkl
+        ></Card>
+      </div>
+    </div>
   );
 }
