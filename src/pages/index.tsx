@@ -10,25 +10,6 @@ import { Hero } from "@/modules/Hero/Hero";
 export default function Home() {
   return (
     <>
-      <Header
-        pageList={[
-          { page: { href: "./spil", pageTitle: "Spil" } },
-          { page: { href: "./priser", pageTitle: "Priser" } },
-          {
-            page: {
-              href: "./events",
-              pageTitle: "Events",
-              subPages: [
-                { href: "/foedselsdag", pageTitle: "Fødselsdag" },
-                { href: "/turneringer", pageTitle: "Turneringer" },
-                { href: "/firma-events", pageTitle: "Firma Events" },
-              ],
-            },
-          },
-          { page: { href: "/om-os", pageTitle: "Om os", subPages: [{ href: "/kontakt", pageTitle: "Kontakt os" }] } },
-        ]}
-      />
-
       <Hero
         header="Dk's bedste gaming center"
         redWord="bedste"
@@ -75,8 +56,6 @@ export default function Home() {
 
       <Input labelText="Label text"></Input>
       <Input labelText="Label another text"></Input>
-
-      <Footer />
     </>
   );
 }
