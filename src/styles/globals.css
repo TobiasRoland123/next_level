@@ -88,6 +88,8 @@ small {
     --expertGradient: #e879f9, #c026d3;
     --masterGradient: #f97316, #dc2626;
     --nlpGradient: #ebd720, #ef7300;
+    --bday1Gradient: #f97316, #dc2626;
+    --bday2Gradient: #f97316, #dc2626;
     --rotate: 132deg;
 
     --level1Shadow: rgba(96, 143, 198, 0.39);
@@ -96,6 +98,8 @@ small {
     --expertShadow: rgba(152, 0, 165, 0.39);
     --masterShadow: rgba(165, 0, 0, 0.39);
     --nlpShadow: rgba(165, 82, 0, 0.39);
+    --bday1Shadow: rgba(165, 0, 0, 0.39);
+    --bday2Shadow: rgba(165, 0, 0, 0.39);
 
     --background: 255, 8%, 10%, 1;
     --foreground: 0 0% 95%;

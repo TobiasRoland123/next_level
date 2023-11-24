@@ -54,7 +54,18 @@ export default function Home() {
           oprettelseInkl
         ></Card>
       </div>
-      <div className="m-auto"></div>
+      <div className="m-auto">
+        <Card
+          variant={'bday1'}
+          header="Fødselsdag"
+          totalPris={150}
+        ></Card>
+        <Card
+          variant={'bday2'}
+          header="Fødselsdag"
+          totalPris={150}
+        ></Card>
+      </div>
     </div>
   );
 }

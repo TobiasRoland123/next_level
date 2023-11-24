@@ -20,6 +20,8 @@ const cardVariants = cva('w-52 h-80 rounded bg-gradient-to-br cursor-pointer', {
       expert: 'text-fuchsia-500 from-fuchsia-400 to-fuchsia-600',
       master: 'text-red-500 from-orange-500 to-red-600',
       nlp: 'text-amber-500 w-[938px] h-[507px] from-yellow-400 to-amber-600',
+      bday1: 'text-red-500 w-[343px] h-[460px] from-orange-500 to-red-600',
+      bday2: 'text-red-500 w-[343px] h-[460px] from-orange-500 to-red-600',
     },
     size: {
       default: 'px-1 py-1',
@@ -112,45 +114,105 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
                   animate={isHovered ? 'hover' : 'default'}
                   transition={{ duration: 0.1 }}
                   variants={InnerBoxVariants}
-                  className="bg-primaryCol flex flex-col p-4 w-full h-72 rounded"
+                  className={`bg-primaryCol flex flex-col p-4 w-full ${
+                    variant === 'bday1' || variant === 'bday2' ? 'h-[424px]' : 'h-72'
+                  } rounded`}
                 >
                   <h2 className={clsx(variant, 'text-center text-4xl')}>{header}</h2>
-                  <h3 className=" text-secondaryCol text-center text-3xl">{timeAntal} timer</h3>
+                  {variant === 'bday1' || variant === 'bday2' ? (
+                    <>
+                      <h3 className=" text-secondaryCol text-center text-3xl">
+                        {variant === 'bday1' ? 'Standard' : 'Nlp'} pakke
+                      </h3>
+                      <p className=" text-center text-secondaryCol uppercase">
+                        {variant === 'bday1' ? '(min. 8 personer)' : '(MAX. 10 personer)'}
+                      </p>
+                    </>
+                  ) : (
+                    <h3 className=" text-secondaryCol text-center text-3xl">{timeAntal} timer</h3>
+                  )}
+
                   <div className="h-[1px] my-3 bg-secondaryCol rounded"></div>
                   <div className="flex flex-col justify-between h-3/4">
-                    <div className="flex flex-col gap-2">
-                      {oprettelseInkl && (
+                    {variant === 'bday1' || variant === 'bday2' ? (
+                      <div className="flex flex-col gap-4 p-5">
                         <div className="flex flex-row gap-3">
                           <IoMdCheckmark
                             className="text-green-400 shrink-0"
                             size="18"
                           />
-                          <p className=" text-center text-secondaryCol">Inkl. oprettelse</p>
+                          <p className=" text-secondaryCol">
+                            3 timers gaming{' '}
+                            {variant === 'bday2' && '- I vores VIP rum med kraftigere computere'}
+                          </p>
                         </div>
-                      )}
-                      <div className="flex flex-row gap-3">
-                        <IoMdCheckmark
-                          className="text-green-400 shrink-0"
-                          size="18"
-                        />
-                        <p className=" text-center text-secondaryCol">
-                          {timeAntal && totalPris && Math.round(totalPris / timeAntal)}kr. pr. time{' '}
-                        </p>
+
+                        <div className="flex flex-row gap-3">
+                          <IoMdCheckmark
+                            className="text-green-400 shrink-0"
+                            size="18"
+                          />
+                          <p className="text-secondaryCol">
+                            Toast menu{' '}
+                            {variant === 'bday2' && (
+                              <span className="italic font-light">- Inklusiv Dåsesodavand</span>
+                            )}
+                          </p>
+                        </div>
+                        <div className="flex flex-row gap-3">
+                          <IoMdCheckmark
+                            className="text-green-400 shrink-0"
+                            size="18"
+                          />
+                          <p className=" text-secondaryCol">
+                            En slikpose og en ekstra dåsesodavand.
+                          </p>
+                        </div>
                       </div>
-                      <div className="flex flex-row gap-3">
-                        <IoMdCheckmark
-                          className="text-green-400 shrink-0"
-                          size="18"
-                        />
-                        <p className="max-w-[15ch] text-secondaryCol">
-                          Svarer til {timeAntal ? Math.round((timeAntal * 60) / 34) : 3} spil CS
-                          eller {timeAntal ? Math.round((timeAntal * 60) / 30) : 3} spil PubG
-                        </p>
+                    ) : (
+                      <div className="flex flex-col gap-2">
+                        {oprettelseInkl && (
+                          <div className="flex flex-row gap-3">
+                            <IoMdCheckmark
+                              className="text-green-400 shrink-0"
+                              size="18"
+                            />
+                            <p className=" text-center text-secondaryCol">Inkl. oprettelse</p>
+                          </div>
+                        )}
+                        <div className="flex flex-row gap-3">
+                          <IoMdCheckmark
+                            className="text-green-400 shrink-0"
+                            size="18"
+                          />
+                          <p className=" text-center text-secondaryCol">
+                            {timeAntal && totalPris && Math.round(totalPris / timeAntal)}kr. pr.
+                            time{' '}
+                          </p>
+                        </div>
+                        <div className="flex flex-row gap-3">
+                          <IoMdCheckmark
+                            className="text-green-400 shrink-0"
+                            size="18"
+                          />
+                          <p className="max-w-[15ch] text-secondaryCol">
+                            Svarer til {timeAntal ? Math.round((timeAntal * 60) / 34) : 3} spil CS
+                            eller {timeAntal ? Math.round((timeAntal * 60) / 30) : 3} spil PubG
+                          </p>
+                        </div>
                       </div>
-                    </div>
+                    )}
+
                     <div>
-                      <h3 className="text-secondaryCol text-center text-4xl">{totalPris},-</h3>
-                      {!oprettelseInkl && (
+                      {variant === 'bday1' || variant === 'bday2' ? (
+                        <h3 className="text-secondaryCol text-center text-4xl">
+                          {totalPris},- pr. pers.
+                        </h3>
+                      ) : (
+                        <h3 className="text-secondaryCol text-center text-4xl">{totalPris},-</h3>
+                      )}
+
+                      {!oprettelseInkl && variant !== 'bday1' && variant !== 'bday2' && (
                         <p className="text-secondaryCol text-center">(+35 kr i oprettelse)</p>
                       )}
                     </div>
