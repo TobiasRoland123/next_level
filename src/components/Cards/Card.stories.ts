@@ -53,3 +53,19 @@ export const NLP: Story = {
     oprettelseInkl: true,
   },
 };
+export const Bday1: Story = {
+  args: {
+    variant: 'bday1',
+    header: 'Fødselsdag',
+    totalPris: 120,
+    oprettelseInkl: true,
+  },
+};
+export const Bday2: Story = {
+  args: {
+    variant: 'bday2',
+    header: 'Fødselsdag',
+    totalPris: 150,
+    oprettelseInkl: true,
+  },
+};
