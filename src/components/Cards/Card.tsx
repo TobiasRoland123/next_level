@@ -3,7 +3,7 @@ import { cva, VariantProps } from 'class-variance-authority';
 import { IoIosArrowForward, IoMdCheckmark } from 'react-icons/io';
 import { HiCpuChip } from 'react-icons/hi2';
 import { BsGpuCard } from 'react-icons/bs';
-import { FaMemory } from 'react-icons/fa';
+import { FaDesktop, FaHeadset, FaKeyboard, FaMemory, FaMouse } from 'react-icons/fa';
 import Tilt from 'react-parallax-tilt';
 
 import { AnimatePresence, HTMLMotionProps, motion } from 'framer-motion';
@@ -245,7 +245,7 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
                   variants={InnerBoxVariantNlp}
                   className="bg-primaryCol flex justify-between p-7 w-full h-[495px] rounded"
                 >
-                  <div className="flex flex-col">
+                  <div className="flex flex-col w-2/5">
                     <h2 className={clsx(variant, 'text-4xl')}>{header}</h2>
                     <h4 className="text-secondaryCol">
                       Per time - <span className="text-amber-500">{timePris}kr.</span>
@@ -262,37 +262,66 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
                     </p>
                   </div>
 
-                  <div className="flex flex-col gap-8 h-full items-center">
-                    <div className="bg-red-500 min-w-[420px] h-[250px] mx-10 "></div>
-                    <h4>specs</h4>
-                    <div className="flex justify-center flex-wrap gap-5">
-                      <div className="flex gap-3">
-                        <HiCpuChip
-                          className="flex-shrink-0"
-                          size={20}
-                        />
-                        <p className="text-secondaryCol">i9-14900KF</p>
-                      </div>
-                      <div className="flex gap-3">
-                        <BsGpuCard
-                          className="flex-shrink-0"
-                          size={20}
-                        />
-                        <p className="text-secondaryCol">RTX 4080</p>
-                      </div>
-                      <div className="flex gap-3">
-                        <FaMemory
-                          className="flex-shrink-0"
-                          size={20}
-                        />
-                        <p className="text-secondaryCol"> 64GB DDR5 RAM</p>
-                      </div>
-                      <div className="flex gap-3">
-                        <HiCpuChip
-                          className="flex-shrink-0"
-                          size={20}
-                        />
-                        <p className="text-secondaryCol">Intel Core i9-14900KF Tray</p>
+                  <div className="flex flex-col gap-5 h-full items-center w-3/5">
+                    <div className="bg-red-500 min-w-[420px] h-[280px] "></div>
+
+                    <div className="flex flex-col gap-5 max-w-[420px]">
+                      <h4 className="text-secondaryCol">specs</h4>
+                      <div className="h-[1px] bg-accentCol w-14 -mt-4"></div>
+                      <div className="flex">
+                        <div className="flex flex-col gap-5">
+                          <div className="flex gap-1">
+                            <HiCpuChip
+                              className="flex-shrink-0"
+                              size={20}
+                            />
+                            <p className="text-secondaryCol">i9-14900KF</p>
+                          </div>
+                          <div className="flex gap-3">
+                            <BsGpuCard
+                              className="flex-shrink-0"
+                              size={20}
+                            />
+                            <p className="text-secondaryCol">RTX 4080</p>
+                          </div>
+                          <div className="flex gap-3">
+                            <FaMemory
+                              className="flex-shrink-0"
+                              size={20}
+                            />
+                            <p className="text-secondaryCol"> 64GB DDR5 RAM</p>
+                          </div>
+                        </div>
+                        <div className="flex flex-col gap-5">
+                          <div className="flex gap-3">
+                            <FaDesktop
+                              className="flex-shrink-0"
+                              size={20}
+                            />
+                            <p className="text-secondaryCol">27" 1440p 240HZ</p>
+                          </div>
+                          <div className="flex gap-3">
+                            <FaMouse
+                              className="flex-shrink-0"
+                              size={20}
+                            />
+                            <p className="text-secondaryCol">Logitech G PRO X SUPERLIGHT</p>
+                          </div>
+                          <div className="flex gap-3">
+                            <FaKeyboard
+                              className="flex-shrink-0"
+                              size={20}
+                            />
+                            <p className="text-secondaryCol">CORSAIR K55 RGB PRO</p>
+                          </div>
+                          <div className="flex gap-3">
+                            <FaHeadset
+                              className="flex-shrink-0"
+                              size={20}
+                            />
+                            <p className="text-secondaryCol">Logitech G PRO X 2 - LIGHTSPEED</p>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
