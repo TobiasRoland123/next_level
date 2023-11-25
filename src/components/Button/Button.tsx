@@ -31,10 +31,9 @@ export interface ButtonProps extends VariantProps<typeof buttonVariants> {
   link?: string;
   children?: React.ReactNode;
   className?: string;
-  label?: string;
 }
 
-const Button = ({ className, variant, size, link, children, label, ...props }: ButtonProps) => {
+const Button = ({ className, variant, size, link, children, ...props }: ButtonProps) => {
   const Comp = link ? "a" : "button";
 
   return (
@@ -43,7 +42,7 @@ const Button = ({ className, variant, size, link, children, label, ...props }: B
       href={link}
       {...props}
     >
-      {children && label ? children : children && !label ? children : label}
+      {children}
     </Comp>
   );
 };
