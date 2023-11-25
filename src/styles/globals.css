@@ -49,6 +49,11 @@ small {
   line-height: normal;
 }
 
+.spacer {
+  margin-inline: 24px;
+  margin-top: 56px;
+}
+
 @media (min-width: 600px) {
   h1 {
     font-size: 61px;
@@ -75,6 +80,16 @@ small {
   }
   h4 {
     font-size: 26px;
+  }
+  .spacer {
+    margin-inline: 48px;
+    margin-top: 80px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .spacer {
+    margin-inline: 80px;
   }
 }
 

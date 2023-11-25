@@ -79,7 +79,7 @@ export const Header = ({ pageList }: HeaderProps) => {
         </div>
       </div>
 
-      <nav className="fixed top-2 px-4 z-10 w-full">
+      <nav className="fixed top-2 px-6 md:px-12 lg:px-20 z-10 w-full ">
         <div
           className={`my-3 backdrop-blur-sm ${
             isOpen ? "bg-primaryCol" : "bg-contrastCol/70"
