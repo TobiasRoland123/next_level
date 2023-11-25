@@ -18,13 +18,13 @@ export const Layout = ({ children }: layoutProps) => {
               href: "./events",
               pageTitle: "Events",
               subPages: [
-                { href: "/foedselsdag", pageTitle: "Fødselsdag" },
-                { href: "/turneringer", pageTitle: "Turneringer" },
-                { href: "/firma-events", pageTitle: "Firma Events" },
+                { href: "/events/foedselsdag", pageTitle: "Fødselsdag" },
+                { href: "/events/turneringer", pageTitle: "Turneringer" },
+                { href: "/events/firma-events", pageTitle: "Firma Events" },
               ],
             },
           },
-          { page: { href: "/om-os", pageTitle: "Om os", subPages: [{ href: "/kontakt", pageTitle: "Kontakt os" }] } },
+          { page: { href: "/om-os", pageTitle: "Om os", subPages: [{ href: "/om-os/kontakt", pageTitle: "Kontakt os" }] } },
         ]}
       />
       {children}
