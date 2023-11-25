@@ -142,7 +142,7 @@ export const Header = ({ pageList }: HeaderProps) => {
             <span className={`h-1 bg-accentCol  w-full ${isOpen && "translate-y-[-0.35rem] -rotate-45 "}  transition-all	`}></span>
           </button>
 
-          <Button className="hidden md:block">Book tid</Button>
+          <Button className="hidden md:block my-1">Book tid</Button>
         </div>
       </nav>
     </>

@@ -24,6 +24,7 @@ h2 {
 }
 
 h3 {
+  margin-top: 48px;
   font-size: 35.5px;
   font-weight: 700;
   line-height: normal;
@@ -31,12 +32,14 @@ h3 {
 }
 
 h4 {
+  margin-top: 20px;
   font-size: 24px;
   font-weight: 700;
   line-height: normal;
   text-transform: uppercase;
 }
 p {
+  margin-top: 20px;
   font-size: 16px;
   font-weight: 300;
   line-height: normal;
@@ -44,6 +47,7 @@ p {
 }
 
 small {
+  margin-top: 16px;
   font-size: 12.5px;
   font-weight: 400;
   line-height: normal;
@@ -52,6 +56,7 @@ small {
 .spacer {
   margin-inline: 24px;
   margin-top: 56px;
+  max-width: 1280px;
 }
 
 @media (min-width: 600px) {
@@ -90,6 +95,11 @@ small {
 @media (min-width: 1024px) {
   .spacer {
     margin-inline: 80px;
+  }
+}
+@media (min-width: 1280px) {
+  .spacer {
+    margin-inline: auto;
   }
 }
 
