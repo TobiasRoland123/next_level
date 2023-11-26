@@ -15,7 +15,7 @@ export const CustomerQuoteSet = ({ header, redWord, customerQuotes }: customerQu
     const words = header.split(" ");
     return (
       <h2
-        className="hyphens-auto md:hyphens-none"
+        className="col-start-1 row-start-1 self-end"
         lang="da"
       >
         {words.map((word, index) => (
@@ -47,7 +47,7 @@ export const CustomerQuoteSet = ({ header, redWord, customerQuotes }: customerQu
               fill-opacity="0.4"
             />
           </svg>
-          <h2 className=" col-start-1 row-start-1 self-end">{renderHeader()}</h2>
+          {renderHeader()}
         </div>
         <section className="flex flex-col md:flex-row gap-10">
           {customerQuotes.map((Quote) => {

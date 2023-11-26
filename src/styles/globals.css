@@ -6,6 +6,9 @@
 
 body {
   position: relative;
+  background-image: url(../../public/bg-svg/gradient.svg);
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 h1 {
