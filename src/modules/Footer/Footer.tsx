@@ -238,7 +238,7 @@ export const Footer = () => {
                 />
                 <div className="mt-6">
                   <p className="">
-                    Se vores priser
+                    Se vores priser{" "}
                     <a
                       href="/priserl"
                       className=" text-accentCol"
