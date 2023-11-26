@@ -1,10 +1,4 @@
 import { Button } from "@/components/Button/Button";
-
-import { Header } from "../modules/Header/Header";
-
-import { Input } from "@/components/Inputfields/Inputfield";
-
-import { Footer } from "@/modules/Footer/Footer";
 import { Hero } from "@/modules/Hero/Hero";
 import { ParagraphBold } from "@/components/ParagraphBold/ParagraphBold";
 import { CustomerQuoteSet } from "@/modules/CustomerQuoteSet/CustomerQuoteSet";
@@ -31,30 +25,33 @@ export default function Home() {
             children={"Se alle vores priser"}
           />
         </article>
-        <article className=" bg-hero2 bg-no-repeat bg-cover w-screen py-14 md:py-16 lg:py-20 mt-14 md:mt-16 lg:mt-20">
-          <div className="spacer !mt-0">
-            <h2>
-              Skal du holde et <span className="text-accentCol">Event?</span>
-            </h2>
-            <ParagraphBold
-              underlined
-              text="VI holder de bedste events med fokus på gaming"
-            />
+        <article className=" bg-hero2 bg-no-repeat bg-cover w-screen  mt-14 md:mt-16 lg:mt-20  ">
+          <div className="backdrop-brightness-50 h-full py-14 md:py-16 lg:py-20">
+            <div className="spacer !mt-0 ">
+              <h2>
+                Skal du holde et <span className="text-accentCol">Event?</span>
+              </h2>
+              <ParagraphBold
+                underlined
+                text="VI holder de bedste events med fokus på gaming"
+              />
 
-            <p>
-              “Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibuwlum tempor dictum fringilla. Mauris volutpat
-              dictum lectus venenatis suscipit. Aenean faucibus mole
-            </p>
+              <p>
+                “Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibuwlum tempor dictum fringilla. Mauris volutpat
+                dictum lectus venenatis suscipit. Aenean faucibus mole
+              </p>
 
-            <Button
-              //This is wating on aproval of another branch, therefore it's commented out
-              // link="/events"
-              children="Find vores events her"
-            />
+              <Button
+                //This is wating on aproval of another branch, therefore it's commented out
+                // link="/events"
+                children="Find vores events her"
+              />
+            </div>
           </div>
         </article>
         <CustomerQuoteSet
           header="Vores kunder siger"
+          redWord="kunder"
           customerQuotes={[
             {
               quote: {

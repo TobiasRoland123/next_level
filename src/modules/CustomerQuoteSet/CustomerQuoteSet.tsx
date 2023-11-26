@@ -2,12 +2,33 @@ import { CustomerQuote, customerQuoteProps } from "../../components/CustomerQuot
 
 interface customerQuoteSetProps {
   header: string;
+  redWord: string;
   customerQuotes: Array<{
     quote: customerQuoteProps;
   }>;
 }
 
-export const CustomerQuoteSet = ({ header, customerQuotes }: customerQuoteSetProps) => {
+export const CustomerQuoteSet = ({ header, redWord, customerQuotes }: customerQuoteSetProps) => {
+  const renderHeader = () => {
+    if (!header) return null;
+
+    const words = header.split(" ");
+    return (
+      <h2
+        className="hyphens-auto md:hyphens-none"
+        lang="da"
+      >
+        {words.map((word, index) => (
+          <span
+            key={index}
+            className={word === redWord ? "text-accentCol" : ""}
+          >
+            {word}{" "}
+          </span>
+        ))}
+      </h2>
+    );
+  };
   return (
     <>
       <section className="spacer">
@@ -26,9 +47,7 @@ export const CustomerQuoteSet = ({ header, customerQuotes }: customerQuoteSetPro
               fill-opacity="0.4"
             />
           </svg>
-          <h2 className=" col-start-1 row-start-1 self-end">
-            Vores <span className="text-accentCol">Kunder</span> siger
-          </h2>
+          <h2 className=" col-start-1 row-start-1 self-end">{renderHeader()}</h2>
         </div>
         <section className="flex flex-col md:flex-row gap-10">
           {customerQuotes.map((Quote) => {
