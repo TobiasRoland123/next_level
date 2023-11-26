@@ -7,6 +7,7 @@ import { Input } from "@/components/Inputfields/Inputfield";
 import { Footer } from "@/modules/Footer/Footer";
 import { Hero } from "@/modules/Hero/Hero";
 import { ParagraphBold } from "@/components/ParagraphBold/ParagraphBold";
+import { CustomerQuoteSet } from "@/modules/CustomerQuoteSet/CustomerQuoteSet";
 
 export default function Home() {
   return (
@@ -52,44 +53,32 @@ export default function Home() {
             />
           </div>
         </article>
-        <article className="spacer">
-          <h2>
-            Vores <span className="text-accentCol">Kunder</span> siger
-          </h2>
-
-          <section className="flex flex-col md:flex-row gap-10">
-            <article>
-              <h3>Whalla luksus toast</h3>
-              <p>
-                “Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibuwlum tempor dictum fringilla. Mauris volutpat
-                dictum lectus venenatis suscipit. Aenean faucibus molestie dictum. Nulla mollis”
-              </p>
-              <small className="font-bold before:w-6 before:bg-accentCol before:flex before:h-[2px] flex before:my-auto gap-3">
-                Boris Brix
-              </small>
-            </article>
-            <article>
-              <h3>Whalla luksus toast</h3>
-              <p>
-                “Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibuwlum tempor dictum fringilla. Mauris volutpat
-                dictum lectus venenatis suscipit. Aenean faucibus molestie dictum. Nulla mollis”
-              </p>
-              <small className="font-bold before:w-6 before:bg-accentCol before:flex before:h-[2px] flex before:my-auto gap-3">
-                Boris Brix
-              </small>
-            </article>
-            <article>
-              <h3>Whalla luksus toast</h3>
-              <p>
-                “Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibuwlum tempor dictum fringilla. Mauris volutpat
-                dictum lectus venenatis suscipit. Aenean faucibus molestie dictum. Nulla mollis”
-              </p>
-              <small className="font-bold before:w-6 before:bg-accentCol before:flex before:h-[2px] flex before:my-auto gap-3">
-                Boris Brix
-              </small>
-            </article>
-          </section>
-        </article>
+        <CustomerQuoteSet
+          header="Vores kunder siger"
+          customerQuotes={[
+            {
+              quote: {
+                header: "Whalla Luksus Toast",
+                text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibuwlum tempor dictum fringilla. Mauris volutpat dictum lectus venenatis suscipit. Aenean faucibus molestie dictum. Nulla mollis",
+                author: "Boris Brix",
+              },
+            },
+            {
+              quote: {
+                header: "Mega nice setup",
+                text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibuwlum tempor dictum fringilla. Mauris volutpat dictum lectus venenatis suscipit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibuwlum tempor dictum fringilla. Mauris volutpat dictum lectus venenatis suscipit. Aenean faucibus molestie dictum. Nulla mollis",
+                author: "Boris Brix",
+              },
+            },
+            {
+              quote: {
+                header: "Whalla Luksus Toast",
+                text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibuwlum tempor dictum fringilla. Mauris volutpat dictum lectus venenatis suscipit. Aenean faucibus molestie dictum. Nulla mollis",
+                author: "Boris Brix",
+              },
+            },
+          ]}
+        />
       </section>
     </>
   );
