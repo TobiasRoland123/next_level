@@ -13,7 +13,7 @@ export default function Home() {
         buttonLabel="Book Nu"
         isFrontPage
       />
-      <section className="flex justify-center flex-col ">
+      <section className="flex  justify-center ">
         <article className="spacer w-full">
           <h2>
             Next Level <span className="text-accentCol">Priser</span>

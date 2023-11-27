@@ -89,9 +89,6 @@ small {
   }
 }
 
-@media (min-width: 1024px) {
-}
-
 @layer base {
   :root {
     font-family: "Rubik", sans-serif;
