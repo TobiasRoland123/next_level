@@ -13,8 +13,11 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  args: {},
+  args: { children: "Primary" },
+};
+export const PrimaryWithLink: Story = {
+  args: { link: "https:www.youtube.com", children: "Im actually a link, try and click me" },
 };
 export const Secondary: Story = {
-  args: { variant: "secondary" },
+  args: { variant: "secondary", children: "Secondary" },
 };
