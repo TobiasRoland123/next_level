@@ -8,9 +8,18 @@ export default function Login() {
   const supaUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const supaKey = process.env.NEXT_PUBLIC_SUPABASE_KEY;
   const router = useRouter();
+
   //   const supabase = createClientComponentClient();
   const [user, setUser] = useState({ email: "", password: "" });
   const supabase = createClient("https://zwcshwxjwoffkdrdvbtp.supabase.co", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp3Y3Nod3hqd29mZmtkcmR2YnRwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDEwNzg5NzgsImV4cCI6MjAxNjY1NDk3OH0.yq0erC0CIBZmUG9uMC8u1YVyG4g2dsf3PrpekxJDq34");
+  getSession();
+  async function getSession() {
+    const { data, error } = await supabase.auth.getSession();
+    if (data.session === null) {
+      return;
+    }
+    router.push("/admin");
+  }
   const handleLogin = (e: FormEvent) => {
     e.preventDefault();
     console.log("user", user);
@@ -26,16 +35,6 @@ export default function Login() {
       router.push("/admin");
     }
   }
-
-  async function getSession() {
-    const { data, error } = await supabase.auth.getSession();
-    if (data.session === null) {
-      return;
-    }
-    router.push("/admin");
-  }
-
-  getSession();
   return (
     <>
       <main className="w-fit max-w-main pb-10 ">
