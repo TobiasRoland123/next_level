@@ -13,8 +13,9 @@ export default function Home() {
         buttonLabel="Book Nu"
         isFrontPage
       />
-      <section className=" mx-auto">
-        <article className=" spacer">
+      <section className="grid">
+        <article className="spacer">
+          {/* <div className="spacer"> */}
           <h2>
             Next Level <span className="text-accentCol">Priser</span>
           </h2>
@@ -24,6 +25,7 @@ export default function Home() {
             variant={"secondary"}
             children={"Se alle vores priser"}
           />
+          {/* </div> */}
         </article>
         <article className=" bg-hero2 bg-no-repeat bg-cover w-screen  mt-14 md:mt-16 lg:mt-20  ">
           <div className="backdrop-brightness-50 h-full py-14 md:py-16 lg:py-20">

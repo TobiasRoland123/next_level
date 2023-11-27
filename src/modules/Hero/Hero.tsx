@@ -42,11 +42,11 @@ export const Hero = ({ header, content, buttonLabel, redWord, isFrontPage }: her
   return (
     <>
       <header
-        className={`w-full flex min-h-screen ${
+        className={`w-full flex min-h-screen justify-center ${
           isFrontPage ? "bg-hero2" : "bg-hero1"
         } bg-center md:bg-left bg-cover bg-no-repeat pb-10`}
       >
-        <div className="max-w-screen-xl w-full mt-20 mx-6 md:mx-12 lg:mx-20 xl:mx-auto  ">
+        <div className="max-w-screen-xl w-full mt-20  spacer">
           <section className=" bg-contrastCol/50 backdrop-blur-sm mt-28 px-4 py-6 rounded-sm h-fit md:max-w-[66%]">
             {renderHeader()}
             <p className="mt-4">{content && content}</p>
