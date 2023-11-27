@@ -18,8 +18,8 @@ priser på gaming"
         redWord="op"
       />
 
-      <section>
-        <article className="spacer md:flex  justify-between gap-14">
+      <section className="flex justify-center flex-col items-center">
+        <article className=" md:flex spacer justify-between gap-14">
           <div>
             <h2>
               Next Level <span className="text-accentCol">priser</span>
@@ -41,14 +41,14 @@ priser på gaming"
             <p className=" text-4xl font-bold">20,-</p>
           </InfoBox>
         </article>
-        <article className="spacer ">
+        {/* <article className=" w-full spacer">
           <h2
-            className=" hyphens-auto"
+            className=" hyphens-auto w-full "
             lang="da"
           >
             Next Level <span className="text-accentCol">Medlemsskaber</span>
           </h2>
-          <div className="md:flex  justify-between gap-14">
+          <div className="flex">
             <div>
               <ParagraphBold
                 text="Hvad du får som medlem"
@@ -89,17 +89,51 @@ priser på gaming"
               <p className=" text-4xl font-bold text-center">35 ,-</p>
             </InfoBox>
           </div>
+        </article> */}
+      </section>
+      <section className="flex justify-center flex-col items-center">
+        <div className=" md:flex spacer justify-between gap-14">
+          <h2
+            className=" hyphens-auto"
+            lang="da"
+          >
+            Next Level <span className="text-accentCol">Medlemskaber</span>
+          </h2>
+        </div>
+
+        <article className=" md:flex spacer justify-between gap-14">
+          <div>
+            <ParagraphBold
+              underlined
+              text="Hvad får du som medlem?"
+            />
+            <p>
+              Hos Next Level kan du både spille som gæst eller medlem. Som medlem får du de bedste priser på din gaming tid.
+              Uanset om du er gæst eller medlem får du de samme gode rammer, for at nyde din oplevelse hos os. Vi gør ikke
+              forskel!
+            </p>
+          </div>
+          <InfoBox className="text-center md:mt-0 lg:max-w-[33%] h-fit">
+            <h3
+              className="mt-0 hyphens-auto"
+              lang="da"
+            >
+              Timepris for ikke medlemmer
+            </h3>
+            <p className=" text-4xl font-bold">20,-</p>
+          </InfoBox>
         </article>
       </section>
-      <section className="spacer">
-        <article>
+
+      {/* <section className="">
+        <article className="spacer border-2 border-green-500">
           <h3>Dækker de fleste behov</h3>
           <p>
             Perfekt til en hurtig gamingsession. Vores Level pakker dækker langt de fleste behov. Det er uanset om du er på udkig
             efter en hurtigt session, eller gerne fordele dine timer ud på flere sessioner.
           </p>
         </article>
-        <article>
+        <article className="spacer border-2 border-green-500">
           <h3>TIl den der ikke kan få nok</h3>
           <p>
             Perfekt til en hurtig gamingsession. Vores Level pakker dækker langt de fleste behov. Det er uanset om du er på udkig
@@ -107,18 +141,18 @@ priser på gaming"
           </p>
         </article>
 
-        <article>
+        <article className="spacer border-2 border-green-500">
           <h3>Noget helt specielt</h3>
         </article>
       </section>
 
       <EventBanner
-        className="spacer"
+        className=""
         heading="vores Events"
         text="Korem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum tellus elit sed risus. Maecenas eget condimentum velit, sit amet feugiat lectus. "
         button={{ children: "Læs mere om events", variant: "secondary" }}
         image="firmaEvent"
-      />
+      /> */}
     </>
   );
 }
