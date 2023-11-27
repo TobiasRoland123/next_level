@@ -11,6 +11,9 @@ module.exports = {
         "2xl": "1400px",
       },
     },
+    maxWidth: {
+      main: "1250px",
+    },
     extend: {
       colors: {
         primaryCol: "hsl(var(--primaryColor))",
