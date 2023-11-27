@@ -7,8 +7,8 @@ interface FooterProps {}
 export const Footer = () => {
   return (
     <>
-      <footer className=" bg-contrastCol  w-full ">
-        <div className="mx-auto flex flex-col px-4 py-6 md:grid md:gap-10  md:grid-cols-[3fr,1fr] max-w-screen-xl">
+      <footer className=" bg-contrastCol  w-full mt-14 md:mt16 lg:mt-20  ">
+        <div className="xl:mx-auto  mx-6 md:mx-12 lg:mx-20 flex flex-col  py-6 md:grid md:gap-10  md:grid-cols-[3fr,1fr] max-w-screen-xl ">
           <header className="flex justify-between md:justify-start  items-center gap-8 md:order-2 md:flex-col ">
             <a
               href="/"
@@ -238,7 +238,7 @@ export const Footer = () => {
                 />
                 <div className="mt-6">
                   <p className="">
-                    Se vores priser
+                    Se vores priser{" "}
                     <a
                       href="/priserl"
                       className=" text-accentCol"
