@@ -5,7 +5,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 
 body {
-  position: relative;
+  /* position: relative; */
   background-image: url(../../public/bg-svg/gradient.svg);
   background-repeat: no-repeat;
   background-size: cover;
@@ -60,6 +60,7 @@ small {
   margin-inline: 24px;
   margin-top: 56px;
   max-width: 1280px;
+  width: 100%;
 }
 
 @media (min-width: 600px) {
@@ -99,11 +100,6 @@ small {
 @media (min-width: 1024px) {
   .spacer {
     margin-inline: 80px;
-  }
-}
-@media (min-width: 1280px) {
-  .spacer {
-    margin-inline: auto;
   }
 }
 

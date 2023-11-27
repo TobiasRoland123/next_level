@@ -13,8 +13,8 @@ export default function Home() {
         buttonLabel="Book Nu"
         isFrontPage
       />
-      <section className=" mx-auto">
-        <article className=" spacer">
+      <section className="flex justify-center">
+        <article className="spacer">
           <h2>
             Next Level <span className="text-accentCol">Priser</span>
           </h2>
@@ -25,58 +25,59 @@ export default function Home() {
             children={"Se alle vores priser"}
           />
         </article>
-        <article className=" bg-hero2 bg-no-repeat bg-cover w-screen  mt-14 md:mt-16 lg:mt-20  ">
-          <div className="backdrop-brightness-50 h-full py-14 md:py-16 lg:py-20">
-            <div className="spacer !mt-0 ">
-              <h2>
-                Skal du holde et <span className="text-accentCol">Event?</span>
-              </h2>
-              <ParagraphBold
-                underlined
-                text="VI holder de bedste events med fokus på gaming"
-              />
+      </section>
+      <section className=" bg-hero2 bg-no-repeat bg-cover w-screen  mt-14 md:mt-16 lg:mt-20">
+        <article className="backdrop-brightness-50 h-full py-14 md:py-16 lg:py-20 flex justify-center ">
+          <div className="spacer !mt-0 ">
+            <h2>
+              Skal du holde et <span className="text-accentCol">Event?</span>
+            </h2>
+            <ParagraphBold
+              underlined
+              text="VI holder de bedste events med fokus på gaming"
+            />
 
-              <p>
-                “Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibuwlum tempor dictum fringilla. Mauris volutpat
-                dictum lectus venenatis suscipit. Aenean faucibus mole
-              </p>
+            <p>
+              “Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibuwlum tempor dictum fringilla. Mauris volutpat
+              dictum lectus venenatis suscipit. Aenean faucibus mole
+            </p>
 
-              <Button
-                //This is wating on aproval of another branch, therefore it's commented out
-                // link="/events"
-                children="Find vores events her"
-              />
-            </div>
+            <Button
+              //This is wating on aproval of another branch, therefore it's commented out
+              // link="/events"
+              children="Find vores events her"
+            />
           </div>
         </article>
-        <CustomerQuoteSet
-          header="Vores kunder siger"
-          redWord="kunder"
-          customerQuotes={[
-            {
-              quote: {
-                header: "Whalla Luksus Toast",
-                text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibuwlum tempor dictum fringilla. Mauris volutpat dictum lectus venenatis suscipit. Aenean faucibus molestie dictum. Nulla mollis",
-                author: "Boris Brix",
-              },
-            },
-            {
-              quote: {
-                header: "Mega nice setup",
-                text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibuwlum tempor dictum fringilla. Mauris volutpat dictum lectus venenatis suscipit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibuwlum tempor dictum fringilla. Mauris volutpat dictum lectus venenatis suscipit. Aenean faucibus molestie dictum. Nulla mollis",
-                author: "Boris Brix",
-              },
-            },
-            {
-              quote: {
-                header: "Whalla Luksus Toast",
-                text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibuwlum tempor dictum fringilla. Mauris volutpat dictum lectus venenatis suscipit. Aenean faucibus molestie dictum. Nulla mollis",
-                author: "Boris Brix",
-              },
-            },
-          ]}
-        />
       </section>
+
+      <CustomerQuoteSet
+        header="Vores kunder siger"
+        redWord="kunder"
+        customerQuotes={[
+          {
+            quote: {
+              header: "Whalla Luksus Toast",
+              text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibuwlum tempor dictum fringilla. Mauris volutpat dictum lectus venenatis suscipit. Aenean faucibus molestie dictum. Nulla mollis",
+              author: "Boris Brix",
+            },
+          },
+          {
+            quote: {
+              header: "Mega nice setup",
+              text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibuwlum tempor dictum fringilla. Mauris volutpat dictum lectus venenatis suscipit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibuwlum tempor dictum fringilla. Mauris volutpat dictum lectus venenatis suscipit. Aenean faucibus molestie dictum. Nulla mollis",
+              author: "Boris Brix",
+            },
+          },
+          {
+            quote: {
+              header: "Whalla Luksus Toast",
+              text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibuwlum tempor dictum fringilla. Mauris volutpat dictum lectus venenatis suscipit. Aenean faucibus molestie dictum. Nulla mollis",
+              author: "Boris Brix",
+            },
+          },
+        ]}
+      />
     </>
   );
 }
