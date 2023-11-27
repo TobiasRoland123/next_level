@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
-import { SelectField } from "./Select";
+import { SelectField } from "./SelectField";
 const meta = {
   title: "Select",
   component: SelectField,

@@ -1,5 +1,11 @@
 import { Label } from "@radix-ui/react-label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
 
 export const SelectField = () => {
   return (
