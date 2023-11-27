@@ -1,4 +1,12 @@
 import { Button } from "@/components/Button/Button";
+
+import { Header } from "../modules/Header/Header";
+import { Accordions } from "../components/Accordion/Accordion";
+
+import { Input } from "@/components/Inputfields/Inputfield";
+
+import { Footer } from "@/modules/Footer/Footer";
+
 import { Hero } from "@/modules/Hero/Hero";
 import { ParagraphBold } from "@/components/ParagraphBold/ParagraphBold";
 import { CustomerQuoteSet } from "@/modules/CustomerQuoteSet/CustomerQuoteSet";
