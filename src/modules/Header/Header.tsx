@@ -79,7 +79,7 @@ export const Header = ({ pageList }: HeaderProps) => {
         </div>
       </div>
 
-      <nav className="fixed top-2 px-4 z-10 w-full">
+      <nav className="fixed top-2 px-6 md:px-12 lg:px-20 z-10 w-full ">
         <div
           className={`my-3 backdrop-blur-sm ${
             isOpen ? "bg-primaryCol" : "bg-contrastCol/70"
@@ -142,7 +142,7 @@ export const Header = ({ pageList }: HeaderProps) => {
             <span className={`h-1 bg-accentCol  w-full ${isOpen && "translate-y-[-0.35rem] -rotate-45 "}  transition-all	`}></span>
           </button>
 
-          <Button className="hidden md:block">Book tid</Button>
+          <Button className="hidden md:block my-1">Book tid</Button>
         </div>
       </nav>
     </>
