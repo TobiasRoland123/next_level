@@ -1,4 +1,12 @@
 import { Button } from "@/components/Button/Button";
+
+import { Header } from "../modules/Header/Header";
+import { Accordions } from "../components/Accordion/Accordion";
+
+import { Input } from "@/components/Inputfields/Inputfield";
+
+import { Footer } from "@/modules/Footer/Footer";
+
 import { Hero } from "@/modules/Hero/Hero";
 import { ParagraphBold } from "@/components/ParagraphBold/ParagraphBold";
 import { CustomerQuoteSet } from "@/modules/CustomerQuoteSet/CustomerQuoteSet";
@@ -11,7 +19,7 @@ export default function Home() {
         redWord="bedste"
         content="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries"
         buttonLabel="Book Nu"
-        isFrontPage
+        isFrontPage={true}
       />
       <section className="flex justify-center">
         <article className="spacer">
@@ -38,8 +46,9 @@ export default function Home() {
             />
 
             <p>
-              “Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibuwlum tempor dictum fringilla. Mauris volutpat
-              dictum lectus venenatis suscipit. Aenean faucibus mole
+              “Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+              Vestibuwlum tempor dictum fringilla. Mauris volutpat dictum lectus
+              venenatis suscipit. Aenean faucibus mole
             </p>
 
             <Button
