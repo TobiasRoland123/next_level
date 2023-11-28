@@ -6,12 +6,19 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
+interface SelectFieldProps {
+  onSelectChange: (selectValue: string) => void;
+}
 
-export const SelectField = () => {
+export const SelectField: React.FC<SelectFieldProps> = ({ onSelectChange }) => {
   return (
     <>
-      <Select>
-        <Label>Vælg din forespørgsel</Label>
+      <Select
+        onValueChange={(selectValue) => {
+          onSelectChange(selectValue);
+        }}
+      >
+        <Label>Hvad vil du gerne kontakte os omkring?</Label>
         <SelectTrigger className="w-[180px]">
           <SelectValue placeholder="Emne" />
         </SelectTrigger>
