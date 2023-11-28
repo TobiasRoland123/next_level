@@ -13,5 +13,10 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  args: { Name: 'Counter-Strike 2' },
+  args: {
+    Name: 'Counter-Strike 2',
+    Console: ['PC'],
+    Tags: ['FPS', 'COMPETITIVE', 'SHOOTER'],
+    Image_: 'https://media.rawg.io/media/games/ec4/ec4b02bdb3eb5c6212992c19bc05697e.jpg',
+  },
 };

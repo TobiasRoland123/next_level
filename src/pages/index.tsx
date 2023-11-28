@@ -1,5 +1,6 @@
 import { Button } from '@/components/Button/Button';
 import { Card } from '@/components/Cards/Card';
+import { GameCard } from '@/components/GameCard/GameCard';
 
 export default function Home() {
   return (
@@ -7,7 +8,7 @@ export default function Home() {
       <h1>Hello World</h1>
 
       <Button className="bg-green-500">test button</Button>
-      <div className="flex flex-col gap-20 m-auto justify-center ">
+      {/*  <div className="flex flex-col gap-20 m-auto justify-center ">
         <div className="flex gap-16 justify-center">
           <Card
             variant={'level1'}
@@ -65,7 +66,13 @@ export default function Home() {
           header="Fødselsdag"
           totalPris={150}
         ></Card>
-      </div>
+      </div> */}
+      <GameCard
+        Name="Counter-Strike 2"
+        Console={['PC', 'PS5']}
+        Tags={['FPS', 'COMPETITIVE', 'SHOOTER']}
+        Image_="https://media.rawg.io/media/games/ec4/ec4b02bdb3eb5c6212992c19bc05697e.jpg"
+      ></GameCard>
     </div>
   );
 }
