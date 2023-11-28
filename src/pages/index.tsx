@@ -24,8 +24,8 @@ export default function Home() {
         buttonLabel="Book Nu"
         isFrontPage={true}
       />
-      <section className="flex justify-center">
-        <article className="spacer">
+      <section className="flex  justify-center ">
+        <article className="spacer w-full">
           <h2>
             Next Level <span className="text-accentCol">Priser</span>
           </h2>
@@ -39,7 +39,7 @@ export default function Home() {
       </section>
       <section className=" bg-hero2 bg-no-repeat bg-cover w-screen  mt-14 md:mt-16 lg:mt-20">
         <article className="backdrop-brightness-50 h-full py-14 md:py-16 lg:py-20 flex justify-center ">
-          <div className="spacer !mt-0 ">
+          <div className="spacer !mt-0 w-full">
             <h2>
               Skal du holde et <span className="text-accentCol">Event?</span>
             </h2>
