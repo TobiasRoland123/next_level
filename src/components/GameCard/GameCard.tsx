@@ -6,7 +6,6 @@ import { cn } from '../../lib/utils';
 import { forwardRef, useState } from 'react';
 import { AnimatePresence, HTMLMotionProps, motion } from 'framer-motion';
 import { Dialog, DialogContent, DialogTrigger, DialogClose } from '../ui/dialog';
-import { IoMdClose } from 'react-icons/io';
 
 const gameCardVariants = cva('w-80 h-52 rounded cursor-pointer grid', {
   variants: {
