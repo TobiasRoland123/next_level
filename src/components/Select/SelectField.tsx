@@ -14,15 +14,15 @@ export const SelectField: React.FC<SelectFieldProps> = ({ onSelectChange }) => {
   return (
     <>
       <Select
+        // Add "open" for easier access to options
         onValueChange={(selectValue) => {
           onSelectChange(selectValue);
         }}
       >
-        <Label>Hvad vil du gerne kontakte os omkring?</Label>
         <SelectTrigger className="w-[180px]">
           <SelectValue placeholder="Emne" />
         </SelectTrigger>
-        <SelectContent className="border-none bg-contrastCol/50">
+        <SelectContent className="border-none bg-contrastCol">
           <SelectItem value="fødselsdag">Fødselsdag</SelectItem>
           <SelectItem value="firma-event">Firma event</SelectItem>
           <SelectItem value="turnering">Turnering</SelectItem>

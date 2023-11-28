@@ -26,27 +26,31 @@ interface ContactFormProps {
 export const ContactForm: React.FC<ContactFormProps> = () => {
   const [selectedValue, setSelectedValue] = useState("");
   const formSchema = z.object({
+    subject: z.string({}).min(1, {
+      message: "vælg venligst et emne",
+    }),
+
     // Fødselsdag
     amountOfKids:
       selectedValue === "fødselsdag"
-        ? z.string().min(1, {
+        ? z.string({}).min(1, {
             message: "Du skal vælge et antal børn",
           })
-        : z.string(),
+        : z.string({}),
     amountOfAdults:
       selectedValue === "fødselsdag"
-        ? z.string().min(1, {
+        ? z.string({}).min(1, {
             message: "Du skal vælge et antal voksne",
           })
-        : z.string(),
+        : z.string({}),
 
     //   Firma event
     amountOfParticipants:
       selectedValue === "firma-event"
-        ? z.string().min(1, {
-            message: "Du skal vælge et antal af deltagende",
+        ? z.string({}).min(1, {
+            message: "Du skal vælge et antal voksne",
           })
-        : z.string(),
+        : z.string({}),
 
     // Turnering and Andet
     navn: z.string({}).min(1, {
@@ -63,10 +67,12 @@ export const ContactForm: React.FC<ContactFormProps> = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
+      subject: "value" || selectedValue,
       navn: "",
       email: "",
       amountOfKids: "",
       amountOfAdults: "",
+      amountOfParticipants: "",
       textFieldMessage: "",
     },
   });
@@ -77,7 +83,6 @@ export const ContactForm: React.FC<ContactFormProps> = () => {
     // ✅ This will be type-safe and validated.
     console.log(values);
   };
-
   return (
     <>
       <Form {...form}>
@@ -85,11 +90,28 @@ export const ContactForm: React.FC<ContactFormProps> = () => {
           onSubmit={form.handleSubmit(onSubmit)}
           className="space-y-8"
         >
-          <SelectField
-            onSelectChange={(selectValue) => {
-              console.log("Value from contact", selectValue);
-              setSelectedValue(selectValue);
-            }}
+          <FormField
+            control={form.control}
+            name="subject"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Hvad vil du gerne kontakt os omkring?</FormLabel>
+                <FormControl>
+                  <SelectField
+                    onSelectChange={(selectValue) => {
+                      console.log("Value from contact", selectValue);
+                      setSelectedValue(selectValue);
+                    }}
+                    {...field}
+                  />
+                </FormControl>
+                <FormDescription className="text-transparent">
+                  Placeholder text
+                  {/* Remove text-transparent if you need to use the field description */}
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
           />
 
           {/* Fødselsdag */}
@@ -210,12 +232,11 @@ export const ContactForm: React.FC<ContactFormProps> = () => {
             name="textFieldMessage"
             render={({ field }) => (
               <FormItem>
-                <FormLabel></FormLabel>
+                <FormLabel>Din besked</FormLabel>
                 <FormControl>
                   <Textarea
-                    name="textFieldMessage"
                     placeholder="Hvad vil du spørge om?"
-                    labelText="Din besked"
+                    {...field}
                   ></Textarea>
                 </FormControl>
                 <FormDescription className="text-transparent">
