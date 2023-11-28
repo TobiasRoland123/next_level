@@ -50,22 +50,33 @@ export const ContactForm = () => {
           <FormField
             control={form.control}
             name="navn"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Dit navn</FormLabel>
-                <FormControl error={formState.errors.navn?.message}>
-                  <Input
-                    placeholder="Navn"
-                    {...field}
-                  />
-                </FormControl>
-                <FormDescription className="text-transparent">
-                  Placeholder text
-                  {/* Remove text-transparent if you need to use the field description */}
-                </FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
+            render={({ field }) => {
+              const { error } = useFormField();
+              const isValid = field.value ? !error : null;
+              return (
+                <FormItem>
+                  <FormLabel>Dit navn</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Navn"
+                      {...field}
+                      valid={isValid}
+                      className={
+                        isValid
+                          ? "transition border-2 border-green-500"
+                          : error
+                          ? "transition border-2 border-accentCol"
+                          : ""
+                      }
+                    />
+                  </FormControl>
+                  <FormDescription className="text-transparent">
+                    Placeholder text
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              );
+            }}
           />
           <FormField
             control={form.control}
