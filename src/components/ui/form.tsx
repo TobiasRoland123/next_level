@@ -9,7 +9,7 @@ import {
   FormProvider,
   useFormContext,
 } from "react-hook-form";
-
+import { Input } from "../../components/Inputfields/Inputfield";
 import { cn } from "../../lib/utils";
 import { Label } from "../../components/Inputfields/label";
 
@@ -97,7 +97,7 @@ const FormLabel = React.forwardRef<
   return (
     <Label
       ref={ref}
-      className={cn(error && "text-destructive", className)}
+      className={cn(error && "text-accentCol", className)}
       htmlFor={formItemId}
       {...props}
     />
@@ -107,7 +107,7 @@ FormLabel.displayName = "FormLabel";
 
 const FormControl = React.forwardRef<
   React.ElementRef<typeof Slot>,
-  React.ComponentPropsWithoutRef<typeof Slot>
+  React.ComponentPropsWithoutRef<typeof Slot> & { error?: string }
 >(({ ...props }, ref) => {
   const { error, formItemId, formDescriptionId, formMessageId } =
     useFormField();
@@ -118,7 +118,7 @@ const FormControl = React.forwardRef<
       id={formItemId}
       aria-describedby={
         !error
-          ? `${formDescriptionId}`
+          ? `${formDescriptionId} `
           : `${formDescriptionId} ${formMessageId}`
       }
       aria-invalid={!!error}
@@ -132,15 +132,19 @@ const FormDescription = React.forwardRef<
   HTMLParagraphElement,
   React.HTMLAttributes<HTMLParagraphElement>
 >(({ className, ...props }, ref) => {
-  const { formDescriptionId } = useFormField();
+  const { formDescriptionId, error } = useFormField();
 
   return (
-    <p
-      ref={ref}
-      id={formDescriptionId}
-      className={cn("text-sm text-muted-foreground", className)}
-      {...props}
-    />
+    <>
+      {!error && (
+        <p
+          ref={ref}
+          id={formDescriptionId}
+          className={cn("text-sm text-muted-foreground", className)}
+          {...props}
+        />
+      )}
+    </>
   );
 });
 FormDescription.displayName = "FormDescription";
@@ -157,14 +161,16 @@ const FormMessage = React.forwardRef<
   }
 
   return (
-    <p
-      ref={ref}
-      id={formMessageId}
-      className={cn("text-sm font-medium text-destructive", className)}
-      {...props}
-    >
-      {body}
-    </p>
+    <>
+      <p
+        ref={ref}
+        id={formMessageId}
+        className={cn("text-sm font-medium text-accentCol italic ", className)}
+        {...props}
+      >
+        {body}
+      </p>
+    </>
   );
 });
 FormMessage.displayName = "FormMessage";

@@ -11,22 +11,25 @@ import {
   FormMessage,
   FormField,
   Form,
+  useFormField,
 } from "../../../components/ui/form";
 import { Input } from "../../../components/Inputfields/Inputfield";
 import { Button } from "../../../components/Button/Button";
 
 export const ContactForm = () => {
   const formSchema = z.object({
-    username: z.string().min(2, {
-      message: "Username must be at least 2 characters.",
+    navn: z.string().min(1, {
+      message: "Dit navn skal minimum have 1 tegn",
     }),
+    email: z.string({}).email("Indtast en gyldig email"),
   });
 
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      username: "",
+      navn: "",
+      email: "",
     },
   });
 
@@ -46,24 +49,45 @@ export const ContactForm = () => {
         >
           <FormField
             control={form.control}
-            name="username"
+            name="navn"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Username</FormLabel>
-                <FormControl>
+                <FormLabel>Dit navn</FormLabel>
+                <FormControl error={formState.errors.navn?.message}>
                   <Input
-                    placeholder="shadcn"
+                    placeholder="Navn"
                     {...field}
                   />
                 </FormControl>
-                <FormDescription>
-                  This is your public display name.
+                <FormDescription className="text-transparent">
+                  Placeholder text
+                  {/* Remove text-transparent if you need to use the field description */}
                 </FormDescription>
                 <FormMessage />
               </FormItem>
             )}
           />
-          {/* <Button type="submit">Submit</Button> */}
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Indtast din email</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="Email"
+                    {...field}
+                  />
+                </FormControl>
+                <FormDescription className="text-transparent">
+                  Placeholder text
+                  {/* Remove text-transparent if you need to use the field description */}
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <Button>Submit</Button>
         </form>
       </Form>
     </>
