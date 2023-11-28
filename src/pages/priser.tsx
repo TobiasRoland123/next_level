@@ -1,10 +1,11 @@
-import { Button } from "@/components/Button/Button";
-import { InfoBox } from "@/components/InfoBox/InfoBox";
-import { ParagraphBold } from "@/components/ParagraphBold/ParagraphBold";
-import { EventBanner } from "@/modules/EventBanner/EventBanner";
-import { Hero } from "@/modules/Hero/Hero";
-import { Children } from "react";
-import { MdCheck } from "react-icons/md";
+import { Button } from '@/components/Button/Button';
+import { Card } from '@/components/Cards/Card';
+import { InfoBox } from '@/components/InfoBox/InfoBox';
+import { ParagraphBold } from '@/components/ParagraphBold/ParagraphBold';
+import { EventBanner } from '@/modules/EventBanner/EventBanner';
+import { Hero } from '@/modules/Hero/Hero';
+import { Children } from 'react';
+import { MdCheck } from 'react-icons/md';
 
 export default function Priser() {
   return (
@@ -25,11 +26,11 @@ priser på gaming"
               Next Level <span className="text-accentCol">priser</span>
             </h2>
             <p>
-              Hos Next Level kan du både spille som gæst eller medlem. Som medlem får du de bedste priser på din gaming tid.
-              Uanset om du er gæst eller medlem får du de samme gode rammer, for at nyde din oplevelse hos os. Vi gør ikke
-              forskel!
+              Hos Next Level kan du både spille som gæst eller medlem. Som medlem får du de bedste
+              priser på din gaming tid. Uanset om du er gæst eller medlem får du de samme gode
+              rammer, for at nyde din oplevelse hos os. Vi gør ikke forskel!
             </p>
-            <Button variant={"secondary"}>Se vores medlemspriser</Button>
+            <Button variant={'secondary'}>Se vores medlemspriser</Button>
           </div>
           <InfoBox className="text-center md:mt-0 lg:max-w-[33%] h-fit">
             <h3
@@ -59,8 +60,8 @@ priser på gaming"
                 text="Hvad får du som medlem?"
               />
               <p className=" mt-8">
-                Når du melder dig ind hos Next Level får du ikke bare adgang til de bedste priser på gaming tid. Du får også et
-                unikt fællesskab og meget mere.
+                Når du melder dig ind hos Next Level får du ikke bare adgang til de bedste priser på
+                gaming tid. Du får også et unikt fællesskab og meget mere.
               </p>
             </div>
             <InfoBox className="md:mt-0 h-fit">
@@ -99,23 +100,70 @@ priser på gaming"
           <div className="spacer w-full">
             <h3>Dækker de fleste behov</h3>
             <p>
-              Perfekt til en hurtig gamingsession. Vores Level pakker dækker langt de fleste behov. Det er uanset om du er på
-              udkig efter en hurtigt session, eller gerne fordele dine timer ud på flere sessioner.{" "}
+              Perfekt til en hurtig gamingsession. Vores Level pakker dækker langt de fleste behov.
+              Det er uanset om du er på udkig efter en hurtigt session, eller gerne fordele dine
+              timer ud på flere sessioner.{' '}
             </p>
+            <div className="flex gap-16 justify-center spacer flex-wrap">
+              <Card
+                variant={'level1'}
+                header="Level 1"
+                timeAntal={5}
+                totalPris={70}
+              ></Card>
+              <Card
+                variant={'level2'}
+                header="Level 2"
+                timeAntal={10}
+                totalPris={120}
+              ></Card>
+              <Card
+                variant={'level3'}
+                header="Level 3"
+                timeAntal={15}
+                totalPris={150}
+                oprettelseInkl
+              ></Card>
+            </div>
           </div>
         </article>
         <article className="flex justify-center">
           <div className="spacer w-full">
-            <h3>Dækker de fleste behov</h3>
+            <h3>Til den der ikke kan få nok</h3>
             <p>
-              Perfekt til en hurtig gamingsession. Vores Level pakker dækker langt de fleste behov. Det er uanset om du er på
-              udkig efter en hurtigt session, eller gerne fordele dine timer ud på flere sessioner.{" "}
+              Skal du bruge flere timer, så er det vores Expert eller Master pakke du skal have. Har
+              du taget fri fra arbejde, fordi der er kommet et nyt spil du bare må spille? Så skal
+              du ikke lede længere!{' '}
             </p>
+            <div className="flex gap-16 justify-center spacer flex-wrap">
+              <Card
+                variant={'expert'}
+                header="Expert"
+                timeAntal={50}
+                totalPris={450}
+                oprettelseInkl
+              ></Card>
+              <Card
+                variant={'master'}
+                header="Master"
+                timeAntal={100}
+                totalPris={700}
+                oprettelseInkl
+              ></Card>
+            </div>
           </div>
         </article>
         <article className="flex justify-center">
           <div className="spacer w-full">
             <h3>Noget helt specielt?</h3>
+            <div className="flex justify-center spacer">
+              <Card
+                variant={'nlp'}
+                header="nlp"
+                timePris={30}
+                oprettelseInkl
+              ></Card>
+            </div>
           </div>
         </article>
       </section>
@@ -124,7 +172,7 @@ priser på gaming"
           className="spacer w-full"
           heading="Vores events"
           text="Korem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum tellus elit sed risus. Maecenas eget condimentum velit, sit amet feugiat lectus. "
-          button={{ children: "Læs om vores events", variant: "secondary" }}
+          button={{ children: 'Læs om vores events', variant: 'secondary' }}
           image="firmaEvent"
         />
       </section>
