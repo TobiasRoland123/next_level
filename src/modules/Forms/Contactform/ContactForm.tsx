@@ -17,6 +17,7 @@ import {
 import { Input } from "../../../components/Inputfields/Inputfield";
 import { Button } from "../../../components/Button/Button";
 import { SelectField } from "@/components/Select/SelectField";
+import { Textarea } from "@/components/Textarea/textarea";
 
 interface ContactFormProps {
   // Add any additional props if needed
@@ -25,6 +26,7 @@ interface ContactFormProps {
 export const ContactForm: React.FC<ContactFormProps> = () => {
   const [selectedValue, setSelectedValue] = useState("");
   const formSchema = z.object({
+    // Fødselsdag
     amountOfKids:
       selectedValue === "fødselsdag"
         ? z.string().min(1, {
@@ -38,14 +40,23 @@ export const ContactForm: React.FC<ContactFormProps> = () => {
           })
         : z.string(),
 
-    //   Fødselsdag
+    //   Firma event
+    amountOfParticipants:
+      selectedValue === "firma-event"
+        ? z.string().min(1, {
+            message: "Du skal vælge et antal af deltagende",
+          })
+        : z.string(),
+
+    // Turnering and Andet
     navn: z.string({}).min(1, {
       message: "Dit navn skal minimum have 1 tegn ",
     }),
-
-    // Firma <arrangement></arrangement>
-
     email: z.string({}).email("Indtast en gyldig email"),
+
+    textFieldMessage: z.string({}).min(1, {
+      message: "Uddyb venligst hvorfor du henvender dig",
+    }),
   });
 
   // 1. Define your form.
@@ -56,6 +67,7 @@ export const ContactForm: React.FC<ContactFormProps> = () => {
       email: "",
       amountOfKids: "",
       amountOfAdults: "",
+      textFieldMessage: "",
     },
   });
 
@@ -127,6 +139,31 @@ export const ContactForm: React.FC<ContactFormProps> = () => {
               />
             </>
           )}
+          {/* Firma event */}
+          {selectedValue === "firma-event" && (
+            <FormField
+              control={form.control}
+              name="amountOfParticipants"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Antal deltagende</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="number"
+                      placeholder="Antal deltagende"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormDescription className="text-transparent">
+                    Placeholder text
+                    {/* Remove text-transparent if you need to use the field description */}
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          )}
+
           <FormField
             control={form.control}
             name="navn"
@@ -158,6 +195,28 @@ export const ContactForm: React.FC<ContactFormProps> = () => {
                     placeholder="Email"
                     {...field}
                   />
+                </FormControl>
+                <FormDescription className="text-transparent">
+                  Placeholder text
+                  {/* Remove text-transparent if you need to use the field description */}
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="textFieldMessage"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel></FormLabel>
+                <FormControl>
+                  <Textarea
+                    name="textFieldMessage"
+                    placeholder="Hvad vil du spørge om?"
+                    labelText="Din besked"
+                  ></Textarea>
                 </FormControl>
                 <FormDescription className="text-transparent">
                   Placeholder text
