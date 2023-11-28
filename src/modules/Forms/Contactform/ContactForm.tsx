@@ -60,14 +60,6 @@ export const ContactForm = () => {
                     <Input
                       placeholder="Navn"
                       {...field}
-                      valid={isValid}
-                      className={
-                        isValid
-                          ? "transition border-2 border-green-500"
-                          : error
-                          ? "transition border-2 border-accentCol"
-                          : ""
-                      }
                     />
                   </FormControl>
                   <FormDescription className="text-transparent">
