@@ -1,4 +1,6 @@
-import { Button } from "@/components/Button/Button";
+import { Button } from '@/components/Button/Button';
+import { Card } from '@/components/Cards/Card';
+import { GameCard } from '@/components/GameCard/GameCard';
 
 import { Header } from "../modules/Header/Header";
 import { Accordions } from "../components/Accordion/Accordion";
@@ -13,6 +15,7 @@ import { CustomerQuoteSet } from "@/modules/CustomerQuoteSet/CustomerQuoteSet";
 
 export default function Home() {
   return (
+
     <>
       <Hero
         header="Dk's bedste gaming center"
@@ -88,5 +91,6 @@ export default function Home() {
         ]}
       />
     </>
+
   );
 }
