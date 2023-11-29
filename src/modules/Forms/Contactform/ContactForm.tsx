@@ -2,7 +2,7 @@ import React from "react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import * as z from "zod";
 import {
   FormControl,
@@ -27,7 +27,7 @@ export const ContactForm: React.FC<ContactFormProps> = () => {
   const [selectedValue, setSelectedValue] = useState("");
   const formSchema = z.object({
     subject: z.string({}).min(1, {
-      message: "vælg venligst et emne",
+      message: "Vælg venligst et emne",
     }),
 
     // Fødselsdag
@@ -67,7 +67,7 @@ export const ContactForm: React.FC<ContactFormProps> = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      subject: "value" || selectedValue,
+      subject: selectedValue,
       navn: "",
       email: "",
       amountOfKids: "",
@@ -77,10 +77,15 @@ export const ContactForm: React.FC<ContactFormProps> = () => {
     },
   });
 
+  //   Used for updating the value of the selected value
+  useEffect(() => {
+    form.setValue("subject", selectedValue);
+  }, [selectedValue]);
   // 2. Define a submit handler.
   const onSubmit = (values: z.infer<typeof formSchema>) => {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
+    console.log(selectedValue);
     console.log(values);
   };
   return (
@@ -98,9 +103,9 @@ export const ContactForm: React.FC<ContactFormProps> = () => {
                 <FormLabel>Hvad vil du gerne kontakt os omkring?</FormLabel>
                 <FormControl>
                   <SelectField
-                    onSelectChange={(selectValue) => {
-                      console.log("Value from contact", selectValue);
-                      setSelectedValue(selectValue);
+                    onSelectChange={(selectedValue) => {
+                      //console.log("Value from contact", selectedValue);
+                      setSelectedValue(selectedValue);
                     }}
                     {...field}
                   />
