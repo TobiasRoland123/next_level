@@ -255,15 +255,14 @@ export const ContactForm: React.FC<ContactFormProps> = () => {
                 <FormLabel>Telefon nr.</FormLabel>
                 <FormControl>
                   <InputMask
+                    className="flex h-10 w-full rounded bg-contrastCol px-3 py-2 border-b-transparent border-b-2 text-sm file:border-0 transition ease-in duration-300 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:border-b-2 focus-visible:border-secondaryCol disabled:cursor-not-allowed disabled:opacity-50"
                     placeholder="12 34 56 78"
                     type="tel"
                     mask="99 99 99 99"
                     maskChar=""
                     value={field.value}
                     onChange={field.onChange}
-                  >
-                    {(inputProps: any) => <Input {...inputProps} />}
-                  </InputMask>
+                  ></InputMask>
 
                   {/* <Input
                     className="remove-arrow"
