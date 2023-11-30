@@ -2,10 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url("https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
 body {
-  position: relative;
+  /* position: relative; */
+  background-image: url(../../public/bg-svg/gradient.svg);
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 h1 {
@@ -24,6 +27,7 @@ h2 {
 }
 
 h3 {
+  margin-top: 48px;
   font-size: 35.5px;
   font-weight: 700;
   line-height: normal;
@@ -31,12 +35,14 @@ h3 {
 }
 
 h4 {
+  margin-top: 20px;
   font-size: 24px;
   font-weight: 700;
   line-height: normal;
   text-transform: uppercase;
 }
 p {
+  margin-top: 20px;
   font-size: 16px;
   font-weight: 300;
   line-height: normal;
@@ -44,9 +50,14 @@ p {
 }
 
 small {
+  margin-top: 16px;
   font-size: 12.5px;
   font-weight: 400;
   line-height: normal;
+}
+
+.spacer {
+  @apply mx-6 mt-14 max-w-screen-xl md:mx-12 md:mt-20 lg:mx-20;
 }
 
 @media (min-width: 600px) {
@@ -80,12 +91,31 @@ small {
 
 @layer base {
   :root {
-    font-family: "Rubik", sans-serif;
+    font-family: 'Rubik', sans-serif;
 
     --primaryColor: 255 8% 10%;
     --secondaryColor: 0 0% 95%;
     --accentColor: 356 100% 52%;
     --contrastColor: 0 0% 18%;
+
+    --level1Gradient: #ffffff, #59636f;
+    --level2Gradient: #e0f2fe, #7dd3fc;
+    --level3Gradient: #38bdf8, #1d4ed8;
+    --expertGradient: #e879f9, #c026d3;
+    --masterGradient: #f97316, #dc2626;
+    --nlpGradient: #ebd720, #ef7300;
+    --bday1Gradient: #f97316, #dc2626;
+    --bday2Gradient: #f97316, #dc2626;
+    --rotate: 132deg;
+
+    --level1Shadow: rgba(96, 143, 198, 0.39);
+    --level2Shadow: rgba(96, 143, 198, 0.39);
+    --level3Shadow: rgba(0, 26, 165, 0.39);
+    --expertShadow: rgba(152, 0, 165, 0.39);
+    --masterShadow: rgba(165, 0, 0, 0.39);
+    --nlpShadow: rgba(165, 82, 0, 0.39);
+    --bday1Shadow: rgba(165, 0, 0, 0.39);
+    --bday2Shadow: rgba(165, 0, 0, 0.39);
 
     --background: 255, 8%, 10%, 1;
     --foreground: 0 0% 95%;
@@ -109,6 +139,8 @@ small {
     --input: 0, 0%, 95%, 1;
     --ring: 356, 100%, 52%, 1;
     --radius: 2px;
+    --card-height: 320px;
+    --card-width: 208px;
   }
 }
 
@@ -118,5 +150,20 @@ small {
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@property --rotate {
+  syntax: '<angle>';
+  initial-value: 132deg;
+  inherits: false;
+}
+
+@keyframes spin {
+  0% {
+    --rotate: 80deg;
+  }
+  100% {
+    --rotate: 437deg;
   }
 }

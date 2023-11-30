@@ -66,8 +66,17 @@ export const Header = ({ pageList }: HeaderProps) => {
         </div>
       </div>
 
-      <nav className="fixed top-2 px-4 z-10 w-full">
-        <div className={`my-3 backdrop-blur-sm ${isOpen ? "bg-primaryCol" : "bg-contrastCol/70"} flex justify-between   items-center px-4 gap-6 rounded-sm md:py-2 md:bg-contrastCol/70 max-w-screen-xl xl:mx-auto`}>
+
+
+
+
+      <nav className="fixed top-2 px-6 md:px-12 lg:px-20 z-10 w-full ">
+        <div
+          className={`my-3 backdrop-blur-sm ${
+            isOpen ? "bg-primaryCol" : "bg-contrastCol/70"
+          } flex justify-between   items-center px-4 gap-6 rounded-sm md:py-2 md:bg-contrastCol/70 max-w-screen-xl xl:mx-auto`}
+        >
+
           <div className=" flex gap-8 font-bold ">
             <a href="/">
               <svg width="40" height="auto" viewBox="0 0 59 45" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -100,7 +109,7 @@ export const Header = ({ pageList }: HeaderProps) => {
             <span className={`h-1 bg-accentCol  w-full ${isOpen && "translate-y-[-0.35rem] -rotate-45 "}  transition-all	`}></span>
           </Button>
 
-          <Button className="hidden md:block">Book tid</Button>
+          <Button className="hidden md:block my-1">Book tid</Button>
         </div>
       </nav>
     </>
