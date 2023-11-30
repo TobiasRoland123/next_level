@@ -18,6 +18,7 @@ import { Input } from "../../../components/Inputfields/Inputfield";
 import { Button } from "../../../components/Button/Button";
 import { SelectField } from "../../../components/Select/SelectField";
 import { Textarea } from "../../../components/Textarea/textarea";
+import { AnimatePresence, motion } from "framer-motion";
 
 interface ContactFormProps {
   // Add any additional props if needed
@@ -25,6 +26,7 @@ interface ContactFormProps {
 
 export const ContactForm: React.FC<ContactFormProps> = () => {
   const [selectedValue, setSelectedValue] = useState("");
+
   const formSchema = z.object({
     subject: z.string().min(1, {
       message: "Vælg venligst et emne",
@@ -56,6 +58,7 @@ export const ContactForm: React.FC<ContactFormProps> = () => {
     navn: z.string().min(1, {
       message: "Dit navn skal minimum have 1 tegn ",
     }),
+
     email: z.string().email("Indtast en gyldig email"),
     phoneNum: z
       .union([
@@ -98,12 +101,9 @@ export const ContactForm: React.FC<ContactFormProps> = () => {
     console.log(values);
   };
   return (
-    <>
+    <AnimatePresence>
       <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          className="space-y-8"
-        >
+        <form onSubmit={form.handleSubmit(onSubmit)}>
           {/* SUBJECT */}
           <FormField
             control={form.control}
@@ -128,182 +128,846 @@ export const ContactForm: React.FC<ContactFormProps> = () => {
               </FormItem>
             )}
           />
-
-          {/* FØDSELSDAG */}
-          {selectedValue === "fødselsdag" && (
+          {selectedValue === "" && (
             <>
-              <FormField
-                control={form.control}
-                name="amountOfKids"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Antal børn</FormLabel>
-                    <FormControl>
-                      <Input
-                        className="remove-arrow"
-                        type="number"
-                        placeholder="24"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormDescription className="text-transparent">
-                      Placeholder text
-                      {/* Remove text-transparent if you need to use the field description */}
-                    </FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="amountOfAdults"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Antal voksne</FormLabel>
-                    <FormControl>
-                      <Input
-                        className="remove-arrow"
-                        type="number"
-                        placeholder="4"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormDescription className="text-transparent">
-                      Placeholder text
-                      {/* Remove text-transparent if you need to use the field description */}
-                    </FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </>
-          )}
-          {/* FIRMA EVENT */}
-          {selectedValue === "firma-event" && (
-            <FormField
-              control={form.control}
-              name="amountOfParticipants"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Antal deltagende</FormLabel>
-                  <FormControl>
-                    <Input
-                      className="remove-arrow"
-                      type="number"
-                      placeholder="24"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormDescription className="text-transparent">
-                    Placeholder text
-                    {/* Remove text-transparent if you need to use the field description */}
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          )}
+              {/* NAME */}
+              <motion.div
+                initial={{ opacity: 0, y: "-10%" }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{
+                  type: "spring",
+                  stiffness: 100,
+                  duration: 0.3,
+                  ease: [0, 0.71, 0.2, 1.01],
+                }}
+              >
+                <FormField
+                  control={form.control}
+                  name="navn"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Dit navn</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="John Jensen"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormDescription className="text-transparent">
+                        Placeholder text
+                        {/* Remove text-transparent if you need to use the field description */}
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </motion.div>
 
-          {/* NAME */}
-          <FormField
-            control={form.control}
-            name="navn"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Dit navn</FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder="John Jensen"
-                    {...field}
-                  />
-                </FormControl>
-                <FormDescription className="text-transparent">
-                  Placeholder text
-                  {/* Remove text-transparent if you need to use the field description */}
-                </FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          {/* EMAIL */}
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Email</FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder="john@jensen.dk"
-                    {...field}
-                  />
-                </FormControl>
-                <FormDescription className="text-transparent">
-                  Placeholder text
-                  {/* Remove text-transparent if you need to use the field description */}
-                </FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          {/* PHONE */}
-          <FormField
-            control={form.control}
-            name="phoneNum"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Telefon nr.</FormLabel>
-                <FormControl>
-                  <InputMask
-                    className="flex h-10 w-full rounded bg-contrastCol px-3 py-2 border-b-transparent border-b-2 text-sm file:border-0 transition ease-in duration-300 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:border-b-2 focus-visible:border-secondaryCol disabled:cursor-not-allowed disabled:opacity-50"
-                    placeholder="12 34 56 78"
-                    type="tel"
-                    mask="99 99 99 99"
-                    maskChar=""
-                    value={field.value}
-                    onChange={field.onChange}
-                  ></InputMask>
+              {/* EMAIL */}
+              <motion.div
+                initial={{ opacity: 0, y: "-20%" }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{
+                  type: "spring",
+                  stiffness: 100,
+                  duration: 0.3,
+                  ease: [0, 0.71, 0.2, 1.01],
+                }}
+              >
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Email</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="john@jensen.dk"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormDescription className="text-transparent">
+                        Placeholder text
+                        {/* Remove text-transparent if you need to use the field description */}
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </motion.div>
 
-                  {/* <Input
+              {/* PHONE */}
+              <motion.div
+                initial={{ opacity: 0, y: "-30%" }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{
+                  type: "spring",
+                  stiffness: 100,
+                  duration: 0.3,
+                  ease: [0, 0.71, 0.2, 1.01],
+                }}
+              >
+                <FormField
+                  control={form.control}
+                  name="phoneNum"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Telefon nr.</FormLabel>
+                      <FormControl>
+                        <InputMask
+                          className="flex h-10 w-full rounded bg-contrastCol px-3 py-2 border-b-transparent border-b-2 text-sm file:border-0 transition ease-in duration-300 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:border-b-2 focus-visible:border-secondaryCol disabled:cursor-not-allowed disabled:opacity-50"
+                          placeholder="12 34 56 78"
+                          type="tel"
+                          mask="99 99 99 99"
+                          maskChar=""
+                          value={field.value}
+                          onChange={field.onChange}
+                        ></InputMask>
+
+                        {/* <Input
                     className="remove-arrow"
                     type="number"
                     placeholder="12 34 56 78"
                     {...field}
                   /> */}
-                </FormControl>
-                <FormDescription className="text-transparent">
-                  Placeholder text
-                  {/* Remove "text-transparent" if you need to use the field description */}
-                </FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          {/* MESSAGE */}
-          <FormField
-            control={form.control}
-            name="textFieldMessage"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Din besked</FormLabel>
-                <FormControl>
-                  <Textarea
-                    placeholder="Jeg vil gerne høre om..."
+                      </FormControl>
+                      <FormDescription className="text-transparent">
+                        Placeholder text
+                        {/* Remove "text-transparent" if you need to use the field description */}
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </motion.div>
+
+              {/* MESSAGE */}
+              <motion.div
+                initial={{ opacity: 0, y: "-25%" }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{
+                  type: "spring",
+                  stiffness: 100,
+                  duration: 0.3,
+                  ease: [0, 0.71, 0.2, 1.01],
+                }}
+              >
+                <FormField
+                  control={form.control}
+                  name="textFieldMessage"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Din besked</FormLabel>
+                      <FormControl>
+                        <Textarea
+                          placeholder="Jeg vil gerne høre om..."
+                          {...field}
+                        ></Textarea>
+                      </FormControl>
+                      <FormDescription className="text-transparent">
+                        Placeholder text
+                        {/* Remove text-transparent if you need to use the field description */}
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <Button>Send Besked</Button>
+              </motion.div>
+            </>
+          )}
+          {/* FØDSELSDAG */}
+          {selectedValue === "fødselsdag" && (
+            <>
+              <motion.div
+                initial={{ opacity: 0, y: "-5%" }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{
+                  type: "spring",
+                  stiffness: 100,
+                  duration: 0.3,
+                  ease: [0, 0.71, 0.2, 1.01],
+                }}
+              >
+                <FormField
+                  control={form.control}
+                  name="amountOfKids"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Antal børn</FormLabel>
+                      <FormControl>
+                        <Input
+                          className="remove-arrow"
+                          type="number"
+                          placeholder="24"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormDescription className="text-transparent">
+                        Placeholder text
+                        {/* Remove text-transparent if you need to use the field description */}
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </motion.div>
+              <motion.div
+                initial={{ opacity: 0, y: "-15%" }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{
+                  type: "spring",
+                  stiffness: 100,
+                  duration: 0.3,
+                  ease: [0, 0.71, 0.2, 1.01],
+                }}
+              >
+                <FormField
+                  control={form.control}
+                  name="amountOfAdults"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Antal voksne</FormLabel>
+                      <FormControl>
+                        <Input
+                          className="remove-arrow"
+                          type="number"
+                          placeholder="4"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormDescription className="text-transparent">
+                        Placeholder text
+                        {/* Remove text-transparent if you need to use the field description */}
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </motion.div>
+              {/* NAME */}
+              <motion.div
+                initial={{ opacity: 0, y: "-10%" }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{
+                  type: "spring",
+                  stiffness: 100,
+                  duration: 0.3,
+                  ease: [0, 0.71, 0.2, 1.01],
+                }}
+              >
+                <FormField
+                  control={form.control}
+                  name="navn"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Dit navn</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="John Jensen"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormDescription className="text-transparent">
+                        Placeholder text
+                        {/* Remove text-transparent if you need to use the field description */}
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </motion.div>
+
+              {/* EMAIL */}
+              <motion.div
+                initial={{ opacity: 0, y: "-20%" }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{
+                  type: "spring",
+                  stiffness: 100,
+                  duration: 0.3,
+                  ease: [0, 0.71, 0.2, 1.01],
+                }}
+              >
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Email</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="john@jensen.dk"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormDescription className="text-transparent">
+                        Placeholder text
+                        {/* Remove text-transparent if you need to use the field description */}
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </motion.div>
+
+              {/* PHONE */}
+              <motion.div
+                initial={{ opacity: 0, y: "-30%" }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{
+                  type: "spring",
+                  stiffness: 100,
+                  duration: 0.3,
+                  ease: [0, 0.71, 0.2, 1.01],
+                }}
+              >
+                <FormField
+                  control={form.control}
+                  name="phoneNum"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Telefon nr.</FormLabel>
+                      <FormControl>
+                        <InputMask
+                          className="flex h-10 w-full rounded bg-contrastCol px-3 py-2 border-b-transparent border-b-2 text-sm file:border-0 transition ease-in duration-300 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:border-b-2 focus-visible:border-secondaryCol disabled:cursor-not-allowed disabled:opacity-50"
+                          placeholder="12 34 56 78"
+                          type="tel"
+                          mask="99 99 99 99"
+                          maskChar=""
+                          value={field.value}
+                          onChange={field.onChange}
+                        ></InputMask>
+                      </FormControl>
+                      <FormDescription className="text-transparent">
+                        Placeholder text
+                        {/* Remove "text-transparent" if you need to use the field description */}
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </motion.div>
+
+              {/* MESSAGE */}
+              <motion.div
+                initial={{ opacity: 0, y: "-25%" }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{
+                  type: "spring",
+                  stiffness: 100,
+                  duration: 0.3,
+                  ease: [0, 0.71, 0.2, 1.01],
+                }}
+              >
+                <FormField
+                  control={form.control}
+                  name="textFieldMessage"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Din besked</FormLabel>
+                      <FormControl>
+                        <Textarea
+                          placeholder="Jeg vil gerne høre om..."
+                          {...field}
+                        ></Textarea>
+                      </FormControl>
+                      <FormDescription className="text-transparent">
+                        Placeholder text
+                        {/* Remove text-transparent if you need to use the field description */}
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <Button>Send Besked</Button>
+              </motion.div>
+            </>
+          )}
+
+          {/* FIRMA EVENT */}
+          {selectedValue === "firma-event" && (
+            <>
+              <motion.div
+                initial={{ opacity: 0, y: "-5%" }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{
+                  type: "spring",
+                  stiffness: 100,
+                  duration: 0.3,
+                  ease: [0, 0.71, 0.2, 1.01],
+                }}
+              >
+                <FormField
+                  control={form.control}
+                  name="amountOfParticipants"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Antal deltagende</FormLabel>
+                      <FormControl>
+                        <Input
+                          className="remove-arrow"
+                          type="number"
+                          placeholder="24"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormDescription className="text-transparent">
+                        Placeholder text
+                        {/* Remove text-transparent if you need to use the field description */}
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </motion.div>
+
+              {/* NAME */}
+              <motion.div
+                initial={{ opacity: 0, y: "-10%" }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{
+                  type: "spring",
+                  stiffness: 100,
+                  duration: 0.3,
+                  ease: [0, 0.71, 0.2, 1.01],
+                }}
+              >
+                <FormField
+                  control={form.control}
+                  name="navn"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Dit navn</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="John Jensen"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormDescription className="text-transparent">
+                        Placeholder text
+                        {/* Remove text-transparent if you need to use the field description */}
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </motion.div>
+
+              {/* EMAIL */}
+              <motion.div
+                initial={{ opacity: 0, y: "-20%" }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{
+                  type: "spring",
+                  stiffness: 100,
+                  duration: 0.3,
+                  ease: [0, 0.71, 0.2, 1.01],
+                }}
+              >
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Email</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="john@jensen.dk"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormDescription className="text-transparent">
+                        Placeholder text
+                        {/* Remove text-transparent if you need to use the field description */}
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </motion.div>
+
+              {/* PHONE */}
+              <motion.div
+                initial={{ opacity: 0, y: "-30%" }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{
+                  type: "spring",
+                  stiffness: 100,
+                  duration: 0.3,
+                  ease: [0, 0.71, 0.2, 1.01],
+                }}
+              >
+                <FormField
+                  control={form.control}
+                  name="phoneNum"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Telefon nr.</FormLabel>
+                      <FormControl>
+                        <InputMask
+                          className="flex h-10 w-full rounded bg-contrastCol px-3 py-2 border-b-transparent border-b-2 text-sm file:border-0 transition ease-in duration-300 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:border-b-2 focus-visible:border-secondaryCol disabled:cursor-not-allowed disabled:opacity-50"
+                          placeholder="12 34 56 78"
+                          type="tel"
+                          mask="99 99 99 99"
+                          maskChar=""
+                          value={field.value}
+                          onChange={field.onChange}
+                        ></InputMask>
+
+                        {/* <Input
+                  className="remove-arrow"
+                  type="number"
+                  placeholder="12 34 56 78"
+                  {...field}
+                /> */}
+                      </FormControl>
+                      <FormDescription className="text-transparent">
+                        Placeholder text
+                        {/* Remove "text-transparent" if you need to use the field description */}
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </motion.div>
+
+              {/* MESSAGE */}
+              <motion.div
+                initial={{ opacity: 0, y: "-25%" }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{
+                  type: "spring",
+                  stiffness: 100,
+                  duration: 0.3,
+                  ease: [0, 0.71, 0.2, 1.01],
+                }}
+              >
+                <FormField
+                  control={form.control}
+                  name="textFieldMessage"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Din besked</FormLabel>
+                      <FormControl>
+                        <Textarea
+                          placeholder="Jeg vil gerne høre om..."
+                          {...field}
+                        ></Textarea>
+                      </FormControl>
+                      <FormDescription className="text-transparent">
+                        Placeholder text
+                        {/* Remove text-transparent if you need to use the field description */}
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <Button>Send Besked</Button>
+              </motion.div>
+            </>
+          )}
+
+          {selectedValue === "andet" && (
+            <>
+              {/* NAME */}
+              <motion.div
+                initial={{ opacity: 0, y: "-10%" }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{
+                  type: "spring",
+                  stiffness: 100,
+                  duration: 0.3,
+                  ease: [0, 0.71, 0.2, 1.01],
+                }}
+              >
+                <FormField
+                  control={form.control}
+                  name="navn"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Dit navn</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="John Jensen"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormDescription className="text-transparent">
+                        Placeholder text
+                        {/* Remove text-transparent if you need to use the field description */}
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </motion.div>
+
+              {/* EMAIL */}
+              <motion.div
+                initial={{ opacity: 0, y: "-20%" }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{
+                  type: "spring",
+                  stiffness: 100,
+                  duration: 0.3,
+                  ease: [0, 0.71, 0.2, 1.01],
+                }}
+              >
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Email</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="john@jensen.dk"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormDescription className="text-transparent">
+                        Placeholder text
+                        {/* Remove text-transparent if you need to use the field description */}
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </motion.div>
+
+              {/* PHONE */}
+              <motion.div
+                initial={{ opacity: 0, y: "-30%" }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{
+                  type: "spring",
+                  stiffness: 100,
+                  duration: 0.3,
+                  ease: [0, 0.71, 0.2, 1.01],
+                }}
+              >
+                <FormField
+                  control={form.control}
+                  name="phoneNum"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Telefon nr.</FormLabel>
+                      <FormControl>
+                        <InputMask
+                          className="flex h-10 w-full rounded bg-contrastCol px-3 py-2 border-b-transparent border-b-2 text-sm file:border-0 transition ease-in duration-300 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:border-b-2 focus-visible:border-secondaryCol disabled:cursor-not-allowed disabled:opacity-50"
+                          placeholder="12 34 56 78"
+                          type="tel"
+                          mask="99 99 99 99"
+                          maskChar=""
+                          value={field.value}
+                          onChange={field.onChange}
+                        ></InputMask>
+
+                        {/* <Input
+                      className="remove-arrow"
+                      type="number"
+                      placeholder="12 34 56 78"
+                      {...field}
+                    /> */}
+                      </FormControl>
+                      <FormDescription className="text-transparent">
+                        Placeholder text
+                        {/* Remove "text-transparent" if you need to use the field description */}
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </motion.div>
+
+              {/* MESSAGE */}
+              <motion.div
+                initial={{ opacity: 0, y: "-25%" }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{
+                  type: "spring",
+                  stiffness: 100,
+                  duration: 0.3,
+                  ease: [0, 0.71, 0.2, 1.01],
+                }}
+              >
+                <FormField
+                  control={form.control}
+                  name="textFieldMessage"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Din besked</FormLabel>
+                      <FormControl>
+                        <Textarea
+                          placeholder="Jeg vil gerne høre om..."
+                          {...field}
+                        ></Textarea>
+                      </FormControl>
+                      <FormDescription className="text-transparent">
+                        Placeholder text
+                        {/* Remove text-transparent if you need to use the field description */}
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <Button>Send Besked</Button>
+              </motion.div>
+            </>
+          )}
+          {selectedValue === "turnering" && (
+            <>
+              {/* NAME */}
+              <motion.div
+                initial={{ opacity: 0, y: "-10%" }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{
+                  type: "spring",
+                  stiffness: 100,
+                  duration: 0.3,
+                  ease: [0, 0.71, 0.2, 1.01],
+                }}
+              >
+                <FormField
+                  control={form.control}
+                  name="navn"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Dit navn</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="John Jensen"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormDescription className="text-transparent">
+                        Placeholder text
+                        {/* Remove text-transparent if you need to use the field description */}
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </motion.div>
+
+              {/* EMAIL */}
+              <motion.div
+                initial={{ opacity: 0, y: "-20%" }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{
+                  type: "spring",
+                  stiffness: 100,
+                  duration: 0.3,
+                  ease: [0, 0.71, 0.2, 1.01],
+                }}
+              >
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Email</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="john@jensen.dk"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormDescription className="text-transparent">
+                        Placeholder text
+                        {/* Remove text-transparent if you need to use the field description */}
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </motion.div>
+
+              {/* PHONE */}
+              <motion.div
+                initial={{ opacity: 0, y: "-30%" }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{
+                  type: "spring",
+                  stiffness: 100,
+                  duration: 0.3,
+                  ease: [0, 0.71, 0.2, 1.01],
+                }}
+              >
+                <FormField
+                  control={form.control}
+                  name="phoneNum"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Telefon nr.</FormLabel>
+                      <FormControl>
+                        <InputMask
+                          className="flex h-10 w-full rounded bg-contrastCol px-3 py-2 border-b-transparent border-b-2 text-sm file:border-0 transition ease-in duration-300 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:border-b-2 focus-visible:border-secondaryCol disabled:cursor-not-allowed disabled:opacity-50"
+                          placeholder="12 34 56 78"
+                          type="tel"
+                          mask="99 99 99 99"
+                          maskChar=""
+                          value={field.value}
+                          onChange={field.onChange}
+                        ></InputMask>
+
+                        {/* <Input
+                    className="remove-arrow"
+                    type="number"
+                    placeholder="12 34 56 78"
                     {...field}
-                  ></Textarea>
-                </FormControl>
-                <FormDescription className="text-transparent">
-                  Placeholder text
-                  {/* Remove text-transparent if you need to use the field description */}
-                </FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <Button>Send Besked</Button>
+                  /> */}
+                      </FormControl>
+                      <FormDescription className="text-transparent">
+                        Placeholder text
+                        {/* Remove "text-transparent" if you need to use the field description */}
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </motion.div>
+
+              {/* MESSAGE */}
+              <motion.div
+                initial={{ opacity: 0, y: "-25%" }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{
+                  type: "spring",
+                  stiffness: 100,
+                  duration: 0.3,
+                  ease: [0, 0.71, 0.2, 1.01],
+                }}
+              >
+                <FormField
+                  control={form.control}
+                  name="textFieldMessage"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Din besked</FormLabel>
+                      <FormControl>
+                        <Textarea
+                          placeholder="Jeg vil gerne høre om..."
+                          {...field}
+                        ></Textarea>
+                      </FormControl>
+                      <FormDescription className="text-transparent">
+                        Placeholder text
+                        {/* Remove text-transparent if you need to use the field description */}
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <Button>Send Besked</Button>
+              </motion.div>
+            </>
+          )}
         </form>
       </Form>
-    </>
+    </AnimatePresence>
   );
 };
 
