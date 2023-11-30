@@ -1,25 +1,25 @@
-import * as React from 'react';
-import { cva, type VariantProps } from 'class-variance-authority';
-import Image from 'next/image';
-import { cn } from '../../lib/utils';
-import { forwardRef, useState } from 'react';
-import { AnimatePresence, HTMLMotionProps, motion } from 'framer-motion';
-import { Dialog, DialogContent, DialogTrigger, DialogClose } from '../ui/dialog';
-import { Description } from '@radix-ui/react-dialog';
+import * as React from "react";
+import { cva, type VariantProps } from "class-variance-authority";
+import Image from "next/image";
+import { cn } from "../../lib/utils";
+import { forwardRef, useState } from "react";
+import { AnimatePresence, HTMLMotionProps, motion } from "framer-motion";
+import { Dialog, DialogContent, DialogTrigger, DialogClose } from "../ui/dialog";
+import { Description } from "@radix-ui/react-dialog";
 
-const gameCardVariants = cva('w-80 h-52 rounded cursor-pointer grid', {
+const gameCardVariants = cva("w-80 h-52 rounded cursor-pointer grid", {
   variants: {
     variant: {
-      card: 'text-gray-200 overflow-hidden',
+      card: "text-gray-200 overflow-hidden",
     },
   },
   defaultVariants: {
-    variant: 'card',
+    variant: "card",
   },
 });
 
 export interface GameCardProps
-  extends Pick<HTMLMotionProps<'div'>, 'animate' | 'whileHover' | 'className'>,
+  extends Pick<HTMLMotionProps<"div">, "animate" | "whileHover" | "className">,
     VariantProps<typeof gameCardVariants> {
   Name?: string;
   Tags?: string[];
@@ -48,27 +48,25 @@ const GameCard = forwardRef<HTMLDivElement, GameCardProps>(
                 width={500}
                 height={500}
                 quality={20}
-                style={{ objectFit: 'fill' }}
+                style={{ objectFit: "fill" }}
                 alt="Picture of the author"
                 className={`col-start-1 row-start-1 w-auto h-full rounded transition-all ${
-                  isHovered ? 'scale-110' : 'scale-100'
+                  isHovered ? "scale-110" : "scale-100"
                 }`}
               />
               <div className="col-start-1 row-start-1 h-full flex flex-col justify-between rounded p-2 bg-gradient-to-t from-primaryCol to-transparent z-10">
                 <div className="flex gap-2 justify-end">
                   {Console &&
-                    Console.map(console => (
+                    Console.map((console) => (
                       <div className="bg-secondary w-fit h-min px-2 rounded-full flex">
-                        <p className="text-primaryCol mt-0">
-                          {console.replace('PlayStation ', 'PS')}
-                        </p>
+                        <p className="text-primaryCol mt-0">{console.replace("PlayStation ", "PS")}</p>
                       </div>
                     ))}
                 </div>
                 <div className="flex flex-col justify-end">
                   <div className="flex flex-row gap-2">
                     {Tags &&
-                      Tags.map(tag => (
+                      Tags.map((tag) => (
                         <div className="bg-primaryCol w-fit h-min px-2 rounded-full flex self-center uppercase">
                           <small className="mt-0">{tag}</small>
                         </div>
@@ -78,7 +76,7 @@ const GameCard = forwardRef<HTMLDivElement, GameCardProps>(
                     <h4 className="mt-0">{Name}</h4>
                     <motion.div
                       initial="default"
-                      animate={isHovered ? { width: '100%' } : { width: '0%' }}
+                      animate={isHovered ? { width: "100%" } : { width: "0%" }}
                       transition={{ duration: 0.1 }}
                       className="h-[2px] w-full rounded bg-accentCol"
                     ></motion.div>
@@ -93,7 +91,7 @@ const GameCard = forwardRef<HTMLDivElement, GameCardProps>(
                 src={`${Image_}`}
                 width={800}
                 height={400}
-                style={{ objectFit: 'cover', objectPosition: '50% 20%' }}
+                style={{ objectFit: "cover", objectPosition: "50% 20%" }}
                 alt=""
                 className="h-full rounded"
               />
@@ -108,28 +106,23 @@ const GameCard = forwardRef<HTMLDivElement, GameCardProps>(
                 </div>
                 <div className="flex gap-3">
                   {Console &&
-                    Console.map(console => (
+                    Console.map((console) => (
                       <div className="bg-secondary w-fit h-min px-2 rounded-full flex">
-                        <p className="text-primaryCol mt-0">
-                          {console.replace('PlayStation ', 'PS')}
-                        </p>
+                        <p className="text-primaryCol mt-0">{console.replace("PlayStation ", "PS")}</p>
                       </div>
                     ))}
                 </div>
               </div>
               <p
                 dangerouslySetInnerHTML={{
-                  __html: (((Description as string)?.split('Español')[0] || '') + '</p>').replace(
-                    /\n/g,
-                    '<br />'
-                  ),
+                  __html: (((Description as string)?.split("Español")[0] || "") + "</p>").replace(/\n/g, "<br />"),
                 }}
               />
             </div>
 
             <div className="p-4 flex items-end h-full">
               <p className="mt-0">
-                Tags: <span className="text-accentCol">{Tags?.join(', ')}</span>
+                Tags: <span className="text-accentCol">{Tags?.join(", ")}</span>
               </p>
             </div>
           </DialogContent>
@@ -138,6 +131,6 @@ const GameCard = forwardRef<HTMLDivElement, GameCardProps>(
     );
   }
 );
-GameCard.displayName = 'GameCard';
+GameCard.displayName = "GameCard";
 
 export { GameCard, gameCardVariants };
