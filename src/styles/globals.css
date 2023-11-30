@@ -145,3 +145,9 @@ small {
     @apply bg-background text-foreground;
   }
 }
+
+.remove-arrow::-webkit-inner-spin-button,
+.remove-arrow::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
