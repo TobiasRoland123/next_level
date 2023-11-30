@@ -18,8 +18,8 @@ priser på gaming"
         redWord="op"
       />
 
-      <section>
-        <article className="spacer md:flex  justify-between gap-14">
+      <section className="flex justify-center flex-col items-center">
+        <article className=" md:flex spacer justify-between gap-14">
           <div>
             <h2>
               Next Level <span className="text-accentCol">priser</span>
@@ -41,26 +41,29 @@ priser på gaming"
             <p className=" text-4xl font-bold">20,-</p>
           </InfoBox>
         </article>
-        <article className="spacer ">
+      </section>
+      <section>
+        <div className="flex justify-center">
           <h2
-            className=" hyphens-auto"
+            className=" spacer w-full hyphens-auto"
             lang="da"
           >
-            Next Level <span className="text-accentCol">Medlemsskaber</span>
+            Next Level <span className="text-accentCol">Medlemskaber</span>
           </h2>
-          <div className="md:flex  justify-between gap-14">
+        </div>
+        <article className="flex justify-center">
+          <div className="spacer w-full flex flex-col md:flex-row md:gap-20 md:mt-10 justify-between ">
             <div>
               <ParagraphBold
-                text="Hvad du får som medlem"
                 underlined
+                text="Hvad får du som medlem?"
               />
-              <p>
-                Hos Next Level kan du både spille som gæst eller medlem. Som medlem får du de bedste priser på din gaming tid.
-                Uanset om du er gæst eller medlem får du de samme gode rammer, for at nyde din oplevelse hos os. Vi gør ikke
-                forskel!
+              <p className=" mt-8">
+                Når du melder dig ind hos Next Level får du ikke bare adgang til de bedste priser på gaming tid. Du får også et
+                unikt fællesskab og meget mere.
               </p>
             </div>
-            <InfoBox className="md:mt-5 lg:max-w-[33%] h-fit">
+            <InfoBox className="md:mt-0 h-fit">
               <h3
                 className="mt-0 text-2xl font-bold hyphens-auto"
                 lang="da"
@@ -91,34 +94,40 @@ priser på gaming"
           </div>
         </article>
       </section>
-      <section className="spacer">
-        <article>
-          <h3>Dækker de fleste behov</h3>
-          <p>
-            Perfekt til en hurtig gamingsession. Vores Level pakker dækker langt de fleste behov. Det er uanset om du er på udkig
-            efter en hurtigt session, eller gerne fordele dine timer ud på flere sessioner.
-          </p>
+      <section>
+        <article className="flex justify-center">
+          <div className="spacer w-full">
+            <h3>Dækker de fleste behov</h3>
+            <p>
+              Perfekt til en hurtig gamingsession. Vores Level pakker dækker langt de fleste behov. Det er uanset om du er på
+              udkig efter en hurtigt session, eller gerne fordele dine timer ud på flere sessioner.{" "}
+            </p>
+          </div>
         </article>
-        <article>
-          <h3>TIl den der ikke kan få nok</h3>
-          <p>
-            Perfekt til en hurtig gamingsession. Vores Level pakker dækker langt de fleste behov. Det er uanset om du er på udkig
-            efter en hurtigt session, eller gerne fordele dine timer ud på flere sessioner.
-          </p>
+        <article className="flex justify-center">
+          <div className="spacer w-full">
+            <h3>Dækker de fleste behov</h3>
+            <p>
+              Perfekt til en hurtig gamingsession. Vores Level pakker dækker langt de fleste behov. Det er uanset om du er på
+              udkig efter en hurtigt session, eller gerne fordele dine timer ud på flere sessioner.{" "}
+            </p>
+          </div>
         </article>
-
-        <article>
-          <h3>Noget helt specielt</h3>
+        <article className="flex justify-center">
+          <div className="spacer w-full">
+            <h3>Noget helt specielt?</h3>
+          </div>
         </article>
       </section>
-
-      <EventBanner
-        className="spacer"
-        heading="vores Events"
-        text="Korem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum tellus elit sed risus. Maecenas eget condimentum velit, sit amet feugiat lectus. "
-        button={{ children: "Læs mere om events", variant: "secondary" }}
-        image="firmaEvent"
-      />
+      <section className="flex justify-center">
+        <EventBanner
+          className="spacer w-full"
+          heading="Vores events"
+          text="Korem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum tellus elit sed risus. Maecenas eget condimentum velit, sit amet feugiat lectus. "
+          button={{ children: "Læs om vores events", variant: "secondary" }}
+          image="firmaEvent"
+        />
+      </section>
     </>
   );
 }

@@ -57,10 +57,7 @@ small {
 }
 
 .spacer {
-  margin-inline: 24px;
-  margin-top: 56px;
-  max-width: 1280px;
-  width: 100%;
+  @apply mx-6 mt-14 max-w-screen-xl md:mx-12 md:mt-20 lg:mx-20;
 }
 
 @media (min-width: 600px) {
@@ -90,17 +87,6 @@ small {
   h4 {
     font-size: 26px;
   }
-
-  .spacer {
-    margin-inline: 48px;
-    margin-top: 80px;
-  }
-}
-
-@media (min-width: 1024px) {
-  .spacer {
-    margin-inline: 80px;
-  }
 }
 
 @layer base {
@@ -111,6 +97,25 @@ small {
     --secondaryColor: 0 0% 95%;
     --accentColor: 356 100% 52%;
     --contrastColor: 0 0% 18%;
+
+    --level1Gradient: #ffffff, #59636f;
+    --level2Gradient: #e0f2fe, #7dd3fc;
+    --level3Gradient: #38bdf8, #1d4ed8;
+    --expertGradient: #e879f9, #c026d3;
+    --masterGradient: #f97316, #dc2626;
+    --nlpGradient: #ebd720, #ef7300;
+    --bday1Gradient: #f97316, #dc2626;
+    --bday2Gradient: #f97316, #dc2626;
+    --rotate: 132deg;
+
+    --level1Shadow: rgba(96, 143, 198, 0.39);
+    --level2Shadow: rgba(96, 143, 198, 0.39);
+    --level3Shadow: rgba(0, 26, 165, 0.39);
+    --expertShadow: rgba(152, 0, 165, 0.39);
+    --masterShadow: rgba(165, 0, 0, 0.39);
+    --nlpShadow: rgba(165, 82, 0, 0.39);
+    --bday1Shadow: rgba(165, 0, 0, 0.39);
+    --bday2Shadow: rgba(165, 0, 0, 0.39);
 
     --background: 255, 8%, 10%, 1;
     --foreground: 0 0% 95%;
@@ -134,6 +139,8 @@ small {
     --input: 0, 0%, 95%, 1;
     --ring: 356, 100%, 52%, 1;
     --radius: 2px;
+    --card-height: 320px;
+    --card-width: 208px;
   }
 }
 
@@ -150,4 +157,19 @@ small {
 .remove-arrow::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
+}
+
+@property --rotate {
+  syntax: "<angle>";
+  initial-value: 132deg;
+  inherits: false;
+}
+
+@keyframes spin {
+  0% {
+    --rotate: 80deg;
+  }
+  100% {
+    --rotate: 437deg;
+  }
 }

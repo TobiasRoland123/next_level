@@ -1,4 +1,6 @@
-import { Button } from "@/components/Button/Button";
+import { Button } from '@/components/Button/Button';
+import { Card } from '@/components/Cards/Card';
+import { GameCard } from '@/components/GameCard/GameCard';
 
 import { Header } from "../modules/Header/Header";
 import { Accordions } from "../components/Accordion/Accordion";
@@ -13,6 +15,7 @@ import { CustomerQuoteSet } from "@/modules/CustomerQuoteSet/CustomerQuoteSet";
 
 export default function Home() {
   return (
+
     <>
       <Hero
         header="Dk's bedste gaming center"
@@ -21,8 +24,8 @@ export default function Home() {
         buttonLabel="Book Nu"
         isFrontPage={true}
       />
-      <section className="flex justify-center">
-        <article className="spacer">
+      <section className="flex  justify-center ">
+        <article className="spacer w-full">
           <h2>
             Next Level <span className="text-accentCol">Priser</span>
           </h2>
@@ -36,7 +39,7 @@ export default function Home() {
       </section>
       <section className=" bg-hero2 bg-no-repeat bg-cover w-screen  mt-14 md:mt-16 lg:mt-20">
         <article className="backdrop-brightness-50 h-full py-14 md:py-16 lg:py-20 flex justify-center ">
-          <div className="spacer !mt-0 ">
+          <div className="spacer !mt-0 w-full">
             <h2>
               Skal du holde et <span className="text-accentCol">Event?</span>
             </h2>
@@ -88,5 +91,6 @@ export default function Home() {
         ]}
       />
     </>
+
   );
 }
