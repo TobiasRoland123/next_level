@@ -1,3 +1,4 @@
+import { LayoutAdmin } from "@/Layout_Admin";
 import { createClient } from "@supabase/supabase-js";
 import { useRouter } from "next/router";
 
@@ -15,9 +16,11 @@ export default function Admin() {
   // COMMENT OUT TO HERE TO DISABLE LOGIN GUARD
   return (
     <>
-      <main className="w-fit max-w-main pb-10 ">
-        <h2> Admin site </h2>
-      </main>
+      <LayoutAdmin>
+        <main className="w-fit max-w-main pb-10 ">
+          <h2> Admin site </h2>
+        </main>
+      </LayoutAdmin>
     </>
   );
 }

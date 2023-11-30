@@ -11,6 +11,10 @@ body {
   background-size: cover;
 }
 
+main {
+  min-height: calc(100vh - 368px);
+}
+
 h1 {
   font-size: 52.5px;
   font-weight: 900;
