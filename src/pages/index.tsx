@@ -2,20 +2,19 @@ import { Button } from '@/components/Button/Button';
 import { Card } from '@/components/Cards/Card';
 import { GameCard } from '@/components/GameCard/GameCard';
 
-import { Header } from "../modules/Header/Header";
-import { Accordions } from "../components/Accordion/Accordion";
+import { Header } from '../modules/Header/Header';
+import { Accordions } from '../components/Accordion/Accordion';
 
-import { Input } from "@/components/Inputfields/Inputfield";
+import { Input } from '@/components/Inputfields/Inputfield';
 
-import { Footer } from "@/modules/Footer/Footer";
+import { Footer } from '@/modules/Footer/Footer';
 
-import { Hero } from "@/modules/Hero/Hero";
-import { ParagraphBold } from "@/components/ParagraphBold/ParagraphBold";
-import { CustomerQuoteSet } from "@/modules/CustomerQuoteSet/CustomerQuoteSet";
+import { Hero } from '@/modules/Hero/Hero';
+import { ParagraphBold } from '@/components/ParagraphBold/ParagraphBold';
+import { CustomerQuoteSet } from '@/modules/CustomerQuoteSet/CustomerQuoteSet';
 
 export default function Home() {
   return (
-
     <>
       <Hero
         header="Dk's bedste gaming center"
@@ -32,8 +31,8 @@ export default function Home() {
           <div>GameCard set placeholder</div>
 
           <Button
-            variant={"secondary"}
-            children={"Se alle vores priser"}
+            variant={'secondary'}
+            children={'Se alle vores priser'}
           />
         </article>
       </section>
@@ -49,9 +48,8 @@ export default function Home() {
             />
 
             <p>
-              “Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              Vestibuwlum tempor dictum fringilla. Mauris volutpat dictum lectus
-              venenatis suscipit. Aenean faucibus mole
+              “Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibuwlum tempor dictum
+              fringilla. Mauris volutpat dictum lectus venenatis suscipit. Aenean faucibus mole
             </p>
 
             <Button
@@ -69,28 +67,27 @@ export default function Home() {
         customerQuotes={[
           {
             quote: {
-              header: "Whalla Luksus Toast",
-              text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibuwlum tempor dictum fringilla. Mauris volutpat dictum lectus venenatis suscipit. Aenean faucibus molestie dictum. Nulla mollis",
-              author: "Boris Brix",
+              header: 'Whalla Luksus Toast',
+              text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibuwlum tempor dictum fringilla. Mauris volutpat dictum lectus venenatis suscipit. Aenean faucibus molestie dictum. Nulla mollis',
+              author: 'Boris Brix',
             },
           },
           {
             quote: {
-              header: "Mega nice setup",
-              text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibuwlum tempor dictum fringilla. Mauris volutpat dictum lectus venenatis suscipit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibuwlum tempor dictum fringilla. Mauris volutpat dictum lectus venenatis suscipit. Aenean faucibus molestie dictum. Nulla mollis",
-              author: "Boris Brix",
+              header: 'Mega nice setup',
+              text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibuwlum tempor dictum fringilla. Mauris volutpat dictum lectus venenatis suscipit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibuwlum tempor dictum fringilla. Mauris volutpat dictum lectus venenatis suscipit. Aenean faucibus molestie dictum. Nulla mollis',
+              author: 'Boris Brix',
             },
           },
           {
             quote: {
-              header: "Whalla Luksus Toast",
-              text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibuwlum tempor dictum fringilla. Mauris volutpat dictum lectus venenatis suscipit. Aenean faucibus molestie dictum. Nulla mollis",
-              author: "Boris Brix",
+              header: 'Whalla Luksus Toast',
+              text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibuwlum tempor dictum fringilla. Mauris volutpat dictum lectus venenatis suscipit. Aenean faucibus molestie dictum. Nulla mollis',
+              author: 'Boris Brix',
             },
           },
         ]}
       />
     </>
-
   );
 }
