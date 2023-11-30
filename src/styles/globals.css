@@ -153,10 +153,32 @@ small {
   }
 }
 
+/* REMOVES ARROWS FROM INPUT TYPE=NUMBER FIELDS */
 .remove-arrow::-webkit-inner-spin-button,
 .remove-arrow::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
+}
+
+/* SHAKE ANIMATION FOR FORMS */
+
+.shake {
+  animation: shakeField 0.4s ease-in-out forwards;
+}
+
+@keyframes shakeField {
+  25% {
+    transform: translateX(6px);
+  }
+  50% {
+    transform: translateX(-4px);
+  }
+  75% {
+    transform: translateX(2px);
+  }
+  100% {
+    transform: translateX(0);
+  }
 }
 
 @property --rotate {
