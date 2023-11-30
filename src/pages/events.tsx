@@ -5,7 +5,7 @@ export default function Events() {
     <>
       <Hero
         header="Top tier gaming events"
-        redWord="gaming"
+        redWord={["gaming"]}
         isFrontPage={false}
         content="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam non urna aliquet, mollis lacus sed, dignissim lectus. Curabitur eget diam volutpat, facilisis massa nec, varius nulla."
         buttonLabel="Kontakt os"

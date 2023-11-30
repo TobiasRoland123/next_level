@@ -16,7 +16,7 @@ export default function Home() {
     <>
       <Hero
         header="Dk's bedste gaming center"
-        redWord="bedste"
+        redWord={["bedste"]}
         content="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries"
         buttonLabel="Book Nu"
         isFrontPage={true}
@@ -46,9 +46,8 @@ export default function Home() {
             />
 
             <p>
-              “Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              Vestibuwlum tempor dictum fringilla. Mauris volutpat dictum lectus
-              venenatis suscipit. Aenean faucibus mole
+              “Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibuwlum tempor dictum fringilla. Mauris volutpat
+              dictum lectus venenatis suscipit. Aenean faucibus mole
             </p>
 
             <Button

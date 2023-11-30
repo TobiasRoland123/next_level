@@ -10,7 +10,7 @@ interface heroProps {
    * To be sure not to make type errors please copy paste word.
    * If word is lowercase in header, then it also needs to be lowercase here.
    */
-  redWord?: string;
+  redWord?: Array<string>;
   /**
    * If used on front page set to true
    */
@@ -30,7 +30,8 @@ export const Hero = ({ header, content, buttonLabel, redWord, isFrontPage }: her
         {words.map((word, index) => (
           <span
             key={index}
-            className={word === redWord ? "text-accentCol" : ""}
+            // className={word === redWord ? "text-accentCol" : ""}
+            className={`${redWord?.map((redWord) => (redWord === word ? "text-accentCol" : "")).join(" ")}`}
           >
             {word}{" "}
           </span>

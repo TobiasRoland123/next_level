@@ -15,7 +15,7 @@ export default function Priser() {
         content="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam non urna aliquet, mollis lacus sed, dignissim lectus. Curabitur eget diam volutpat, facilisis massa nec, varius nulla."
         header="DK’S mest op
 priser på gaming"
-        redWord="op"
+        redWord={["op"]}
       />
 
       <section className="flex justify-center flex-col items-center">
