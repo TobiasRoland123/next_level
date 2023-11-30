@@ -3,6 +3,7 @@ import { Input } from "@/components/Inputfields/Inputfield";
 import { Button } from "@/components/Button/Button";
 import { createClient } from "@supabase/supabase-js";
 import { useRouter } from "next/router";
+import { Layout } from "@/Layout";
 
 export default function Login() {
   const supaUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -37,18 +38,20 @@ export default function Login() {
   }
   return (
     <>
-      <main className="w-fit max-w-main pb-10 ">
-        <section className=" bg-contrastCol/50 backdrop-blur-sm mt-28 mx-4 px-4 py-6 rounded-sm h-fit  ">
-          <h3 className=" mb-4">
-            Login to acess <span className="text-accentCol">admin page</span>
-          </h3>
-          <form onSubmit={handleLogin} className="w-full">
-            <Input value={user.email} id="email" labelText="Email" type="email" onChange={(e) => setUser({ ...user, email: e.target.value })}></Input>
-            <Input value={user.password} id="password" labelText="Password" type="password" className="mb-4" onChange={(e) => setUser({ ...user, password: e.target.value })}></Input>
-            <Button>Login</Button>
-          </form>
-        </section>
-      </main>
+      <Layout>
+        <main className="w-fit max-w-main pb-10 ">
+          <section className=" bg-contrastCol/50 backdrop-blur-sm mt-28 mx-4 px-4 py-6 rounded-sm h-fit  ">
+            <h3 className=" mb-4">
+              Login to acess <span className="text-accentCol">admin page</span>
+            </h3>
+            <form onSubmit={handleLogin} className="w-full">
+              <Input value={user.email} id="email" labelText="Email" type="email" onChange={(e) => setUser({ ...user, email: e.target.value })}></Input>
+              <Input value={user.password} id="password" labelText="Password" type="password" className="mb-4" onChange={(e) => setUser({ ...user, password: e.target.value })}></Input>
+              <Button>Login</Button>
+            </form>
+          </section>
+        </main>
+      </Layout>
     </>
   );
 }
