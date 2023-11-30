@@ -17,8 +17,8 @@ export default function Admin() {
   return (
     <>
       <LayoutAdmin>
-        <main className="w-fit max-w-main pb-10 ">
-          <h2> Admin site </h2>
+        <main>
+          <h1 className="mt-20"> Admin site </h1>
         </main>
       </LayoutAdmin>
     </>
