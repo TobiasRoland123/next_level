@@ -1,10 +1,10 @@
-import { Hero } from "@/modules/Hero/Hero";
-import { supabase } from "../pages/utils/supabaseClient";
-import { GameCard } from "@/components/GameCard/GameCard";
-import { GameRoot, PlatformArr, Result, Tag } from "@/Types/gamelist";
+import { Hero } from '@/modules/Hero/Hero';
+import { supabase } from '../pages/utils/supabaseClient';
+import { GameCard } from '@/components/GameCard/GameCard';
+import { GameRoot, PlatformArr, Result, Tag } from '@/Types/gamelist';
 
 export async function getServerSideProps() {
-  let { data: gamelist, error } = await supabase.from("gamelist").select("*");
+  let { data: gamelist, error } = await supabase.from('gamelist').select('*');
 
   return { props: { gamelist } };
 }
@@ -21,9 +21,9 @@ export default function Spil({ gamelist }: { gamelist: Result[] }) {
       <section>
         <div className="flex justify-center">
           <div className="spacer w-full ">
-            <div className="flex flex-wrap gap-6 justify-center md:justify-between">
+            <div className="flex flex-wrap gap-6 justify-center md:justify-between lg:justify-start">
               {gamelist &&
-                gamelist.map((game) => (
+                gamelist.map(game => (
                   <div
                     key={game.id}
                     className="mb-10 "
@@ -31,10 +31,9 @@ export default function Spil({ gamelist }: { gamelist: Result[] }) {
                     <GameCard
                       Name={game.title}
                       Image_={`${game.background_image}`}
-                      // Console={game.platforms.map((platform) => platform.name)}
-                      Tags={game.tags.map((tag) => tag.name)}
+                      Console={game.platforms.map(platform => platform.name)}
+                      Tags={game.tags.map(tag => tag.name)}
                       Description={game.description}
-                      className="mx-auto w-auto max-w-[300px] justify-center"
                     />
                   </div>
                 ))}

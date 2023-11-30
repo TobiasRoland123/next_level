@@ -16,7 +16,7 @@ export interface GameRoot {
 export interface Result {
   id: number;
   slug: string;
-  title: string;
+  name: string;
   background_image: string;
   platforms: Platform[];
   description: string;
