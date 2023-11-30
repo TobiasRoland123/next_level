@@ -19,9 +19,9 @@ export default function FirmaEvents() {
               Dit næste firma <span className="text-accentCol">event</span>
             </h2>
 
-            <div className="flex flex-col gap-14">
+            <div className="flex flex-col md:flex-row gap-14 md:mt-10">
               <div>
-                <h3>Det perfekte sociale arrangement til kolleger</h3>
+                <h3 className="md:mt-0">Det perfekte sociale arrangement til kolleger</h3>
                 <p>
                   Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin
                   literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney
@@ -29,12 +29,14 @@ export default function FirmaEvents() {
                   going through the cites of the word in classical literature, discovered the undoubtable
                 </p>
               </div>
-              <Image
-                src={firmaEvent}
-                width={1000}
-                height={1000}
-                alt="mænd der spiller computer"
-              />
+              <div>
+                <Image
+                  src={firmaEvent}
+                  width={1000}
+                  height={1000}
+                  alt="mænd der spiller computer"
+                />
+              </div>
             </div>
           </div>
         </article>
@@ -47,9 +49,9 @@ export default function FirmaEvents() {
           </h2>
         </div>
         <article className="flex justify-center">
-          <div className="spacer flex flex-col w-full">
+          <div className="spacer flex flex-col md:flex-row w-full gap-14 md:mt-32">
             <div>
-              <h3>Eksempel 1</h3>
+              <h3 className="md:mt-0">Eksempel 1</h3>
               <p>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus auctor euismod posuere. Integer non ullamcorper
                 mi. Vestibulum et congue lorem. Suspendisse iaculis semper mauris eget aliquet. Mauris malesuada purus et rhoncus
@@ -58,27 +60,31 @@ export default function FirmaEvents() {
                 convallis a odio. Phasellus sagittis velit eget leo.
               </p>
             </div>
-            <Image
-              className="mt-6 md:mt-0"
-              src={firmaEvent}
-              width={1000}
-              height={1000}
-              alt="gutter der spiller"
-            />
+            <div className="md:max-w-[40%]">
+              <Image
+                className="mt-6 md:mt-0"
+                src={firmaEvent}
+                width={1000}
+                height={1000}
+                alt="gutter der spiller"
+              />
+            </div>
           </div>
         </article>
 
         <article className="flex justify-center">
-          <div className="spacer flex flex-col w-full">
-            <Image
-              className="order-2 mt-6 md:mt-0 md:order-1"
-              src={firmaEvent}
-              width={1000}
-              height={1000}
-              alt="gutter der spiller"
-            />
-            <div>
-              <h3>Eksempel 2</h3>
+          <div className="spacer flex flex-col md:flex-row w-full gap-14 md:mt-20">
+            <div className="md:max-w-[40%] md:order-1 order-2 mt-6 md:mt-0 ">
+              <Image
+                className=" "
+                src={firmaEvent}
+                width={1000}
+                height={1000}
+                alt="gutter der spiller"
+              />
+            </div>
+            <div className="order-1 md:order-2">
+              <h3 className="md:mt-0">Eksempel 2</h3>
               <p>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus auctor euismod posuere. Integer non ullamcorper
                 mi. Vestibulum et congue lorem. Suspendisse iaculis semper mauris eget aliquet. Mauris malesuada purus et rhoncus
