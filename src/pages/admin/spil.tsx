@@ -2,14 +2,48 @@ import { GameRoot, Platform2, PlatformArr, Result, Tag } from '@/Types/gamelist'
 import { createClient } from '@supabase/supabase-js';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import { cn } from '../../lib/utils';
 
-export default function Spil() {
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+} from '@/components/ui/command';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Button } from '@/components/ui/button';
+import { Check, CheckIcon, ChevronsUpDown } from 'lucide-react';
+import { FaAccusoft } from 'react-icons/fa';
+import { supabase } from '../utils/supabaseClient';
+import { GameCardRoot } from '@/Types/gamecard';
+import Image from 'next/image';
+import { GameCard } from '@/components/GameCard/GameCard';
+
+export async function getServerSideProps() {
+  let { data: gamelist, error } = await supabase.from('gamelist').select('*');
+
+  return { props: { gamelist } };
+}
+
+export default function Spil({ gamelist }: { gamelist: GameCardRoot[] }) {
   const [gameData, setGameData] = useState<GameRoot & Result>();
   const [searchString, setSearchString] = useState('');
   const [gameId, setGameId] = useState(0);
   const [gameList, setGameList] = useState<Result[]>([]);
   const [selectedPlatforms, setSelectedPlatforms] = useState<PlatformArr>([]);
   const [selectedTags, setSelectedTags] = useState<Tag[]>([]);
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState('');
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  console.log('game list', gamelist);
+
+  let headings = Object.keys(gamelist[1]);
 
   // COMMENT OUT FROM HERE TO DISABLE LOGIN GUARD
   const router = useRouter();
@@ -98,12 +132,14 @@ export default function Spil() {
     fetchData();
   }, [searchString, gameId]);
 
+  console.log('game data', gameData);
+
   // COMMENT OUT TO HERE TO DISABLE LOGIN GUARD
   return (
-    <>
+    <div className="spacer w-full">
       <h2 className="mt-20">Admin Spil</h2>
 
-      <div>
+      {/*  <div>
         <input
           type="text"
           onChange={e => setSearchString(e.target.value)}
@@ -174,7 +210,70 @@ export default function Spil() {
             </>
           )}
         </div>
+      </div> */}
+
+      {isClient && (
+        <div>
+          <Popover
+            open={open}
+            onOpenChange={setOpen}
+          >
+            <PopoverTrigger asChild>
+              <Button
+                variant="outline"
+                role="combobox"
+                aria-expanded={open}
+                className="w-[250px] justify-between max"
+              >
+                <p className="text-ellipsis overflow-hidden ... mt-0">{value}</p>
+                <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-[250px] h-[300px] overflow-hidden p-0">
+              <Command>
+                <CommandInput
+                  placeholder="Search game..."
+                  className="h-9"
+                  onValueChange={e => setSearchString(e)}
+                />
+                <CommandEmpty>No game found.</CommandEmpty>
+                <CommandGroup className="overflow-scroll">
+                  {gameData?.results.map(game => (
+                    <CommandItem
+                      key={game.name}
+                      value={game.name}
+                      onSelect={currentValue => {
+                        setValue(currentValue === value ? '' : currentValue);
+                        setOpen(false);
+                      }}
+                    >
+                      {game.name}
+                      <CheckIcon
+                        className={cn(
+                          'ml-auto h-4 w-4',
+                          value === game.name ? 'opacity-100' : 'opacity-0'
+                        )}
+                      />
+                    </CommandItem>
+                  ))}
+                </CommandGroup>
+              </Command>
+            </PopoverContent>
+          </Popover>
+        </div>
+      )}
+      <div className="flex flex-wrap gap-3 ">
+        {gamelist &&
+          gamelist.map(game => (
+            <GameCard
+              Name={game.title}
+              Image_={`${game.background_image}`}
+              Console={game.platforms.map(platform => platform.name)}
+              Tags={game.tags.map(tag => tag.name)}
+              Description={game.description}
+            />
+          ))}
       </div>
-    </>
+    </div>
   );
 }

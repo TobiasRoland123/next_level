@@ -2,13 +2,14 @@ import { Hero } from '@/modules/Hero/Hero';
 import { supabase } from '../pages/utils/supabaseClient';
 import { GameCard } from '@/components/GameCard/GameCard';
 import { GameRoot, PlatformArr, Result, Tag } from '@/Types/gamelist';
+import { GameCardRoot } from '@/Types/gamecard';
 
 export async function getServerSideProps() {
   let { data: gamelist, error } = await supabase.from('gamelist').select('*');
 
   return { props: { gamelist } };
 }
-export default function Spil({ gamelist }: { gamelist: Result[] }) {
+export default function Spil({ gamelist }: { gamelist: GameCardRoot[] }) {
   return (
     <>
       <Hero
