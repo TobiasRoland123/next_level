@@ -164,6 +164,8 @@ priser på gaming"
             <article className="flex justify-center">
               <div className="spacer w-full">
                 <h3>Noget helt specielt?</h3>
+
+                <Card variant={"nlp"} />
               </div>
             </article>
           </section>
