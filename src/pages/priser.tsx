@@ -27,11 +27,18 @@ priser på gaming"
                 <h2>
                   Next Level <span className="text-accentCol">priser</span>
                 </h2>
-                <p>Hos Next Level kan du både spille som gæst eller medlem. Som medlem får du de bedste priser på din gaming tid. Uanset om du er gæst eller medlem får du de samme gode rammer, for at nyde din oplevelse hos os. Vi gør ikke forskel!</p>
+                <p>
+                  Hos Next Level kan du både spille som gæst eller medlem. Som medlem får du de bedste priser på din gaming tid.
+                  Uanset om du er gæst eller medlem får du de samme gode rammer, for at nyde din oplevelse hos os. Vi gør ikke
+                  forskel!
+                </p>
                 <Button variant={"secondary"}>Se vores medlemspriser</Button>
               </div>
               <InfoBox className="text-center md:mt-0 lg:max-w-[33%] h-fit">
-                <h3 className="mt-0 hyphens-auto" lang="da">
+                <h3
+                  className="mt-0 hyphens-auto"
+                  lang="da"
+                >
                   Timepris for ikke medlemmer
                 </h3>
                 <p className=" text-4xl font-bold">20,-</p>
@@ -40,18 +47,30 @@ priser på gaming"
           </section>
           <section>
             <div className="flex justify-center">
-              <h2 className=" spacer w-full hyphens-auto" lang="da">
+              <h2
+                className=" spacer w-full hyphens-auto"
+                lang="da"
+              >
                 Next Level <span className="text-accentCol">Medlemskaber</span>
               </h2>
             </div>
             <article className="flex justify-center">
               <div className="spacer w-full flex flex-col md:flex-row md:gap-20 md:mt-10 justify-between ">
                 <div>
-                  <ParagraphBold underlined text="Hvad får du som medlem?" />
-                  <p className=" mt-8">Når du melder dig ind hos Next Level får du ikke bare adgang til de bedste priser på gaming tid. Du får også et unikt fællesskab og meget mere.</p>
+                  <ParagraphBold
+                    underlined
+                    text="Hvad får du som medlem?"
+                  />
+                  <p className=" mt-8">
+                    Når du melder dig ind hos Next Level får du ikke bare adgang til de bedste priser på gaming tid. Du får også
+                    et unikt fællesskab og meget mere.
+                  </p>
                 </div>
                 <InfoBox className="md:mt-0 h-fit">
-                  <h3 className="mt-0 text-2xl font-bold hyphens-auto" lang="da">
+                  <h3
+                    className="mt-0 text-2xl font-bold hyphens-auto"
+                    lang="da"
+                  >
                     Timepris for ikke medlemmer
                   </h3>
 
@@ -82,13 +101,19 @@ priser på gaming"
             <article className="flex justify-center">
               <div className="spacer w-full">
                 <h3>Dækker de fleste behov</h3>
-                <p>Perfekt til en hurtig gamingsession. Vores Level pakker dækker langt de fleste behov. Det er uanset om du er på udkig efter en hurtigt session, eller gerne fordele dine timer ud på flere sessioner. </p>
+                <p>
+                  Perfekt til en hurtig gamingsession. Vores Level pakker dækker langt de fleste behov. Det er uanset om du er på
+                  udkig efter en hurtigt session, eller gerne fordele dine timer ud på flere sessioner.{" "}
+                </p>
               </div>
             </article>
             <article className="flex justify-center">
               <div className="spacer w-full">
                 <h3>Dækker de fleste behov</h3>
-                <p>Perfekt til en hurtig gamingsession. Vores Level pakker dækker langt de fleste behov. Det er uanset om du er på udkig efter en hurtigt session, eller gerne fordele dine timer ud på flere sessioner. </p>
+                <p>
+                  Perfekt til en hurtig gamingsession. Vores Level pakker dækker langt de fleste behov. Det er uanset om du er på
+                  udkig efter en hurtigt session, eller gerne fordele dine timer ud på flere sessioner.{" "}
+                </p>
               </div>
             </article>
             <article className="flex justify-center">
@@ -98,7 +123,13 @@ priser på gaming"
             </article>
           </section>
           <section className="flex justify-center">
-            <EventBanner className="spacer w-full" heading="Vores events" text="Korem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum tellus elit sed risus. Maecenas eget condimentum velit, sit amet feugiat lectus. " button={{ children: "Læs om vores events", variant: "secondary" }} image="firmaEvent" />
+            <EventBanner
+              className="spacer w-full"
+              heading="Vores events"
+              text="Korem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum tellus elit sed risus. Maecenas eget condimentum velit, sit amet feugiat lectus. "
+              button={{ children: "Læs om vores events", variant: "secondary" }}
+              image="firmaEvent"
+            />
           </section>
         </main>
       </Layout>

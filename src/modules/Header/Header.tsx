@@ -28,6 +28,7 @@ export const Header = ({ pageList }: HeaderProps) => {
   return (
     <>
       <div
+
         className={` bg-primaryCol w-screen h-screen fixed top-0 transition-all md:hidden  z-10 overflow-scroll pb-6  ${
           isOpen ? "right-0" : "right-full"
         } flex flex-col pt-28`}
@@ -79,7 +80,9 @@ export const Header = ({ pageList }: HeaderProps) => {
         </div>
       </div>
 
+
       <nav className="fixed top-2 px-6 md:px-12 lg:px-20 z-10 w-full ">
+
         <div
           className={`my-3 backdrop-blur-sm ${
             isOpen ? "bg-primaryCol" : "bg-contrastCol/70"
@@ -132,6 +135,7 @@ export const Header = ({ pageList }: HeaderProps) => {
               })}
             </ul>
           </div>
+
 
           <button
             className="w-8 flex flex-col gap-2 justify-center items-center h-14 z-10 md:hidden"

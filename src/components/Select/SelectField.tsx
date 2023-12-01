@@ -1,4 +1,4 @@
-import { Label } from "@radix-ui/react-label";
+import { useAnimate, stagger } from "framer-motion";
 import {
   Select,
   SelectContent,
@@ -6,16 +6,23 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
+interface SelectFieldProps {
+  onSelectChange: (selectValue: string) => void;
+}
 
-export const SelectField = () => {
+export const SelectField: React.FC<SelectFieldProps> = ({ onSelectChange }) => {
   return (
     <>
-      <Select>
-        <Label>Vælg din forespørgsel</Label>
+      <Select
+        // Add "open" for easier access to options
+        onValueChange={(selectValue) => {
+          onSelectChange(selectValue);
+        }}
+      >
         <SelectTrigger className="w-[180px]">
           <SelectValue placeholder="Emne" />
         </SelectTrigger>
-        <SelectContent className="border-none bg-contrastCol/50">
+        <SelectContent className="border-none bg-contrastCol">
           <SelectItem value="fødselsdag">Fødselsdag</SelectItem>
           <SelectItem value="firma-event">Firma event</SelectItem>
           <SelectItem value="turnering">Turnering</SelectItem>
