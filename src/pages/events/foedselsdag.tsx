@@ -1,3 +1,4 @@
+import { Layout } from "@/Layout";
 import { Hero } from "@/modules/Hero/Hero";
 import Image from "next/image";
 import barnVr from "../../../public/images/event/foedselsdag/barn-vr.jpeg";
