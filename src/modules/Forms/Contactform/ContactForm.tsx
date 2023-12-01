@@ -554,7 +554,7 @@ export const ContactForm: React.FC<ContactFormProps> = () => {
                     </FormItem>
                   )}
                 />
-                <Button>Send Besked</Button>
+                <Button className="mt-0">Send Besked</Button>
               </motion.div>
             </>
           )}
@@ -913,7 +913,7 @@ export const ContactForm: React.FC<ContactFormProps> = () => {
                     </FormItem>
                   )}
                 />
-                <Button>Send Besked</Button>
+                <Button className="mt-0">Send Besked</Button>
               </motion.div>
             </>
           )}
@@ -1203,7 +1203,7 @@ export const ContactForm: React.FC<ContactFormProps> = () => {
                     </FormItem>
                   )}
                 />
-                <Button>Send Besked</Button>
+                <Button className="mt-0">Send Besked</Button>
               </motion.div>
             </>
           )}
@@ -1492,7 +1492,7 @@ export const ContactForm: React.FC<ContactFormProps> = () => {
                     </FormItem>
                   )}
                 />
-                <Button>Send Besked</Button>
+                <Button className="mt-0">Send Besked</Button>
               </motion.div>
             </>
           )}
