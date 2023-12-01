@@ -52,7 +52,7 @@ export default function Foedselsdag() {
             <h2>
               priser på <span className=" text-accentCol">fødselsdag</span>
             </h2>
-            <div className="flex flex-col md:flex-row mt-10 gap-6">
+            <div className="flex flex-col justify-around md:flex-row mt-10 gap-6">
               <Card variant={"bday1"} />
               <Card variant={"bday2"} />
             </div>
