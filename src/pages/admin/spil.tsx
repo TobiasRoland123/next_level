@@ -3,7 +3,7 @@ import { createClient } from '@supabase/supabase-js';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { cn } from '../../lib/utils';
-import { LayoutAdmin } from "@/Layout_Admin";
+import { LayoutAdmin } from '@/Layout_Admin';
 
 import {
   Command,
@@ -45,10 +45,6 @@ export default function Spil({ gamelist }: { gamelist: GameCardRoot[] }) {
   console.log('game list', gamelist);
 
   let headings = Object.keys(gamelist[1]);
-
-
-
-
 
   // COMMENT OUT FROM HERE TO DISABLE LOGIN GUARD
   const router = useRouter();
@@ -141,15 +137,12 @@ export default function Spil({ gamelist }: { gamelist: GameCardRoot[] }) {
 
   // COMMENT OUT TO HERE TO DISABLE LOGIN GUARD
   return (
-    
     <>
       <LayoutAdmin>
         <main>
           <h1 className="mt-20">Admin Spil</h1>
           <div className="spacer w-full">
-     
-
-      {/*  <div>
+            {/*  <div>
         <input
           type="text"
           onChange={e => setSearchString(e.target.value)}
@@ -222,69 +215,69 @@ export default function Spil({ gamelist }: { gamelist: GameCardRoot[] }) {
         </div>
       </div> */}
 
-      {isClient && (
-        <div>
-          <Popover
-            open={open}
-            onOpenChange={setOpen}
-          >
-            <PopoverTrigger asChild>
-              <Button
-                variant="outline"
-                role="combobox"
-                aria-expanded={open}
-                className="w-[250px] justify-between max"
-              >
-                <p className="text-ellipsis overflow-hidden ... mt-0">{value}</p>
-                <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className="w-[250px] h-[300px] overflow-hidden p-0">
-              <Command>
-                <CommandInput
-                  placeholder="Search game..."
-                  className="h-9"
-                  onValueChange={e => setSearchString(e)}
-                />
-                <CommandEmpty>No game found.</CommandEmpty>
-                <CommandGroup className="overflow-scroll">
-                  {gameData?.results.map(game => (
-                    <CommandItem
-                      key={game.name}
-                      value={game.name}
-                      onSelect={currentValue => {
-                        setValue(currentValue === value ? '' : currentValue);
-                        setOpen(false);
-                      }}
+            {isClient && (
+              <div>
+                <Popover
+                  open={open}
+                  onOpenChange={setOpen}
+                >
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant="outline"
+                      role="combobox"
+                      aria-expanded={open}
+                      className="w-[250px] justify-between max"
                     >
-                      {game.name}
-                      <CheckIcon
-                        className={cn(
-                          'ml-auto h-4 w-4',
-                          value === game.name ? 'opacity-100' : 'opacity-0'
-                        )}
+                      <p className="text-ellipsis overflow-hidden ... mt-0">{value}</p>
+                      <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-[250px] h-[300px] overflow-hidden p-0">
+                    <Command>
+                      <CommandInput
+                        placeholder="Search game..."
+                        className="h-9"
+                        onValueChange={e => setSearchString(e)}
                       />
-                    </CommandItem>
-                  ))}
-                </CommandGroup>
-              </Command>
-            </PopoverContent>
-          </Popover>
-        </div>
-      )}
-      <div className="flex flex-wrap gap-3 ">
-        {gamelist &&
-          gamelist.map(game => (
-            <GameCard
-              Name={game.title}
-              Image_={`${game.background_image}`}
-              Console={game.platforms.map(platform => platform.name)}
-              Tags={game.tags.map(tag => tag.name)}
-              Description={game.description}
-            />
-          ))}
-      </div>
-    </div>
+                      <CommandEmpty>No game found.</CommandEmpty>
+                      <CommandGroup className="overflow-scroll">
+                        {gameData?.results.map(game => (
+                          <CommandItem
+                            key={game.name}
+                            value={game.name}
+                            onSelect={currentValue => {
+                              setValue(currentValue === value ? '' : currentValue);
+                              setOpen(false);
+                            }}
+                          >
+                            {game.name}
+                            <CheckIcon
+                              className={cn(
+                                'ml-auto h-4 w-4',
+                                value === game.name ? 'opacity-100' : 'opacity-0'
+                              )}
+                            />
+                          </CommandItem>
+                        ))}
+                      </CommandGroup>
+                    </Command>
+                  </PopoverContent>
+                </Popover>
+              </div>
+            )}
+            <div className="flex flex-wrap gap-3 ">
+              {gamelist &&
+                gamelist.map(game => (
+                  <GameCard
+                    Name={game.title}
+                    Image_={`${game.background_image}`}
+                    Console={game.platforms.map(platform => platform.name)}
+                    Tags={game.tags.map(tag => tag.name)}
+                    Description={game.description}
+                  />
+                ))}
+            </div>
+          </div>
         </main>
       </LayoutAdmin>
     </>
