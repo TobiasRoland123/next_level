@@ -14,6 +14,7 @@ export async function getServerSideProps() {
 export default function Spil({ gamelist }: { gamelist: GameCardRoot[] }) {
   return (
     <>
+
       <Layout>
         <main>
           <Hero isFrontPage={false} header="Vores spil" redWord={["spil"]} content="It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters" />
@@ -43,6 +44,7 @@ export default function Spil({ gamelist }: { gamelist: GameCardRoot[] }) {
       </section>
         </main>
       </Layout>
+
     </>
   );
 }
