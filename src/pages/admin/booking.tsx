@@ -1,3 +1,4 @@
+import { LayoutAdmin } from "@/Layout_Admin";
 import { createClient } from "@supabase/supabase-js";
 import { useRouter } from "next/router";
 
@@ -15,7 +16,11 @@ export default function Booking() {
   // COMMENT OUT TO HERE TO DISABLE LOGIN GUARD
   return (
     <>
-      <h2>Admin Booking</h2>
+      <LayoutAdmin>
+        <main className="w-fit max-w-main pb-10 ">
+          <h1 className="mt-20">Admin Booking</h1>
+        </main>
+      </LayoutAdmin>
     </>
   );
 }
