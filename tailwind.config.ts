@@ -12,7 +12,7 @@ module.exports = {
       },
     },
     maxWidth: {
-      main: "1250px",
+      main: "1280px",
     },
     extend: {
       colors: {
