@@ -28,7 +28,8 @@ export const Header = ({ pageList }: HeaderProps) => {
   return (
     <>
       <div
-        className={` bg-primaryCol w-screen h-screen fixed top-0 transition-all md:hidden  z-20 overflow-scroll pb-6  ${
+
+        className={` bg-primaryCol w-screen h-screen fixed top-0 transition-all md:hidden  z-10 overflow-scroll pb-6  ${
           isOpen ? "right-0" : "right-full"
         } flex flex-col pt-28`}
       >
@@ -79,11 +80,13 @@ export const Header = ({ pageList }: HeaderProps) => {
         </div>
       </div>
 
-      <nav className="fixed top-2 px-6 md:px-12 lg:px-20 z-20 w-full ">
+
+      <nav className="fixed top-2 px-6 md:px-12 lg:px-20 z-10 w-full ">
+
         <div
           className={`my-3 backdrop-blur-sm ${
             isOpen ? "bg-primaryCol" : "bg-contrastCol/70"
-          } flex justify-between   items-center px-4 gap-6 rounded-sm md:py-2 md:bg-contrastCol/70 max-w-screen-xl xl:mx-auto`}
+          } flex justify-between   items-center px-4 gap-6 rounded-sm md:py-2 md:bg-contrastCol/70 xl:mx-auto max-w-main`}
         >
           <div className=" flex gap-8 font-bold ">
             <a href="/">
@@ -133,14 +136,15 @@ export const Header = ({ pageList }: HeaderProps) => {
             </ul>
           </div>
 
-          <Button
+
+          <button
             className="w-8 flex flex-col gap-2 justify-center items-center h-14 z-10 md:hidden"
             onClick={ToggleMenu}
           >
             <span className={`h-1 bg-accentCol  w-full ${isOpen && "translate-y-[0.4rem] rotate-45"}  transition-all	`}></span>
             <span className={`h-1 bg-accentCol  w-full ${isOpen && "hidden"}`}></span>
             <span className={`h-1 bg-accentCol  w-full ${isOpen && "translate-y-[-0.35rem] -rotate-45 "}  transition-all	`}></span>
-          </Button>
+          </button>
 
           <Button className="hidden md:block my-1">Book tid</Button>
         </div>
