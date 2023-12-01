@@ -111,7 +111,7 @@ export const ContactForm: React.FC<ContactFormProps> = () => {
             control={form.control}
             name="subject"
             render={({ field }) => (
-              <FormItem>
+              <FormItem className="mt-5">
                 <FormLabel>Hvad vil du gerne kontakt os omkring?</FormLabel>
                 <FormControl>
                   <div
@@ -217,7 +217,7 @@ export const ContactForm: React.FC<ContactFormProps> = () => {
                   control={form.control}
                   name="email"
                   render={({ field }) => (
-                    <FormItem>
+                    <FormItem className="mt-5">
                       <FormLabel>Email</FormLabel>
                       <FormControl>
                         <div
@@ -280,7 +280,7 @@ export const ContactForm: React.FC<ContactFormProps> = () => {
                   control={form.control}
                   name="phoneNum"
                   render={({ field }) => (
-                    <FormItem>
+                    <FormItem className="mt-5">
                       <FormLabel>Telefon nr.</FormLabel>
                       <FormControl>
                         <div
@@ -358,7 +358,7 @@ export const ContactForm: React.FC<ContactFormProps> = () => {
                   control={form.control}
                   name="textFieldMessage"
                   render={({ field }) => (
-                    <FormItem>
+                    <FormItem className="mt-5">
                       <FormLabel>Din besked</FormLabel>
                       <FormControl>
                         <div
@@ -429,7 +429,7 @@ export const ContactForm: React.FC<ContactFormProps> = () => {
                   control={form.control}
                   name="amountOfKids"
                   render={({ field }) => (
-                    <FormItem>
+                    <FormItem className="mt-5">
                       <FormLabel>Antal børn</FormLabel>
                       <FormControl>
                         <div
@@ -494,7 +494,7 @@ export const ContactForm: React.FC<ContactFormProps> = () => {
                   control={form.control}
                   name="amountOfAdults"
                   render={({ field }) => (
-                    <FormItem>
+                    <FormItem className="mt-5">
                       <FormLabel>Antal voksne</FormLabel>
                       <FormControl>
                         <div
@@ -561,7 +561,7 @@ export const ContactForm: React.FC<ContactFormProps> = () => {
                   control={form.control}
                   name="navn"
                   render={({ field }) => (
-                    <FormItem>
+                    <FormItem className="mt-5">
                       <FormLabel>Dit navn</FormLabel>
                       <FormControl>
                         <div
@@ -624,7 +624,7 @@ export const ContactForm: React.FC<ContactFormProps> = () => {
                   control={form.control}
                   name="email"
                   render={({ field }) => (
-                    <FormItem>
+                    <FormItem className="mt-5">
                       <FormLabel>Email</FormLabel>
                       <FormControl>
                         <div
@@ -687,7 +687,7 @@ export const ContactForm: React.FC<ContactFormProps> = () => {
                   control={form.control}
                   name="phoneNum"
                   render={({ field }) => (
-                    <FormItem>
+                    <FormItem className="mt-5">
                       <FormLabel>Telefon nr.</FormLabel>
                       <FormControl>
                         <div
@@ -765,7 +765,7 @@ export const ContactForm: React.FC<ContactFormProps> = () => {
                   control={form.control}
                   name="textFieldMessage"
                   render={({ field }) => (
-                    <FormItem>
+                    <FormItem className="mt-5">
                       <FormLabel>Din besked</FormLabel>
                       <FormControl>
                         <div
@@ -837,7 +837,7 @@ export const ContactForm: React.FC<ContactFormProps> = () => {
                   control={form.control}
                   name="amountOfParticipants"
                   render={({ field }) => (
-                    <FormItem>
+                    <FormItem className="mt-5">
                       <FormLabel>Antal deltagende</FormLabel>
                       <FormControl>
                         <div
@@ -906,7 +906,7 @@ export const ContactForm: React.FC<ContactFormProps> = () => {
                   control={form.control}
                   name="navn"
                   render={({ field }) => (
-                    <FormItem>
+                    <FormItem className="mt-5">
                       <FormLabel>Dit navn</FormLabel>
                       <FormControl>
                         <div
@@ -969,7 +969,7 @@ export const ContactForm: React.FC<ContactFormProps> = () => {
                   control={form.control}
                   name="email"
                   render={({ field }) => (
-                    <FormItem>
+                    <FormItem className="mt-5">
                       <FormLabel>Email</FormLabel>
                       <FormControl>
                         <div
@@ -1032,7 +1032,7 @@ export const ContactForm: React.FC<ContactFormProps> = () => {
                   control={form.control}
                   name="phoneNum"
                   render={({ field }) => (
-                    <FormItem>
+                    <FormItem className="mt-5">
                       <FormLabel>Telefon nr.</FormLabel>
                       <FormControl>
                         <div
@@ -1110,7 +1110,7 @@ export const ContactForm: React.FC<ContactFormProps> = () => {
                   control={form.control}
                   name="textFieldMessage"
                   render={({ field }) => (
-                    <FormItem>
+                    <FormItem className="mt-5">
                       <FormLabel>Din besked</FormLabel>
                       <FormControl>
                         <div
@@ -1182,7 +1182,7 @@ export const ContactForm: React.FC<ContactFormProps> = () => {
                   control={form.control}
                   name="navn"
                   render={({ field }) => (
-                    <FormItem>
+                    <FormItem className="mt-5">
                       <FormLabel>Dit navn</FormLabel>
                       <FormControl>
                         <div
@@ -1245,7 +1245,7 @@ export const ContactForm: React.FC<ContactFormProps> = () => {
                   control={form.control}
                   name="email"
                   render={({ field }) => (
-                    <FormItem>
+                    <FormItem className="mt-5">
                       <FormLabel>Email</FormLabel>
                       <FormControl>
                         <div
@@ -1308,7 +1308,7 @@ export const ContactForm: React.FC<ContactFormProps> = () => {
                   control={form.control}
                   name="phoneNum"
                   render={({ field }) => (
-                    <FormItem>
+                    <FormItem className="mt-5">
                       <FormLabel>Telefon nr.</FormLabel>
                       <FormControl>
                         <div
@@ -1386,7 +1386,7 @@ export const ContactForm: React.FC<ContactFormProps> = () => {
                   control={form.control}
                   name="textFieldMessage"
                   render={({ field }) => (
-                    <FormItem>
+                    <FormItem className="mt-5">
                       <FormLabel>Din besked</FormLabel>
                       <FormControl>
                         <div
@@ -1457,7 +1457,7 @@ export const ContactForm: React.FC<ContactFormProps> = () => {
                   control={form.control}
                   name="navn"
                   render={({ field }) => (
-                    <FormItem>
+                    <FormItem className="mt-5">
                       <FormLabel>Dit navn</FormLabel>
                       <FormControl>
                         <div
@@ -1520,7 +1520,7 @@ export const ContactForm: React.FC<ContactFormProps> = () => {
                   control={form.control}
                   name="email"
                   render={({ field }) => (
-                    <FormItem>
+                    <FormItem className="mt-5">
                       <FormLabel>Email</FormLabel>
                       <FormControl>
                         <div
@@ -1583,7 +1583,7 @@ export const ContactForm: React.FC<ContactFormProps> = () => {
                   control={form.control}
                   name="phoneNum"
                   render={({ field }) => (
-                    <FormItem>
+                    <FormItem className="mt-5">
                       <FormLabel>Telefon nr.</FormLabel>
                       <FormControl>
                         <div
@@ -1661,7 +1661,7 @@ export const ContactForm: React.FC<ContactFormProps> = () => {
                   control={form.control}
                   name="textFieldMessage"
                   render={({ field }) => (
-                    <FormItem>
+                    <FormItem className="mt-5">
                       <FormLabel>Din besked</FormLabel>
                       <FormControl>
                         <div
