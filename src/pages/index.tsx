@@ -58,6 +58,7 @@ export default function Home() {
               <Button
                 variant={"secondary"}
                 children={"Se alle vores priser"}
+                link="../priser"
               />
             </article>
           </section>
@@ -79,7 +80,7 @@ export default function Home() {
 
                 <Button
                   //This is wating on aproval of another branch, therefore it's commented out
-                  // link="/events"
+                  link="../events"
                   children="Find vores events her"
                 />
               </div>
