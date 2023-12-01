@@ -11,11 +11,11 @@ export const Layout = ({ children }: layoutProps) => {
     <>
       <Header
         pageList={[
-          { page: { href: "./spil", pageTitle: "Spil" } },
-          { page: { href: "./priser", pageTitle: "Priser" } },
+          { page: { href: "../spil", pageTitle: "Spil" } },
+          { page: { href: "../priser", pageTitle: "Priser" } },
           {
             page: {
-              href: "./events",
+              href: "../events",
               pageTitle: "Events",
               subPages: [
                 { href: "/events/foedselsdag", pageTitle: "Fødselsdag" },
@@ -24,7 +24,7 @@ export const Layout = ({ children }: layoutProps) => {
               ],
             },
           },
-          { page: { href: "/om-os", pageTitle: "Om os", subPages: [{ href: "/om-os/kontakt", pageTitle: "Kontakt os" }] } },
+          { page: { href: "../om-os", pageTitle: "Om os", subPages: [{ href: "/om-os/kontakt", pageTitle: "Kontakt os" }] } },
         ]}
       />
       {children}

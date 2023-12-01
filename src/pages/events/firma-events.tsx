@@ -1,3 +1,4 @@
+import { Layout } from "@/Layout";
 import { Hero } from "@/modules/Hero/Hero";
 import Image from "next/image";
 import firmaEvent from "../../../public/images/event/firma-event.jpg";
