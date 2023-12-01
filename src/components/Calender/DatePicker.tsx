@@ -15,7 +15,7 @@ export function DatePicker() {
         setDate(newDate);
         console.log(date);
       }}
-      className="rounded-md shadow bg-contrastCol"
+      className="calendarDatePickerMate rounded-md shadow bg-contrastCol w-full"
     />
   );
 }

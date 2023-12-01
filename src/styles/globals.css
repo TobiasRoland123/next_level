@@ -67,6 +67,19 @@ small {
   @apply mx-6 mt-14 max-w-[1280px] md:mx-12 md:mt-20 lg:mx-20;
 }
 
+.calendarDatePickerMate tr {
+  justify-content: space-between;
+}
+
+.rdp-weeknumber {
+  font-size: 0.5rem;
+}
+
+.rdp-tbody tr td:first-child {
+  display: flex;
+  align-items: center;
+}
+
 @media (min-width: 600px) {
   h1 {
     font-size: 61px;
@@ -79,6 +92,9 @@ small {
   }
   h4 {
     font-size: 25px;
+  }
+  .rdp-weeknumber {
+    font-size: 0.75rem;
   }
 }
 @media (min-width: 768px) {
