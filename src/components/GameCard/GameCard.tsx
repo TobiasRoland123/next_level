@@ -7,7 +7,7 @@ import { AnimatePresence, HTMLMotionProps, motion } from 'framer-motion';
 import { Dialog, DialogContent, DialogTrigger, DialogClose } from '../ui/dialog';
 import { Description } from '@radix-ui/react-dialog';
 
-const gameCardVariants = cva('w-80 h-52 rounded cursor-pointer grid', {
+const gameCardVariants = cva('max-w-[320px] h-52 rounded cursor-pointer grid', {
   variants: {
     variant: {
       card: 'text-gray-200 overflow-hidden',

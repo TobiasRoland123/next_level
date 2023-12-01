@@ -21,7 +21,8 @@ export default function Spil({ gamelist }: { gamelist: Result[] }) {
       <section>
         <div className="flex justify-center">
           <div className="spacer w-full ">
-            <div className="flex flex-wrap gap-6 justify-center md:justify-between lg:justify-start">
+            <div className="flex flex-wrap gap-6 justify-center sm:justify-between lg:grid lg:grid-cols-3 xl:grid-cols-4">
+              {/*     <div className="flex flex-wrap gap-6 justify-center md:justify-between lg:justify-start"> */}
               {gamelist &&
                 gamelist.map(game => (
                   <div

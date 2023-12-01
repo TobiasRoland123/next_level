@@ -69,6 +69,9 @@ export default function Spil() {
 
     const updatedList = [...gameList, saveGame];
 
+    setSelectedPlatforms([]);
+    setSelectedTags([]);
+
     return console.log('payload', saveGame), setGameList(updatedList as Result[]);
   }
 
@@ -122,7 +125,15 @@ export default function Spil() {
             })}
           {gameId != 0 && gameData && (
             <>
-              <button onClick={() => setGameId(0)}>back</button>
+              <button
+                onClick={() => {
+                  setGameId(0);
+                  setSelectedPlatforms([]);
+                  setSelectedTags([]);
+                }}
+              >
+                back
+              </button>
               <p>{gameData.name}</p>
               <img src={gameData.background_image} />
               <p
