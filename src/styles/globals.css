@@ -2,13 +2,19 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 
 body {
   /* position: relative; */
   background-image: url(../../public/bg-svg/gradient.svg);
   background-repeat: no-repeat;
   background-size: cover;
+}
+
+main {
+  min-height: calc(100vh - 368px);
 }
 
 h1 {
@@ -59,6 +65,7 @@ small {
 
 .spacer {
   @apply mx-6 mt-14 max-w-[1280px] md:mx-12 md:mt-20 lg:mx-20;
+
 }
 
 @media (min-width: 600px) {
@@ -92,7 +99,8 @@ small {
 
 @layer base {
   :root {
-    font-family: 'Rubik', sans-serif;
+    font-family: "Rubik", sans-serif;
+    font-family: "Rubik", sans-serif;
 
     --primaryColor: 255 8% 10%;
     --secondaryColor: 0 0% 95%;
@@ -154,8 +162,37 @@ small {
   }
 }
 
+/* REMOVES ARROWS FROM INPUT TYPE=NUMBER FIELDS */
+.remove-arrow::-webkit-inner-spin-button,
+.remove-arrow::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* SHAKE ANIMATION FOR FORMS */
+
+.shake {
+  animation: shakeField 0.4s ease-in-out forwards;
+}
+
+@keyframes shakeField {
+  25% {
+    transform: translateX(6px);
+  }
+  50% {
+    transform: translateX(-4px);
+  }
+  75% {
+    transform: translateX(2px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
 @property --rotate {
-  syntax: '<angle>';
+  syntax: "<angle>";
+  syntax: "<angle>";
   initial-value: 132deg;
   inherits: false;
 }
