@@ -154,7 +154,7 @@ export const ContactForm: React.FC<ContactFormProps> = () => {
                   control={form.control}
                   name="navn"
                   render={({ field }) => (
-                    <FormItem>
+                    <FormItem className="mt-5">
                       <FormLabel>Dit navn</FormLabel>
                       <FormControl>
                         <div
