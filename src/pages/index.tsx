@@ -19,7 +19,13 @@ export default function Home() {
     <>
       <Layout>
         <main>
-          <Hero header="Dk's bedste gaming center" redWord={["bedste"]} content="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries" buttonLabel="Book Nu" isFrontPage={true} />
+          <Hero
+            header="Dk's bedste gaming center"
+            redWord={["bedste"]}
+            content="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries"
+            buttonProps={{ children: "Book Nu" }}
+            isFrontPage={true}
+          />
           <section className="flex  justify-center ">
             <article className="spacer w-full">
               <h2>
@@ -27,7 +33,10 @@ export default function Home() {
               </h2>
               <div>GameCard set placeholder</div>
 
-              <Button variant={"secondary"} children={"Se alle vores priser"} />
+              <Button
+                variant={"secondary"}
+                children={"Se alle vores priser"}
+              />
             </article>
           </section>
           <section className=" bg-hero2 bg-no-repeat bg-cover w-screen  mt-14 md:mt-16 lg:mt-20">
@@ -36,9 +45,15 @@ export default function Home() {
                 <h2>
                   Skal du holde et <span className="text-accentCol">Event?</span>
                 </h2>
-                <ParagraphBold underlined text="VI holder de bedste events med fokus på gaming" />
+                <ParagraphBold
+                  underlined
+                  text="VI holder de bedste events med fokus på gaming"
+                />
 
-                <p>“Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibuwlum tempor dictum fringilla. Mauris volutpat dictum lectus venenatis suscipit. Aenean faucibus mole</p>
+                <p>
+                  “Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibuwlum tempor dictum fringilla. Mauris volutpat
+                  dictum lectus venenatis suscipit. Aenean faucibus mole
+                </p>
 
                 <Button
                   //This is wating on aproval of another branch, therefore it's commented out

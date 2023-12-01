@@ -11,7 +11,7 @@ export default function FirmaEvents() {
         header="professionelle firma events"
         redWord={["firma", "events"]}
         content="Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. "
-        buttonLabel="Kontakt os"
+        buttonProps={{ children: "Kontakt os", link: "../om-os/kontakt" }}
       />
       <section>
         <article className="flex justify-center">
