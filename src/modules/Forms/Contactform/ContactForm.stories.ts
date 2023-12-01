@@ -1,19 +1,17 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
-import { Textarea } from "./textarea";
+import { ContactForm } from "./ContactForm";
 const meta = {
-  title: "TextArea",
-  component: Textarea,
+  title: "Modules/ContactForm",
+  component: ContactForm,
   parameters: { layout: "centered" },
 
   tags: ["autodocs"],
-} satisfies Meta<typeof Textarea>;
+} satisfies Meta<typeof ContactForm>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  args: {
-    placeholder: "",
-  },
+  args: {},
 };
