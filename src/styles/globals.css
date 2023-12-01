@@ -65,7 +65,7 @@ small {
 
 .spacer {
   @apply mx-6 mt-14 max-w-[1280px] md:mx-12 md:mt-20 lg:mx-20;
-  @apply mx-6 mt-14 max-w-[1280px] md:mx-12 md:mt-20 lg:mx-20;
+
 }
 
 @media (min-width: 600px) {

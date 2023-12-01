@@ -2,16 +2,17 @@ import { Button } from "@/components/Button/Button";
 import { Card } from "@/components/Cards/Card";
 import { GameCard } from "@/components/GameCard/GameCard";
 
-import { Header } from "../modules/Header/Header";
-import { Accordions } from "../components/Accordion/Accordion";
+import { Header } from '../modules/Header/Header';
+import { Accordions } from '../components/Accordion/Accordion';
 
-import { Input } from "@/components/Inputfields/Inputfield";
+import { Input } from '@/components/Inputfields/Inputfield';
 
-import { Footer } from "@/modules/Footer/Footer";
+import { Footer } from '@/modules/Footer/Footer';
 
-import { Hero } from "@/modules/Hero/Hero";
-import { ParagraphBold } from "@/components/ParagraphBold/ParagraphBold";
-import { CustomerQuoteSet } from "@/modules/CustomerQuoteSet/CustomerQuoteSet";
+import { Hero } from '@/modules/Hero/Hero';
+import { ParagraphBold } from '@/components/ParagraphBold/ParagraphBold';
+import { CustomerQuoteSet } from '@/modules/CustomerQuoteSet/CustomerQuoteSet';
+
 import { Layout } from "@/Layout";
 
 export default function Home() {
