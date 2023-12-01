@@ -31,11 +31,12 @@ export default function Home() {
               <h2>
                 Next Level <span className="text-accentCol">Priser</span>
               </h2>
-              <div className="flex items-center md:justify-around flex-col md:flex-row mt-14 md:mt-20 gap-10">
+              <div className="flex justify-center md:justify-around flex-wrap md:flex-row mt-14 md:mt-20 gap-10">
                 <Card
                   variant={"level1"}
                   header="Level 1"
                   timeAntal={5}
+                  totalPris={70}
                   oprettelseInkl={false}
                 />
                 <Card
