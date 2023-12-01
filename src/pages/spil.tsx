@@ -1,8 +1,10 @@
-import { Hero } from '@/modules/Hero/Hero';
+
 import { supabase } from '../pages/utils/supabaseClient';
 import { GameCard } from '@/components/GameCard/GameCard';
 import { GameRoot, PlatformArr, Result, Tag } from '@/Types/gamelist';
 import { GameCardRoot } from '@/Types/gamecard';
+import { Layout } from "@/Layout";
+import { Hero } from "@/modules/Hero/Hero";
 
 export async function getServerSideProps() {
   let { data: gamelist, error } = await supabase.from('gamelist').select('*');
@@ -12,14 +14,10 @@ export async function getServerSideProps() {
 export default function Spil({ gamelist }: { gamelist: GameCardRoot[] }) {
   return (
     <>
-      <Hero
-        isFrontPage={false}
-        header="Vores spil"
-        redWord="spil"
-        content="It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters"
-      />
-
-      <section>
+      <Layout>
+        <main>
+          <Hero isFrontPage={false} header="Vores spil" redWord={["spil"]} content="It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters" />
+          <section>
         <div className="flex justify-center">
           <div className="spacer w-full ">
             <div className="flex flex-wrap gap-6 justify-center sm:justify-between lg:grid lg:grid-cols-3 xl:grid-cols-4">
@@ -43,6 +41,8 @@ export default function Spil({ gamelist }: { gamelist: GameCardRoot[] }) {
           </div>
         </div>
       </section>
+        </main>
+      </Layout>
     </>
   );
 }

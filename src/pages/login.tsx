@@ -3,6 +3,7 @@ import { Input } from "@/components/Inputfields/Inputfield";
 import { Button } from "@/components/Button/Button";
 import { createClient } from "@supabase/supabase-js";
 import { useRouter } from "next/router";
+import { Layout } from "@/Layout";
 
 export default function Login() {
   const supaUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;

@@ -3,6 +3,7 @@ import { createClient } from '@supabase/supabase-js';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { cn } from '../../lib/utils';
+import { LayoutAdmin } from "@/Layout_Admin";
 
 import {
   Command,
@@ -44,6 +45,10 @@ export default function Spil({ gamelist }: { gamelist: GameCardRoot[] }) {
   console.log('game list', gamelist);
 
   let headings = Object.keys(gamelist[1]);
+
+
+
+
 
   // COMMENT OUT FROM HERE TO DISABLE LOGIN GUARD
   const router = useRouter();
@@ -136,8 +141,13 @@ export default function Spil({ gamelist }: { gamelist: GameCardRoot[] }) {
 
   // COMMENT OUT TO HERE TO DISABLE LOGIN GUARD
   return (
-    <div className="spacer w-full">
-      <h2 className="mt-20">Admin Spil</h2>
+    
+    <>
+      <LayoutAdmin>
+        <main>
+          <h1 className="mt-20">Admin Spil</h1>
+          <div className="spacer w-full">
+     
 
       {/*  <div>
         <input
@@ -275,5 +285,8 @@ export default function Spil({ gamelist }: { gamelist: GameCardRoot[] }) {
           ))}
       </div>
     </div>
+        </main>
+      </LayoutAdmin>
+    </>
   );
 }
