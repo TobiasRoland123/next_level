@@ -165,7 +165,13 @@ priser på gaming"
               <div className="spacer w-full">
                 <h3>Noget helt specielt?</h3>
 
-                <Card variant={"nlp"} />
+                <div className="mt-14 md:mt-20">
+                  <Card
+                    variant={"nlp"}
+                    timePris={30}
+                    header="NLP rum"
+                  />
+                </div>
               </div>
             </article>
           </section>

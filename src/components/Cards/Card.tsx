@@ -19,7 +19,7 @@ const cardVariants = cva("w-52 h-80 rounded bg-gradient-to-br cursor-pointer", {
       level3: "text-blue-500 from-sky-400 to-blue-700",
       expert: "text-fuchsia-500 from-fuchsia-400 to-fuchsia-600",
       master: "text-red-500 from-orange-500 to-red-600",
-      nlp: "text-amber-500 w-full from-yellow-400 to-amber-600",
+      nlp: "text-amber-500 w-full from-yellow-400 to-amber-600 h-auto",
       bday1: "text-red-500 w-[343px] h-[460px] from-orange-500 to-red-600",
       bday2: "text-red-500 w-[343px] h-[460px] from-orange-500 to-red-600",
     },
@@ -224,9 +224,9 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
                   animate={isHovered ? "hover" : "default"}
                   transition={{ duration: 0.1 }}
                   variants={InnerBoxVariantNlp}
-                  className="bg-primaryCol flex justify-between p-7 w-full h-[495px] rounded"
+                  className="bg-primaryCol flex flex-col md:flex-row justify-between p-7 w-full  rounded"
                 >
-                  <div className="flex flex-col w-2/5">
+                  <div className="flex flex-col ">
                     <h2 className={clsx(variant, "text-4xl")}>{header}</h2>
                     <h4 className="text-secondaryCol mt-0">
                       Per time - <span className="text-amber-500">{timePris}kr.</span>
@@ -241,13 +241,24 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
                     </p>
                   </div>
 
-                  <div className="flex flex-col gap-5 h-full items-center w-3/5">
-                    <div className="bg-red-500 min-w-[420px] h-[280px] "></div>
+                  <div className=" aspect-video mt-6 md:hidden">
+                    <iframe
+                      width="560"
+                      height="315"
+                      src="https://www.youtube.com/embed/byPA-Gn9MdQ?si=Z1_x75C8Y61y4hL0"
+                      title="YouTube video player"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      className="w-full"
+                    ></iframe>
+                  </div>
+
+                  <div className="flex flex-col gap-5 h-full items-center">
+                    <div className="bg-red-500   "></div>
 
                     <div className="flex flex-col gap-5 max-w-[420px]">
                       <h4 className="text-secondaryCol mt-0">specs</h4>
                       <div className="h-[1px] bg-accentCol w-14 -mt-4"></div>
-                      <div className="flex">
+                      <div className="flex flex-col md:flex-row">
                         <div className="flex flex-col gap-5">
                           <div className="flex gap-1">
                             <HiCpuChip
