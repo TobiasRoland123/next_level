@@ -136,283 +136,8 @@ export const ContactForm: React.FC<ContactFormProps> = () => {
               </FormItem>
             )}
           />
-          {/*✅ WHAT YOU SEE WHEN THE PAGE LOADS */}
-          {selectedValue === "" && (
-            <>
-              {/* NAME */}
-              <motion.div
-                initial={{ opacity: 0, y: "-10%" }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{
-                  type: "spring",
-                  stiffness: 100,
-                  duration: 0.3,
-                  ease: [0, 0.71, 0.2, 1.01],
-                }}
-              >
-                <FormField
-                  control={form.control}
-                  name="navn"
-                  render={({ field }) => (
-                    <FormItem className="mt-5">
-                      <FormLabel>Dit navn</FormLabel>
-                      <FormControl>
-                        <div
-                          style={{ position: "relative" }}
-                          className={form.formState.errors.navn ? "shake" : ""}
-                        >
-                          <Input
-                            style={{
-                              borderColor: form.formState.isSubmitted
-                                ? form.formState.errors.navn
-                                  ? "red"
-                                  : "green"
-                                : "none",
-                            }}
-                            placeholder="John Jensen"
-                            {...field}
-                          />
-                          {form.formState.errors.navn ? (
-                            <div className="absolute top-1.5 right-0 pr-3 flex items-center pointer-events-none">
-                              <div>
-                                <MdError className={"text-red-500 text-2xl"} />
-                              </div>
-                            </div>
-                          ) : form.formState.isSubmitted &&
-                            !form.formState.errors.navn ? (
-                            <div className="absolute top-1.5 right-0 pr-3 flex items-center pointer-events-none">
-                              <div>
-                                <IoIosCheckmarkCircle
-                                  className={"text-green-500 text-2xl"}
-                                />
-                              </div>
-                            </div>
-                          ) : (
-                            ""
-                          )}
-                        </div>
-                      </FormControl>
-                      <FormDescription className="text-transparent">
-                        Placeholder text
-                        {/* Remove text-transparent if you need to use the field description */}
-                      </FormDescription>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </motion.div>
 
-              {/* EMAIL */}
-              <motion.div
-                initial={{ opacity: 0, y: "-20%" }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{
-                  type: "spring",
-                  stiffness: 100,
-                  duration: 0.3,
-                  ease: [0, 0.71, 0.2, 1.01],
-                }}
-              >
-                <FormField
-                  control={form.control}
-                  name="email"
-                  render={({ field }) => (
-                    <FormItem className="mt-5">
-                      <FormLabel>Email</FormLabel>
-                      <FormControl>
-                        <div
-                          style={{ position: "relative" }}
-                          className={form.formState.errors.email ? "shake" : ""}
-                        >
-                          <Input
-                            style={{
-                              borderColor: form.formState.isSubmitted
-                                ? form.formState.errors.email
-                                  ? "red"
-                                  : "green"
-                                : "none",
-                            }}
-                            placeholder="John@jensen.dk"
-                            {...field}
-                          />
-                          {form.formState.errors.email ? (
-                            <div className="absolute top-1.5 right-0 pr-3 flex items-center pointer-events-none">
-                              <div>
-                                <MdError className={"text-red-500 text-2xl"} />
-                              </div>
-                            </div>
-                          ) : form.formState.isSubmitted &&
-                            !form.formState.errors.email ? (
-                            <div className="absolute top-1.5 right-0 pr-3 flex items-center pointer-events-none">
-                              <div>
-                                <IoIosCheckmarkCircle
-                                  className={"text-green-500 text-2xl"}
-                                />
-                              </div>
-                            </div>
-                          ) : (
-                            ""
-                          )}
-                        </div>
-                      </FormControl>
-                      <FormDescription className="text-transparent">
-                        Placeholder text
-                        {/* Remove text-transparent if you need to use the field description */}
-                      </FormDescription>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </motion.div>
-
-              {/* PHONE */}
-              <motion.div
-                initial={{ opacity: 0, y: "-30%" }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{
-                  type: "spring",
-                  stiffness: 100,
-                  duration: 0.3,
-                  ease: [0, 0.71, 0.2, 1.01],
-                }}
-              >
-                <FormField
-                  control={form.control}
-                  name="phoneNum"
-                  render={({ field }) => (
-                    <FormItem className="mt-5">
-                      <FormLabel>Telefon nr.</FormLabel>
-                      <FormControl>
-                        <div
-                          style={{ position: "relative" }}
-                          className={
-                            form.formState.errors.phoneNum ? "shake" : ""
-                          }
-                        >
-                          <InputMask
-                            name="phoneNum"
-                            className="flex h-10 w-full rounded bg-contrastCol px-3 py-2 border-b-transparent border-b-2 text-sm file:border-0 transition ease-in duration-300 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:border-b-2 focus-visible:border-secondaryCol disabled:cursor-not-allowed disabled:opacity-50"
-                            placeholder="12 34 56 78"
-                            type="tel"
-                            mask="99 99 99 99"
-                            maskChar=""
-                            value={field.value}
-                            onChange={field.onChange}
-                            style={{
-                              borderColor: form.formState.errors.phoneNum
-                                ? "red"
-                                : form.formState.touchedFields.phoneNum
-                                ? "green"
-                                : "",
-                            }}
-                          />
-                          {form.formState.errors.phoneNum ? (
-                            <div
-                              className="absolute 
-                            top-1.5
-                            right-0 pr-3 flex items-center pointer-events-none"
-                            >
-                              <div>
-                                <MdError className={"text-red-500 text-2xl"} />
-                              </div>
-                            </div>
-                          ) : form.formState.touchedFields.phoneNum ? (
-                            <div
-                              className="absolute 
-                          top-1.5
-                          right-0 pr-3 flex items-center pointer-events-none"
-                            >
-                              <div>
-                                <IoIosCheckmarkCircle
-                                  className={"text-green-500 text-2xl"}
-                                />
-                              </div>
-                            </div>
-                          ) : (
-                            ""
-                          )}
-                        </div>
-                      </FormControl>
-                      <FormDescription className="text-transparent">
-                        Placeholder text
-                        {/* Remove "text-transparent" if you need to use the field description */}
-                      </FormDescription>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </motion.div>
-
-              {/* MESSAGE */}
-              <motion.div
-                initial={{ opacity: 0, y: "-25%" }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{
-                  type: "spring",
-                  stiffness: 100,
-                  duration: 0.3,
-                  ease: [0, 0.71, 0.2, 1.01],
-                }}
-              >
-                <FormField
-                  control={form.control}
-                  name="textFieldMessage"
-                  render={({ field }) => (
-                    <FormItem className="mt-5">
-                      <FormLabel>Din besked</FormLabel>
-                      <FormControl>
-                        <div
-                          style={{ position: "relative" }}
-                          className={
-                            form.formState.errors.textFieldMessage
-                              ? "shake"
-                              : ""
-                          }
-                        >
-                          <Textarea
-                            style={{
-                              borderColor: form.formState.isSubmitted
-                                ? form.formState.errors.textFieldMessage
-                                  ? "red"
-                                  : "green"
-                                : "none",
-                            }}
-                            placeholder="Jeg vil gerne høre om..."
-                            {...field}
-                          />
-                          {form.formState.errors.textFieldMessage ? (
-                            <div className="absolute top-1.5 right-0 pr-3 flex items-center pointer-events-none">
-                              <div>
-                                <MdError className={"text-red-500 text-2xl"} />
-                              </div>
-                            </div>
-                          ) : form.formState.isSubmitted &&
-                            !form.formState.errors.textFieldMessage ? (
-                            <div className="absolute top-1.5 right-0 pr-3 flex items-center pointer-events-none">
-                              <div>
-                                <IoIosCheckmarkCircle
-                                  className={"text-green-500 text-2xl"}
-                                />
-                              </div>
-                            </div>
-                          ) : (
-                            ""
-                          )}
-                        </div>
-                      </FormControl>
-                      <FormDescription className="text-transparent">
-                        Placeholder text
-                        {/* Remove text-transparent if you need to use the field description */}
-                      </FormDescription>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <Button>Send Besked</Button>
-              </motion.div>
-            </>
-          )}
-          {/*✅ FØDSELSDAG */}
+          {/* FØDSELSDAG */}
           {selectedValue === "fødselsdag" && (
             <>
               <motion.div
@@ -425,12 +150,26 @@ export const ContactForm: React.FC<ContactFormProps> = () => {
                   ease: [0, 0.71, 0.2, 1.01],
                 }}
               >
+                {Object.keys(form.formState.errors).length > 0 && (
+                  <motion.div
+                    initial={{ opacity: 0, y: "-5%" }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{
+                      type: "spring",
+                      stiffness: 100,
+                      duration: 0.3,
+                      ease: [0, 0.71, 0.2, 1.01],
+                    }}
+                  >
+                    <p>* = Skal udfyldes</p>
+                  </motion.div>
+                )}
                 <FormField
                   control={form.control}
                   name="amountOfKids"
                   render={({ field }) => (
                     <FormItem className="mt-5">
-                      <FormLabel>Antal børn</FormLabel>
+                      <FormLabel>Antal børn*</FormLabel>
                       <FormControl>
                         <div
                           style={{ position: "relative" }}
@@ -448,7 +187,7 @@ export const ContactForm: React.FC<ContactFormProps> = () => {
                             }}
                             className="remove-arrow"
                             type="number"
-                            placeholder="24"
+                            placeholder="15"
                             {...field}
                           />
                           {form.formState.errors.amountOfKids ? (
@@ -495,7 +234,7 @@ export const ContactForm: React.FC<ContactFormProps> = () => {
                   name="amountOfAdults"
                   render={({ field }) => (
                     <FormItem className="mt-5">
-                      <FormLabel>Antal voksne</FormLabel>
+                      <FormLabel>Antal voksne* </FormLabel>
                       <FormControl>
                         <div
                           style={{ position: "relative" }}
@@ -562,7 +301,7 @@ export const ContactForm: React.FC<ContactFormProps> = () => {
                   name="navn"
                   render={({ field }) => (
                     <FormItem className="mt-5">
-                      <FormLabel>Dit navn</FormLabel>
+                      <FormLabel>Dit navn*</FormLabel>
                       <FormControl>
                         <div
                           style={{ position: "relative" }}
@@ -625,7 +364,7 @@ export const ContactForm: React.FC<ContactFormProps> = () => {
                   name="email"
                   render={({ field }) => (
                     <FormItem className="mt-5">
-                      <FormLabel>Email</FormLabel>
+                      <FormLabel>Email*</FormLabel>
                       <FormControl>
                         <div
                           style={{ position: "relative" }}
@@ -766,7 +505,7 @@ export const ContactForm: React.FC<ContactFormProps> = () => {
                   name="textFieldMessage"
                   render={({ field }) => (
                     <FormItem className="mt-5">
-                      <FormLabel>Din besked</FormLabel>
+                      <FormLabel>* Din besked</FormLabel>
                       <FormControl>
                         <div
                           style={{ position: "relative" }}
@@ -833,12 +572,26 @@ export const ContactForm: React.FC<ContactFormProps> = () => {
                   ease: [0, 0.71, 0.2, 1.01],
                 }}
               >
+                {Object.keys(form.formState.errors).length > 0 && (
+                  <motion.div
+                    initial={{ opacity: 0, y: "-5%" }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{
+                      type: "spring",
+                      stiffness: 100,
+                      duration: 0.3,
+                      ease: [0, 0.71, 0.2, 1.01],
+                    }}
+                  >
+                    <p>* = Skal udfyldes</p>
+                  </motion.div>
+                )}
                 <FormField
                   control={form.control}
                   name="amountOfParticipants"
                   render={({ field }) => (
                     <FormItem className="mt-5">
-                      <FormLabel>Antal deltagende</FormLabel>
+                      <FormLabel>Antal deltagende*</FormLabel>
                       <FormControl>
                         <div
                           style={{ position: "relative" }}
@@ -907,7 +660,7 @@ export const ContactForm: React.FC<ContactFormProps> = () => {
                   name="navn"
                   render={({ field }) => (
                     <FormItem className="mt-5">
-                      <FormLabel>Dit navn</FormLabel>
+                      <FormLabel>Dit navn*</FormLabel>
                       <FormControl>
                         <div
                           style={{ position: "relative" }}
@@ -970,7 +723,7 @@ export const ContactForm: React.FC<ContactFormProps> = () => {
                   name="email"
                   render={({ field }) => (
                     <FormItem className="mt-5">
-                      <FormLabel>Email</FormLabel>
+                      <FormLabel>Email*</FormLabel>
                       <FormControl>
                         <div
                           style={{ position: "relative" }}
@@ -1111,7 +864,7 @@ export const ContactForm: React.FC<ContactFormProps> = () => {
                   name="textFieldMessage"
                   render={({ field }) => (
                     <FormItem className="mt-5">
-                      <FormLabel>Din besked</FormLabel>
+                      <FormLabel>Din besked*</FormLabel>
                       <FormControl>
                         <div
                           style={{ position: "relative" }}
@@ -1167,6 +920,20 @@ export const ContactForm: React.FC<ContactFormProps> = () => {
 
           {selectedValue === "andet" && (
             <>
+              {Object.keys(form.formState.errors).length > 0 && (
+                <motion.div
+                  initial={{ opacity: 0, y: "-5%" }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{
+                    type: "spring",
+                    stiffness: 100,
+                    duration: 0.3,
+                    ease: [0, 0.71, 0.2, 1.01],
+                  }}
+                >
+                  <p>* = Skal udfyldes</p>
+                </motion.div>
+              )}
               {/* NAME */}
               <motion.div
                 initial={{ opacity: 0, y: "-10%" }}
@@ -1183,7 +950,7 @@ export const ContactForm: React.FC<ContactFormProps> = () => {
                   name="navn"
                   render={({ field }) => (
                     <FormItem className="mt-5">
-                      <FormLabel>Dit navn</FormLabel>
+                      <FormLabel>Dit navn*</FormLabel>
                       <FormControl>
                         <div
                           style={{ position: "relative" }}
@@ -1246,7 +1013,7 @@ export const ContactForm: React.FC<ContactFormProps> = () => {
                   name="email"
                   render={({ field }) => (
                     <FormItem className="mt-5">
-                      <FormLabel>Email</FormLabel>
+                      <FormLabel>Email*</FormLabel>
                       <FormControl>
                         <div
                           style={{ position: "relative" }}
@@ -1387,7 +1154,7 @@ export const ContactForm: React.FC<ContactFormProps> = () => {
                   name="textFieldMessage"
                   render={({ field }) => (
                     <FormItem className="mt-5">
-                      <FormLabel>Din besked</FormLabel>
+                      <FormLabel>Din besked*</FormLabel>
                       <FormControl>
                         <div
                           style={{ position: "relative" }}
@@ -1442,6 +1209,20 @@ export const ContactForm: React.FC<ContactFormProps> = () => {
           )}
           {selectedValue === "turnering" && (
             <>
+              {Object.keys(form.formState.errors).length > 0 && (
+                <motion.div
+                  initial={{ opacity: 0, y: "-5%" }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{
+                    type: "spring",
+                    stiffness: 100,
+                    duration: 0.3,
+                    ease: [0, 0.71, 0.2, 1.01],
+                  }}
+                >
+                  <p>* = Skal udfyldes</p>
+                </motion.div>
+              )}
               {/* NAME */}
               <motion.div
                 initial={{ opacity: 0, y: "-10%" }}
@@ -1458,7 +1239,7 @@ export const ContactForm: React.FC<ContactFormProps> = () => {
                   name="navn"
                   render={({ field }) => (
                     <FormItem className="mt-5">
-                      <FormLabel>Dit navn</FormLabel>
+                      <FormLabel>Dit navn*</FormLabel>
                       <FormControl>
                         <div
                           style={{ position: "relative" }}
@@ -1521,7 +1302,7 @@ export const ContactForm: React.FC<ContactFormProps> = () => {
                   name="email"
                   render={({ field }) => (
                     <FormItem className="mt-5">
-                      <FormLabel>Email</FormLabel>
+                      <FormLabel>Email*</FormLabel>
                       <FormControl>
                         <div
                           style={{ position: "relative" }}
@@ -1662,7 +1443,7 @@ export const ContactForm: React.FC<ContactFormProps> = () => {
                   name="textFieldMessage"
                   render={({ field }) => (
                     <FormItem className="mt-5">
-                      <FormLabel>Din besked</FormLabel>
+                      <FormLabel>Din besked*</FormLabel>
                       <FormControl>
                         <div
                           style={{ position: "relative" }}
