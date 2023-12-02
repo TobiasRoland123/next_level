@@ -12,7 +12,7 @@ export default function Events() {
             redWord={["gaming"]}
             isFrontPage={false}
             content="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam non urna aliquet, mollis lacus sed, dignissim lectus. Curabitur eget diam volutpat, facilisis massa nec, varius nulla."
-            buttonLabel="Kontakt os"
+            buttonProps={{ children: "Kontakt os" }}
           />
           <section>
             <article className="flex justify-center">

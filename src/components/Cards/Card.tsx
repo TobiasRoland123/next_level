@@ -19,10 +19,9 @@ const cardVariants = cva("w-52 h-80 rounded bg-gradient-to-br cursor-pointer", {
       level3: "text-blue-500 from-sky-400 to-blue-700",
       expert: "text-fuchsia-500 from-fuchsia-400 to-fuchsia-600",
       master: "text-red-500 from-orange-500 to-red-600",
-      nlp: "text-amber-500 w-[938px] h-[507px] from-yellow-400 to-amber-600",
+      nlp: "text-amber-500 w-full from-yellow-400 to-amber-600 h-auto",
       bday1: "text-red-500 w-[343px] h-[460px] from-orange-500 to-red-600",
       bday2: "text-red-500 w-[343px] h-[460px] from-orange-500 to-red-600",
-      eventCard: "bg-contrastCol rounded-sm ",
     },
     size: {
       default: "px-1 py-1",
@@ -108,7 +107,7 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
                   animate={isHovered ? "hover" : "default"}
                   transition={{ duration: 0.1 }}
                   variants={InnerBoxVariants}
-                  className={`bg-primaryCol flex flex-col p-4 w-full ${
+                  className={`bg-primaryCol flex flex-col  p-4 w-full ${
                     variant === "bday1" || variant === "bday2" ? "h-[424px]" : "h-72"
                   } rounded`}
                 >
@@ -154,7 +153,6 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
                             className="text-green-400 shrink-0"
                             size="18"
                           />
-
                           <p className=" text-secondaryCol mt-0">En slikpose og en ekstra dåsesodavand.</p>
                         </div>
                       </div>
@@ -229,84 +227,109 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
                   animate={isHovered ? "hover" : "default"}
                   transition={{ duration: 0.1 }}
                   variants={InnerBoxVariantNlp}
-                  className="bg-primaryCol flex justify-between p-7 w-full h-[495px] rounded"
+                  className="bg-primaryCol flex flex-col md:flex-row  justify-between p-7 w-full gap-14 rounded"
                 >
-                  <div className="flex flex-col w-2/5">
-                    <h4 className="text-secondaryCol mt-0">
-                      Per time - <span className="text-amber-500">{timePris}kr.</span>
-                    </h4>
-                    <p className="text-secondaryCol max-w-prose mt-6">
-                      Som frugten af flere års hårdt slid, har vi nu skabt hvad vi mener er de bedste omgivelser til netop dette,
-                      i vores nye Next Level Pro Room(NLP). Her kan du sidde privat med dit hold og fordybe dig i dit spil uden at
-                      blive forstyrret. Vi har ladet os inspirere af de professionelle gamere til at udruste vores NLP-Room med 10
-                      kraftfulde pcer fra Shark Gaming <br />
-                      <br /> Hvis du eller din virksomhed har brug for et sted hvor i kan træne til at spille i E-sport ligaen er
-                      dette rum det perfekte sted for jer. Ring eller skriv til vores mail hvis i er interesseret i et samarbejde.
-                    </p>
-                  </div>
+                  <div className="">
+                    <div className="flex flex-col ">
+                      <h2 className={clsx(variant, "text-4xl")}>{header}</h2>
+                      <h4 className="text-secondaryCol mt-0">
+                        Per time - <span className="text-amber-500">{timePris}kr.</span>
+                      </h4>
+                      <p className="text-secondaryCol max-w-prose mt-6">
+                        Som frugten af flere års hårdt slid, har vi nu skabt hvad vi mener er de bedste omgivelser til netop
+                        dette, i vores nye Next Level Pro Room(NLP). Her kan du sidde privat med dit hold og fordybe dig i dit
+                        spil uden at blive forstyrret. Vi har ladet os inspirere af de professionelle gamere til at udruste vores
+                        NLP-Room med 10 kraftfulde pcer fra Shark Gaming <br />
+                        <br /> Hvis du eller din virksomhed har brug for et sted hvor i kan træne til at spille i E-sport ligaen
+                        er dette rum det perfekte sted for jer. Ring eller skriv til vores mail hvis i er interesseret i et
+                        samarbejde.
+                      </p>
+                    </div>
 
-                  <div className="flex flex-col gap-5 h-full items-center w-3/5">
-                    <div className="bg-red-500 min-w-[420px] h-[280px] "></div>
+                    <div className=" aspect-video mt-6 md:hidden">
+                      <iframe
+                        width="560"
+                        height="315"
+                        src="https://www.youtube.com/embed/byPA-Gn9MdQ?si=Z1_x75C8Y61y4hL0"
+                        title="YouTube video player"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        className="w-full"
+                      ></iframe>
+                    </div>
 
-                    <div className="flex flex-col gap-5 max-w-[420px]">
-                      <h4 className="text-secondaryCol mt-0">specs</h4>
-                      <div className="h-[1px] bg-accentCol w-14 -mt-4"></div>
-                      <div className="flex">
-                        <div className="flex flex-col gap-5">
-                          <div className="flex gap-1">
-                            <HiCpuChip
-                              className="flex-shrink-0"
-                              size={20}
-                            />
-                            <p className="text-secondaryCol mt-0">i9-14900KF</p>
+                    <div className="flex flex-col gap-5 h-full">
+                      <div className="bg-red-500   "></div>
+
+                      <div className="flex flex-col gap-5 ">
+                        <h4 className="text-secondaryCol mt-0">specs</h4>
+                        <div className="h-[1px] bg-accentCol w-14 -mt-4"></div>
+                        <div className="flex flex-col md:flex-row md:justify-between">
+                          <div className="flex flex-col gap-5">
+                            <div className="flex gap-1">
+                              <HiCpuChip
+                                className="flex-shrink-0"
+                                size={20}
+                              />
+                              <p className="text-secondaryCol mt-0">i9-14900KF</p>
+                            </div>
+                            <div className="flex gap-3">
+                              <BsGpuCard
+                                className="flex-shrink-0"
+                                size={20}
+                              />
+                              <p className="text-secondaryCol mt-0">RTX 4080</p>
+                            </div>
+                            <div className="flex gap-3">
+                              <FaMemory
+                                className="flex-shrink-0"
+                                size={20}
+                              />
+                              <p className="text-secondaryCol mt-0"> 64GB DDR5 RAM</p>
+                            </div>
                           </div>
-                          <div className="flex gap-3">
-                            <BsGpuCard
-                              className="flex-shrink-0"
-                              size={20}
-                            />
-                            <p className="text-secondaryCol mt-0">RTX 4080</p>
-                          </div>
-                          <div className="flex gap-3">
-                            <FaMemory
-                              className="flex-shrink-0"
-                              size={20}
-                            />
-                            <p className="text-secondaryCol mt-0"> 64GB DDR5 RAM</p>
-                          </div>
-                        </div>
-                        <div className="flex flex-col gap-5">
-                          <div className="flex gap-3">
-                            <FaDesktop
-                              className="flex-shrink-0"
-                              size={20}
-                            />
-                            <p className="text-secondaryCol mt-0">27" 1440p 240HZ</p>
-                          </div>
-                          <div className="flex gap-3">
-                            <FaMouse
-                              className="flex-shrink-0"
-                              size={20}
-                            />
-                            <p className="text-secondaryCol mt-0">Logitech G PRO X SUPERLIGHT</p>
-                          </div>
-                          <div className="flex gap-3">
-                            <FaKeyboard
-                              className="flex-shrink-0"
-                              size={20}
-                            />
-                            <p className="text-secondaryCol mt-0">CORSAIR K55 RGB PRO</p>
-                          </div>
-                          <div className="flex gap-3">
-                            <FaHeadset
-                              className="flex-shrink-0"
-                              size={20}
-                            />
-                            <p className="text-secondaryCol mt-0">Logitech G PRO X 2 - LIGHTSPEED</p>´
+                          <div className="flex flex-col gap-5 mt-5 md:mt-0">
+                            <div className="flex gap-3">
+                              <FaDesktop
+                                className="flex-shrink-0"
+                                size={20}
+                              />
+                              <p className="text-secondaryCol mt-0">27" 1440p 240HZ</p>
+                            </div>
+                            <div className="flex gap-3">
+                              <FaMouse
+                                className="flex-shrink-0"
+                                size={20}
+                              />
+                              <p className="text-secondaryCol mt-0">Logitech G PRO X SUPERLIGHT</p>
+                            </div>
+                            <div className="flex gap-3">
+                              <FaKeyboard
+                                className="flex-shrink-0"
+                                size={20}
+                              />
+                              <p className="text-secondaryCol mt-0">CORSAIR K55 RGB PRO</p>
+                            </div>
+                            <div className="flex gap-3">
+                              <FaHeadset
+                                className="flex-shrink-0"
+                                size={20}
+                              />
+                              <p className="text-secondaryCol mt-0">Logitech G PRO X 2 - LIGHTSPEED</p>
+                            </div>
                           </div>
                         </div>
                       </div>
                     </div>
+                  </div>
+                  <div className=" aspect-video mt-6 hidden md:block w-1/2">
+                    <iframe
+                      width="560"
+                      height="315"
+                      src="https://www.youtube.com/embed/byPA-Gn9MdQ?si=Z1_x75C8Y61y4hL0"
+                      title="YouTube video player"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      className="w-full"
+                    ></iframe>
                   </div>
                 </motion.div>
                 <motion.div
