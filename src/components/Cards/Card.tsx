@@ -318,7 +318,7 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
                       </div>
                     </div>
                   </div>
-                  <div className=" aspect-video mt-6 hidden md:block w-full">
+                  <div className=" aspect-video mt-6 hidden md:block w-1/2">
                     <iframe
                       width="560"
                       height="315"
