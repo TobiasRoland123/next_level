@@ -224,24 +224,101 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
                   animate={isHovered ? "hover" : "default"}
                   transition={{ duration: 0.1 }}
                   variants={InnerBoxVariantNlp}
-                  className="bg-primaryCol flex flex-col md:flex-row justify-between p-7 w-full  rounded"
+                  className="bg-primaryCol flex flex-col md:flex-row  justify-between p-7 w-full gap-14 rounded"
                 >
-                  <div className="flex flex-col ">
-                    <h2 className={clsx(variant, "text-4xl")}>{header}</h2>
-                    <h4 className="text-secondaryCol mt-0">
-                      Per time - <span className="text-amber-500">{timePris}kr.</span>
-                    </h4>
-                    <p className="text-secondaryCol max-w-prose mt-6">
-                      Som frugten af flere års hårdt slid, har vi nu skabt hvad vi mener er de bedste omgivelser til netop dette,
-                      i vores nye Next Level Pro Room(NLP). Her kan du sidde privat med dit hold og fordybe dig i dit spil uden at
-                      blive forstyrret. Vi har ladet os inspirere af de professionelle gamere til at udruste vores NLP-Room med 10
-                      kraftfulde pcer fra Shark Gaming <br />
-                      <br /> Hvis du eller din virksomhed har brug for et sted hvor i kan træne til at spille i E-sport ligaen er
-                      dette rum det perfekte sted for jer. Ring eller skriv til vores mail hvis i er interesseret i et samarbejde.
-                    </p>
-                  </div>
+                  <div className="">
+                    <div className="flex flex-col ">
+                      <h2 className={clsx(variant, "text-4xl")}>{header}</h2>
+                      <h4 className="text-secondaryCol mt-0">
+                        Per time - <span className="text-amber-500">{timePris}kr.</span>
+                      </h4>
+                      <p className="text-secondaryCol max-w-prose mt-6">
+                        Som frugten af flere års hårdt slid, har vi nu skabt hvad vi mener er de bedste omgivelser til netop
+                        dette, i vores nye Next Level Pro Room(NLP). Her kan du sidde privat med dit hold og fordybe dig i dit
+                        spil uden at blive forstyrret. Vi har ladet os inspirere af de professionelle gamere til at udruste vores
+                        NLP-Room med 10 kraftfulde pcer fra Shark Gaming <br />
+                        <br /> Hvis du eller din virksomhed har brug for et sted hvor i kan træne til at spille i E-sport ligaen
+                        er dette rum det perfekte sted for jer. Ring eller skriv til vores mail hvis i er interesseret i et
+                        samarbejde.
+                      </p>
+                    </div>
 
-                  <div className=" aspect-video mt-6 md:hidden">
+                    <div className=" aspect-video mt-6 md:hidden">
+                      <iframe
+                        width="560"
+                        height="315"
+                        src="https://www.youtube.com/embed/byPA-Gn9MdQ?si=Z1_x75C8Y61y4hL0"
+                        title="YouTube video player"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        className="w-full"
+                      ></iframe>
+                    </div>
+
+                    <div className="flex flex-col gap-5 h-full">
+                      <div className="bg-red-500   "></div>
+
+                      <div className="flex flex-col gap-5 ">
+                        <h4 className="text-secondaryCol mt-0">specs</h4>
+                        <div className="h-[1px] bg-accentCol w-14 -mt-4"></div>
+                        <div className="flex flex-col md:flex-row md:justify-between">
+                          <div className="flex flex-col gap-5">
+                            <div className="flex gap-1">
+                              <HiCpuChip
+                                className="flex-shrink-0"
+                                size={20}
+                              />
+                              <p className="text-secondaryCol mt-0">i9-14900KF</p>
+                            </div>
+                            <div className="flex gap-3">
+                              <BsGpuCard
+                                className="flex-shrink-0"
+                                size={20}
+                              />
+                              <p className="text-secondaryCol mt-0">RTX 4080</p>
+                            </div>
+                            <div className="flex gap-3">
+                              <FaMemory
+                                className="flex-shrink-0"
+                                size={20}
+                              />
+                              <p className="text-secondaryCol mt-0"> 64GB DDR5 RAM</p>
+                            </div>
+                          </div>
+                          <div className="flex flex-col gap-5 mt-5 md:mt-0">
+                            <div className="flex gap-3">
+                              <FaDesktop
+                                className="flex-shrink-0"
+                                size={20}
+                              />
+                              <p className="text-secondaryCol mt-0">27" 1440p 240HZ</p>
+                            </div>
+                            <div className="flex gap-3">
+                              <FaMouse
+                                className="flex-shrink-0"
+                                size={20}
+                              />
+                              <p className="text-secondaryCol mt-0">Logitech G PRO X SUPERLIGHT</p>
+                            </div>
+                            <div className="flex gap-3">
+                              <FaKeyboard
+                                className="flex-shrink-0"
+                                size={20}
+                              />
+                              <p className="text-secondaryCol mt-0">CORSAIR K55 RGB PRO</p>
+                            </div>
+                            <div className="flex gap-3">
+                              <FaHeadset
+                                className="flex-shrink-0"
+                                size={20}
+                              />
+                              <p className="text-secondaryCol mt-0">Logitech G PRO X 2 - LIGHTSPEED</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className=" aspect-video mt-6 hidden md:block w-full">
                     <iframe
                       width="560"
                       height="315"
@@ -250,70 +327,6 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                       className="w-full"
                     ></iframe>
-                  </div>
-
-                  <div className="flex flex-col gap-5 h-full items-center">
-                    <div className="bg-red-500   "></div>
-
-                    <div className="flex flex-col gap-5 max-w-[420px]">
-                      <h4 className="text-secondaryCol mt-0">specs</h4>
-                      <div className="h-[1px] bg-accentCol w-14 -mt-4"></div>
-                      <div className="flex flex-col md:flex-row">
-                        <div className="flex flex-col gap-5">
-                          <div className="flex gap-1">
-                            <HiCpuChip
-                              className="flex-shrink-0"
-                              size={20}
-                            />
-                            <p className="text-secondaryCol mt-0">i9-14900KF</p>
-                          </div>
-                          <div className="flex gap-3">
-                            <BsGpuCard
-                              className="flex-shrink-0"
-                              size={20}
-                            />
-                            <p className="text-secondaryCol mt-0">RTX 4080</p>
-                          </div>
-                          <div className="flex gap-3">
-                            <FaMemory
-                              className="flex-shrink-0"
-                              size={20}
-                            />
-                            <p className="text-secondaryCol mt-0"> 64GB DDR5 RAM</p>
-                          </div>
-                        </div>
-                        <div className="flex flex-col gap-5">
-                          <div className="flex gap-3">
-                            <FaDesktop
-                              className="flex-shrink-0"
-                              size={20}
-                            />
-                            <p className="text-secondaryCol mt-0">27" 1440p 240HZ</p>
-                          </div>
-                          <div className="flex gap-3">
-                            <FaMouse
-                              className="flex-shrink-0"
-                              size={20}
-                            />
-                            <p className="text-secondaryCol mt-0">Logitech G PRO X SUPERLIGHT</p>
-                          </div>
-                          <div className="flex gap-3">
-                            <FaKeyboard
-                              className="flex-shrink-0"
-                              size={20}
-                            />
-                            <p className="text-secondaryCol mt-0">CORSAIR K55 RGB PRO</p>
-                          </div>
-                          <div className="flex gap-3">
-                            <FaHeadset
-                              className="flex-shrink-0"
-                              size={20}
-                            />
-                            <p className="text-secondaryCol mt-0">Logitech G PRO X 2 - LIGHTSPEED</p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
                   </div>
                 </motion.div>
                 <motion.div
