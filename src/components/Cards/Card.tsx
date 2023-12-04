@@ -5,13 +5,19 @@ import { HiCpuChip } from "react-icons/hi2";
 import { BsGpuCard } from "react-icons/bs";
 import { FaDesktop, FaHeadset, FaKeyboard, FaMemory, FaMouse } from "react-icons/fa";
 import Tilt from "react-parallax-tilt";
+import foedselsdagEventImg from "../../../public/images/event/foedselsdag.jpg";
+import firmaEventImg from "../../../public/images/event/firma-event.jpg";
+import turneringImg from "../../../public/images/event/turnering.jpg";
 
 import { AnimatePresence, HTMLMotionProps, motion } from "framer-motion";
 import { cn } from "../../lib/utils";
 import clsx from "clsx";
 import { forwardRef, useState } from "react";
+import { version } from "os";
+import { Button, ButtonProps } from "../Button/Button";
+import Image from "next/image";
 
-const cardVariants = cva("w-52 h-80 rounded bg-gradient-to-br cursor-pointer", {
+const cardVariants = cva(" rounded bg-gradient-to-br cursor-pointer", {
   variants: {
     variant: {
       level1: "text-gray-300 from-white to-gray-600",
@@ -22,9 +28,10 @@ const cardVariants = cva("w-52 h-80 rounded bg-gradient-to-br cursor-pointer", {
       nlp: "text-amber-500 w-full from-yellow-400 to-amber-600 h-auto",
       bday1: "text-red-500 w-[343px] h-[460px] from-orange-500 to-red-600",
       bday2: "text-red-500 w-[343px] h-[460px] from-orange-500 to-red-600",
+      eventCard: "bg-contrastCol",
     },
     size: {
-      default: "px-1 py-1",
+      default: `px-1 py-1 `,
     },
   },
   defaultVariants: {
@@ -55,13 +62,42 @@ export interface CardProps
   timePris?: number;
   totalPris?: number;
   oprettelseInkl?: boolean;
+  content?: string;
+  buttonProps?: ButtonProps;
+  eventImage?: "foedselsdag" | "firma" | "turnering";
 }
 
 const Card = forwardRef<HTMLDivElement, CardProps>(
-  ({ variant, header, timeAntal, timePris, totalPris, oprettelseInkl, size, className, ...props }, ref) => {
+  (
+    {
+      variant,
+      header,
+      timeAntal,
+      timePris,
+      totalPris,
+      oprettelseInkl,
+      size,
+      className,
+      content,
+      buttonProps,
+      eventImage,
+      ...props
+    },
+    ref
+  ) => {
     const cardClassName = cn(cardVariants({ variant, size, className }));
     const cardNamesStuff = cardVariants();
     const [isHovered, setIsHovered] = useState(false);
+
+    const setImage = () => {
+      if (eventImage === "foedselsdag") {
+        return foedselsdagEventImg;
+      } else if (eventImage === "firma") {
+        return firmaEventImg;
+      } else {
+        return turneringImg;
+      }
+    };
 
     console.log(cardNamesStuff);
 
@@ -97,7 +133,7 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
             onHoverEnd={() => setIsHovered(false)}
             transition={{ duration: 0.25 }}
             ref={ref}
-            className={cardClassName}
+            className={`${cardClassName} ${variant === "eventCard" && "px-0 py-0"}  `}
             {...props}
           >
             {variant !== "nlp" ? (
@@ -107,11 +143,20 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
                   animate={isHovered ? "hover" : "default"}
                   transition={{ duration: 0.1 }}
                   variants={InnerBoxVariants}
-                  className={`bg-primaryCol flex flex-col  p-4 w-full ${
-                    variant === "bday1" || variant === "bday2" ? "h-[424px]" : "h-72"
-                  } rounded`}
+                  className={`bg-primaryCol flex flex-col  ${variant !== "eventCard" && "p-4"} w-full  rounded`}
                 >
-                  <h2 className={clsx(variant, "text-center text-4xl mt-0")}>{header}</h2>
+                  {variant === "eventCard" && eventImage && (
+                    <Image
+                      src={setImage()}
+                      width={500}
+                      height={500}
+                      alt="event billede"
+                    />
+                  )}
+                  <h2 className={clsx(variant, "text-center text-4xl mt-0 ", `${variant === "eventCard" && "mt-4 p-4"} `)}>
+                    {header}
+                  </h2>
+
                   {variant === "bday1" || variant === "bday2" ? (
                     <>
                       <h3 className=" text-secondaryCol text-center text-3xl mt-0">
@@ -121,9 +166,9 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
                         {variant === "bday1" ? "(min. 8 personer)" : "(MAX. 10 personer)"}
                       </p>
                     </>
-                  ) : (
+                  ) : variant !== "eventCard" ? (
                     <h3 className=" text-secondaryCol text-center text-3xl mt-0">{timeAntal} timer</h3>
-                  )}
+                  ) : null}
 
                   <div className="h-[1px] my-3 bg-secondaryCol rounded"></div>
                   <div className="flex flex-col justify-between h-3/4">
@@ -156,7 +201,7 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
                           <p className=" text-secondaryCol mt-0">En slikpose og en ekstra dåsesodavand.</p>
                         </div>
                       </div>
-                    ) : (
+                    ) : variant !== "eventCard" ? (
                       <div className="flex flex-col gap-2">
                         {oprettelseInkl && (
                           <div className="flex flex-row gap-3">
@@ -187,18 +232,22 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
                           </p>
                         </div>
                       </div>
+                    ) : (
+                      <p className={`${variant === "eventCard" && "px-4"}`}>{content}</p>
                     )}
 
-                    <div>
+                    <div className={`${variant === "eventCard" && "px-4"}`}>
                       {variant === "bday1" || variant === "bday2" ? (
                         <h3 className="text-secondaryCol text-center text-4xl mt-0">{totalPris},- pr. pers.</h3>
-                      ) : (
+                      ) : variant !== "eventCard" ? (
                         <h3 className="text-secondaryCol text-center text-4xl mt-0">{totalPris},-</h3>
-                      )}
+                      ) : null}
 
-                      {!oprettelseInkl && variant !== "bday1" && variant !== "bday2" && (
+                      {!oprettelseInkl && variant !== "bday1" && variant !== "bday2" && variant !== "eventCard" ? (
                         <p className="text-secondaryCol text-center mt-0">(+35 kr i oprettelse)</p>
-                      )}
+                      ) : buttonProps ? (
+                        <Button {...buttonProps} />
+                      ) : null}
                     </div>
                   </div>
                 </motion.div>

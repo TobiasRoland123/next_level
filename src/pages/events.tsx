@@ -25,10 +25,23 @@ export default function Events() {
                   ullamcorper mi. Vestibulum et congue lorem. Suspendisse iaculis semper mauris eget aliquet.{" "}
                 </p>
 
-                <div>
+                <div className=" flex flex-col md:flex-row gap-6">
                   <Card
                     variant={"eventCard"}
                     header="Børne - fødselsdag"
+                    content="It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now"
+                    buttonProps={{ children: "okok", link: "../events/foedselsdag" }}
+                    eventImage="foedselsdag"
+                  />
+                  <Card
+                    variant={"eventCard"}
+                    header="Børne - fødselsdag"
+                    content="It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now"
+                  />
+                  <Card
+                    variant={"eventCard"}
+                    header="Børne - fødselsdag"
+                    content="It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now"
                   />
                 </div>
               </div>
