@@ -22,22 +22,30 @@ export default function Kontakt() {
       }
     } else if (currentUrl.includes("turneringer")) {
       setSelectedValue("turnering");
+      console.log(selectedValue);
       if (contactFormRef.current) {
         contactFormRef.current.scrollIntoView({ behavior: "smooth" });
       }
     } else if (currentUrl.includes("firma-event")) {
       setSelectedValue("firma-event");
+      console.log(selectedValue);
       if (contactFormRef.current) {
         contactFormRef.current.scrollIntoView({ behavior: "smooth" });
       }
     } else {
       console.log("not found");
+      console.log(selectedValue);
       setSelectedValue("");
     }
   }, [currentUrl]);
 
+  useEffect(() => {
+    console.log("Updated state:", selectedValue);
+  }, [selectedValue]);
+
   const handleSelectChange = (value: string) => {
     setSelectedValue(value);
+    console.log("contact", value);
   };
 
   return (

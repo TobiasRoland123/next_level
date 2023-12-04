@@ -13,7 +13,7 @@ export default function Foedselsdag() {
           header="Fødseldagen du aldrig glemmer"
           redWord={["du", "aldrig", "glemmer"]}
           content="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus auctor euismod posuere. Integer non ullamcorper mi. Vestibulum et congue lorem. Suspendisse iaculis semper mauris eget aliquet. Mauris malesuada purus et rhoncus auctor. Fusce vitae justo risus."
-          buttonLabel="Kontakt os"
+          buttonLabel="Book din fødselsdag her"
           isFrontPage={false}
           link="../om-os/kontakt?foedselsdag"
         />

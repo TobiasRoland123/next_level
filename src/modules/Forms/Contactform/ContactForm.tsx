@@ -93,11 +93,18 @@ export const ContactForm: React.FC<ContactFormProps> = ({
       textFieldMessage: "",
     },
   });
+  // Handle changes in the SelectField
+  const handleSelectChange = (value: string) => {
+    onSelectChange(value);
+    form.setValue("subject", value);
+  };
 
-  //   Used for updating the value of the selected value
+  // Update form values when selectedValue changes
   useEffect(() => {
-    form.setValue("subject", selectedValue);
+    form.setValue("subject", "selectedValue");
+    handleSelectChange(selectedValue);
   }, [selectedValue]);
+
   // 2. Define a submit handler.
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     // Do something with the form values.
@@ -117,15 +124,10 @@ export const ContactForm: React.FC<ContactFormProps> = ({
               <FormItem className="mt-5">
                 <FormLabel>Hvad vil du gerne kontakt os omkring?</FormLabel>
                 <FormControl>
-                  <div
-                    className={
-                      form.formState.errors.amountOfKids ? "shake" : ""
-                    }
-                  >
+                  <div className={!form.formState.errors ? "shake" : ""}>
                     <SelectField
-                      onSelectChange={(selectedValue) => {
-                        onSelectChange(selectedValue);
-                      }}
+                      onSelectChange={handleSelectChange}
+                      selectedValue={selectedValue}
                       {...field}
                     />
                   </div>
