@@ -143,7 +143,7 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
                   animate={isHovered ? "hover" : "default"}
                   transition={{ duration: 0.1 }}
                   variants={InnerBoxVariants}
-                  className={`bg-primaryCol flex flex-col  ${variant !== "eventCard" && "p-4"} w-full  rounded`}
+                  className={`bg-primaryCol flex flex-col  ${variant !== "eventCard" && "p-4 bg-contrastCol"} w-full  rounded`}
                 >
                   {variant === "eventCard" && eventImage && (
                     <Image

@@ -25,7 +25,7 @@ export default function Events() {
                   ullamcorper mi. Vestibulum et congue lorem. Suspendisse iaculis semper mauris eget aliquet.{" "}
                 </p>
 
-                <div className=" flex flex-col md:flex-row gap-6">
+                <div className=" flex flex-col md:flex-row gap-6 mt-10 md:mt-16">
                   <Card
                     variant={"eventCard"}
                     header="Børne - fødselsdag"
