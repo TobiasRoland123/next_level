@@ -37,7 +37,18 @@ const disabledDays2 = (numberOfDays: number): Date[] => {
   // Format the date as "YYYY, MM, DD"
   const fFormattedDate = `${Number(fYear)}, ${Number(fMonth)}, ${Number(fDay)}`;
   //@ts-ignore
-  disabledDays.push({ from: new Date(fFormattedDate), to: new Date(2025, 1, 1) });
+  disabledDays.push({ from: new Date(fFormattedDate), to: new Date(2050, 1, 1) });
+
+  //past day
+  const pastDate = new Date();
+  pastDate.setDate(pastDate.getDate() - 1);
+  const pYear = pastDate.getFullYear();
+  const pMonth = String(pastDate.getMonth() + 1).padStart(2, "0"); // Months are zero-indexed
+  const pDay = String(pastDate.getDate()).padStart(2, "0");
+
+  const pFormattedDate = `${Number(pYear)}, ${Number(pMonth)}, ${Number(pDay)}`;
+  //@ts-ignore
+  disabledDays.push({ from: new Date(2023, 1, 1), to: new Date(pFormattedDate) });
 
   console.log(disabledDays);
 
@@ -73,8 +84,11 @@ function Calendar({ className, classNames, showOutsideDays = true, ...props }: C
         cell: "h-9 w-9 text-center text-sm p-0 relative [&:has([aria-selected].day-range-end)]:rounded-r-md [&:has([aria-selected].day-outside)]:bg-accent/50 [&:has([aria-selected])]:bg-accent first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md focus-within:relative focus-within:z-20",
         day: cn(buttonVariants({ variant: "ghost" }), "h-9 w-9 p-0 font-normal aria-selected:opacity-100"),
         day_range_end: "day-range-end",
-        day_selected: "bg-primaryCol text-primary-foreground hover:bg-contrastCol hover:text-contrastCol focus:bg-accentCol focus:text-secondaryCol",
-        day_today: "bg-accent text-accent-foreground",
+        // hover:text-contrastCol -- Removed from day_selected
+        day_selected: "bg-primaryCol text-primary-foreground hover:bg-contrastCol focus:bg-accentCol focus:text-secondaryCol",
+        day_today:
+          // "bg-accent text-accent-foreground"
+          "border border-accentCol",
         day_outside: "day-outside text-muted-foreground opacity-50 aria-selected:bg-accent/50 aria-selected:text-muted-foreground aria-selected:opacity-30",
         day_disabled: "text-muted-foreground text-accentCol opacity-50",
         day_range_middle: "aria-selected:bg-accent aria-selected:text-accent-foreground",
