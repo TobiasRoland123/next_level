@@ -6,16 +6,30 @@ import { MdEmail } from "react-icons/md";
 import { FaYoutube } from "react-icons/fa";
 import { AnimatePresence, motion } from "framer-motion";
 import { Accordions } from "../../components/Accordion/Accordion";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 export default function Kontakt() {
   const currentUrl = typeof window !== "undefined" ? window.location.href : "";
   const [selectedValue, setSelectedValue] = useState("");
+  const contactFormRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     if (currentUrl.includes("foedselsdag")) {
       console.log("found");
       setSelectedValue("fødselsdag");
+      if (contactFormRef.current) {
+        contactFormRef.current.scrollIntoView({ behavior: "smooth" });
+      }
+    } else if (currentUrl.includes("turneringer")) {
+      setSelectedValue("turnering");
+      if (contactFormRef.current) {
+        contactFormRef.current.scrollIntoView({ behavior: "smooth" });
+      }
+    } else if (currentUrl.includes("firma-event")) {
+      setSelectedValue("firma-event");
+      if (contactFormRef.current) {
+        contactFormRef.current.scrollIntoView({ behavior: "smooth" });
+      }
     } else {
       console.log("not found");
       setSelectedValue("");
@@ -41,7 +55,10 @@ export default function Kontakt() {
               <h2 className="md:col-span-2">
                 "Der findes ikke dumme spørgsmål"
               </h2>
-              <div className="md:row-start-2 md:col-start-2 md:row-span-3">
+              <div
+                ref={contactFormRef}
+                className="md:row-start-2 md:col-start-2 md:row-span-3"
+              >
                 <h3>Send os dit spørgsmål</h3>
                 <ContactForm
                   selectedValue={selectedValue}

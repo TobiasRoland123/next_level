@@ -12,6 +12,7 @@ export default function FirmaEvents() {
         redWord={["firma", "events"]}
         content="Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. "
         buttonLabel="Kontakt os"
+        link="../om-os/kontakt?firma-event"
       />
       <section>
         <article className="flex justify-center">
@@ -22,12 +23,17 @@ export default function FirmaEvents() {
 
             <div className="flex flex-col md:flex-row gap-14 md:mt-10">
               <div>
-                <h3 className="md:mt-0">Det perfekte sociale arrangement til kolleger</h3>
+                <h3 className="md:mt-0">
+                  Det perfekte sociale arrangement til kolleger
+                </h3>
                 <p>
-                  Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin
-                  literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney
-                  College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and
-                  going through the cites of the word in classical literature, discovered the undoubtable
+                  Contrary to popular belief, Lorem Ipsum is not simply random
+                  text. It has roots in a piece of classical Latin literature
+                  from 45 BC, making it over 2000 years old. Richard McClintock,
+                  a Latin professor at Hampden-Sydney College in Virginia,
+                  looked up one of the more obscure Latin words, consectetur,
+                  from a Lorem Ipsum passage, and going through the cites of the
+                  word in classical literature, discovered the undoubtable
                 </p>
               </div>
               <div>
@@ -46,7 +52,8 @@ export default function FirmaEvents() {
       <section>
         <div className="flex justify-center">
           <h2 className="spacer w-full">
-            Eksempler på tidligere <span className=" text-accentCol">Firma events</span>
+            Eksempler på tidligere{" "}
+            <span className=" text-accentCol">Firma events</span>
           </h2>
         </div>
         <article className="flex justify-center">
@@ -54,11 +61,15 @@ export default function FirmaEvents() {
             <div>
               <h3 className="md:mt-0">Eksempel 1</h3>
               <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus auctor euismod posuere. Integer non ullamcorper
-                mi. Vestibulum et congue lorem. Suspendisse iaculis semper mauris eget aliquet. Mauris malesuada purus et rhoncus
-                auctor. Fusce vitae justo risus. Vestibulum convallis justo eu diam dignissim posuere. Donec ac maximus lectus.
-                Praesent non nibh eget sem tincidunt ultricies vel vitae magna. Nullam eget tellus id quam commodo iaculis
-                convallis a odio. Phasellus sagittis velit eget leo.
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                Phasellus auctor euismod posuere. Integer non ullamcorper mi.
+                Vestibulum et congue lorem. Suspendisse iaculis semper mauris
+                eget aliquet. Mauris malesuada purus et rhoncus auctor. Fusce
+                vitae justo risus. Vestibulum convallis justo eu diam dignissim
+                posuere. Donec ac maximus lectus. Praesent non nibh eget sem
+                tincidunt ultricies vel vitae magna. Nullam eget tellus id quam
+                commodo iaculis convallis a odio. Phasellus sagittis velit eget
+                leo.
               </p>
             </div>
             <div className="md:max-w-[40%]">
@@ -87,11 +98,15 @@ export default function FirmaEvents() {
             <div className="order-1 md:order-2">
               <h3 className="md:mt-0">Eksempel 2</h3>
               <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus auctor euismod posuere. Integer non ullamcorper
-                mi. Vestibulum et congue lorem. Suspendisse iaculis semper mauris eget aliquet. Mauris malesuada purus et rhoncus
-                auctor. Fusce vitae justo risus. Vestibulum convallis justo eu diam dignissim posuere. Donec ac maximus lectus.
-                Praesent non nibh eget sem tincidunt ultricies vel vitae magna. Nullam eget tellus id quam commodo iaculis
-                convallis a odio. Phasellus sagittis velit eget leo.
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                Phasellus auctor euismod posuere. Integer non ullamcorper mi.
+                Vestibulum et congue lorem. Suspendisse iaculis semper mauris
+                eget aliquet. Mauris malesuada purus et rhoncus auctor. Fusce
+                vitae justo risus. Vestibulum convallis justo eu diam dignissim
+                posuere. Donec ac maximus lectus. Praesent non nibh eget sem
+                tincidunt ultricies vel vitae magna. Nullam eget tellus id quam
+                commodo iaculis convallis a odio. Phasellus sagittis velit eget
+                leo.
               </p>
             </div>
           </div>
@@ -99,7 +114,10 @@ export default function FirmaEvents() {
       </section>
 
       <section>
-        <div className="border-2 border-green-500"> small form comming soon</div>
+        <div className="border-2 border-green-500">
+          {" "}
+          small form comming soon
+        </div>
       </section>
     </>
   );
