@@ -1,9 +1,10 @@
-import { GameRoot, Platform, Tag } from '@/Types/gamelist';
+import { GameRoot, Platform, Tag, Game } from '@/Types/gamelist';
 import { createClient } from '@supabase/supabase-js';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { cn } from '../../lib/utils';
 import { LayoutAdmin } from '@/Layout_Admin';
+import { useDebounce } from 'usehooks-ts';
 
 import {
   Command,
@@ -41,8 +42,9 @@ export async function getServerSideProps() {
 }
 
 export default function Spil({ gamelist }: { gamelist: GameCardRoot[] }) {
-  const [gameData, setGameData] = useState<GameCardRoot>();
-  const [searchString, setSearchString] = useState('');
+  const [gameData, setGameData] = useState<GameRoot>();
+  const [searchString, setSearchString] = useState<string>('');
+  const debouncedValue = useDebounce<string>(searchString, 1000);
   const [gameId, setGameId] = useState(0);
   const [gameList, setGameList] = useState<GameCardRoot[]>([]);
   const [selectedPlatforms, setSelectedPlatforms] = useState<Platform[]>([]);
@@ -51,7 +53,9 @@ export default function Spil({ gamelist }: { gamelist: GameCardRoot[] }) {
   const [value, setValue] = useState('');
   const [isClient, setIsClient] = useState(false);
   const [showEditGame, setShowEditGame] = useState(false);
+  const [showAddGame, setShowAddGame] = useState(false);
   const [editGame, setEditGame] = useState<GameCardRoot>();
+  const [addGame, setAddGame] = useState<Game>();
 
   useEffect(() => {
     setIsClient(true);
@@ -79,27 +83,27 @@ export default function Spil({ gamelist }: { gamelist: GameCardRoot[] }) {
 
   /* GAME LIST FETCH */
 
-  const handlePlatformChange = (platform: Platform) => {
+  /*   const handlePlatformChange = (platform: Platform) => {
     if (selectedPlatforms.includes(platform)) {
       setSelectedPlatforms(selectedPlatforms.filter(id => id !== platform));
     } else {
       setSelectedPlatforms([...selectedPlatforms, platform]);
     }
-  };
+  }; */
 
-  const handleTagChange = (tag: Tag) => {
+  /*   const handleTagChange = (tag: Tag) => {
     if (selectedTags.includes(tag)) {
       setSelectedTags(selectedTags.filter(id => id !== tag));
     } else {
       setSelectedTags([...selectedTags, tag]);
     }
-  };
+  }; */
 
-  function handleShowEditGame() {
+  /*   function handleShowEditGame() {
     showEditGame ? (setEditGame(undefined), setShowEditGame(false)) : setShowEditGame(true);
-  }
+  } */
 
-  function handleGameStuff(game: GameCardRoot) {
+  /*   function handleGameStuff(game: GameCardRoot) {
     console.log('new gaaaaaammmmmeee', game);
     const saveGame = {
       id: game?.id,
@@ -116,9 +120,44 @@ export default function Spil({ gamelist }: { gamelist: GameCardRoot[] }) {
     };
 
     setEditGame(saveGame);
+  } */
+
+  const handleFieldChange = (fieldName: string, newValue: string) => {
+    console.log(`Field ${fieldName} changed to: ${newValue}`);
+  };
+
+  async function handleAddGame(game: Game) {
+    console.log('Add game selected', game);
+    const saveGame = {
+      id: game?.id,
+      title: game?.name,
+      background_image: game?.background_image,
+      description: game?.description,
+      platforms: selectedPlatforms.map(platform => ({
+        id: platform.id,
+        name: platform.name,
+        slug: platform.slug,
+      })),
+      tags: selectedTags.map(tag => ({ id: tag.id, name: tag.name, slug: tag.slug })),
+    };
+
+    const { data, error } = await supabase.from('gamelist').insert([saveGame]).select();
+
+    if (error) {
+      console.error('Supabase error:', error);
+      // Handle the error appropriately
+      return;
+    }
+
+    const updatedList = [...gameList, saveGame];
+
+    setSelectedPlatforms([]);
+    setSelectedTags([]);
+
+    return console.log('payload', saveGame), setGameList(updatedList as GameCardRoot[]);
   }
 
-  async function handleClick() {
+  /*   async function handleClick() {
     const saveGame = {
       id: gameData?.id,
       title: gameData?.name,
@@ -146,7 +185,7 @@ export default function Spil({ gamelist }: { gamelist: GameCardRoot[] }) {
     setSelectedTags([]);
 
     return console.log('payload', saveGame), setGameList(updatedList as GameCardRoot[]);
-  }
+  } */
 
   useEffect(() => {
     console.log('gamelist', gameList);
@@ -159,7 +198,7 @@ export default function Spil({ gamelist }: { gamelist: GameCardRoot[] }) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`/api/gamelist?search=${searchString}&gameId=${gameId}`);
+        const response = await fetch(`/api/gamelist?search=${debouncedValue}&gameId=${gameId}`);
         if (response.ok) {
           const jsonData = await response.json();
           console.log('data', jsonData);
@@ -173,7 +212,7 @@ export default function Spil({ gamelist }: { gamelist: GameCardRoot[] }) {
       }
     };
     fetchData();
-  }, [searchString, gameId]);
+  }, [debouncedValue, gameId]);
 
   console.log('game data', gameData);
 
@@ -281,32 +320,34 @@ export default function Spil({ gamelist }: { gamelist: GameCardRoot[] }) {
                         className="h-9"
                         onValueChange={e => setSearchString(e)}
                       />
-                      <CommandEmpty>No game found.</CommandEmpty>
+
                       <CommandGroup className="overflow-scroll">
-                        {gameData?.results.map(game => (
-                          <CommandItem
-                            key={game.id}
-                            value={game.id}
-                            onSelect={currentValue => {
-                              setValue(currentValue === value ? '' : currentValue);
+                        {gameData &&
+                          gameData?.results.map(game => (
+                            <CommandItem
+                              key={game.id}
+                              value={game.id}
+                              onSelect={currentValue => {
+                                setValue(currentValue === value ? '' : currentValue);
 
-                              console.log('value', currentValue);
+                                console.log('value', currentValue);
 
-                              setOpen(false);
-                              setShowEditGame(true);
+                                setOpen(false);
+                                setShowAddGame(true);
+                                setAddGame(game);
 
-                              handleGameStuff(game);
-                            }}
-                          >
-                            {game.name}
-                            <CheckIcon
-                              className={cn(
-                                'ml-auto h-4 w-4',
-                                value === game.name ? 'opacity-100' : 'opacity-0'
-                              )}
-                            />
-                          </CommandItem>
-                        ))}
+                                handleAddGame(game);
+                              }}
+                            >
+                              {game.name}
+                              <CheckIcon
+                                className={cn(
+                                  'ml-auto h-4 w-4',
+                                  value === game.name ? 'opacity-100' : 'opacity-0'
+                                )}
+                              />
+                            </CommandItem>
+                          ))}
                       </CommandGroup>
                     </Command>
                   </PopoverContent>
@@ -336,65 +377,19 @@ export default function Spil({ gamelist }: { gamelist: GameCardRoot[] }) {
           </div>
         </main>
 
-        <Sheet
-          open={showEditGame}
-          onOpenChange={() => handleShowEditGame()}
-        >
-          {editGame && (
+        {editGame && (
+          <Sheet
+            open={showEditGame}
+            onOpenChange={() => setShowEditGame(showEditGame ? false : true)}
+          >
             <SheetContent className="w-[400px]">
               <SheetHeader>
-                <SheetTitle>
-                  {gamelist.find(game => game.id === editGame.id) ? 'Rediger spil' : 'Tilføj spil'}
-                </SheetTitle>
+                <SheetTitle>Rediger spil</SheetTitle>
                 <SheetDescription>
                   This action cannot be undone. This will permanently delete your account and remove
                   your data from our servers.
                 </SheetDescription>
               </SheetHeader>
-              {/*   <div className="grid gap-4 py-4">
-                {Object.keys(editGame).map(
-                  field =>
-                    field !== 'id' &&
-                    field !== 'platforms' &&
-                    field !== 'background_image' && (
-                      <div className="">
-                        <Label
-                          htmlFor={field}
-                          className="text-left"
-                        >
-                          {field}
-                        </Label>
-                        {field === 'description' ? (
-                          <Textarea
-                            id={field}
-                            value={editGame[field]}
-                            onChange={e => handleInputChange(field, e.target.value)}
-                            className="resize-none"
-                          />
-                        ) : field === 'tags' ? (
-                          <div className="flex flex-col">
-                            {editGame[field].map(tag => (
-                              <div className="flex items-center gap-2">
-                                <Input
-                                  className="w-4 h-4"
-                                  type="checkbox"
-                                />
-                                <Label>{tag.name}</Label>
-                              </div>
-                            ))}
-                          </div>
-                        ) : (
-                          <Input
-                            id={field}
-                            value={editGame[field]}
-                            onChange={e => handleInputChange(field, e.target.value)}
-                            className=""
-                          />
-                        )}
-                      </div>
-                    )
-                )}
-              </div> */}
 
               <>
                 <div>
@@ -410,7 +405,7 @@ export default function Spil({ gamelist }: { gamelist: GameCardRoot[] }) {
                   <Textarea
                     id={editGame.description}
                     value={editGame.description}
-                    onChange={e => handleTagChange(editGame.description, e.target.value)}
+                    onChange={e => handleFieldChange(editGame.description, e.target.value)}
                     className="resize-none"
                   />
                 </div>
@@ -425,8 +420,53 @@ export default function Spil({ gamelist }: { gamelist: GameCardRoot[] }) {
                 </div>
               </>
             </SheetContent>
-          )}
-        </Sheet>
+          </Sheet>
+        )}
+        {addGame && (
+          <Sheet
+            open={showAddGame}
+            onOpenChange={() => setShowAddGame(showAddGame ? false : true)}
+          >
+            <SheetContent className="w-[400px] overflow-scroll">
+              <SheetHeader>
+                <SheetTitle>Tilføj spil</SheetTitle>
+                <SheetDescription>
+                  This action cannot be undone. This will permanently delete your account and remove
+                  your data from our servers.
+                </SheetDescription>
+              </SheetHeader>
+              <>
+                <div>
+                  <Label htmlFor={addGame.name}>Spil titel</Label>
+                  <Input
+                    id={addGame.name}
+                    value={addGame.name}
+                    className=""
+                  />
+                </div>
+                <div>
+                  <Label htmlFor={addGame.description}>Beskrivelse</Label>
+                  <Textarea
+                    id={addGame.description}
+                    value={addGame.description}
+                    onChange={e => handleFieldChange(addGame.description, e.target.value)}
+                    className="resize-none"
+                  />
+                </div>
+                <div>
+                  <Label>Tags</Label>
+                  {addGame.tags.map(tag => (
+                    <Input
+                      labelText={tag.name}
+                      type="checkbox"
+                      className="h-3"
+                    />
+                  ))}
+                </div>
+              </>
+            </SheetContent>
+          </Sheet>
+        )}
       </LayoutAdmin>
     </>
   );

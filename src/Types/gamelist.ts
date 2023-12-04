@@ -2,7 +2,7 @@ export interface GameRoot {
   count: number;
   next: string;
   previous: any;
-  results: GameList[];
+  results: Game[];
   seo_title: string;
   seo_description: string;
   seo_keywords: string;
@@ -13,7 +13,7 @@ export interface GameRoot {
   nofollow_collections: string[];
 }
 
-export interface GameList {
+export interface Game {
   id: string;
   slug: string;
   name: string;

@@ -1,6 +1,6 @@
 import { supabase } from '../pages/utils/supabaseClient';
 import { GameCard } from '@/components/GameCard/GameCard';
-import { GameListRoot, PlatformArr, GameCardRoot, Tag } from '@/Types/gamelist';
+import { Game } from '@/Types/gamelist';
 
 import { Layout } from '@/Layout';
 import { Hero } from '@/modules/Hero/Hero';
@@ -10,7 +10,7 @@ export async function getServerSideProps() {
 
   return { props: { gamelist } };
 }
-export default function Spil({ gamelist }: { gamelist: GameCardRoot[] }) {
+export default function Spil({ gamelist }: { gamelist: Game[] }) {
   return (
     <>
       <Layout>
