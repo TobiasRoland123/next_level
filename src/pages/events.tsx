@@ -28,7 +28,7 @@ export default function Events() {
                     ullamcorper mi. Vestibulum et congue lorem. Suspendisse iaculis semper mauris eget aliquet.{" "}
                   </p>
 
-                  <div className=" flex flex-col md:flex-row md:flex-wrap gap-6 mt-10 md:mt-16 justify-around md:gap-10">
+                  <div className=" flex flex-col items-center md:items-stretch md:flex-row md:flex-wrap gap-6 mt-10 md:mt-16 justify-around md:gap-10">
                     <EventCard
                       header="Børne - Fødselsdag"
                       content="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus auctor euismod posuere. Integer non ullamcorper mi. Vestibulum et congue lorem. Suspendisse iaculis semper mauris eget aliquet."
