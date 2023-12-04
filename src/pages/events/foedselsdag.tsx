@@ -3,6 +3,7 @@ import { Hero } from "@/modules/Hero/Hero";
 import Image from "next/image";
 import barnVr from "../../../public/images/event/foedselsdag/barn-vr.jpeg";
 import { Card } from "@/components/Cards/Card";
+import { Button } from "@/components/Button/Button";
 
 export default function Foedselsdag() {
   return (
@@ -14,6 +15,7 @@ export default function Foedselsdag() {
         buttonLabel="Kontakt os"
         isFrontPage={false}
       />
+      <Button link="../om-os/kontakt?foedselsdag">Add parameter</Button>
       <section>
         <div className="flex justify-center">
           <h2 className="spacer w-full">
@@ -31,11 +33,15 @@ export default function Foedselsdag() {
                 Elsker du og dine venner at game?
               </h3>
               <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus auctor euismod posuere. Integer non ullamcorper
-                mi. Vestibulum et congue lorem. Suspendisse iaculis semper mauris eget aliquet. Mauris malesuada purus et rhoncus
-                auctor. Fusce vitae justo risus. Vestibulum convallis justo eu diam dignissim posuere. Donec ac maximus lectus.
-                Praesent non nibh eget sem tincidunt ultricies vel vitae magna. Nullam eget tellus id quam commodo iaculis
-                convallis a odio. Phasellus sagittis velit eget leo.
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                Phasellus auctor euismod posuere. Integer non ullamcorper mi.
+                Vestibulum et congue lorem. Suspendisse iaculis semper mauris
+                eget aliquet. Mauris malesuada purus et rhoncus auctor. Fusce
+                vitae justo risus. Vestibulum convallis justo eu diam dignissim
+                posuere. Donec ac maximus lectus. Praesent non nibh eget sem
+                tincidunt ultricies vel vitae magna. Nullam eget tellus id quam
+                commodo iaculis convallis a odio. Phasellus sagittis velit eget
+                leo.
               </p>
             </div>
             <div>

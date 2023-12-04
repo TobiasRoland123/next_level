@@ -5,8 +5,20 @@ import { FaClock, FaHouse, FaPhone } from "react-icons/fa6";
 import { MdEmail } from "react-icons/md";
 import { FaYoutube } from "react-icons/fa";
 import { AnimatePresence, motion } from "framer-motion";
+import { Accordions } from "../../components/Accordion/Accordion";
+import { useEffect, useState } from "react";
 
 export default function Kontakt() {
+  const currentUrl = typeof window !== "undefined" ? window.location.href : "";
+
+  useEffect(() => {
+    if (currentUrl.includes("foedselsdag")) {
+      console.log("found");
+    } else {
+      console.log("not found");
+    }
+  }, [currentUrl]);
+
   return (
     <>
       <Layout>
@@ -18,15 +30,17 @@ export default function Kontakt() {
             isFrontPage={true}
           />
           <section className="flex justify-center">
-            <article className="spacer w-full">
-              <h2>"Der findes ikke dumme spørgsmål"</h2>
-              <h3>Send os dit spørgsmål</h3>
-
-              <ContactForm />
-
+            <article className="spacer w-full md:grid md:grid-cols-2">
+              <h2 className="md:col-span-2">
+                "Der findes ikke dumme spørgsmål"
+              </h2>
+              <div className="md:row-start-2 md:col-start-2 md:row-span-3">
+                <h3>Send os dit spørgsmål</h3>
+                <ContactForm />
+              </div>
               {/* INFORMATION */}
-              <div className="w-full mt-16">
-                <div className="bg-contrastCol mt-8 p-4 md:max-w-[66%]">
+              <div className="w-full mt-16 md:col-start-1 md:row-start-2">
+                <div className="bg-contrastCol  p-4 md:max-w-[80%] md:col-start-1">
                   <h4 className="mt-0">Information</h4>
                   <ul className="flex flex-col sm:flex-row gap-3 ">
                     <li>
@@ -94,63 +108,97 @@ export default function Kontakt() {
                     </li>
                   </ul>
                 </div>
-              </div>
 
-              {/* SOCIAL MEDIA */}
-              <div className="w-full !mt-0">
-                <div className="h-36 flex bg-contrastCol mt-8 p-4 flex-col md:max-w-[66%]">
-                  <div>
-                    <h4 className="mt-0">Sociale medier</h4>
-                  </div>
-                  <div className="flex justify-evenly align-center">
-                    <AnimatePresence>
-                      <motion.div
-                        whileHover={{ scale: 1.5 }}
-                        animate={{ rotate: 0, scale: 1 }}
-                        transition={{
-                          type: "spring",
-                          stiffness: 500,
-                          damping: 20,
-                        }}
-                      >
-                        <FaYoutube className={"text-3xl cursor-pointer"} />
-                      </motion.div>
-                      <motion.div
-                        whileHover={{ scale: 1.5 }}
-                        animate={{ rotate: 0, scale: 1 }}
-                        transition={{
-                          type: "spring",
-                          stiffness: 500,
-                          damping: 20,
-                        }}
-                      >
-                        <FaYoutube className={"text-3xl cursor-pointer"} />
-                      </motion.div>
-                      <motion.div
-                        whileHover={{ scale: 1.5 }}
-                        animate={{ rotate: 0, scale: 1 }}
-                        transition={{
-                          type: "spring",
-                          stiffness: 500,
-                          damping: 20,
-                        }}
-                      >
-                        <FaYoutube className={"text-3xl cursor-pointer"} />
-                      </motion.div>
-                      <motion.div
-                        whileHover={{ scale: 1.5 }}
-                        animate={{ rotate: 0, scale: 1 }}
-                        transition={{
-                          type: "spring",
-                          stiffness: 500,
-                          damping: 20,
-                        }}
-                      >
-                        <FaYoutube className={"text-3xl cursor-pointer"} />
-                      </motion.div>
-                    </AnimatePresence>
+                {/* SOCIAL MEDIA */}
+                <div className="w-full !mt-0 md:max-w-[80%]">
+                  <div className="h-36 flex bg-contrastCol mt-8 p-4 flex-col  justify-between">
+                    <div>
+                      <h4 className="mt-0">Sociale medier</h4>
+                    </div>
+                    <div className="flex justify-evenly align-center mt-auto mb-auto">
+                      <AnimatePresence>
+                        <motion.div
+                          whileHover={{ scale: 1.5 }}
+                          animate={{ rotate: 0, scale: 1 }}
+                          transition={{
+                            type: "spring",
+                            stiffness: 500,
+                            damping: 20,
+                          }}
+                        >
+                          <FaYoutube
+                            className={"text-3xl cursor-pointer text-accentCol"}
+                          />
+                        </motion.div>
+                        <motion.div
+                          whileHover={{ scale: 1.5 }}
+                          animate={{ rotate: 0, scale: 1 }}
+                          transition={{
+                            type: "spring",
+                            stiffness: 500,
+                            damping: 20,
+                          }}
+                        >
+                          <FaYoutube
+                            className={"text-3xl cursor-pointer text-accentCol"}
+                          />
+                        </motion.div>
+                        <motion.div
+                          whileHover={{ scale: 1.5 }}
+                          animate={{ rotate: 0, scale: 1 }}
+                          transition={{
+                            type: "spring",
+                            stiffness: 500,
+                            damping: 20,
+                          }}
+                        >
+                          <FaYoutube
+                            className={"text-3xl cursor-pointer text-accentCol"}
+                          />
+                        </motion.div>
+                        <motion.div
+                          whileHover={{ scale: 1.5 }}
+                          animate={{ rotate: 0, scale: 1 }}
+                          transition={{
+                            type: "spring",
+                            stiffness: 500,
+                            damping: 20,
+                          }}
+                        >
+                          <FaYoutube
+                            className={"text-3xl cursor-pointer text-accentCol"}
+                          />
+                        </motion.div>
+                      </AnimatePresence>
+                    </div>
                   </div>
                 </div>
+                <section className="justify-center md:row-start-4 md:col-span-1 md:max-w-[80%]">
+                  <h3>faq</h3>
+                  <Accordions
+                    items={[
+                      {
+                        item: {
+                          itemHeader: "Spørgsmål 1",
+                          itemContent: "Svar på spørgsmål 1",
+                        },
+                      },
+                      {
+                        item: {
+                          itemHeader: "Spørgsmål 2",
+                          itemContent: "Svar på spørgsmål 2",
+                        },
+                      },
+                      {
+                        item: {
+                          itemHeader: "Spørgsmål 3",
+                          itemContent: "Svar på spørgsmål 3",
+                        },
+                      },
+                      // Add more items as needed
+                    ]}
+                  />
+                </section>
               </div>
             </article>
           </section>
