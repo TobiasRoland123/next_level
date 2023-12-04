@@ -1,9 +1,10 @@
 export interface GameCardRoot {
-  id: number;
+  id: string;
   slug: string;
   title: string;
+  name: string;
   background_image: string;
-  platforms: PlatformArr;
+  platforms: Platform[];
   description: string;
   tags: Tag[];
 }

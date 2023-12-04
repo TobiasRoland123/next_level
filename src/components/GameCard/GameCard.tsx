@@ -19,17 +19,18 @@ const gameCardVariants = cva('max-w-[320px] h-52 rounded cursor-pointer grid', {
 });
 
 export interface GameCardProps
-  extends Pick<HTMLMotionProps<'div'>, 'animate' | 'whileHover' | 'className'>,
+  extends Pick<HTMLMotionProps<'div'>, 'animate' | 'whileHover' | 'className' | 'onClick'>,
     VariantProps<typeof gameCardVariants> {
   Name?: string;
   Tags?: string[];
   Image_?: string;
   Console?: string[];
   Description?: string;
+  IsAdmin?: boolean;
 }
 
 const GameCard = forwardRef<HTMLDivElement, GameCardProps>(
-  ({ variant, className, Name, Tags, Description, Console, Image_, ...props }, ref) => {
+  ({ variant, className, Name, Tags, IsAdmin, Description, Console, Image_, ...props }, ref) => {
     const [isHovered, setIsHovered] = useState(false);
 
     return (
@@ -87,52 +88,55 @@ const GameCard = forwardRef<HTMLDivElement, GameCardProps>(
               </div>
             </motion.div>
           </DialogTrigger>
-          <DialogContent className="w-5/6 grid h-[60vh] lg:h-[80vh] overflow-y-scroll max-w-[800px] p-0">
-            <div className="h-[160px] col-start-1 row-start-1 rounded-t">
-              <Image
-                src={`${Image_}`}
-                width={800}
-                height={400}
-                style={{ objectFit: 'cover', objectPosition: '50% 20%' }}
-                alt=""
-                className="h-full rounded"
-              />
-            </div>
-            <div className="col-start-1 row-start-1 row-end-2 h-full flex flex-col justify-between  p-2 bg-gradient-to-t from-primaryCol to-transparent to-80% z-10"></div>
 
-            <div className="px-4 flex flex-col gap-3">
-              <div className="flex items-center gap-2 flex-wrap justify-between">
-                <div>
-                  <h3 className="mt-0">{Name}</h3>
-                  <div className="w-1/3 h-[2px]  bg-accentCol rounded"></div>
-                </div>
-                <div className="flex gap-3">
-                  {Console &&
-                    Console.map(console => (
-                      <div className="bg-secondary w-fit h-min px-2 rounded-full flex">
-                        <p className="text-primaryCol mt-0">
-                          {console.replace('PlayStation ', 'PS')}
-                        </p>
-                      </div>
-                    ))}
-                </div>
+          {!IsAdmin && (
+            <DialogContent className="w-5/6 grid h-[60vh] lg:h-[80vh] overflow-y-scroll max-w-[800px] p-0">
+              <div className="h-[160px] col-start-1 row-start-1 rounded-t">
+                <Image
+                  src={`${Image_}`}
+                  width={800}
+                  height={400}
+                  style={{ objectFit: 'cover', objectPosition: '50% 20%' }}
+                  alt=""
+                  className="h-full rounded"
+                />
               </div>
-              <p
-                dangerouslySetInnerHTML={{
-                  __html: (((Description as string)?.split('Español')[0] || '') + '</p>').replace(
-                    /\n/g,
-                    '<br />'
-                  ),
-                }}
-              />
-            </div>
+              <div className="col-start-1 row-start-1 row-end-2 h-full flex flex-col justify-between  p-2 bg-gradient-to-t from-primaryCol to-transparent to-80% z-10"></div>
 
-            <div className="p-4 flex items-end h-full">
-              <p className="mt-0 uppercase">
-                Tags: <span className="text-accentCol">{Tags?.join(', ')}</span>
-              </p>
-            </div>
-          </DialogContent>
+              <div className="px-4 flex flex-col gap-3">
+                <div className="flex items-center gap-2 flex-wrap justify-between">
+                  <div>
+                    <h3 className="mt-0">{Name}</h3>
+                    <div className="w-1/3 h-[2px]  bg-accentCol rounded"></div>
+                  </div>
+                  <div className="flex gap-3">
+                    {Console &&
+                      Console.map(console => (
+                        <div className="bg-secondary w-fit h-min px-2 rounded-full flex">
+                          <p className="text-primaryCol mt-0">
+                            {console.replace('PlayStation ', 'PS')}
+                          </p>
+                        </div>
+                      ))}
+                  </div>
+                </div>
+                <p
+                  dangerouslySetInnerHTML={{
+                    __html: (((Description as string)?.split('Español')[0] || '') + '</p>').replace(
+                      /\n/g,
+                      '<br />'
+                    ),
+                  }}
+                />
+              </div>
+
+              <div className="p-4 flex items-end h-full">
+                <p className="mt-0 uppercase">
+                  Tags: <span className="text-accentCol">{Tags?.join(', ')}</span>
+                </p>
+              </div>
+            </DialogContent>
+          )}
         </Dialog>
       </AnimatePresence>
     );
