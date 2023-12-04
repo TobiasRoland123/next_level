@@ -24,11 +24,14 @@ import { IoIosCheckmarkCircle } from "react-icons/io";
 
 interface ContactFormProps {
   // Add any additional props if needed
+  selectedValue: string;
+  onSelectChange: (value: string) => void;
 }
 
-export const ContactForm: React.FC<ContactFormProps> = () => {
-  const [selectedValue, setSelectedValue] = useState("");
-
+export const ContactForm: React.FC<ContactFormProps> = ({
+  selectedValue,
+  onSelectChange,
+}) => {
   const formSchema = z.object({
     subject: z.string().min(1, {
       message: "Vælg venligst et emne",
@@ -121,8 +124,7 @@ export const ContactForm: React.FC<ContactFormProps> = () => {
                   >
                     <SelectField
                       onSelectChange={(selectedValue) => {
-                        //console.log("Value from contact", selectedValue);
-                        setSelectedValue(selectedValue);
+                        onSelectChange(selectedValue);
                       }}
                       {...field}
                     />

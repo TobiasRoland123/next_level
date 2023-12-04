@@ -10,14 +10,21 @@ import { useEffect, useState } from "react";
 
 export default function Kontakt() {
   const currentUrl = typeof window !== "undefined" ? window.location.href : "";
+  const [selectedValue, setSelectedValue] = useState("");
 
   useEffect(() => {
     if (currentUrl.includes("foedselsdag")) {
       console.log("found");
+      setSelectedValue("fødselsdag");
     } else {
       console.log("not found");
+      setSelectedValue("");
     }
   }, [currentUrl]);
+
+  const handleSelectChange = (value: string) => {
+    setSelectedValue(value);
+  };
 
   return (
     <>
@@ -36,7 +43,10 @@ export default function Kontakt() {
               </h2>
               <div className="md:row-start-2 md:col-start-2 md:row-span-3">
                 <h3>Send os dit spørgsmål</h3>
-                <ContactForm />
+                <ContactForm
+                  selectedValue={selectedValue}
+                  onSelectChange={handleSelectChange}
+                />
               </div>
               {/* INFORMATION */}
               <div className="w-full mt-16 md:col-start-1 md:row-start-2">
