@@ -1,6 +1,8 @@
 import { Layout } from "@/Layout";
 import { Card } from "@/components/Cards/Card";
+import { EventCard } from "@/components/Cards/EventCard";
 import { Hero } from "@/modules/Hero/Hero";
+import { link } from "fs";
 
 export default function Events() {
   return (
@@ -17,32 +19,35 @@ export default function Events() {
           <section>
             <article className="flex justify-center">
               <div className="spacer w-full">
-                <h2>
-                  Forskellige typer <span className="text-accentCol">events</span>
-                </h2>
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus auctor euismod posuere. Integer non
-                  ullamcorper mi. Vestibulum et congue lorem. Suspendisse iaculis semper mauris eget aliquet.{" "}
-                </p>
+                <div>
+                  <h2 className=" hyphens-auto">
+                    Forskellige typer <span className="text-accentCol">events</span>
+                  </h2>
+                  <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus auctor euismod posuere. Integer non
+                    ullamcorper mi. Vestibulum et congue lorem. Suspendisse iaculis semper mauris eget aliquet.{" "}
+                  </p>
 
-                <div className=" flex flex-col md:flex-row gap-6 mt-10 md:mt-16">
-                  <Card
-                    variant={"eventCard"}
-                    header="Børne - fødselsdag"
-                    content="It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now"
-                    buttonProps={{ children: "okok", link: "../events/foedselsdag" }}
-                    eventImage="foedselsdag"
-                  />
-                  <Card
-                    variant={"eventCard"}
-                    header="Børne - fødselsdag"
-                    content="It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now"
-                  />
-                  <Card
-                    variant={"eventCard"}
-                    header="Børne - fødselsdag"
-                    content="It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now"
-                  />
+                  <div className=" flex flex-col md:flex-row md:flex-wrap gap-6 mt-10 md:mt-16 justify-around md:gap-10">
+                    <EventCard
+                      header="Børne - Fødselsdag"
+                      content="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus auctor euismod posuere. Integer non ullamcorper mi. Vestibulum et congue lorem. Suspendisse iaculis semper mauris eget aliquet."
+                      image="foedselsdag"
+                      buttonProps={{ children: `Læs mere om fødselsdage`, link: "./foedselsdag" }}
+                    />
+                    <EventCard
+                      header="Firma Event"
+                      content="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus auctor euismod posuere. Integer non ullamcorper mi. Vestibulum et congue lorem. Suspendisse iaculis semper mauris eget aliquet."
+                      image="firma"
+                      buttonProps={{ children: `Læs mere om Firma Events`, link: "./firmaevents" }}
+                    />
+                    <EventCard
+                      header="Tuernering"
+                      content="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus auctor euismod posuere. Integer non ullamcorper mi. Vestibulum et congue lorem. Suspendisse iaculis semper mauris eget aliquet."
+                      image="turnering"
+                      buttonProps={{ children: `Læs mere om turnering`, link: "./turnering" }}
+                    />
+                  </div>
                 </div>
               </div>
             </article>
