@@ -4,15 +4,16 @@ import { Hero } from "@/modules/Hero/Hero";
 export default function Turneringer() {
   return (
     <>
-
       <Hero
         isFrontPage={false}
-        buttonProps={{ children: "Kontakt os", link: "../om-os/kontakt" }}
+        buttonProps={{
+          children: "Kontakt os",
+          link: "../om-os/kontakt?turnering",
+        }}
         content="Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur"
         header="De vildeste turneringer"
         redWord={["turneringer"]}
       />
-
 
       <section>
         <article className="flex justify-center">
