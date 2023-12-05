@@ -22,18 +22,14 @@ interface heroProps {
   isFrontPage: boolean;
 }
 
-
 export const Hero = ({
   header,
   content,
-  buttonLabel,
+  buttonProps,
   redWord,
   isFrontPage,
   link,
 }: heroProps) => {
-
-export const Hero = ({ header, content, buttonProps, redWord, isFrontPage }: heroProps) => {
-
   const renderHeader = () => {
     if (!header) return null;
 
@@ -74,11 +70,8 @@ export const Hero = ({ header, content, buttonProps, redWord, isFrontPage }: her
               <Button
                 link={link}
                 className=" mt-7"
-                                {...buttonProps}
-              >
-
-              </Button>
-
+                {...buttonProps}
+              ></Button>
             )}
           </section>
         </div>
