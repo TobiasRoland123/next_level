@@ -156,7 +156,11 @@ export const ContactForm: React.FC<ContactFormProps> = ({
                 <FormItem className="mt-5">
                   <FormLabel>Hvad vil du gerne kontakt os omkring?</FormLabel>
                   <FormControl>
-                    <div className={!form.formState.errors ? "shake" : ""}>
+                    <div
+                      className={`mt-8 w-[11.25rem] ${
+                        selectedValue === "" ? "bdr-ripple-ani-btn pink" : ""
+                      } ${!form.formState.errors ? "shake" : ""}`}
+                    >
                       <SelectField
                         onSelectChange={handleSelectChange}
                         selectedValue={selectedValue}

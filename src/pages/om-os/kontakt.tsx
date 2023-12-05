@@ -282,8 +282,10 @@ export default function Kontakt() {
                     </div>
                   </div>
                 </div>
+
+                {/* FAQ */}
                 <section className="justify-center md:row-start-4 md:col-span-1 md:max-w-[80%]">
-                  <h3>faq</h3>
+                  <h3 className="mb-3">faq</h3>
                   <Accordions
                     items={[
                       {

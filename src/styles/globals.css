@@ -208,3 +208,37 @@ small {
     transform: rotate(360deg);
   }
 }
+
+/* RIPPLE ANIMATION - SELECT FIELD */
+
+.bdr-ripple-ani-btn.pink {
+  background: var(--accentColor);
+  color: white;
+  animation: at-ripple-pink 1s linear infinite;
+  border-radius: 4px;
+}
+
+@-webkit-keyframes at-ripple-pink {
+  0% {
+    box-shadow: 0 4px 10px rgba(255, 10, 27, 0.1),
+      0 0 0 0 rgba(255, 10, 27, 0.6), 0 0 0 5px rgba(255, 10, 27, 0.2),
+      0 0 0 10px rgba(255, 10, 27, 0.1);
+  }
+  100% {
+    box-shadow: 0 4px 10px rgba(255, 10, 27, 0.6),
+      0 0 0 5px rgba(255, 10, 27, 0.2), 0 0 0 10px rgba(255, 10, 27, 0.1),
+      0 0 0 20px rgba(255, 10, 27, 0);
+  }
+}
+@keyframes at-ripple-pink {
+  0% {
+    box-shadow: 0 4px 10px rgba(255, 10, 27, 0.1),
+      0 0 0 0 rgba(255, 10, 27, 0.6), 0 0 0 5px rgba(255, 10, 27, 0.2),
+      0 0 0 10px rgba(255, 10, 27, 0.1);
+  }
+  100% {
+    box-shadow: 0 4px 10px rgba(255, 10, 27, 0.6),
+      0 0 0 5px rgba(255, 10, 27, 0.2), 0 0 0 10px rgba(255, 10, 27, 0.1),
+      0 0 0 20px rgba(255, 10, 27, 0);
+  }
+}
