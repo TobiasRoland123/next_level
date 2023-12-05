@@ -26,8 +26,8 @@ const cardVariants = cva(" rounded bg-gradient-to-br cursor-pointer", {
       expert: "text-fuchsia-500 from-fuchsia-400 to-fuchsia-600",
       master: "text-red-500 from-orange-500 to-red-600",
       nlp: "text-amber-500 w-full from-yellow-400 to-amber-600 h-auto",
-      bday1: "text-red-500 w-[343px] h-[460px] from-orange-500 to-red-600",
-      bday2: "text-red-500 w-[343px] h-[460px] from-orange-500 to-red-600",
+      bday1: "text-red-500 max-w-[350px] from-orange-500 to-red-600",
+      bday2: "text-red-500 max-w-[350px] from-orange-500 to-red-600",
       eventCard: "bg-contrastCol",
     },
     size: {
@@ -107,7 +107,7 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
           tiltEnable={variant !== "nlp"}
           tiltMaxAngleX={5}
           tiltMaxAngleY={5}
-          className="z-10"
+          className={`z-10 ${variant === "bday1" || variant === "bday2" ? "grid" : null}`}
         >
           <motion.div
             whileHover={
