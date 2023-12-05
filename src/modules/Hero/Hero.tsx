@@ -1,6 +1,7 @@
 import Image from "next/image";
 import heroPlaceholder from "../../../public/images/hero-placeholder.webp";
 import { Button, ButtonProps } from "../../components/Button/Button";
+import { HyphenatedText } from "@/components/HyphenatedText/HyphenatedText";
 
 interface heroProps {
   header?: string;
@@ -23,17 +24,14 @@ export const Hero = ({ header, content, buttonProps, redWord, isFrontPage }: her
 
     const words = header.split(" ");
     return (
-      <h1
-        className="hyphens-auto md:hyphens-none"
-        lang="da"
-      >
+      <h1>
         {words.map((word, index) => (
           <span
             key={index}
             // className={word === redWord ? "text-accentCol" : ""}
             className={`${redWord?.map((redWord) => (redWord === word ? "text-accentCol" : "")).join(" ")}`}
           >
-            {word}{" "}
+            <HyphenatedText text={word} />{" "}
           </span>
         ))}
       </h1>
@@ -50,7 +48,13 @@ export const Hero = ({ header, content, buttonProps, redWord, isFrontPage }: her
         <div className="max-w-screen-xl w-full mt-20  spacer">
           <section className=" bg-contrastCol/50 backdrop-blur-sm mt-28 px-4 py-6 rounded-sm h-fit md:max-w-[66%]">
             {renderHeader()}
-            <p className="mt-4">{content && content}</p>
+
+            {content && (
+              <p className="mt-4">
+                <HyphenatedText text={content} />
+              </p>
+            )}
+
             {buttonProps && (
               <Button
                 className=" mt-7"
