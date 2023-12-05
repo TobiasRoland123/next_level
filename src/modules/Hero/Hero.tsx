@@ -22,18 +22,7 @@ interface heroProps {
   isFrontPage: boolean;
 }
 
-
-export const Hero = ({
-  header,
-  content,
-  buttonLabel,
-  redWord,
-  isFrontPage,
-  link,
-}: heroProps) => {
-
-export const Hero = ({ header, content, buttonProps, redWord, isFrontPage }: heroProps) => {
-
+export const Hero = ({ header, content, buttonProps, redWord, isFrontPage, link }: heroProps) => {
   const renderHeader = () => {
     if (!header) return null;
 
@@ -47,9 +36,7 @@ export const Hero = ({ header, content, buttonProps, redWord, isFrontPage }: her
           <span
             key={index}
             // className={word === redWord ? "text-accentCol" : ""}
-            className={`${redWord
-              ?.map((redWord) => (redWord === word ? "text-accentCol" : ""))
-              .join(" ")}`}
+            className={`${redWord?.map((redWord) => (redWord === word ? "text-accentCol" : "")).join(" ")}`}
           >
             {word}{" "}
           </span>
@@ -74,11 +61,8 @@ export const Hero = ({ header, content, buttonProps, redWord, isFrontPage }: her
               <Button
                 link={link}
                 className=" mt-7"
-                                {...buttonProps}
-              >
-
-              </Button>
-
+                {...buttonProps}
+              ></Button>
             )}
           </section>
         </div>
