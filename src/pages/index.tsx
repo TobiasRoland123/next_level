@@ -27,7 +27,7 @@ export default function Home() {
             buttonProps={{ children: "Book Nu" }}
             isFrontPage={true}
           />
-          <section className="flex  justify-center ">
+          <section className="flex justify-center">
             <article className="spacer w-full">
               <h2>
                 Next Level <span className="text-accentCol">Priser</span>
@@ -67,7 +67,8 @@ export default function Home() {
             <article className="backdrop-brightness-50 h-full py-14 md:py-16 lg:py-20 flex justify-center ">
               <div className="spacer !mt-0 w-full">
                 <h2>
-                  Skal du holde et <span className="text-accentCol">Event?</span>
+                  Skal du holde et{" "}
+                  <span className="text-accentCol">Event?</span>
                 </h2>
                 <ParagraphBold
                   underlined
@@ -75,8 +76,9 @@ export default function Home() {
                 />
 
                 <p>
-                  “Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibuwlum tempor dictum fringilla. Mauris volutpat
-                  dictum lectus venenatis suscipit. Aenean faucibus mole
+                  “Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                  Vestibuwlum tempor dictum fringilla. Mauris volutpat dictum
+                  lectus venenatis suscipit. Aenean faucibus mole
                 </p>
 
                 <Button

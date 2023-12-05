@@ -6,7 +6,12 @@ import { HyphenatedText } from "@/components/HyphenatedText/HyphenatedText";
 interface heroProps {
   header?: string;
   content?: string;
+
+  buttonLabel?: string;
+  link?: string;
+
   buttonProps?: ButtonProps;
+
   /**
    * To be sure not to make type errors please copy paste word.
    * If word is lowercase in header, then it also needs to be lowercase here.
@@ -18,7 +23,7 @@ interface heroProps {
   isFrontPage: boolean;
 }
 
-export const Hero = ({ header, content, buttonProps, redWord, isFrontPage }: heroProps) => {
+export const Hero = ({ header, content, buttonProps, redWord, isFrontPage, link }: heroProps) => {
   const renderHeader = () => {
     if (!header) return null;
 
@@ -41,7 +46,7 @@ export const Hero = ({ header, content, buttonProps, redWord, isFrontPage }: her
   return (
     <>
       <header
-        className={`flex min-h-screen justify-center ${
+        className={`flex min-h-[50vh] justify-center ${
           isFrontPage ? "bg-hero2" : "bg-hero1"
         } bg-center md:bg-left bg-cover bg-no-repeat pb-10`}
       >
@@ -49,17 +54,20 @@ export const Hero = ({ header, content, buttonProps, redWord, isFrontPage }: her
           <section className=" bg-contrastCol/50 backdrop-blur-sm mt-28 px-4 py-6 rounded-sm h-fit md:max-w-[66%]">
             {renderHeader()}
 
+
             {content && (
               <p className="mt-4">
                 <HyphenatedText text={content} />
               </p>
             )}
 
+
             {buttonProps && (
               <Button
+                link={link}
                 className=" mt-7"
                 {...buttonProps}
-              />
+              ></Button>
             )}
           </section>
         </div>

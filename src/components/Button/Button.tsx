@@ -10,8 +10,10 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: " bg-accentCol text-primary-foreground hover:bg-primaryCol/90 border-2 border-primary",
-        secondary: "bg-contrastCol text-secondaryCol border-2 border-contrastCol hover:bg-transparent border-2 hover:border-primary",
+        default:
+          " bg-accentCol text-primary-foreground hover:bg-primaryCol/90 border-2 border-primary",
+        secondary:
+          "bg-contrastCol text-secondaryCol border-2 border-contrastCol hover:bg-transparent border-2 hover:border-primary",
       },
       size: {
         default: "h-10 px-4 py-2",
@@ -31,14 +33,26 @@ export interface ButtonProps extends VariantProps<typeof buttonVariants> {
   link?: string;
   children?: React.ReactNode;
   className?: string;
+  disabled?: boolean;
   onClick?: React.MouseEventHandler<HTMLElement>;
 }
 
-const Button = ({ className, variant, size, link, children, ...props }: ButtonProps) => {
+const Button = ({
+  className,
+  variant,
+  size,
+  link,
+  children,
+  ...props
+}: ButtonProps) => {
   const Comp = link ? "a" : "button";
 
   return (
-    <Comp className={cn(buttonVariants({ variant, size, className }))} href={link} {...props}>
+    <Comp
+      className={cn(buttonVariants({ variant, size, className }))}
+      href={link}
+      {...props}
+    >
       {children}
     </Comp>
   );

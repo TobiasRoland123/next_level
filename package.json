@@ -38,7 +38,11 @@
     "react-input-mask": "^2.0.4",
     "react-parallax-tilt": "^1.7.175",
     "react-phone-number-input": "^3.3.7",
+
+    "react-router-dom": "^6.20.1",
+
     "sharp": "^0.33.0",
+
     "tailwind-merge": "^2.0.0",
     "tailwindcss-animate": "^1.0.7",
     "zod": "^3.22.4"
