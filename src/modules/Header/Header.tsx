@@ -29,7 +29,7 @@ export const Header = ({ pageList }: HeaderProps) => {
     <>
       {/* MOBILE MENU */}
       <div
-        className={` bg-primaryCol w-screen h-screen fixed top-0 transition-all md:hidden  z-10 overflow-scroll pb-6  ${
+        className={` bg-primaryCol w-screen h-screen fixed top-0 transition-all md:hidden z-20 overflow-scroll pb-6  ${
           isOpen ? "right-0" : "right-full"
         } flex flex-col pt-28`}
       >
@@ -80,7 +80,7 @@ export const Header = ({ pageList }: HeaderProps) => {
         </div>
       </div>
 
-      <nav className="fixed top-2 px-6 md:px-12 lg:px-20 z-10 w-full ">
+      <nav className="fixed top-2 px-6 md:px-12 lg:px-20 z-20 w-full ">
         <div
           className={`my-3 backdrop-blur-sm ${
             isOpen ? "bg-primaryCol" : "bg-contrastCol/70"
@@ -139,19 +139,9 @@ export const Header = ({ pageList }: HeaderProps) => {
             className="w-8 flex flex-col gap-2 justify-center items-center h-14 z-10 md:hidden"
             onClick={ToggleMenu}
           >
-            <span
-              className={`h-1 bg-accentCol w-full ${
-                isOpen && "translate-y-[0.4rem] rotate-45"
-              }  transition-all	`}
-            ></span>
-            <span
-              className={`h-1 bg-accentCol w-full ${isOpen && "hidden"}`}
-            ></span>
-            <span
-              className={`h-1 bg-accentCol w-full ${
-                isOpen && "translate-y-[-0.35rem] -rotate-45 "
-              }  transition-all	`}
-            ></span>
+            <span className={`h-1 bg-accentCol w-full ${isOpen && "translate-y-[0.4rem] rotate-45"}  transition-all	`}></span>
+            <span className={`h-1 bg-accentCol w-full ${isOpen && "hidden"}`}></span>
+            <span className={`h-1 bg-accentCol w-full ${isOpen && "translate-y-[-0.35rem] -rotate-45 "}  transition-all	`}></span>
           </button>
 
           <Button className="hidden md:block my-1">Book tid</Button>
