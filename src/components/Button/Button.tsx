@@ -10,8 +10,7 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default:
-          " bg-accentCol text-primary-foreground hover:bg-primaryCol/90 border-2 border-primary",
+        default: " bg-accentCol text-primary-foreground hover:bg-primaryCol/90 border-2 border-primary",
         secondary:
           "bg-contrastCol text-secondaryCol border-2 border-contrastCol hover:bg-transparent border-2 hover:border-primary",
       },
@@ -37,14 +36,7 @@ export interface ButtonProps extends VariantProps<typeof buttonVariants> {
   onClick?: React.MouseEventHandler<HTMLElement>;
 }
 
-const Button = ({
-  className,
-  variant,
-  size,
-  link,
-  children,
-  ...props
-}: ButtonProps) => {
+const Button = ({ className, variant, size, link, children, ...props }: ButtonProps) => {
   const Comp = link ? "a" : "button";
 
   return (

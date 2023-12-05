@@ -3,6 +3,8 @@ import { Card } from "@/components/Cards/Card";
 import { EventCard } from "@/components/Cards/EventCard";
 import { Hero } from "@/modules/Hero/Hero";
 import { link } from "fs";
+import { Button } from "../components/Button/Button";
+import { RelatedContact } from "@/components/RelatedContact/RelatedContact";
 
 export default function Events() {
   return (
@@ -53,26 +55,13 @@ export default function Events() {
             </article>
           </section>
           <section>
-            <article className="flex justify-center">
-              <div className="spacer w-full">
-                <h2>
-                  Du kan altid <span className="text-accentCol">Kontakte os</span>
-                </h2>
-                <div className="flex flex-col md:flex-row gap-10">
-                  <article>
-                    <h3>Har du spørgsmål til dit kommende event?</h3>
-                    <p>
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus auctor euismod posuere. Integer non
-                      ullamcorper mi. Vestibulum et congue lorem. Suspendisse iaculis semper mauris eget aliquet. Mauris malesuada
-                      purus et rhoncus auctor. Fusce vitae justo risus. Vestibulum convallis justo eu diam dignissim posuere.
-                      Donec ac maximus lectus. Praesent non nibh eget sem tincidunt ultricies vel vitae magna. Nullam eget tellus
-                      id quam commodo iaculis convallis a odio. Phasellus sagittis velit eget leo.{" "}
-                    </p>
-                  </article>
-                  <div className="border-2 border-green-500">Form goes here !!!!!!!!!!</div>
-                </div>
-              </div>
-            </article>
+            <RelatedContact
+              header="Du kan altid kontakte os"
+              redWord={["kontakte", "os"]}
+              subHeader="har du spørgsmål til dit kommende event?"
+              content="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus auctor euismod posuere. Integer non ullamcorper mi. Vestibulum et congue lorem. Suspendisse iaculis semper mauris eget aliquet. Mauris malesuada purus et rhoncus auctor. Fusce vitae justo risus. Vestibulum convallis justo eu diam dignissim posuere. Donec ac maximus lectus. Praesent non nibh eget sem tincidunt ultricies vel vitae magna. Nullam eget tellus id quam commodo iaculis convallis a odio. Phasellus sagittis velit eget leo. "
+              buttonProps={{ children: "Kontakt os om envents", link: "../om-os/kontakt?andet" }}
+            />
           </section>
         </main>
       </Layout>
