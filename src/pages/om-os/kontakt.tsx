@@ -38,6 +38,12 @@ export default function Kontakt() {
       if (contactFormRef.current) {
         contactFormRef.current.scrollIntoView({ behavior: "smooth" });
       }
+    } else if (currentUrl.includes("andet")) {
+      setSelectedValue("andet");
+      console.log(selectedValue);
+      if (contactFormRef.current) {
+        contactFormRef.current.scrollIntoView({ behavior: "smooth" });
+      }
     } else {
       console.log("not found");
       console.log(selectedValue);
@@ -66,9 +72,7 @@ export default function Kontakt() {
           />
           <section className="flex justify-center">
             <article className="spacer w-full md:grid md:grid-cols-2">
-              <h2 className="md:col-span-2">
-                "Der findes ikke dumme spørgsmål"
-              </h2>
+              <h2 className="md:col-span-2">"Der findes ikke dumme spørgsmål"</h2>
               <div
                 ref={contactFormRef}
                 className="md:row-start-2 md:col-start-2 md:row-span-3"
@@ -131,15 +135,11 @@ export default function Kontakt() {
                             <FaClock className={"text-accentCol"} />
                             <div className="flex flex-col gap-6">
                               <div>
-                                <p className="font-bold mt-0">
-                                  Søndag til torsdag
-                                </p>
+                                <p className="font-bold mt-0">Søndag til torsdag</p>
                                 <p className="mt-2 ">14:00 til 03:00</p>
                               </div>
                               <div>
-                                <p className="font-bold mt-0">
-                                  Fredag til Lørdag
-                                </p>
+                                <p className="font-bold mt-0">Fredag til Lørdag</p>
                                 <p className="mt-2 ">14:00 til 04:00</p>
                               </div>
                             </div>
@@ -171,11 +171,7 @@ export default function Kontakt() {
                             target="_blank"
                             href="https://www.youtube.com/channel/UCG4CeyBvWjuyDxkYGlloVfg"
                           >
-                            <FaYoutube
-                              className={
-                                "text-3xl cursor-pointer text-accentCol"
-                              }
-                            />
+                            <FaYoutube className={"text-3xl cursor-pointer text-accentCol"} />
                           </a>
                         </motion.div>
                         <motion.div
@@ -191,11 +187,7 @@ export default function Kontakt() {
                             target="_blank"
                             href="https://www.facebook.com/Nextlvl.dk/"
                           >
-                            <FaFacebook
-                              className={
-                                "text-3xl cursor-pointer text-accentCol"
-                              }
-                            />
+                            <FaFacebook className={"text-3xl cursor-pointer text-accentCol"} />
                           </a>
                         </motion.div>
                         <motion.div
@@ -211,11 +203,7 @@ export default function Kontakt() {
                             target="_blank"
                             href="https://www.tiktok.com/"
                           >
-                            <FaTiktok
-                              className={
-                                "text-3xl cursor-pointer text-accentCol"
-                              }
-                            />
+                            <FaTiktok className={"text-3xl cursor-pointer text-accentCol"} />
                           </a>
                         </motion.div>
                         <motion.div
@@ -231,11 +219,7 @@ export default function Kontakt() {
                             target="_blank"
                             href="https://www.linkedin.com/feed/"
                           >
-                            <FaLinkedin
-                              className={
-                                "text-3xl cursor-pointer text-accentCol"
-                              }
-                            />
+                            <FaLinkedin className={"text-3xl cursor-pointer text-accentCol"} />
                           </a>
                         </motion.div>
                         <motion.div
@@ -251,11 +235,7 @@ export default function Kontakt() {
                             target="_blank"
                             href="https://www.twitch.tv/"
                           >
-                            <FaTwitch
-                              className={
-                                "text-3xl cursor-pointer text-accentCol"
-                              }
-                            />
+                            <FaTwitch className={"text-3xl cursor-pointer text-accentCol"} />
                           </a>
                         </motion.div>
                         <motion.div
@@ -271,11 +251,7 @@ export default function Kontakt() {
                             target="_blank"
                             href="https://www.instagram.com/nextlvl.dk/?hl=da"
                           >
-                            <FaInstagram
-                              className={
-                                "text-3xl cursor-pointer text-accentCol"
-                              }
-                            />
+                            <FaInstagram className={"text-3xl cursor-pointer text-accentCol"} />
                           </a>
                         </motion.div>
                       </AnimatePresence>

@@ -6,6 +6,7 @@ import { Card } from "@/components/Cards/Card";
 import { Button } from "@/components/Button/Button";
 import foedselsdagImg1 from "../../../public/images/event/foedselsdag/barn-vr.jpeg";
 import foedselsdagImg2 from "../../../public/images/event/foedselsdag.jpg";
+import { RelatedContact } from "../../components/RelatedContact/RelatedContact";
 
 export default function Foedselsdag() {
   return (
@@ -40,15 +41,11 @@ export default function Foedselsdag() {
                     Elsker du og dine venner at game?
                   </h3>
                   <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    Phasellus auctor euismod posuere. Integer non ullamcorper
-                    mi. Vestibulum et congue lorem. Suspendisse iaculis semper
-                    mauris eget aliquet. Mauris malesuada purus et rhoncus
-                    auctor. Fusce vitae justo risus. Vestibulum convallis justo
-                    eu diam dignissim posuere. Donec ac maximus lectus. Praesent
-                    non nibh eget sem tincidunt ultricies vel vitae magna.
-                    Nullam eget tellus id quam commodo iaculis convallis a odio.
-                    Phasellus sagittis velit eget leo.
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus auctor euismod posuere. Integer non
+                    ullamcorper mi. Vestibulum et congue lorem. Suspendisse iaculis semper mauris eget aliquet. Mauris malesuada
+                    purus et rhoncus auctor. Fusce vitae justo risus. Vestibulum convallis justo eu diam dignissim posuere. Donec
+                    ac maximus lectus. Praesent non nibh eget sem tincidunt ultricies vel vitae magna. Nullam eget tellus id quam
+                    commodo iaculis convallis a odio. Phasellus sagittis velit eget leo.
                   </p>
                 </div>
                 <div>
@@ -83,15 +80,11 @@ export default function Foedselsdag() {
                 <div>
                   <h3 className="md:mt-0">Eksempel 1</h3>
                   <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    Phasellus auctor euismod posuere. Integer non ullamcorper
-                    mi. Vestibulum et congue lorem. Suspendisse iaculis semper
-                    mauris eget aliquet. Mauris malesuada purus et rhoncus
-                    auctor. Fusce vitae justo risus. Vestibulum convallis justo
-                    eu diam dignissim posuere. Donec ac maximus lectus. Praesent
-                    non nibh eget sem tincidunt ultricies vel vitae magna.
-                    Nullam eget tellus id quam commodo iaculis convallis a odio.
-                    Phasellus sagittis velit eget leo.
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus auctor euismod posuere. Integer non
+                    ullamcorper mi. Vestibulum et congue lorem. Suspendisse iaculis semper mauris eget aliquet. Mauris malesuada
+                    purus et rhoncus auctor. Fusce vitae justo risus. Vestibulum convallis justo eu diam dignissim posuere. Donec
+                    ac maximus lectus. Praesent non nibh eget sem tincidunt ultricies vel vitae magna. Nullam eget tellus id quam
+                    commodo iaculis convallis a odio. Phasellus sagittis velit eget leo.
                   </p>
                 </div>
                 <div className="md:max-w-[40%]">
@@ -120,19 +113,24 @@ export default function Foedselsdag() {
                 <div className="order-1 md:order-2">
                   <h3 className="md:mt-0">Eksempel 2</h3>
                   <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    Phasellus auctor euismod posuere. Integer non ullamcorper
-                    mi. Vestibulum et congue lorem. Suspendisse iaculis semper
-                    mauris eget aliquet. Mauris malesuada purus et rhoncus
-                    auctor. Fusce vitae justo risus. Vestibulum convallis justo
-                    eu diam dignissim posuere. Donec ac maximus lectus. Praesent
-                    non nibh eget sem tincidunt ultricies vel vitae magna.
-                    Nullam eget tellus id quam commodo iaculis convallis a odio.
-                    Phasellus sagittis velit eget leo.
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus auctor euismod posuere. Integer non
+                    ullamcorper mi. Vestibulum et congue lorem. Suspendisse iaculis semper mauris eget aliquet. Mauris malesuada
+                    purus et rhoncus auctor. Fusce vitae justo risus. Vestibulum convallis justo eu diam dignissim posuere. Donec
+                    ac maximus lectus. Praesent non nibh eget sem tincidunt ultricies vel vitae magna. Nullam eget tellus id quam
+                    commodo iaculis convallis a odio. Phasellus sagittis velit eget leo.
                   </p>
                 </div>
               </div>
             </article>
+          </section>
+          <section>
+            <RelatedContact
+              header="Du kan altid kontakte os"
+              redWord={["kontakte", "os"]}
+              subHeader="har du spørgsmål til dit kommende Børne fødselsdag?"
+              content="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus auctor euismod posuere. Integer non ullamcorper mi. Vestibulum et congue lorem. Suspendisse iaculis semper mauris eget aliquet. Mauris malesuada purus et rhoncus auctor. Fusce vitae justo risus. Vestibulum convallis justo eu diam dignissim posuere. Donec ac maximus lectus. Praesent non nibh eget sem tincidunt ultricies vel vitae magna. Nullam eget tellus id quam commodo iaculis convallis a odio. Phasellus sagittis velit eget leo. "
+              buttonProps={{ children: "Kontakt os om fødselsdag ", link: "../om-os/kontakt?foedselsdag" }}
+            />
           </section>
         </main>
       </Layout>
