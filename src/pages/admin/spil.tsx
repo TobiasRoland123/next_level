@@ -6,13 +6,7 @@ import { cn } from '../../lib/utils';
 import { LayoutAdmin } from '@/Layout_Admin';
 import { useDebounce } from 'usehooks-ts';
 
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-} from '@/components/ui/command';
+import { Command, CommandGroup, CommandInput, CommandItem } from '@/components/ui/command';
 
 import {
   Sheet,
@@ -20,16 +14,13 @@ import {
   SheetDescription,
   SheetHeader,
   SheetTitle,
-  SheetTrigger,
 } from '@/components/ui/sheet';
 
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Button } from '@/components/ui/button';
-import { Check, CheckIcon, ChevronsUpDown } from 'lucide-react';
-import { FaAccusoft } from 'react-icons/fa';
+import { CheckIcon, ChevronsUpDown } from 'lucide-react';
 import { supabase } from '../utils/supabaseClient';
 import { GameCardRoot } from '@/Types/gamecard';
-import Image from 'next/image';
 import { GameCard } from '@/components/GameCard/GameCard';
 import { Label } from '@radix-ui/react-label';
 import { Input } from '@/components/Inputfields/Inputfield';
@@ -38,7 +29,25 @@ import { Textarea } from '@/components/Textarea/textarea';
 export async function getServerSideProps() {
   let { data: gamelist, error } = await supabase.from('gamelist').select('*');
 
-  return { props: { gamelist } };
+  const channels = supabase
+    .channel('custom-all-channel')
+    .on('postgres_changes', { event: '*', schema: 'public', table: 'gamelist' }, payload => {
+      console.log('Change received!', payload);
+    })
+    .subscribe();
+
+  return { props: { gamelist, channels } };
+}
+
+export async function getGames(searchString: string, gameId: number) {
+  const response = await fetch(`/api/gamelist?search=${searchString}&gameId=${gameId}`);
+
+  if (response.ok) {
+    const data = await response.json();
+    console.log('data games function', data);
+
+    return data;
+  }
 }
 
 export default function Spil({ gamelist }: { gamelist: GameCardRoot[] }) {
@@ -56,6 +65,9 @@ export default function Spil({ gamelist }: { gamelist: GameCardRoot[] }) {
   const [showAddGame, setShowAddGame] = useState(false);
   const [editGame, setEditGame] = useState<GameCardRoot>();
   const [addGame, setAddGame] = useState<Game>();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [forceRender, setForceRender] = useState(false);
+  const [gameListLoading, setGameListLoading] = useState(false);
 
   useEffect(() => {
     setIsClient(true);
@@ -82,45 +94,6 @@ export default function Spil({ gamelist }: { gamelist: GameCardRoot[] }) {
   /* GAME LIST HANDLERS */
 
   /* GAME LIST FETCH */
-
-  /*   const handlePlatformChange = (platform: Platform) => {
-    if (selectedPlatforms.includes(platform)) {
-      setSelectedPlatforms(selectedPlatforms.filter(id => id !== platform));
-    } else {
-      setSelectedPlatforms([...selectedPlatforms, platform]);
-    }
-  }; */
-
-  /*   const handleTagChange = (tag: Tag) => {
-    if (selectedTags.includes(tag)) {
-      setSelectedTags(selectedTags.filter(id => id !== tag));
-    } else {
-      setSelectedTags([...selectedTags, tag]);
-    }
-  }; */
-
-  /*   function handleShowEditGame() {
-    showEditGame ? (setEditGame(undefined), setShowEditGame(false)) : setShowEditGame(true);
-  } */
-
-  /*   function handleGameStuff(game: GameCardRoot) {
-    console.log('new gaaaaaammmmmeee', game);
-    const saveGame = {
-      id: game?.id,
-      title: game?.name,
-      slug: game?.slug,
-      background_image: game?.background_image,
-      description: game?.description,
-      platforms: selectedPlatforms.map(platform => ({
-        id: platform.id,
-        name: platform.name,
-        slug: platform.slug,
-      })),
-      tags: selectedTags.map(tag => ({ id: tag.id, name: tag.name, slug: tag.slug })),
-    };
-
-    setEditGame(saveGame);
-  } */
 
   const handleFieldChange = (fieldName: string, newValue: string) => {
     console.log(`Field ${fieldName} changed to: ${newValue}`);
@@ -157,12 +130,12 @@ export default function Spil({ gamelist }: { gamelist: GameCardRoot[] }) {
     return console.log('payload', saveGame), setGameList(updatedList as GameCardRoot[]);
   }
 
-  /*   async function handleClick() {
+  async function handleEditClick() {
     const saveGame = {
-      id: gameData?.id,
-      title: gameData?.name,
-      background_image: gameData?.background_image,
-      description: gameData?.description,
+      id: editGame?.id,
+      title: editGame?.title,
+      background_image: editGame?.background_image,
+      description: editGame?.description,
       platforms: selectedPlatforms.map(platform => ({
         id: platform.id,
         name: platform.name,
@@ -171,7 +144,10 @@ export default function Spil({ gamelist }: { gamelist: GameCardRoot[] }) {
       tags: selectedTags.map(tag => ({ id: tag.id, name: tag.name, slug: tag.slug })),
     };
 
-    const { data, error } = await supabase.from('gamelist').insert([saveGame]).select();
+    const { data, error } = await supabase
+      .from('gamelist')
+      .update([saveGame])
+      .eq('id', editGame?.id);
 
     if (error) {
       console.error('Supabase error:', error);
@@ -179,31 +155,24 @@ export default function Spil({ gamelist }: { gamelist: GameCardRoot[] }) {
       return;
     }
 
-    const updatedList = [...gameList, saveGame];
-
     setSelectedPlatforms([]);
     setSelectedTags([]);
+    setShowEditGame(false);
 
-    return console.log('payload', saveGame), setGameList(updatedList as GameCardRoot[]);
-  } */
-
-  useEffect(() => {
-    console.log('gamelist', gameList);
-  }, [gameList]);
-
-  useEffect(() => {
-    console.log('editJames', editGame);
-  }, [editGame]);
+    return console.log('payload', saveGame);
+  }
 
   useEffect(() => {
     const fetchData = async () => {
+      setIsLoading(true);
       try {
-        const response = await fetch(`/api/gamelist?search=${debouncedValue}&gameId=${gameId}`);
+        const response = await fetch(`/api/gamelist?search=${searchString}&gameId=${gameId}`);
         if (response.ok) {
           const jsonData = await response.json();
           console.log('data', jsonData);
 
           setGameData(jsonData);
+          setIsLoading(false);
         } else {
           console.error('api req failed');
         }
@@ -212,7 +181,11 @@ export default function Spil({ gamelist }: { gamelist: GameCardRoot[] }) {
       }
     };
     fetchData();
-  }, [debouncedValue, gameId]);
+  }, [debouncedValue, gameId, forceRender]);
+
+  useEffect(() => {
+    console.log('gameData updated:', gameData);
+  }, [gameData]);
 
   console.log('game data', gameData);
 
@@ -223,79 +196,6 @@ export default function Spil({ gamelist }: { gamelist: GameCardRoot[] }) {
         <main className="spacer w-full">
           <h1 className="mt-20">Admin Spil</h1>
           <div className="">
-            {/*  <div>
-        <input
-          type="text"
-          onChange={e => setSearchString(e.target.value)}
-        />
-        <button onClick={() => console.log(searchString)}>search</button>
-
-        <div>
-          {gameData &&
-            gameId == 0 &&
-            gameData?.results?.map((game, index) => {
-              return (
-                <p
-                  onClick={() => setGameId(game.id)}
-                  key={game.id}
-                >
-                  {game.name}
-                </p>
-              );
-            })}
-          {gameId != 0 && gameData && (
-            <>
-              <button
-                onClick={() => {
-                  setGameId(0);
-                  setSelectedPlatforms([]);
-                  setSelectedTags([]);
-                }}
-              >
-                back
-              </button>
-              <p>{gameData.name}</p>
-              <img src={gameData.background_image} />
-              <p
-                dangerouslySetInnerHTML={{
-                  __html: gameData?.description?.replace(/\n/g, '<br />'),
-                }}
-              ></p>
-              {gameData.platforms &&
-                gameData?.platforms.map(platform => (
-                  <div key={platform.platform.id}>
-                    <input
-                      type="checkbox"
-                      key={platform.platform.id}
-                      id={platform.platform.id}
-                      checked={selectedPlatforms.includes(platform.platform)}
-                      onChange={() => handlePlatformChange(platform.platform)}
-                    />
-                    <label htmlFor={platform.platform.id}>{platform.platform.name}</label>
-                  </div>
-                ))}
-              {gameData.tags &&
-                gameData.tags.map(tag => (
-                  <div key={tag.id}>
-                    <input
-                      type="checkbox"
-                      key={tag.id}
-                      id={tag.id}
-                      checked={selectedTags.includes(tag)}
-                      onChange={() => handleTagChange(tag)}
-                    />
-                    <label htmlFor={tag.id}>{tag.name}</label>
-                  </div>
-                ))}
-              <button
-                className="w-4 h-2 bg-white"
-                onClick={() => handleClick()}
-              ></button>
-            </>
-          )}
-        </div>
-      </div> */}
-
             {isClient && (
               <div>
                 <Popover
@@ -313,7 +213,7 @@ export default function Spil({ gamelist }: { gamelist: GameCardRoot[] }) {
                       <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                     </Button>
                   </PopoverTrigger>
-                  <PopoverContent className="w-[250px] h-[300px] overflow-hidden p-0">
+                  <PopoverContent className="w-[250px]overflow-hidden p-0">
                     <Command>
                       <CommandInput
                         placeholder="Search game..."
@@ -321,34 +221,38 @@ export default function Spil({ gamelist }: { gamelist: GameCardRoot[] }) {
                         onValueChange={e => setSearchString(e)}
                       />
 
-                      <CommandGroup className="overflow-scroll">
-                        {gameData &&
-                          gameData?.results.map(game => (
-                            <CommandItem
-                              key={game.id}
-                              value={game.id}
-                              onSelect={currentValue => {
-                                setValue(currentValue === value ? '' : currentValue);
+                      {!isLoading && (
+                        <CommandGroup className="w-full h-full">
+                          {gameData &&
+                            gameData?.results &&
+                            gameData?.results.length > 0 &&
+                            gameData?.results.map((game, index) => {
+                              return (
+                                <p
+                                  key={parseInt(game.id)}
+                                  /* value={game.id}
+                                onSelect={currentValue => {
+                                  setValue(currentValue === value ? '' : currentValue);
 
-                                console.log('value', currentValue);
+                                  console.log('value', currentValue);
 
-                                setOpen(false);
-                                setShowAddGame(true);
-                                setAddGame(game);
-
-                                handleAddGame(game);
-                              }}
-                            >
-                              {game.name}
-                              <CheckIcon
-                                className={cn(
-                                  'ml-auto h-4 w-4',
-                                  value === game.name ? 'opacity-100' : 'opacity-0'
-                                )}
-                              />
-                            </CommandItem>
-                          ))}
-                      </CommandGroup>
+                                  setOpen(false);
+                                  setShowAddGame(true);
+                                  setAddGame(game);
+                                }} */
+                                >
+                                  {game.name}
+                                  <CheckIcon
+                                    className={cn(
+                                      'ml-auto h-4 w-4',
+                                      value === game.name ? 'opacity-100' : 'opacity-0'
+                                    )}
+                                  />
+                                </p>
+                              );
+                            })}
+                        </CommandGroup>
+                      )}
                     </Command>
                   </PopoverContent>
                 </Popover>
@@ -357,6 +261,7 @@ export default function Spil({ gamelist }: { gamelist: GameCardRoot[] }) {
 
             <div className="flex flex-wrap gap-3 ">
               {gamelist &&
+                !gameListLoading &&
                 gamelist.map(game => (
                   <GameCard
                     Name={game.title}
@@ -398,6 +303,7 @@ export default function Spil({ gamelist }: { gamelist: GameCardRoot[] }) {
                     id={editGame.title}
                     value={editGame.title}
                     className=""
+                    onChange={e => setEditGame({ ...editGame, title: e.target.value })}
                   />
                 </div>
                 <div>
@@ -405,19 +311,43 @@ export default function Spil({ gamelist }: { gamelist: GameCardRoot[] }) {
                   <Textarea
                     id={editGame.description}
                     value={editGame.description}
-                    onChange={e => handleFieldChange(editGame.description, e.target.value)}
+                    onChange={e => setEditGame({ ...editGame, description: e.target.value })}
                     className="resize-none"
                   />
                 </div>
                 <div>
                   <Label>Tags</Label>
-                  {editGame.tags.map(tag => (
-                    <Input
-                      labelText={tag.name}
-                      type="checkbox"
-                    />
-                  ))}
+                  <div className="flex flex-wrap gap-3">
+                    {editGame.tags.map(tag => (
+                      <div className="flex items-center gap-1 bg-contrastCol rounded-full px-2">
+                        <label>
+                          <input
+                            type="checkbox"
+                            className="h-3"
+                          />{' '}
+                          {tag.name}
+                        </label>
+                      </div>
+                    ))}
+                  </div>
                 </div>
+                <div>
+                  <Label>Platforms</Label>
+                  <div className="flex flex-wrap gap-3">
+                    {editGame.platforms.map(platform => (
+                      <div className="flex items-center gap-1 bg-contrastCol rounded-full px-2">
+                        <label>
+                          <input
+                            type="checkbox"
+                            className="h-3"
+                          />{' '}
+                          {platform.name}
+                        </label>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                <Button onClick={() => handleEditClick()}></Button>
               </>
             </SheetContent>
           </Sheet>
@@ -455,13 +385,25 @@ export default function Spil({ gamelist }: { gamelist: GameCardRoot[] }) {
                 </div>
                 <div>
                   <Label>Tags</Label>
-                  {addGame.tags.map(tag => (
-                    <Input
-                      labelText={tag.name}
-                      type="checkbox"
-                      className="h-3"
-                    />
-                  ))}
+                  <div className="flex flex-wrap gap-3">
+                    {addGame.tags.map(tag => (
+                      <div
+                        className={`flex items-center gap-1 ${
+                          tag.checked ? 'bg-accentCol' : 'bg-contrastCol'
+                        }  rounded-full px-2`}
+                      >
+                        <label>
+                          <input
+                            type="checkbox"
+                            checked={tag.checked}
+                            onClick={() => (tag.checked = true)}
+                            className="h-3"
+                          />{' '}
+                          {tag.name}
+                        </label>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </>
             </SheetContent>

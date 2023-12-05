@@ -1,15 +1,13 @@
 export interface GameCardRoot {
-  id: string;
-  slug: string;
+  id: number;
   title: string;
-  name: string;
-  background_image: string;
-  platforms: Platform[];
   description: string;
-  tags: Tag[];
+  background_image: string;
+  platforms: { id: number; name: string; slug: string }[];
+  tags: { id: number; name: string; slug: string }[];
 }
 
-export type PlatformArr = Platform[];
+/* export type PlatformArr = Platform[];
 
 export interface Platform {
   id: string;
@@ -30,3 +28,4 @@ export interface Tag {
   games_count: number;
   image_background: string;
 }
+ */

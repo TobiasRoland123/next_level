@@ -14,7 +14,7 @@ export interface GameRoot {
 }
 
 export interface Game {
-  id: string;
+  id: number;
   slug: string;
   name: string;
   title: string;
@@ -56,6 +56,7 @@ export interface Genre {
 }
 
 export interface Tag {
+  checked: boolean;
   id: string;
   name: string;
   slug: string;
