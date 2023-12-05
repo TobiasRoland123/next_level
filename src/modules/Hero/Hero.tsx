@@ -53,7 +53,7 @@ export const Hero = ({
   return (
     <>
       <header
-        className={`flex min-h-screen justify-center ${
+        className={`flex min-h-[50vh] justify-center ${
           isFrontPage ? "bg-hero2" : "bg-hero1"
         } bg-center md:bg-left bg-cover bg-no-repeat pb-10`}
       >

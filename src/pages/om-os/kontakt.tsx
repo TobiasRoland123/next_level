@@ -4,6 +4,12 @@ import { Hero } from "@/modules/Hero/Hero";
 import { FaClock, FaHouse, FaPhone } from "react-icons/fa6";
 import { MdEmail } from "react-icons/md";
 import { FaYoutube } from "react-icons/fa";
+import { FaTiktok } from "react-icons/fa";
+import { FaFacebook } from "react-icons/fa";
+import { FaLinkedin } from "react-icons/fa";
+import { FaInstagram } from "react-icons/fa";
+import { FaTwitch } from "react-icons/fa";
+
 import { AnimatePresence, motion } from "framer-motion";
 import { Accordions } from "../../components/Accordion/Accordion";
 import { useEffect, useState, useRef } from "react";
@@ -161,9 +167,16 @@ export default function Kontakt() {
                             damping: 20,
                           }}
                         >
-                          <FaYoutube
-                            className={"text-3xl cursor-pointer text-accentCol"}
-                          />
+                          <a
+                            target="_blank"
+                            href="https://www.youtube.com/channel/UCG4CeyBvWjuyDxkYGlloVfg"
+                          >
+                            <FaYoutube
+                              className={
+                                "text-3xl cursor-pointer text-accentCol"
+                              }
+                            />
+                          </a>
                         </motion.div>
                         <motion.div
                           whileHover={{ scale: 1.5 }}
@@ -174,9 +187,16 @@ export default function Kontakt() {
                             damping: 20,
                           }}
                         >
-                          <FaYoutube
-                            className={"text-3xl cursor-pointer text-accentCol"}
-                          />
+                          <a
+                            target="_blank"
+                            href="https://www.facebook.com/Nextlvl.dk/"
+                          >
+                            <FaFacebook
+                              className={
+                                "text-3xl cursor-pointer text-accentCol"
+                              }
+                            />
+                          </a>
                         </motion.div>
                         <motion.div
                           whileHover={{ scale: 1.5 }}
@@ -187,9 +207,16 @@ export default function Kontakt() {
                             damping: 20,
                           }}
                         >
-                          <FaYoutube
-                            className={"text-3xl cursor-pointer text-accentCol"}
-                          />
+                          <a
+                            target="_blank"
+                            href="https://www.tiktok.com/"
+                          >
+                            <FaTiktok
+                              className={
+                                "text-3xl cursor-pointer text-accentCol"
+                              }
+                            />
+                          </a>
                         </motion.div>
                         <motion.div
                           whileHover={{ scale: 1.5 }}
@@ -200,9 +227,56 @@ export default function Kontakt() {
                             damping: 20,
                           }}
                         >
-                          <FaYoutube
-                            className={"text-3xl cursor-pointer text-accentCol"}
-                          />
+                          <a
+                            target="_blank"
+                            href="https://www.linkedin.com/feed/"
+                          >
+                            <FaLinkedin
+                              className={
+                                "text-3xl cursor-pointer text-accentCol"
+                              }
+                            />
+                          </a>
+                        </motion.div>
+                        <motion.div
+                          whileHover={{ scale: 1.5 }}
+                          animate={{ rotate: 0, scale: 1 }}
+                          transition={{
+                            type: "spring",
+                            stiffness: 500,
+                            damping: 20,
+                          }}
+                        >
+                          <a
+                            target="_blank"
+                            href="https://www.twitch.tv/"
+                          >
+                            <FaTwitch
+                              className={
+                                "text-3xl cursor-pointer text-accentCol"
+                              }
+                            />
+                          </a>
+                        </motion.div>
+                        <motion.div
+                          whileHover={{ scale: 1.5 }}
+                          animate={{ rotate: 0, scale: 1 }}
+                          transition={{
+                            type: "spring",
+                            stiffness: 500,
+                            damping: 20,
+                          }}
+                        >
+                          <a
+                            target="_blank"
+                            href="https://www.instagram.com/nextlvl.dk/?hl=da"
+                          >
+                            <FaInstagram
+                              className={
+                                "text-3xl cursor-pointer text-accentCol"
+                              }
+                            />
+                          </a>
                         </motion.div>
                       </AnimatePresence>
                     </div>
@@ -228,6 +302,18 @@ export default function Kontakt() {
                         item: {
                           itemHeader: "Spørgsmål 3",
                           itemContent: "Svar på spørgsmål 3",
+                        },
+                      },
+                      {
+                        item: {
+                          itemHeader: "Spørgsmål 4",
+                          itemContent: "Svar på spørgsmål 4",
+                        },
+                      },
+                      {
+                        item: {
+                          itemHeader: "Spørgsmål 5",
+                          itemContent: "Svar på spørgsmål 6",
                         },
                       },
                       // Add more items as needed
