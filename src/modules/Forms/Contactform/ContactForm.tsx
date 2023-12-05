@@ -1013,7 +1013,38 @@ export const ContactForm: React.FC<ContactFormProps> = ({
                       </FormItem>
                     )}
                   />
-                  <Button className="mt-0">Send Besked</Button>
+                  {isLoading === null || false ? (
+                    <motion.div
+                      initial={{ opacity: 1, y: "-25%" }}
+                      transition={{
+                        type: "spring",
+                        stiffness: 100,
+                        duration: 0.3,
+                        ease: [0, 0.71, 0.2, 1.01],
+                      }}
+                    >
+                      <Button className="mt-8 w-48">Send Besked</Button>
+                    </motion.div>
+                  ) : isLoading === true ? (
+                    <motion.div
+                      initial={{ opacity: 1, y: "-25%" }}
+                      transition={{
+                        type: "spring",
+                        stiffness: 100,
+                        duration: 0.3,
+                        ease: [0, 0.71, 0.2, 1.01],
+                      }}
+                    >
+                      <Button
+                        disabled
+                        className="mt-8 w-48 cursor-not-allowed"
+                      >
+                        <span className="loader"></span>
+                      </Button>
+                    </motion.div>
+                  ) : (
+                    ""
+                  )}
                 </motion.div>
               </>
             )}
@@ -1315,7 +1346,38 @@ export const ContactForm: React.FC<ContactFormProps> = ({
                       </FormItem>
                     )}
                   />
-                  <Button className="mt-0">Send Besked</Button>
+                  {isLoading === null || false ? (
+                    <motion.div
+                      initial={{ opacity: 1, y: "-25%" }}
+                      transition={{
+                        type: "spring",
+                        stiffness: 100,
+                        duration: 0.3,
+                        ease: [0, 0.71, 0.2, 1.01],
+                      }}
+                    >
+                      <Button className="mt-8 w-48">Send Besked</Button>
+                    </motion.div>
+                  ) : isLoading === true ? (
+                    <motion.div
+                      initial={{ opacity: 1, y: "-25%" }}
+                      transition={{
+                        type: "spring",
+                        stiffness: 100,
+                        duration: 0.3,
+                        ease: [0, 0.71, 0.2, 1.01],
+                      }}
+                    >
+                      <Button
+                        disabled
+                        className="mt-8 w-48 cursor-not-allowed"
+                      >
+                        <span className="loader"></span>
+                      </Button>
+                    </motion.div>
+                  ) : (
+                    ""
+                  )}
                 </motion.div>
               </>
             )}
@@ -1616,7 +1678,38 @@ export const ContactForm: React.FC<ContactFormProps> = ({
                       </FormItem>
                     )}
                   />
-                  <Button className="mt-0">Send Besked</Button>
+                  {isLoading === null || false ? (
+                    <motion.div
+                      initial={{ opacity: 1, y: "-25%" }}
+                      transition={{
+                        type: "spring",
+                        stiffness: 100,
+                        duration: 0.3,
+                        ease: [0, 0.71, 0.2, 1.01],
+                      }}
+                    >
+                      <Button className="mt-8 w-48">Send Besked</Button>
+                    </motion.div>
+                  ) : isLoading === true ? (
+                    <motion.div
+                      initial={{ opacity: 1, y: "-25%" }}
+                      transition={{
+                        type: "spring",
+                        stiffness: 100,
+                        duration: 0.3,
+                        ease: [0, 0.71, 0.2, 1.01],
+                      }}
+                    >
+                      <Button
+                        disabled
+                        className="mt-8 w-48 cursor-not-allowed"
+                      >
+                        <span className="loader"></span>
+                      </Button>
+                    </motion.div>
+                  ) : (
+                    ""
+                  )}
                 </motion.div>
               </>
             )}
