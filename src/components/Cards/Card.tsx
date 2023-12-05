@@ -240,7 +240,7 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
                       {variant === "bday1" || variant === "bday2" ? (
                         <h3 className="text-secondaryCol text-center text-4xl mt-0">{totalPris},- pr. pers.</h3>
                       ) : variant !== "eventCard" ? (
-                        <h3 className="text-secondaryCol text-center text-4xl mt-0">{totalPris},-</h3>
+                        <h3 className="text-secondaryCol text-center text-4xl mt-4">{totalPris},-</h3>
                       ) : null}
 
                       {!oprettelseInkl && variant !== "bday1" && variant !== "bday2" && variant !== "eventCard" ? (
