@@ -1,7 +1,7 @@
 import Image from "next/image";
 import heroPlaceholder from "../../../public/images/hero-placeholder.webp";
 import { Button, ButtonProps } from "../../components/Button/Button";
-import { HyphenatedText } from "@/components/HyphenatedText/HyphenatedText";
+import { HyphenatedText } from "../../components/HyphenatedText/HyphenatedText";
 
 interface heroProps {
   header?: string;
@@ -23,16 +23,7 @@ interface heroProps {
   isFrontPage: boolean;
 }
 
-
-export const Hero = ({
-  header,
-  content,
-  buttonProps,
-  redWord,
-  isFrontPage,
-  link,
-}: heroProps) => {
-
+export const Hero = ({ header, content, buttonProps, redWord, isFrontPage, link }: heroProps) => {
   const renderHeader = () => {
     if (!header) return null;
 
@@ -63,13 +54,11 @@ export const Hero = ({
           <section className=" bg-contrastCol/50 backdrop-blur-sm mt-28 px-4 py-6 rounded-sm h-fit md:max-w-[66%]">
             {renderHeader()}
 
-
             {content && (
               <p className="mt-4">
                 <HyphenatedText text={content} />
               </p>
             )}
-
 
             {buttonProps && (
               <Button
