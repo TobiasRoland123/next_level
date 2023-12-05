@@ -37,7 +37,7 @@ export const EventBanner = ({ heading, text, image, button, className }: eventBa
           <p>{text}</p>
           {button && (
             <Button
-              className=" hidden md:block"
+              className=" hidden md:block w-fit"
               {...button}
             >
               {button.children}

@@ -2,16 +2,16 @@ import { Button } from "@/components/Button/Button";
 import { Card } from "@/components/Cards/Card";
 import { GameCard } from "@/components/GameCard/GameCard";
 
-import { Header } from '../modules/Header/Header';
-import { Accordions } from '../components/Accordion/Accordion';
+import { Header } from "../modules/Header/Header";
+import { Accordions } from "../components/Accordion/Accordion";
 
-import { Input } from '@/components/Inputfields/Inputfield';
+import { Input } from "@/components/Inputfields/Inputfield";
 
-import { Footer } from '@/modules/Footer/Footer';
+import { Footer } from "@/modules/Footer/Footer";
 
-import { Hero } from '@/modules/Hero/Hero';
-import { ParagraphBold } from '@/components/ParagraphBold/ParagraphBold';
-import { CustomerQuoteSet } from '@/modules/CustomerQuoteSet/CustomerQuoteSet';
+import { Hero } from "@/modules/Hero/Hero";
+import { ParagraphBold } from "@/components/ParagraphBold/ParagraphBold";
+import { CustomerQuoteSet } from "@/modules/CustomerQuoteSet/CustomerQuoteSet";
 
 import { Layout } from "@/Layout";
 
@@ -24,7 +24,7 @@ export default function Home() {
             header="Dk's bedste gaming center"
             redWord={["bedste"]}
             content="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries"
-            buttonLabel="Book Nu"
+            buttonProps={{ children: "Book Nu" }}
             isFrontPage={true}
           />
           <section className="flex  justify-center ">

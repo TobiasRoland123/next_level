@@ -1,11 +1,11 @@
 import Image from "next/image";
 import heroPlaceholder from "../../../public/images/hero-placeholder.webp";
-import { Button } from "../../components/Button/Button";
+import { Button, ButtonProps } from "../../components/Button/Button";
 
 interface heroProps {
   header?: string;
   content?: string;
-  buttonLabel?: string;
+  buttonProps?: ButtonProps;
   /**
    * To be sure not to make type errors please copy paste word.
    * If word is lowercase in header, then it also needs to be lowercase here.
@@ -17,7 +17,7 @@ interface heroProps {
   isFrontPage: boolean;
 }
 
-export const Hero = ({ header, content, buttonLabel, redWord, isFrontPage }: heroProps) => {
+export const Hero = ({ header, content, buttonProps, redWord, isFrontPage }: heroProps) => {
   const renderHeader = () => {
     if (!header) return null;
 
@@ -51,7 +51,12 @@ export const Hero = ({ header, content, buttonLabel, redWord, isFrontPage }: her
           <section className=" bg-contrastCol/50 backdrop-blur-sm mt-28 px-4 py-6 rounded-sm h-fit md:max-w-[66%]">
             {renderHeader()}
             <p className="mt-4">{content && content}</p>
-            {buttonLabel && <Button className=" mt-7">{buttonLabel}</Button>}
+            {buttonProps && (
+              <Button
+                className=" mt-7"
+                {...buttonProps}
+              />
+            )}
           </section>
         </div>
       </header>

@@ -17,7 +17,7 @@ export const Frontpage: Story = {
     header: "Dk's bedste gaming center",
     content:
       "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries",
-    buttonLabel: "Book Nu",
+    buttonProps: { children: "Tryk på mig" },
     redWord: ["bedste"],
     isFrontPage: true,
   },
@@ -28,7 +28,7 @@ export const OtherPages: Story = {
     header: "Dk's bedste gaming center",
     content:
       "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries",
-    buttonLabel: "Book Nu",
+    buttonProps: { children: "Book tid!" },
     redWord: ["bedste"],
     isFrontPage: false,
   },
