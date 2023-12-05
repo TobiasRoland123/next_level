@@ -4,6 +4,7 @@ import { Hero } from "@/modules/Hero/Hero";
 export default function Turneringer() {
   return (
     <>
+
       <Hero
         isFrontPage={false}
         buttonProps={{ children: "Kontakt os", link: "../om-os/kontakt" }}
@@ -12,6 +13,7 @@ export default function Turneringer() {
         redWord={["turneringer"]}
       />
 
+
       <section>
         <article className="flex justify-center">
           <div className="spacer w-full">
@@ -19,17 +21,23 @@ export default function Turneringer() {
               Find din næste <span className="text-accentCol">turnering</span>
             </h2>
             <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus auctor euismod posuere. Integer non ullamcorper
-              mi. Vestibulum et congue lorem. Suspendisse iaculis semper mauris eget aliquet. Mauris malesuada purus et rhoncus
-              auctor. Fusce vitae justo risus. Vestibulum convallis justo eu diam dignissim posuere. Donec acv
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus
+              auctor euismod posuere. Integer non ullamcorper mi. Vestibulum et
+              congue lorem. Suspendisse iaculis semper mauris eget aliquet.
+              Mauris malesuada purus et rhoncus auctor. Fusce vitae justo risus.
+              Vestibulum convallis justo eu diam dignissim posuere. Donec acv
             </p>
-            <div className="border-2 border-green-500">Turnering lineup løsning comming soon</div>
+            <div className="border-2 border-green-500">
+              Turnering lineup løsning comming soon
+            </div>
           </div>
         </article>
 
         <article className="flex justify-center">
           <div className="spacer w-full">
-            <div className="border-2 border-green-500 ">small form comming soon</div>
+            <div className="border-2 border-green-500 ">
+              small form comming soon
+            </div>
           </div>
         </article>
       </section>

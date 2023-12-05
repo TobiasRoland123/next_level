@@ -3,12 +3,26 @@ import { Hero } from "@/modules/Hero/Hero";
 import Image from "next/image";
 import barnVr from "../../../public/images/event/foedselsdag/barn-vr.jpeg";
 import { Card } from "@/components/Cards/Card";
+import { Button } from "@/components/Button/Button";
 import foedselsdagImg1 from "../../../public/images/event/foedselsdag/barn-vr.jpeg"
 import foedselsdagImg2 from "../../../public/images/event/foedselsdag.jpg"
+
 
 export default function Foedselsdag() {
   return (
     <>
+
+      <article>
+        <Hero
+          header="Fødseldagen du aldrig glemmer"
+          redWord={["du", "aldrig", "glemmer"]}
+          content="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus auctor euismod posuere. Integer non ullamcorper mi. Vestibulum et congue lorem. Suspendisse iaculis semper mauris eget aliquet. Mauris malesuada purus et rhoncus auctor. Fusce vitae justo risus."
+          buttonLabel="Book din fødselsdag her"
+          isFrontPage={false}
+          link="../om-os/kontakt?foedselsdag"
+        />
+      </article>
+
      <Layout>
         <main>
       <Hero
@@ -18,6 +32,7 @@ export default function Foedselsdag() {
         buttonProps={{ children: "Kontakt os", link: "../om-os/kontakt" }}
         isFrontPage={false}
       />
+
       <section>
         <div className="flex justify-center">
           <h2 className="spacer w-full">
@@ -35,11 +50,15 @@ export default function Foedselsdag() {
                 Elsker du og dine venner at game?
               </h3>
               <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus auctor euismod posuere. Integer non ullamcorper
-                mi. Vestibulum et congue lorem. Suspendisse iaculis semper mauris eget aliquet. Mauris malesuada purus et rhoncus
-                auctor. Fusce vitae justo risus. Vestibulum convallis justo eu diam dignissim posuere. Donec ac maximus lectus.
-                Praesent non nibh eget sem tincidunt ultricies vel vitae magna. Nullam eget tellus id quam commodo iaculis
-                convallis a odio. Phasellus sagittis velit eget leo.
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                Phasellus auctor euismod posuere. Integer non ullamcorper mi.
+                Vestibulum et congue lorem. Suspendisse iaculis semper mauris
+                eget aliquet. Mauris malesuada purus et rhoncus auctor. Fusce
+                vitae justo risus. Vestibulum convallis justo eu diam dignissim
+                posuere. Donec ac maximus lectus. Praesent non nibh eget sem
+                tincidunt ultricies vel vitae magna. Nullam eget tellus id quam
+                commodo iaculis convallis a odio. Phasellus sagittis velit eget
+                leo.
               </p>
             </div>
             <div>

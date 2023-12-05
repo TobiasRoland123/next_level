@@ -27,8 +27,8 @@ export const Header = ({ pageList }: HeaderProps) => {
 
   return (
     <>
+      {/* MOBILE MENU */}
       <div
-
         className={` bg-primaryCol w-screen h-screen fixed top-0 transition-all md:hidden  z-10 overflow-scroll pb-6  ${
           isOpen ? "right-0" : "right-full"
         } flex flex-col pt-28`}
@@ -80,13 +80,11 @@ export const Header = ({ pageList }: HeaderProps) => {
         </div>
       </div>
 
-
       <nav className="fixed top-2 px-6 md:px-12 lg:px-20 z-10 w-full ">
-
         <div
           className={`my-3 backdrop-blur-sm ${
             isOpen ? "bg-primaryCol" : "bg-contrastCol/70"
-          } flex justify-between   items-center px-4 gap-6 rounded-sm md:py-2 md:bg-contrastCol/70 xl:mx-auto max-w-main`}
+          } flex justify-between items-center px-4 gap-6 rounded-sm md:py-2 md:bg-contrastCol/70 xl:mx-auto max-w-main`}
         >
           <div className=" flex gap-8 font-bold ">
             <a href="/">
@@ -112,7 +110,8 @@ export const Header = ({ pageList }: HeaderProps) => {
               </svg>
             </a>
 
-            <ul className="md:flex hidden items-center border-l-2 border-l-accentCol pl-8 gap-6 ">
+            {/* DESKTOP MENU */}
+            <ul className="md:flex hidden border-l-2 border-l-accentCol pl-8 gap-6 ">
               {pageList.map((pages) => {
                 return (
                   <>
@@ -125,7 +124,7 @@ export const Header = ({ pageList }: HeaderProps) => {
                     ) : (
                       <a
                         href={pages.page.href}
-                        className="border-2 border-transparent hover:border-b-accentCol "
+                        className="flex justify-center items-center border-2 border-transparent text-center hover:border-b-accentCol w-16 h-12 mt-auto mb-auto"
                       >
                         {pages.page.pageTitle}
                       </a>
@@ -136,14 +135,23 @@ export const Header = ({ pageList }: HeaderProps) => {
             </ul>
           </div>
 
-
           <button
             className="w-8 flex flex-col gap-2 justify-center items-center h-14 z-10 md:hidden"
             onClick={ToggleMenu}
           >
-            <span className={`h-1 bg-accentCol  w-full ${isOpen && "translate-y-[0.4rem] rotate-45"}  transition-all	`}></span>
-            <span className={`h-1 bg-accentCol  w-full ${isOpen && "hidden"}`}></span>
-            <span className={`h-1 bg-accentCol  w-full ${isOpen && "translate-y-[-0.35rem] -rotate-45 "}  transition-all	`}></span>
+            <span
+              className={`h-1 bg-accentCol w-full ${
+                isOpen && "translate-y-[0.4rem] rotate-45"
+              }  transition-all	`}
+            ></span>
+            <span
+              className={`h-1 bg-accentCol w-full ${isOpen && "hidden"}`}
+            ></span>
+            <span
+              className={`h-1 bg-accentCol w-full ${
+                isOpen && "translate-y-[-0.35rem] -rotate-45 "
+              }  transition-all	`}
+            ></span>
           </button>
 
           <Button className="hidden md:block my-1">Book tid</Button>
