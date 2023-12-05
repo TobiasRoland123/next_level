@@ -23,7 +23,16 @@ interface heroProps {
   isFrontPage: boolean;
 }
 
-export const Hero = ({ header, content, buttonProps, redWord, isFrontPage, link }: heroProps) => {
+
+export const Hero = ({
+  header,
+  content,
+  buttonProps,
+  redWord,
+  isFrontPage,
+  link,
+}: heroProps) => {
+
   const renderHeader = () => {
     if (!header) return null;
 
