@@ -11,11 +11,16 @@ export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> 
 }
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ className, type, labelText, isSearch, valid, ...props }, ref) => {
+  ({ className, type, labelText, isSearch, valid, onChange, ...props }, ref) => {
     const [inputValue, setInputValue] = React.useState('');
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-      setInputValue(event.target.value);
+      const newValue = event.target.value;
+      setInputValue(newValue);
+
+      if (onChange) {
+        onChange(newValue);
+      }
     };
 
     return (

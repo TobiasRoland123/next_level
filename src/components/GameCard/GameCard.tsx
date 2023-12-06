@@ -60,9 +60,7 @@ const GameCard = forwardRef<HTMLDivElement, GameCardProps>(
                   {Console &&
                     Console.map(console => (
                       <div className="bg-secondary w-fit h-min px-2 rounded-full flex">
-                        <p className="text-primaryCol mt-0">
-                          {console.replace('PlayStation ', 'PS')}
-                        </p>
+                        <p className="text-primaryCol mt-0">{console}</p>
                       </div>
                     ))}
                 </div>

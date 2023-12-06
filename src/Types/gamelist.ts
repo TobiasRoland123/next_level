@@ -19,9 +19,10 @@ export interface Game {
   name: string;
   title: string;
   background_image: string;
-  platforms: Platform[];
+  platforms: Array<{ name: string; value: number }>;
   description: string;
-  tags: Tag[];
+  description_raw: string;
+  tags: Array<{ name: string; value: number }>;
 }
 
 export interface Platform {

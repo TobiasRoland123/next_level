@@ -1,10 +1,13 @@
 export interface GameCardRoot {
   id: number;
   title: string;
+  name: string;
+  slug: string;
   description: string;
+  description_raw: string;
   background_image: string;
-  platforms: { id: number; name: string; slug: string }[];
-  tags: { id: number; name: string; slug: string }[];
+  platforms: Array<{ name: string; value: number }>;
+  tags: Array<{ name: string; value: number }>;
 }
 
 /* export type PlatformArr = Platform[];
