@@ -1,22 +1,29 @@
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input, InputProps } from "../Inputfields/Inputfield";
 import { on } from "stream";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface filterFieldProps {
   filterType: "dropDown" | "search";
-  dropDownHeader: string;
-  dropDownItems: Array<string>;
-  inputProps?: InputProps;
+  dropDownHeader?: string;
+  dropDownItems?: Array<string>;
+  inputPlaceholder?: string;
 
   onChange: (value: string, type: string) => void;
 }
 
-export const FilterField = ({ filterType, dropDownHeader, dropDownItems, inputProps, onChange }: filterFieldProps) => {
-  const [chosenValue, setChosenValue] = useState("");
-  const valueType = dropDownHeader?.toLowerCase();
+export const FilterField = ({ filterType, dropDownHeader, dropDownItems, inputPlaceholder, onChange }: filterFieldProps) => {
+  const [inputValue, setInputValue] = useState("");
+  const valueType = dropDownHeader?.toLowerCase() || inputPlaceholder?.toLowerCase() || "";
 
   // console.log("This is valueType", valueType);
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue(event.target.value);
+  };
+
+  useEffect(() => {
+    onChange(inputValue, "search");
+  }, [inputValue]);
 
   return (
     <>
@@ -26,7 +33,7 @@ export const FilterField = ({ filterType, dropDownHeader, dropDownItems, inputPr
             onChange(chosenValue, valueType);
           }}
         >
-          <SelectTrigger className="w-[280px]">
+          <SelectTrigger className="w-full md:w-fit">
             <SelectValue placeholder={dropDownHeader ? dropDownHeader : "Filips dejlige mor"} />
           </SelectTrigger>
           <SelectContent>
@@ -37,8 +44,11 @@ export const FilterField = ({ filterType, dropDownHeader, dropDownItems, inputPr
         </Select>
       ) : (
         <Input
+          type="search"
           isSearch
-          {...inputProps}
+          value={inputValue}
+          placeholder={inputPlaceholder}
+          onChange={handleInputChange}
         />
       )}
     </>

@@ -34,9 +34,19 @@ export default function Spil({ gamelist }: { gamelist: GameCardRoot[] }) {
     // console.log("gameList: ", gamelist);
 
     const filteredGameList = gamelist.filter((game) => {
-      const hasGenre = genreValue ? game.tags.some((tag) => tag.name === genreValue) : true;
+      const hasGenre = genreValue && genreValue !== "Alle" ? game.tags.some((tag) => tag.name === genreValue) : true;
 
-      return hasGenre;
+      //
+      //
+      const matchesSearch = searchValue
+        ? game.title.toLowerCase().includes(searchValue.toLowerCase()) ||
+          game.description.toLowerCase().includes(searchValue) ||
+          game.id.toString().includes(searchValue) ||
+          game.platforms.some((platform) => platform.name.toString().toLowerCase() === searchValue) ||
+          game.tags.some((tag) => tag.name.toLowerCase() === searchValue)
+        : true;
+
+      return hasGenre && matchesSearch;
     });
     setVisibleGames(filteredGameList);
     console.log("filteredGameList: ", filteredGameList);
@@ -60,23 +70,18 @@ export default function Spil({ gamelist }: { gamelist: GameCardRoot[] }) {
           <nav className="flex justify-center">
             <div className="spacer w-full">
               <div className="flex justify-between">
-                <div className="flex flex-col gap-6">
+                <div className="flex flex-wrap gap-6">
+                  <FilterField
+                    filterType="search"
+                    inputPlaceholder="Søg"
+                    onChange={handleSelectChange}
+                  />
                   <FilterField
                     filterType="dropDown"
                     dropDownHeader="Genre"
-                    dropDownItems={["Multiplayer", "din far", "filip^2"]}
+                    dropDownItems={["Alle", "Multiplayer", "din far", "filip^2"]}
                     onChange={handleSelectChange}
                   />
-                  <FilterField
-                    filterType="dropDown"
-                    dropDownItems={["Din mor", "din far", "filip^2"]}
-                    dropDownHeader="Arranged"
-                    onChange={handleSelectChange}
-                  />
-                  {/* <FilterField
-                    filterType="search"
-                    inputProps={{ labelText: "Søg" }}
-                  /> */}
                 </div>
               </div>
             </div>
@@ -86,8 +91,8 @@ export default function Spil({ gamelist }: { gamelist: GameCardRoot[] }) {
               <div className="spacer w-full ">
                 <div className="flex flex-wrap gap-6 justify-center sm:justify-between lg:grid lg:grid-cols-3 xl:grid-cols-4">
                   {/*     <div className="flex flex-wrap gap-6 justify-center md:justify-between lg:justify-start"> */}
-                  {gamelist &&
-                    gamelist.map((game) => (
+                  {visibleGames &&
+                    visibleGames.map((game) => (
                       <div
                         key={game.id}
                         className="mb-10 "
