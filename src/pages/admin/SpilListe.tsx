@@ -4,7 +4,6 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { PlusCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { fetchGameData, fetchDBGameData } from './spil';
-
 import {
   addNewGameAtom,
   editGameAtom,
@@ -18,6 +17,7 @@ import { EditGameSheet } from './EditGameSheet';
 import { supabase } from '../../../utils/supabaseClient';
 import { useAtom } from 'jotai';
 import { useQueries } from '@tanstack/react-query';
+import { Game, GameRoot, Result } from '@/Types/gamelist';
 
 export const SpilListe = () => {
   const [searchString, setSearchString] = useState<string>('');
@@ -65,8 +65,8 @@ export const SpilListe = () => {
 
   useEffect(() => {
     if (gameId !== 0) {
-      console.log('penis');
-      setAddNewGame(gameData);
+      const selectedGameData = gameData;
+      setAddNewGame(selectedGameData);
       setAddOpen(true);
     }
   }, [gameId && !gameDataIsLoading]);
@@ -101,7 +101,7 @@ export const SpilListe = () => {
 
             {gameData?.results && gameId == 0 && searchString.length > 3 && (
               <CommandList className='w-full h-full'>
-                {gameData.results.map(game => (
+                {gameData.results.map((game: Result) => (
                   <CommandItem
                     onSelect={() => {
                       setGameId(game.id);
@@ -117,11 +117,8 @@ export const SpilListe = () => {
         </PopoverContent>
       </Popover>
 
-      <AddGameSheet
-        game={addNewGame}
-        dataLoading={gameDataIsFetching}
-      />
-      <EditGameSheet game={editGame} />
+      <AddGameSheet {...addNewGame} />
+      <EditGameSheet {...editGame} />
 
       <div className='flex flex-wrap gap-3 '>
         {dbGameData &&

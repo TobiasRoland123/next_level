@@ -1,6 +1,6 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
-import { Game } from '@/Types/gamelist';
+import { Game, Result } from '@/Types/gamelist';
 import {
   Sheet,
   SheetContent,
@@ -19,7 +19,7 @@ import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { supabase } from '../../../utils/supabaseClient';
 
-export const AddGameSheet = (game: Game, dataLoading: boolean) => {
+export const AddGameSheet = (game: Game) => {
   const [addOpen, setAddOpen] = useAtom(showAddGameAtom);
   const [gameId, setGameId] = useAtom(gameIdAtom);
   const [addNewGame, setAddNewGame] = useAtom(addNewGameAtom);
@@ -31,10 +31,6 @@ export const AddGameSheet = (game: Game, dataLoading: boolean) => {
   const [selectedPlatform, setSelectedPlatform] = useState<Array<{ name: string; value: number }>>(
     []
   );
-
-  useEffect(() => {
-    console.log('loading', dataLoading);
-  }, [dataLoading]);
 
   const handleCheckboxChange = (tag: { name: string; value: number }) => {
     if (selectedTags.some(selectedTag => selectedTag.value === tag.value)) {

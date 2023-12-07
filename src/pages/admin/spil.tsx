@@ -15,7 +15,7 @@ export const fetchDBGameData = async () => {
 
 export const fetchGameData = async (searchString: string, gameId: number) => {
   const res = await fetch(`/api/gamelist?search=${searchString}&gameId=${gameId}`);
-  const data: GameRoot = await res.json();
+  const data = await res.json();
   return data;
 };
 
