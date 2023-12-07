@@ -70,7 +70,7 @@ export default function Spil({ gamelist }: { gamelist: GameCardRoot[] }) {
           <nav className="flex justify-center">
             <div className="spacer w-full">
               <div className="flex justify-between">
-                <div className="flex flex-wrap gap-6">
+                <div className="flex flex-wrap gap-6 w-full">
                   <FilterField
                     filterType="search"
                     inputPlaceholder="Søg"

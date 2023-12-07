@@ -33,7 +33,7 @@ export const FilterField = ({ filterType, dropDownHeader, dropDownItems, inputPl
             onChange(chosenValue, valueType);
           }}
         >
-          <SelectTrigger className="w-full md:w-fit">
+          <SelectTrigger className=" max-w-[250px] ">
             <SelectValue placeholder={dropDownHeader ? dropDownHeader : "Filips dejlige mor"} />
           </SelectTrigger>
           <SelectContent>
@@ -49,6 +49,7 @@ export const FilterField = ({ filterType, dropDownHeader, dropDownItems, inputPl
           value={inputValue}
           placeholder={inputPlaceholder}
           onChange={handleInputChange}
+          isEmpty={inputValue === ""}
         />
       )}
     </>
