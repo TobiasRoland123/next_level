@@ -1,13 +1,13 @@
-import { supabase } from '../utils/supabaseClient';
-import { useQueries } from '@tanstack/react-query';
+
+
 import { useEffect, useState } from 'react';
 import { Command, CommandInput, CommandItem, CommandList } from '@/components/ui/command';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { PlusCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { fetchGameData, fetchDBGameData } from './spil2';
+import { fetchGameData, fetchDBGameData } from './spil';
 import { GameRoot } from '@/Types/gamelist';
-import { useAtom } from 'jotai';
+
 import {
   addNewGameAtom,
   editGameAtom,
@@ -18,6 +18,7 @@ import {
 import { AddGameSheet } from './AddGameSheet';
 import { GameCard } from '@/components/GameCard/GameCard';
 import { EditGameSheet } from './EditGameSheet';
+import { supabase } from '../../../utils/supabaseClient';
 
 export const SpilListe = () => {
   const [searchString, setSearchString] = useState<string>('');

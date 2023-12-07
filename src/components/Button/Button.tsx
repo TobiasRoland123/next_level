@@ -31,6 +31,7 @@ export interface ButtonProps extends VariantProps<typeof buttonVariants> {
   link?: string;
   children?: React.ReactNode;
   className?: string;
+  disabled?: boolean;
   onClick?: React.MouseEventHandler<HTMLElement>;
 }
 
