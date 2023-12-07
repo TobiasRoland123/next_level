@@ -1,65 +1,75 @@
 import { Layout } from "@/Layout";
 import { Hero } from "@/modules/Hero/Hero";
 import { Input } from "@/components/Inputfields/Inputfield";
-import { FaPersonWalkingDashedLineArrowRight, FaUserGroup } from "react-icons/fa6";
+import { FaUserGroup } from "react-icons/fa6";
 import { FaCalendarAlt } from "react-icons/fa";
 import { IoTime } from "react-icons/io5";
 import { DatePicker } from "@/components/Calender/DatePicker";
 import { ReactNode, useState } from "react";
+import { BookingTypes } from "@/enum/BookingTimes";
+import { createClient } from "@supabase/supabase-js";
 
 export default function Booking() {
   interface TimeSlot {
     time: string;
-    index?: number;
+    index?: number | undefined;
   }
+  type BTS = (number | undefined)[];
 
   const ledigeTider: Array<string> = ["14.00", "14.30", "15.00", "15.30", "16.00", "16.30", "17.00", "17.30", "18.00", "18.30", "19.00", "19.30", "20.00"];
   const [startTid, setStartTid] = useState<TimeSlot>({ time: "", index: undefined });
   const [slutTid, setSlutTid] = useState<TimeSlot>({ time: "", index: undefined });
-  const [totalTime, setTotalTime] = useState<number>(0);
-  const addTime = (tid: string, index: number) => {
+  const [bTS, setBTS] = useState<BTS>([]);
+  function addTime(tid: string, index: number) {
     console.log("We are in");
 
     if (!startTid.time && !slutTid.time) {
       console.log("!startTid.time");
       setStartTid({ time: tid, index: index });
+      timesArray(index, BookingTypes.StartTime);
     } else if (!slutTid.time) {
       console.log("!slutTid.time");
-      // @ts-ignore
-      if (startTid.index < index) {
+      if (startTid.index !== undefined && startTid.index < index) {
         console.log("startTid.index < index");
         setSlutTid({ time: tid, index: index });
-
+        timesArray(index, BookingTypes.EndTime);
         // @ts-ignore
       } else if (startTid.index > index) {
         console.log("startTid.index > index");
         setStartTid({ time: tid, index: index });
         setSlutTid({ time: startTid.time, index: startTid.index });
+        timesArray(index, BookingTypes.NewStartOldEnd);
       } else if (startTid.index === index) {
         setStartTid({ time: "", index: undefined });
+        timesArray(index, BookingTypes.Clear);
       }
     } else if (!startTid.time) {
       // @ts-ignore
       if (slutTid.index > index) {
         console.log("slutTid.index > index");
         setStartTid({ time: tid, index: index });
+        timesArray(index, BookingTypes.SameEndNewStart);
 
         // @ts-ignore
       } else if (slutTid.index < index) {
         console.log("slutTid.index < index");
         setSlutTid({ time: tid, index: index });
         setStartTid({ time: slutTid.time, index: slutTid.index });
+        timesArray(index, BookingTypes.OldStartNewEnd);
       } else if (slutTid.index === index) {
         setSlutTid({ time: "", index: undefined });
+        timesArray(index, BookingTypes.Clear);
       }
     } else {
       console.log("startTid.index && slutTid.index has value");
       if (startTid.index === index) {
         console.log("startTid.index === index");
         setStartTid({ time: "", index: undefined });
+        timesArray(index, BookingTypes.KeepEndRemoveStart);
       } else if (slutTid.index === index) {
         console.log("slutTid.index === index");
         setSlutTid({ time: "", index: undefined });
+        timesArray(index, BookingTypes.KeepStartRemoveEnd);
       } else {
         // @ts-ignore
         const diffStart = Math.abs(startTid.index - index); // Calculate absolute difference between constant1 and targetValue
@@ -69,12 +79,15 @@ export default function Booking() {
         if (diffStart < diffSlut) {
           console.log("Index closes to startTime");
           setStartTid({ time: tid, index: index });
+          timesArray(index, BookingTypes.StartLowerEnd);
         } else if (diffStart > diffSlut) {
           console.log("Index closes to endTime");
           setSlutTid({ time: tid, index: index });
+          timesArray(index, BookingTypes.StartHigherEnd);
         } else {
           console.log("Same same, tag og ændre startTiden");
           setStartTid({ time: tid, index: index });
+          timesArray(index, BookingTypes.StartLowerEnd);
         }
       }
       //@ts-ignore
@@ -82,7 +95,91 @@ export default function Booking() {
     }
     console.log(`StartTid: ${startTid.time}, ${startTid.index}`);
     console.log(`SlutTid: ${slutTid.time}, ${slutTid.index}`);
-  };
+  }
+  function timesArray(index: number, value: string) {
+    console.log("bTS", bTS);
+    let diffVal: number;
+    let newArr: number | undefined[] = [];
+    switch (value) {
+      case BookingTypes.StartTime:
+        setBTS([index]);
+        break;
+      case BookingTypes.EndTime:
+        //@ts-ignore
+        diffVal = index - bTS[0];
+        console.log("diffVal1", diffVal);
+
+        for (let i = 0; i <= diffVal; i++) {
+          //@ts-ignore
+          newArr.push(startTid.index + i);
+        }
+        setBTS(newArr);
+        break;
+      case BookingTypes.NewStartOldEnd:
+        //@ts-ignore
+        diffVal = startTid.index - index;
+        console.log("diffVal2", diffVal);
+
+        for (let i = 0; i <= diffVal; i++) {
+          //@ts-ignore
+          newArr.push(index + i);
+        }
+        setBTS(newArr);
+        break;
+      case BookingTypes.Clear:
+        setBTS([]);
+        break;
+      case BookingTypes.SameEndNewStart:
+        //@ts-ignore
+        diffVal = (index - slutTid.index) * -1;
+        console.log("diffVal4", diffVal);
+
+        for (let i = 0; i <= diffVal; i++) {
+          //@ts-ignore
+          newArr.push(index + i);
+        }
+        setBTS(newArr);
+        break;
+      case BookingTypes.OldStartNewEnd:
+        //@ts-ignore
+        diffVal = startTid.index - index;
+        console.log("diffVal2", diffVal);
+
+        for (let i = 0; i <= diffVal; i++) {
+          //@ts-ignore
+          newArr.push(index + i);
+        }
+        setBTS(newArr);
+        break;
+      case BookingTypes.KeepEndRemoveStart:
+        setBTS([slutTid.index]);
+        break;
+      case BookingTypes.KeepStartRemoveEnd:
+        setBTS([startTid.index]);
+        break;
+      case BookingTypes.StartLowerEnd:
+        //@ts-ignore
+        diffVal = index - slutTid.index;
+        console.log("diffVal2", diffVal);
+
+        for (let i = 0; i <= diffVal; i++) {
+          //@ts-ignore
+          newArr.push(index + i);
+        }
+        setBTS(newArr);
+        break;
+      case BookingTypes.StartHigherEnd:
+        //@ts-ignore
+        diffVal = startTid.index - index;
+        console.log("diffVal2", diffVal);
+
+        for (let i = 0; i <= diffVal; i++) {
+          //@ts-ignore
+          newArr.push(index + i);
+        }
+        break;
+    }
+  }
 
   return (
     <>
@@ -125,6 +222,7 @@ export default function Booking() {
                 <p className="mt-0 flex flex-row align-middle gap-x-2">
                   <IoTime className="inline-block mt-0.4" />
                   <span>Tid</span>
+                  <button onClick={() => console.log(bTS)}>Check State</button>
                 </p>
                 <div className="mt-3">
                   {!startTid.time && !slutTid.time ? (
@@ -150,10 +248,10 @@ export default function Booking() {
                     //@ts-ignore
                     <div className="relative flex gap-2 flex-wrap mt-3">
                       {/* @ts-ignore */}
-                      <label htmlFor={tid} key={index} onClick={() => addTime(tid, index)} className={(startTid.index !== null && startTid.index !== null && index >= startTid.index && index <= slutTid.index) || startTid.index === index || slutTid.index === index ? "z-10 min-w-[85px] text-center py-2 border border-accentCol font-semibold transition ease-in-out duration-150 cursor-pointer bg-accentCol" : " z-10 min-w-[85px] text-center py-2 border border-accentCol font-semibold transition ease-in-out duration-150 cursor-pointer"}>
+                      <label htmlFor={tid} onClick={() => addTime(tid, index)} className={(startTid.index !== null && startTid.index !== null && index >= startTid.index && index <= slutTid.index) || startTid.index === index || slutTid.index === index ? "z-10 min-w-[85px] text-center py-2 border border-accentCol font-semibold transition ease-in-out duration-150 cursor-pointer bg-accentCol" : " z-10 min-w-[85px] text-center py-2 border border-accentCol font-semibold transition ease-in-out duration-150 cursor-pointer"}>
                         {tid}
                       </label>
-                      <input type="checkbox" name="tid" id={tid} key={index} className="absolute z-0 opacity-0" />
+                      <input type="checkbox" name="tid" id={tid} key={index} className="absolute z-0 opacity-0 " defaultChecked={bTS.includes(index)} />
                     </div>
                   ))}
                 </div>
