@@ -1,4 +1,3 @@
-import { supabase } from '../utils/supabaseClient';
 import { useQueryClient } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { Game } from '@/Types/gamelist';
@@ -29,6 +28,7 @@ import {
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 import { Skeleton } from '@/components/ui/skeleton';
+import { supabase } from '../../../utils/supabaseClient';
 
 export const EditGameSheet = (game: Game) => {
   const [editOpen, setEditOpen] = useAtom(showEditGameAtom);
@@ -147,17 +147,17 @@ export const EditGameSheet = (game: Game) => {
         open={editOpen}
         onOpenChange={() => handleClose()}
       >
-        <SheetContent className="w-[400px] overflow-scroll border-none">
+        <SheetContent className='w-[400px] overflow-scroll border-none'>
           <SheetHeader>
             <SheetTitle>Rediger spil</SheetTitle>
             <SheetDescription></SheetDescription>
-            {!isLoaded && <Skeleton className="w-[350px] h-[200px]" />}
+            {!isLoaded && <Skeleton className='w-[350px] h-[200px]' />}
             {editGame?.background_image && (
               <div className={`${!isLoaded && 'h-0 w-0'}`}>
                 <Image
                   src={editGame?.background_image}
-                  className="aspect-video"
-                  alt=""
+                  className='aspect-video'
+                  alt=''
                   width={350}
                   height={200}
                   quality={10}
@@ -168,17 +168,17 @@ export const EditGameSheet = (game: Game) => {
               </div>
             )}
             <form
-              className="flex flex-col gap-3"
+              className='flex flex-col gap-3'
               onSubmit={handleSubmit(onSubmit)}
             >
               <div>
                 <Label>Spiltitel</Label>
                 <ControlledEditableField
                   control={control}
-                  name="title"
-                  type="text"
+                  name='title'
+                  type='text'
                   hasError={errors.title}
-                  placeholder="spiltitel"
+                  placeholder='spiltitel'
                 />
               </div>
 
@@ -186,22 +186,22 @@ export const EditGameSheet = (game: Game) => {
                 <Label>Beskrivelse</Label>
                 <ControlledEditableTextarea
                   control={control}
-                  name="description"
-                  type="text"
+                  name='description'
+                  type='text'
                   hasError={errors.description}
-                  placeholder="Spilbeskrivelse"
+                  placeholder='Spilbeskrivelse'
                 />
               </div>
 
               <div>
                 <Label>Konsoller</Label>
-                <div className="flex gap-1">
+                <div className='flex gap-1'>
                   {consoles.map((console, index) => (
-                    <div className="bg-contrastCol w-fit px-2 rounded-full">
+                    <div className='bg-contrastCol w-fit px-2 rounded-full'>
                       <Label key={index}>
                         <input
                           value={console.value}
-                          type="checkbox"
+                          type='checkbox'
                           checked={selectedPlatform.some(p => p.value === console.value)}
                           {...register('platforms')}
                           onChange={() => handlePlatformChange(console)}
@@ -214,13 +214,13 @@ export const EditGameSheet = (game: Game) => {
               </div>
               <div>
                 <Label>Tags (maks. 3)</Label>
-                <div className="flex gap-1 flex-wrap">
+                <div className='flex gap-1 flex-wrap'>
                   {gameTags.map((tag, index) => (
-                    <div className="bg-contrastCol w-fit px-2 rounded-full">
+                    <div className='bg-contrastCol w-fit px-2 rounded-full'>
                       <Label key={index}>
                         <input
                           value={tag.value}
-                          type="checkbox"
+                          type='checkbox'
                           checked={selectedTags.some(p => p.value === tag.value)}
                           {...register('tags')}
                           onChange={() => handleCheckboxChange(tag)}
@@ -235,11 +235,11 @@ export const EditGameSheet = (game: Game) => {
                   ))}
                 </div>
               </div>
-              <div className="flex justify-end gap-3 mt-5">
+              <div className='flex justify-end gap-3 mt-5'>
                 <Button
-                  className="max uppercase font-bold hover:bg-transparent border-2 border-accentCol transition-colors duration-300"
-                  type="submit"
-                  size="sm"
+                  className='max uppercase font-bold hover:bg-transparent border-2 border-accentCol transition-colors duration-300'
+                  type='submit'
+                  size='sm'
                 >
                   {submitting
                     ? 'Gemmer ændringer...'
@@ -270,15 +270,15 @@ export const SletSpil = () => {
     <AlertDialog>
       <AlertDialogTrigger>
         <Button
-          className="max uppercase font-bold hover:bg-transparent border-2 border-accentCol transition-colors duration-300"
-          size="sm"
-          type="button"
+          className='max uppercase font-bold hover:bg-transparent border-2 border-accentCol transition-colors duration-300'
+          size='sm'
+          type='button'
         >
           Slet
         </Button>
       </AlertDialogTrigger>
       <AlertDialogPortal>
-        <AlertDialogContent className="border-none max-w-[500px]">
+        <AlertDialogContent className='border-none max-w-[500px]'>
           <AlertDialogHeader>
             <h4>Er du sikker?</h4>
           </AlertDialogHeader>
@@ -290,16 +290,16 @@ export const SletSpil = () => {
           </AlertDialogDescription>
           <AlertDialogCancel asChild>
             <Button
-              className="max uppercase font-bold hover:bg-transparent border-2 border-accentCol transition-colors duration-300"
-              size="sm"
+              className='max uppercase font-bold hover:bg-transparent border-2 border-accentCol transition-colors duration-300'
+              size='sm'
             >
               Fortryd
             </Button>
           </AlertDialogCancel>
           <AlertDialogAction asChild>
             <Button
-              className="max uppercase font-bold hover:bg-transparent border-2 border-accentCol transition-colors duration-300"
-              size="sm"
+              className='max uppercase font-bold hover:bg-transparent border-2 border-accentCol transition-colors duration-300'
+              size='sm'
               onClick={() => handleDeleteGame()}
             >
               Slet

@@ -1,4 +1,3 @@
-import { supabase } from '../utils/supabaseClient';
 import { useQueryClient } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { Game } from '@/Types/gamelist';
@@ -18,6 +17,7 @@ import { Label } from '@/components/Inputfields/label';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
+import { supabase } from '../../../utils/supabaseClient';
 
 export const AddGameSheet = (game: Game, dataLoading: boolean) => {
   const [addOpen, setAddOpen] = useAtom(showAddGameAtom);
@@ -147,17 +147,17 @@ export const AddGameSheet = (game: Game, dataLoading: boolean) => {
         open={addOpen}
         onOpenChange={() => handleClose()}
       >
-        <SheetContent className="w-[400px] overflow-scroll">
+        <SheetContent className='w-[400px] overflow-scroll'>
           <SheetHeader>
             <SheetTitle>Tilføj spil</SheetTitle>
             <SheetDescription></SheetDescription>
-            {!isLoaded && <Skeleton className="w-[350px] h-[200px]" />}
+            {!isLoaded && <Skeleton className='w-[350px] h-[200px]' />}
             {addNewGame?.background_image && (
               <div className={`${!isLoaded && 'h-0 w-0'}`}>
                 <Image
                   src={addNewGame?.background_image}
-                  className="aspect-video"
-                  alt=""
+                  className='aspect-video'
+                  alt=''
                   width={350}
                   height={200}
                   quality={10}
@@ -168,17 +168,17 @@ export const AddGameSheet = (game: Game, dataLoading: boolean) => {
               </div>
             )}
             <form
-              className="flex flex-col gap-3"
+              className='flex flex-col gap-3'
               onSubmit={handleSubmit(onSubmit)}
             >
               <div>
                 <Label>Spiltitel</Label>
                 <ControlledEditableField
                   control={control}
-                  name="title"
-                  type="text"
+                  name='title'
+                  type='text'
                   hasError={errors.title}
-                  placeholder="spiltitel"
+                  placeholder='spiltitel'
                 />
               </div>
 
@@ -186,22 +186,22 @@ export const AddGameSheet = (game: Game, dataLoading: boolean) => {
                 <Label>Beskrivelse</Label>
                 <ControlledEditableTextarea
                   control={control}
-                  name="description"
-                  type="text"
+                  name='description'
+                  type='text'
                   hasError={errors.description}
-                  placeholder="Spilbeskrivelse"
+                  placeholder='Spilbeskrivelse'
                 />
               </div>
 
               <div>
                 <Label>Konsoller</Label>
-                <div className="flex gap-1">
+                <div className='flex gap-1'>
                   {consoles.map((console, index) => (
-                    <div className="bg-contrastCol w-fit px-2 rounded-full">
+                    <div className='bg-contrastCol w-fit px-2 rounded-full'>
                       <Label key={index}>
                         <input
                           value={console.value}
-                          type="checkbox"
+                          type='checkbox'
                           {...register('platforms')}
                           onChange={() => handlePlatformChange(console)}
                         />
@@ -213,12 +213,12 @@ export const AddGameSheet = (game: Game, dataLoading: boolean) => {
               </div>
               <div>
                 <Label>Tags</Label>
-                <div className="flex gap-1 flex-wrap">
+                <div className='flex gap-1 flex-wrap'>
                   {gameTags.map((tag, index) => (
-                    <div className="bg-contrastCol w-fit px-2 rounded-full">
+                    <div className='bg-contrastCol w-fit px-2 rounded-full'>
                       <Label key={index}>
                         <input
-                          type="checkbox"
+                          type='checkbox'
                           {...register('tags')}
                           onChange={() => handleCheckboxChange(tag)}
                           disabled={
@@ -234,9 +234,9 @@ export const AddGameSheet = (game: Game, dataLoading: boolean) => {
               </div>
               <div>
                 <Button
-                  className="max uppercase font-bold hover:bg-transparent border-2 border-accentCol transition-colors duration-300"
-                  type="submit"
-                  size="sm"
+                  className='max uppercase font-bold hover:bg-transparent border-2 border-accentCol transition-colors duration-300'
+                  type='submit'
+                  size='sm'
                 >
                   {submitting
                     ? 'Tilføjer spil...'
