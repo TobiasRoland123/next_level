@@ -23,20 +23,14 @@
     "@radix-ui/react-slot": "^1.0.2",
     "@supabase/auth-helpers-nextjs": "^0.8.7",
     "@supabase/supabase-js": "^2.39.0",
-<<<<<<< HEAD
     "@tanstack/react-query": "^5.12.2",
-=======
->>>>>>> main
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
     "cmdk": "^0.2.0",
     "date-fns": "^2.30.0",
     "framer-motion": "^10.16.5",
-<<<<<<< HEAD
     "jotai": "^2.6.0",
-=======
     "hyphen": "^1.9.1",
->>>>>>> main
     "lucide-react": "^0.292.0",
     "next": "14.0.3",
     "react": "^18",
@@ -47,11 +41,8 @@
     "react-input-mask": "^2.0.4",
     "react-parallax-tilt": "^1.7.175",
     "react-phone-number-input": "^3.3.7",
-<<<<<<< HEAD
-    "tailwind-merge": "^2.0.0",
-    "tailwindcss-animate": "^1.0.7",
+
     "usehooks-ts": "^2.9.1",
-=======
 
     "react-router-dom": "^6.20.1",
 
@@ -59,7 +50,6 @@
 
     "tailwind-merge": "^2.0.0",
     "tailwindcss-animate": "^1.0.7",
->>>>>>> main
     "zod": "^3.22.4"
   },
   "devDependencies": {

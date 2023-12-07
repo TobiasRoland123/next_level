@@ -1,12 +1,10 @@
 import { LayoutAdmin } from '@/Layout_Admin';
-
-
-
 import { GameCardRoot } from '@/Types/gamecard';
 import { GameRoot } from '@/Types/gamelist';
-
 import { SpilListe } from './SpilListe';
 import { supabase } from '../../../utils/supabaseClient';
+import { QueryClient } from '@tanstack/query-core';
+import { QueryClientProvider } from '@tanstack/react-query';
 
 const queryClient = new QueryClient();
 
@@ -25,9 +23,9 @@ export default function Spil() {
   return (
     <QueryClientProvider client={queryClient}>
       <LayoutAdmin>
-        <main className="spacer flex flex-col w-full">
-          <h1 className="mt-20">Admin Spil</h1>
-          <div className="flex justify-center w-full">
+        <main className='spacer flex flex-col w-full'>
+          <h1 className='mt-20'>Admin Spil</h1>
+          <div className='flex justify-center w-full'>
             <SpilListe />
           </div>
         </main>

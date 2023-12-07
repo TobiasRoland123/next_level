@@ -1,12 +1,9 @@
-
-
 import { useEffect, useState } from 'react';
 import { Command, CommandInput, CommandItem, CommandList } from '@/components/ui/command';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { PlusCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { fetchGameData, fetchDBGameData } from './spil';
-import { GameRoot } from '@/Types/gamelist';
 
 import {
   addNewGameAtom,
@@ -19,6 +16,8 @@ import { AddGameSheet } from './AddGameSheet';
 import { GameCard } from '@/components/GameCard/GameCard';
 import { EditGameSheet } from './EditGameSheet';
 import { supabase } from '../../../utils/supabaseClient';
+import { useAtom } from 'jotai';
+import { useQueries } from '@tanstack/react-query';
 
 export const SpilListe = () => {
   const [searchString, setSearchString] = useState<string>('');
@@ -81,27 +80,27 @@ export const SpilListe = () => {
       >
         <PopoverTrigger asChild>
           <Button
-            role="combobox"
+            role='combobox'
             aria-expanded={open}
-            className="justify-between max uppercase font-bold hover:bg-transparent border-2 border-accentCol transition-colors duration-300"
+            className='justify-between max uppercase font-bold hover:bg-transparent border-2 border-accentCol transition-colors duration-300'
           >
             Tilføj spil
-            <PlusCircle className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+            <PlusCircle className='ml-2 h-4 w-4 shrink-0 opacity-50' />
           </Button>
         </PopoverTrigger>
         <PopoverContent
-          align="start"
-          className="w-[250px] overflow-hidden p-0 border-none"
+          align='start'
+          className='w-[250px] overflow-hidden p-0 border-none'
         >
-          <Command className="flex rounded bg-contrastCol border-b-transparent text-sm file:border-none transition ease-in duration-300 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:border-b-2 focus-visible:border-secondaryCol disabled:cursor-not-allowed disabled:opacity-50">
+          <Command className='flex rounded bg-contrastCol border-b-transparent text-sm file:border-none transition ease-in duration-300 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:border-b-2 focus-visible:border-secondaryCol disabled:cursor-not-allowed disabled:opacity-50'>
             <CommandInput
-              placeholder="Søg på et spil..."
-              className="h-9"
+              placeholder='Søg på et spil...'
+              className='h-9'
               onValueChange={e => setSearchString(e)}
             />
 
             {gameData?.results && gameId == 0 && searchString.length > 3 && (
-              <CommandList className="w-full h-full">
+              <CommandList className='w-full h-full'>
                 {gameData.results.map(game => (
                   <CommandItem
                     onSelect={() => {
@@ -124,7 +123,7 @@ export const SpilListe = () => {
       />
       <EditGameSheet game={editGame} />
 
-      <div className="flex flex-wrap gap-3 ">
+      <div className='flex flex-wrap gap-3 '>
         {dbGameData &&
           !dbGameDataIsLoading &&
           dbGameData.map(game => (
