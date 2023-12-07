@@ -16,16 +16,25 @@ import ControlledEditableField from './ControlledEditableField';
 import ControlledEditableTextarea from './ControlledEditableTextarea';
 import { Label } from '@/components/Inputfields/label';
 import Image from 'next/image';
+import { Button } from '@/components/ui/button';
+import { Skeleton } from '@/components/ui/skeleton';
 
-export const AddGameSheet = (game: Game) => {
+export const AddGameSheet = (game: Game, dataLoading: boolean) => {
   const [addOpen, setAddOpen] = useAtom(showAddGameAtom);
   const [gameId, setGameId] = useAtom(gameIdAtom);
   const [addNewGame, setAddNewGame] = useAtom(addNewGameAtom);
+  const [submitting, setSubmitting] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
   const [chosenGameTags, setChosenGameTags] = useState<Array<string>>([]);
   const [selectedTags, setSelectedTags] = useState<Array<{ name: string; value: number }>>([]);
   const [selectedPlatform, setSelectedPlatform] = useState<Array<{ name: string; value: number }>>(
     []
   );
+
+  useEffect(() => {
+    console.log('loading', dataLoading);
+  }, [dataLoading]);
 
   const handleCheckboxChange = (tag: { name: string; value: number }) => {
     if (selectedTags.some(selectedTag => selectedTag.value === tag.value)) {
@@ -42,6 +51,12 @@ export const AddGameSheet = (game: Game) => {
     } else {
       setSelectedPlatform([...selectedPlatform, platform]);
     }
+  };
+
+  const handleImageLoad = () => {
+    console.log('Is loaded now');
+
+    setIsLoaded(true);
   };
 
   const queryClient = useQueryClient();
@@ -77,8 +92,8 @@ export const AddGameSheet = (game: Game) => {
     defaultValues: {
       id: addNewGame?.id || undefined,
       title: addNewGame?.name || '',
-      platforms: addNewGame?.platforms || [],
-      tags: [],
+      platforms: selectedPlatform || [],
+      tags: selectedTags || [],
       description: addNewGame?.description_raw || '',
       background_image: addNewGame?.background_image || '',
     },
@@ -92,9 +107,9 @@ export const AddGameSheet = (game: Game) => {
   }, [addNewGame, setValue]);
 
   const onSubmit: SubmitHandler<Game> = async gameData => {
+    setSubmitting(true);
     console.log('Submitted data', gameData);
     console.log('selected tags', selectedTags);
-
     gameData.tags = selectedTags;
     gameData.platforms = selectedPlatform;
 
@@ -107,12 +122,23 @@ export const AddGameSheet = (game: Game) => {
       // Handle the error appropriately
       return;
     }
+
+    setSubmitting(false);
+    setSubmitted(true);
+    setTimeout(() => {
+      setSubmitted(false);
+      setSelectedPlatform([]);
+      setSelectedTags([]);
+      setGameId(0);
+      setAddOpen(false);
+    }, 3000);
   };
 
   console.log(game);
   const handleClose = () => {
     setGameId(0);
     setAddOpen(false);
+    setIsLoaded(false);
   };
 
   return (
@@ -123,18 +149,23 @@ export const AddGameSheet = (game: Game) => {
       >
         <SheetContent className="w-[400px] overflow-scroll">
           <SheetHeader>
-            <SheetTitle>Rediger spil</SheetTitle>
-            <SheetDescription>
-              This action cannot be undone. This will permanently delete your account and remove
-              your data from our servers.
-            </SheetDescription>
+            <SheetTitle>Tilføj spil</SheetTitle>
+            <SheetDescription></SheetDescription>
+            {!isLoaded && <Skeleton className="w-[350px] h-[200px]" />}
             {addNewGame?.background_image && (
-              <Image
-                src={addNewGame?.background_image}
-                alt=""
-                width={500}
-                height={500}
-              />
+              <div className={`${!isLoaded && 'h-0 w-0'}`}>
+                <Image
+                  src={addNewGame?.background_image}
+                  className="aspect-video"
+                  alt=""
+                  width={350}
+                  height={200}
+                  quality={10}
+                  onLoad={() => {
+                    setIsLoaded(true);
+                  }}
+                />
+              </div>
             )}
             <form
               className="flex flex-col gap-3"
@@ -187,10 +218,13 @@ export const AddGameSheet = (game: Game) => {
                     <div className="bg-contrastCol w-fit px-2 rounded-full">
                       <Label key={index}>
                         <input
-                          disabled
                           type="checkbox"
                           {...register('tags')}
                           onChange={() => handleCheckboxChange(tag)}
+                          disabled={
+                            !selectedTags.some(p => p.value === tag.value) &&
+                            selectedTags.length >= 3
+                          }
                         />
                         {tag.name}
                       </Label>
@@ -199,7 +233,17 @@ export const AddGameSheet = (game: Game) => {
                 </div>
               </div>
               <div>
-                <input type="submit" />
+                <Button
+                  className="max uppercase font-bold hover:bg-transparent border-2 border-accentCol transition-colors duration-300"
+                  type="submit"
+                  size="sm"
+                >
+                  {submitting
+                    ? 'Tilføjer spil...'
+                    : submitted
+                    ? 'Spillet er blevet tilføjet!'
+                    : 'Tilføj spil'}
+                </Button>
               </div>
             </form>
           </SheetHeader>

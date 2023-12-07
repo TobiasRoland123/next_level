@@ -73,17 +73,16 @@ export const SpilListe = () => {
 
   console.log('gameData & db', gameData && gameData?.results, dbGameData);
   return (
-    <>
+    <div>
       <Popover
         open={open}
         onOpenChange={setOpen}
       >
         <PopoverTrigger asChild>
           <Button
-            variant="outline"
             role="combobox"
             aria-expanded={open}
-            className="justify-between max"
+            className="justify-between max uppercase font-bold hover:bg-transparent border-2 border-accentCol transition-colors duration-300"
           >
             Tilføj spil
             <PlusCircle className="ml-2 h-4 w-4 shrink-0 opacity-50" />
@@ -91,11 +90,11 @@ export const SpilListe = () => {
         </PopoverTrigger>
         <PopoverContent
           align="start"
-          className="w-[250px] overflow-hidden p-0"
+          className="w-[250px] overflow-hidden p-0 border-none"
         >
-          <Command>
+          <Command className="flex rounded bg-contrastCol border-b-transparent text-sm file:border-none transition ease-in duration-300 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:border-b-2 focus-visible:border-secondaryCol disabled:cursor-not-allowed disabled:opacity-50">
             <CommandInput
-              placeholder="Search game..."
+              placeholder="Søg på et spil..."
               className="h-9"
               onValueChange={e => setSearchString(e)}
             />
@@ -118,7 +117,10 @@ export const SpilListe = () => {
         </PopoverContent>
       </Popover>
 
-      <AddGameSheet game={addNewGame} />
+      <AddGameSheet
+        game={addNewGame}
+        dataLoading={gameDataIsFetching}
+      />
       <EditGameSheet game={editGame} />
 
       <div className="flex flex-wrap gap-3 ">
@@ -141,6 +143,6 @@ export const SpilListe = () => {
             />
           ))}
       </div>
-    </>
+    </div>
   );
 };
