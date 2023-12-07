@@ -47,6 +47,7 @@ h4 {
   line-height: normal;
   text-transform: uppercase;
 }
+
 p {
   margin-top: 20px;
   font-size: 16px;
@@ -63,7 +64,6 @@ small {
 }
 
 .spacer {
-  @apply mx-6 mt-14 max-w-[1280px] md:mx-12 md:mt-20 lg:mx-20;
   @apply mx-6 mt-14 max-w-[1280px] md:mx-12 md:mt-20 lg:mx-20;
 }
 
@@ -136,6 +136,7 @@ small {
   :root {
     font-family: "Rubik", sans-serif;
     font-family: "Rubik", sans-serif;
+    scroll-behavior: smooth;
 
     --primaryColor: 255 8% 10%;
     --secondaryColor: 0 0% 95%;
@@ -205,7 +206,6 @@ small {
 }
 
 /* SHAKE ANIMATION FOR FORMS */
-
 .shake {
   animation: shakeField 0.4s ease-in-out forwards;
 }
@@ -225,18 +225,57 @@ small {
   }
 }
 
-@property --rotate {
-  syntax: "<angle>";
-  syntax: "<angle>";
-  initial-value: 132deg;
-  inherits: false;
+/* LOADER ANIMATION */
+.loader {
+  width: 30px;
+  height: 30px;
+  border: 5px solid #ffffff;
+  border-bottom-color: #59636f;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
 }
 
-@keyframes spin {
+@keyframes rotation {
   0% {
-    --rotate: 80deg;
+    transform: rotate(0deg);
   }
   100% {
-    --rotate: 437deg;
+    transform: rotate(360deg);
+  }
+}
+
+/* RIPPLE ANIMATION - SELECT FIELD */
+
+.bdr-ripple-ani-btn.pink {
+  background: var(--accentColor);
+  color: white;
+  animation: at-ripple-pink 1s linear infinite;
+  border-radius: 4px;
+}
+
+@-webkit-keyframes at-ripple-pink {
+  0% {
+    box-shadow: 0 4px 10px rgba(255, 10, 27, 0.1),
+      0 0 0 0 rgba(255, 10, 27, 0.6), 0 0 0 5px rgba(255, 10, 27, 0.2),
+      0 0 0 10px rgba(255, 10, 27, 0.1);
+  }
+  100% {
+    box-shadow: 0 4px 10px rgba(255, 10, 27, 0.6),
+      0 0 0 5px rgba(255, 10, 27, 0.2), 0 0 0 10px rgba(255, 10, 27, 0.1),
+      0 0 0 20px rgba(255, 10, 27, 0);
+  }
+}
+@keyframes at-ripple-pink {
+  0% {
+    box-shadow: 0 4px 10px rgba(255, 10, 27, 0.1),
+      0 0 0 0 rgba(255, 10, 27, 0.6), 0 0 0 5px rgba(255, 10, 27, 0.2),
+      0 0 0 10px rgba(255, 10, 27, 0.1);
+  }
+  100% {
+    box-shadow: 0 4px 10px rgba(255, 10, 27, 0.6),
+      0 0 0 5px rgba(255, 10, 27, 0.2), 0 0 0 10px rgba(255, 10, 27, 0.1),
+      0 0 0 20px rgba(255, 10, 27, 0);
   }
 }

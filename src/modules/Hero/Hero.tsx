@@ -1,11 +1,17 @@
 import Image from "next/image";
 import heroPlaceholder from "../../../public/images/hero-placeholder.webp";
-import { Button } from "../../components/Button/Button";
+import { Button, ButtonProps } from "../../components/Button/Button";
+import { HyphenatedText } from "../../components/HyphenatedText/HyphenatedText";
 
 interface heroProps {
   header?: string;
   content?: string;
+
   buttonLabel?: string;
+  link?: string;
+
+  buttonProps?: ButtonProps;
+
   /**
    * To be sure not to make type errors please copy paste word.
    * If word is lowercase in header, then it also needs to be lowercase here.
@@ -17,23 +23,20 @@ interface heroProps {
   isFrontPage: boolean;
 }
 
-export const Hero = ({ header, content, buttonLabel, redWord, isFrontPage }: heroProps) => {
+export const Hero = ({ header, content, buttonProps, redWord, isFrontPage, link }: heroProps) => {
   const renderHeader = () => {
     if (!header) return null;
 
     const words = header.split(" ");
     return (
-      <h1
-        className="hyphens-auto md:hyphens-none"
-        lang="da"
-      >
+      <h1>
         {words.map((word, index) => (
           <span
             key={index}
             // className={word === redWord ? "text-accentCol" : ""}
             className={`${redWord?.map((redWord) => (redWord === word ? "text-accentCol" : "")).join(" ")}`}
           >
-            {word}{" "}
+            <HyphenatedText text={word} />{" "}
           </span>
         ))}
       </h1>
@@ -43,15 +46,27 @@ export const Hero = ({ header, content, buttonLabel, redWord, isFrontPage }: her
   return (
     <>
       <header
-        className={`flex min-h-screen justify-center ${
+        className={`flex min-h-[50vh] justify-center ${
           isFrontPage ? "bg-hero2" : "bg-hero1"
         } bg-center md:bg-left bg-cover bg-no-repeat pb-10`}
       >
         <div className="max-w-screen-xl w-full mt-20  spacer">
           <section className=" bg-contrastCol/50 backdrop-blur-sm mt-28 px-4 py-6 rounded-sm h-fit md:max-w-[66%]">
             {renderHeader()}
-            <p className="mt-4">{content && content}</p>
-            {buttonLabel && <Button className=" mt-7">{buttonLabel}</Button>}
+
+            {content && (
+              <p className="mt-4">
+                <HyphenatedText text={content} />
+              </p>
+            )}
+
+            {buttonProps && (
+              <Button
+                link={link}
+                className=" mt-7"
+                {...buttonProps}
+              ></Button>
+            )}
           </section>
         </div>
       </header>

@@ -7,10 +7,14 @@ import {
   SelectValue,
 } from "../ui/select";
 interface SelectFieldProps {
+  selectedValue: string;
   onSelectChange: (selectValue: string) => void;
 }
 
-export const SelectField: React.FC<SelectFieldProps> = ({ onSelectChange }) => {
+export const SelectField: React.FC<SelectFieldProps> = ({
+  onSelectChange,
+  selectedValue,
+}) => {
   return (
     <>
       <Select
@@ -18,6 +22,7 @@ export const SelectField: React.FC<SelectFieldProps> = ({ onSelectChange }) => {
         onValueChange={(selectValue) => {
           onSelectChange(selectValue);
         }}
+        value={selectedValue}
       >
         <SelectTrigger className="w-[180px]">
           <SelectValue placeholder="Emne" />
