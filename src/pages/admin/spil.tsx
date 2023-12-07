@@ -1,7 +1,7 @@
 import { LayoutAdmin } from '@/Layout_Admin';
 import { GameCardRoot } from '@/Types/gamecard';
 import { GameRoot } from '@/Types/gamelist';
-import { SpilListe } from './SpilListe';
+import { SpilListe } from '../../modules/GameListAdmin/SpilListe';
 import { supabase } from '../../../utils/supabaseClient';
 import { QueryClient } from '@tanstack/query-core';
 import { QueryClientProvider } from '@tanstack/react-query';

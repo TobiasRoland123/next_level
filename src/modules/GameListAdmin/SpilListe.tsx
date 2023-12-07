@@ -3,17 +3,17 @@ import { Command, CommandInput, CommandItem, CommandList } from '@/components/ui
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { PlusCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { fetchGameData, fetchDBGameData } from './spil';
+import { fetchGameData, fetchDBGameData } from '../../pages/admin/spil';
 import {
   addNewGameAtom,
   editGameAtom,
   gameIdAtom,
   showAddGameAtom,
   showEditGameAtom,
-} from '../states/store';
-import { AddGameSheet } from './AddGameSheet';
+} from '../../states/store';
+import { AddGameSheet } from '../../components/AddGameSheet/AddGameSheet';
 import { GameCard } from '@/components/GameCard/GameCard';
-import { EditGameSheet } from './EditGameSheet';
+import { EditGameSheet } from '../../components/EditGameSheet/EditGameSheet';
 import { supabase } from '../../../utils/supabaseClient';
 import { useAtom } from 'jotai';
 import { useQueries } from '@tanstack/react-query';
@@ -143,3 +143,5 @@ export const SpilListe = () => {
     </div>
   );
 };
+
+export default SpilListe;
