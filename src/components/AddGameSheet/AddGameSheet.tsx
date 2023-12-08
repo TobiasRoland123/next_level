@@ -18,6 +18,7 @@ import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { supabase } from '../../../utils/supabaseClient';
+import { platform } from 'os';
 
 export const AddGameSheet = (game: Game) => {
   const [addOpen, setAddOpen] = useAtom(showAddGameAtom);
@@ -73,6 +74,9 @@ export const AddGameSheet = (game: Game) => {
     { name: 'FPS', value: 12 },
     { name: 'Party', value: 13 },
     { name: 'Battle Royale', value: 14 },
+    { name: 'Racing', value: 15 },
+    { name: 'Co-op', value: 16 },
+    { name: 'Survival', value: 17 },
   ];
 
   const consoles = [
@@ -201,13 +205,14 @@ export const AddGameSheet = (game: Game) => {
               </div>
 
               <div>
-                <Label>Konsoller</Label>
+                <Label>Platforme</Label>
                 <div className='flex gap-1'>
                   {consoles.map((console, index) => (
                     <div className='bg-contrastCol w-fit px-2 rounded-full'>
                       <Label key={index}>
                         <input
                           value={console.value}
+                          checked={selectedPlatform.some(p => p.value === console.value)}
                           type='checkbox'
                           {...register('platforms')}
                           onChange={() => handlePlatformChange(console)}

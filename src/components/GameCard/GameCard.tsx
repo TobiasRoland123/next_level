@@ -7,16 +7,19 @@ import { AnimatePresence, HTMLMotionProps, motion } from 'framer-motion';
 import { Dialog, DialogContent, DialogTrigger, DialogClose } from '../ui/dialog';
 import { Description } from '@radix-ui/react-dialog';
 
-const gameCardVariants = cva('max-w-[700px] w-full h-full  rounded cursor-pointer grid', {
-  variants: {
-    variant: {
-      card: 'text-gray-200 ',
+const gameCardVariants = cva(
+  'max-w-[700px] lg:max-h-[200px] w-full h-full  rounded cursor-pointer grid',
+  {
+    variants: {
+      variant: {
+        card: 'text-gray-200 ',
+      },
     },
-  },
-  defaultVariants: {
-    variant: 'card',
-  },
-});
+    defaultVariants: {
+      variant: 'card',
+    },
+  }
+);
 
 export interface GameCardProps
   extends Pick<HTMLMotionProps<'div'>, 'animate' | 'whileHover' | 'className' | 'onClick'>,
@@ -88,7 +91,7 @@ const GameCard = forwardRef<HTMLDivElement, GameCardProps>(
           </DialogTrigger>
 
           {!IsAdmin && (
-            <DialogContent className='w-5/6 grid h-[60vh] lg:h-[80vh] overflow-y-scroll max-w-[800px] p-0'>
+            <DialogContent className='w-5/6 grid h-[60vh] lg:h-[80vh] lg:max-h-[600px] overflow-y-scroll max-w-[800px] p-0'>
               <div className='h-[160px] col-start-1 row-start-1 rounded-t'>
                 <Image
                   src={`${Image_}`}
@@ -99,7 +102,7 @@ const GameCard = forwardRef<HTMLDivElement, GameCardProps>(
                   className='h-full rounded'
                 />
               </div>
-              <div className='col-start-1 row-start-1 row-end-2 h-full flex flex-col justify-between  p-2 bg-gradient-to-t from-primaryCol to-transparent to-80% z-10'></div>
+              <div className='col-start-1 row-start-1 row-end-2 h-full flex flex-col justify-between  p-2 bg-gradient-to-t from-primaryCol to-transparent to-80% % z-10'></div>
 
               <div className='px-4 flex flex-col gap-3'>
                 <div className='flex items-center gap-2 flex-wrap justify-between'>
