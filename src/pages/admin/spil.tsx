@@ -23,9 +23,9 @@ export default function Spil() {
   return (
     <QueryClientProvider client={queryClient}>
       <LayoutAdmin>
-        <main className='spacer flex flex-col w-full'>
+        <main className='spacer flex flex-col '>
           <h1 className='mt-20'>Admin Spil</h1>
-          <div className='flex justify-center w-full'>
+          <div className='flex justify-center'>
             <SpilListe />
           </div>
         </main>
