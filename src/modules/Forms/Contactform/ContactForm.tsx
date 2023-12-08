@@ -26,9 +26,10 @@ import { InputDatePicker } from "@/components/InputDatePicker/InputDatePicker";
 interface ContactFormProps {
   // Add any additional props if needed
   selectedValue: string;
-  selectedDate: string;
   onSelectChange: (value: string) => void;
-  onDateChange: (value: string) => void;
+
+  selectedDate?: string;
+  onDateChange?: (value: string) => void;
 }
 
 export const ContactForm: React.FC<ContactFormProps> = ({
@@ -231,7 +232,13 @@ export const ContactForm: React.FC<ContactFormProps> = ({
                               form.formState.errors.inputDatePick ? "shake" : ""
                             }
                           >
-                            <InputDatePicker {...field} />
+                            <InputDatePicker
+                              onDateChange={(value) => {
+                                handleDateChange(value);
+                                field.onChange(value); // Ensure the field's onChange is called
+                              }}
+                              {...field}
+                            />
                             {form.formState.errors.inputDatePick ? (
                               <div className="absolute top-1.5 right-0 pr-3 flex items-center pointer-events-none">
                                 <div>
