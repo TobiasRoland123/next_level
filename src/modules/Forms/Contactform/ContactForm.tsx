@@ -21,7 +21,7 @@ import { Textarea } from "../../../components/Textarea/textarea";
 import { AnimatePresence, motion } from "framer-motion";
 import { MdError } from "react-icons/md";
 import { IoIosCheckmarkCircle } from "react-icons/io";
-import { InputDatePicker } from "@/components/InputDatePicker/InputDatePicker";
+import { InputDatePicker } from "../../../components/InputDatePicker/InputDatePicker";
 
 interface ContactFormProps {
   // Add any additional props if needed
@@ -76,6 +76,9 @@ export const ContactForm: React.FC<ContactFormProps> = ({
           message: "Antallet af deltagende skal være mellem 6 og 10",
         }
       ),
+      inputDatePick: z.string().min(1, {
+        message: "Vælg venligst en dato",
+      }),
     }),
 
     // Turnering and Andet
@@ -143,7 +146,7 @@ export const ContactForm: React.FC<ContactFormProps> = ({
       console.log(values);
       setSubmitForm(true);
       setIsLoading(false);
-    }, 1000); // Adjust the delay time as needed (e.g., 1000 milliseconds)
+    }, 5000); // Adjust the delay time as needed (e.g., 1000 milliseconds)
 
     return () => clearTimeout(timeoutId);
   };
@@ -249,7 +252,7 @@ export const ContactForm: React.FC<ContactFormProps> = ({
                               {...field}
                             />
                             {form.formState.errors.inputDatePick ? (
-                              <div className="absolute top-1.5 right-0 pr-3 flex items-center pointer-events-none">
+                              <div className="absolute top-2 left-52 pr-3 flex items-center pointer-events-none">
                                 <div>
                                   <MdError
                                     className={"text-red-500 text-2xl"}
@@ -258,7 +261,7 @@ export const ContactForm: React.FC<ContactFormProps> = ({
                               </div>
                             ) : form.formState.isSubmitted &&
                               !form.formState.errors.inputDatePick ? (
-                              <div className="absolute top-1.5 right-0 pr-3 flex items-center pointer-events-none">
+                              <div className="absolute top-2 left-52 pr-3 flex items-center pointer-events-none">
                                 <div>
                                   <IoIosCheckmarkCircle
                                     className={"text-green-500 text-2xl"}
@@ -772,7 +775,7 @@ export const ContactForm: React.FC<ContactFormProps> = ({
                               {...field}
                             />
                             {form.formState.errors.inputDatePick ? (
-                              <div className="absolute top-1.5 right-0 pr-3 flex items-center pointer-events-none">
+                              <div className="absolute top-2 left-52 pr-3 flex items-center pointer-events-none">
                                 <div>
                                   <MdError
                                     className={"text-red-500 text-2xl"}
@@ -781,7 +784,7 @@ export const ContactForm: React.FC<ContactFormProps> = ({
                               </div>
                             ) : form.formState.isSubmitted &&
                               !form.formState.errors.inputDatePick ? (
-                              <div className="absolute top-1.5 right-0 pr-3 flex items-center pointer-events-none">
+                              <div className="absolute top-2 left-52 pr-3 flex items-center pointer-events-none">
                                 <div>
                                   <IoIosCheckmarkCircle
                                     className={"text-green-500 text-2xl"}
@@ -1862,6 +1865,54 @@ export const ContactForm: React.FC<ContactFormProps> = ({
                     <p>* = Skal udfyldes</p>
                   </motion.div>
                 )}
+                <FormField
+                  control={form.control}
+                  name="inputDatePick"
+                  render={({ field }) => (
+                    <FormItem className="mt-5">
+                      <FormLabel>Dato*</FormLabel>
+                      <FormControl>
+                        <div
+                          style={{ position: "relative" }}
+                          className={
+                            form.formState.errors.inputDatePick ? "shake" : ""
+                          }
+                        >
+                          <InputDatePicker
+                            onDateChange={(value) => {
+                              handleDateChange(value);
+                              field.onChange(value); // Ensure the field's onChange is called
+                            }}
+                            {...field}
+                          />
+                          {form.formState.errors.inputDatePick ? (
+                            <div className="absolute top-2 left-52 pr-3 flex items-center pointer-events-none">
+                              <div>
+                                <MdError className={"text-red-500 text-2xl"} />
+                              </div>
+                            </div>
+                          ) : form.formState.isSubmitted &&
+                            !form.formState.errors.inputDatePick ? (
+                            <div className="absolute top-2 left-52 pr-3 flex items-center pointer-events-none">
+                              <div>
+                                <IoIosCheckmarkCircle
+                                  className={"text-green-500 text-2xl"}
+                                />
+                              </div>
+                            </div>
+                          ) : (
+                            ""
+                          )}
+                        </div>
+                      </FormControl>
+                      <FormDescription className="text-transparent">
+                        Placeholder text
+                        {/* Remove text-transparent if you need to use the field description */}
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
                 <FormField
                   control={form.control}
                   name="amountOfParticipants"

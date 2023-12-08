@@ -3,15 +3,15 @@
 import * as React from "react";
 // import { CalendarIcon } from "@radix-ui/react-icons"
 import { format } from "date-fns";
-
-import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
+import { FaCalendar } from "react-icons/fa";
+import { cn } from "../../lib/utils";
+import { Button } from "../../components/ui/button";
+import { Calendar } from "../../components/ui/calendar";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover";
+} from "../../components/ui/popover";
 
 interface InputDatePickerProps {
   onDateChange: (value: string) => void;
@@ -19,21 +19,25 @@ interface InputDatePickerProps {
 
 export function InputDatePicker({ onDateChange }: InputDatePickerProps) {
   const [date, setDate] = React.useState<Date | undefined>(undefined);
+  const [open, setOpen] = React.useState(false);
 
   const handleDateSelect = (selectedDate: Date | undefined) => {
     if (selectedDate) {
       const formattedDate = format(selectedDate, "dd-MM-yyyy");
       setDate(selectedDate);
+      setOpen(false);
       onDateChange(formattedDate);
     } else {
-      // Handle the case when selectedDate is undefined, e.g., set a default value
       setDate(undefined);
       onDateChange(""); // Change this line based on your requirements
     }
   };
 
   return (
-    <Popover>
+    <Popover
+      open={open}
+      onOpenChange={setOpen}
+    >
       <PopoverTrigger asChild>
         <Button
           className={cn(
@@ -41,8 +45,8 @@ export function InputDatePicker({ onDateChange }: InputDatePickerProps) {
             !date && "text-muted-foreground"
           )}
         >
-          {/* <CalendarIcon className="mr-2 h-4 w-4" /> */}
-          {date ? format(date, "P") : <span>Vælg en dato</span>}
+          <FaCalendar className="mr-2 h-4 w-4" />
+          {date ? format(date, "PP") : <span>Vælg en dato</span>}
         </Button>
       </PopoverTrigger>
       <PopoverContent

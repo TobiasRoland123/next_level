@@ -45,6 +45,12 @@ export default function Kontakt() {
       if (contactFormRef.current) {
         contactFormRef.current.scrollIntoView({ behavior: "smooth" });
       }
+    } else if (currentUrl.includes("nlp")) {
+      setSelectedValue("nlp");
+      console.log(selectedValue);
+      if (contactFormRef.current) {
+        contactFormRef.current.scrollIntoView({ behavior: "smooth" });
+      }
     } else {
       console.log("not found");
       console.log(selectedValue);
