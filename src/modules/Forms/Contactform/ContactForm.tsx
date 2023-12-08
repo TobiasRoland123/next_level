@@ -29,7 +29,7 @@ interface ContactFormProps {
   onSelectChange: (value: string) => void;
 
   selectedDate?: string;
-  onDateChange?: (value: string) => void;
+  onDateChange: (value: string) => void;
 }
 
 export const ContactForm: React.FC<ContactFormProps> = ({
@@ -43,31 +43,28 @@ export const ContactForm: React.FC<ContactFormProps> = ({
       message: "Vælg venligst et emne",
     }),
 
-    inputDatePick: z.string().min(1, {
-      message: "Vælg venligst en dato",
+    // Fødselsdag
+
+    ...(selectedValue === "fødselsdag" && {
+      amountOfKids: z.string().min(1, {
+        message: "Du skal vælge et antal børn",
+      }),
+      amountOfAdults: z.string().min(1, {
+        message: "Du skal vælge et antal voksne",
+      }),
+      inputDatePick: z.string().min(1, {
+        message: "Vælg venligst en dato",
+      }),
     }),
 
-    // Fødselsdag
-    amountOfKids:
-      selectedValue === "fødselsdag"
-        ? z.string().min(1, {
-            message: "Du skal vælge et antal børn",
-          })
-        : z.string(),
-    amountOfAdults:
-      selectedValue === "fødselsdag"
-        ? z.string().min(1, {
-            message: "Du skal vælge et antal voksne",
-          })
-        : z.string(),
-
-    //   Firma event
-    amountOfParticipants:
-      selectedValue === "firma-event"
-        ? z.string().min(1, {
-            message: "Du skal vælge et antal voksne",
-          })
-        : z.string(),
+    ...(selectedValue === "firma-event" && {
+      amountOfParticipants: z.string().min(1, {
+        message: "Du skal vælge et antal voksne",
+      }),
+      inputDatePick: z.string().min(1, {
+        message: "Vælg venligst en dato",
+      }),
+    }),
 
     // Turnering and Andet
     navn: z.string().min(1, {
@@ -95,7 +92,7 @@ export const ContactForm: React.FC<ContactFormProps> = ({
     resolver: zodResolver(formSchema),
     defaultValues: {
       subject: selectedValue,
-      inputDatePick: "",
+      inputDatePick: selectedDate,
       navn: "",
       email: "",
       phoneNum: "",
@@ -742,6 +739,56 @@ export const ContactForm: React.FC<ContactFormProps> = ({
                       <p>* = Skal udfyldes</p>
                     </motion.div>
                   )}
+                  <FormField
+                    control={form.control}
+                    name="inputDatePick"
+                    render={({ field }) => (
+                      <FormItem className="mt-5">
+                        <FormLabel>Dato*</FormLabel>
+                        <FormControl>
+                          <div
+                            style={{ position: "relative" }}
+                            className={
+                              form.formState.errors.inputDatePick ? "shake" : ""
+                            }
+                          >
+                            <InputDatePicker
+                              onDateChange={(value) => {
+                                handleDateChange(value);
+                                field.onChange(value); // Ensure the field's onChange is called
+                              }}
+                              {...field}
+                            />
+                            {form.formState.errors.inputDatePick ? (
+                              <div className="absolute top-1.5 right-0 pr-3 flex items-center pointer-events-none">
+                                <div>
+                                  <MdError
+                                    className={"text-red-500 text-2xl"}
+                                  />
+                                </div>
+                              </div>
+                            ) : form.formState.isSubmitted &&
+                              !form.formState.errors.inputDatePick ? (
+                              <div className="absolute top-1.5 right-0 pr-3 flex items-center pointer-events-none">
+                                <div>
+                                  <IoIosCheckmarkCircle
+                                    className={"text-green-500 text-2xl"}
+                                  />
+                                </div>
+                              </div>
+                            ) : (
+                              ""
+                            )}
+                          </div>
+                        </FormControl>
+                        <FormDescription className="text-transparent">
+                          Placeholder text
+                          {/* Remove text-transparent if you need to use the field description */}
+                        </FormDescription>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
                   <FormField
                     control={form.control}
                     name="amountOfParticipants"

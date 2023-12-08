@@ -21,7 +21,7 @@ export function InputDatePicker({ onDateChange }: InputDatePickerProps) {
   const [date, setDate] = React.useState<Date>();
 
   const handleDateSelect = (selectedDate: Date) => {
-    const formattedDate = format(selectedDate, "yyyy-MM-dd"); // adjust the format as needed
+    const formattedDate = format(selectedDate, "dd-MM-yyyy"); // adjust the format as needed
     setDate(selectedDate);
     onDateChange(formattedDate);
   };

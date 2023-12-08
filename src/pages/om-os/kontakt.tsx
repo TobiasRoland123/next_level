@@ -17,6 +17,7 @@ import { useEffect, useState, useRef } from "react";
 export default function Kontakt() {
   const currentUrl = typeof window !== "undefined" ? window.location.href : "";
   const [selectedValue, setSelectedValue] = useState("");
+  const [selectedDate, setSelectedDate] = useState("");
   const contactFormRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -59,6 +60,10 @@ export default function Kontakt() {
     setSelectedValue(value);
     console.log("contact", value);
   };
+  const handleDateChange = (value: string) => {
+    setSelectedDate(value);
+    console.log("Date", value);
+  };
 
   return (
     <>
@@ -81,6 +86,7 @@ export default function Kontakt() {
               >
                 <h3>Send os dit spørgsmål</h3>
                 <ContactForm
+                  onDateChange={handleDateChange}
                   selectedValue={selectedValue}
                   onSelectChange={handleSelectChange}
                 />
