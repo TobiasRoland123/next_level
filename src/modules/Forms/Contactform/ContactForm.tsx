@@ -21,20 +21,29 @@ import { Textarea } from "../../../components/Textarea/textarea";
 import { AnimatePresence, motion } from "framer-motion";
 import { MdError } from "react-icons/md";
 import { IoIosCheckmarkCircle } from "react-icons/io";
+import { InputDatePicker } from "@/components/InputDatePicker/InputDatePicker";
 
 interface ContactFormProps {
   // Add any additional props if needed
   selectedValue: string;
+  selectedDate: string;
   onSelectChange: (value: string) => void;
+  onDateChange: (value: string) => void;
 }
 
 export const ContactForm: React.FC<ContactFormProps> = ({
   selectedValue,
+  selectedDate,
+  onDateChange,
   onSelectChange,
 }) => {
   const formSchema = z.object({
     subject: z.string().min(1, {
       message: "Vælg venligst et emne",
+    }),
+
+    inputDatePick: z.string().min(1, {
+      message: "Vælg venligst en dato",
     }),
 
     // Fødselsdag
@@ -85,6 +94,7 @@ export const ContactForm: React.FC<ContactFormProps> = ({
     resolver: zodResolver(formSchema),
     defaultValues: {
       subject: selectedValue,
+      inputDatePick: "",
       navn: "",
       email: "",
       phoneNum: "",
@@ -94,10 +104,16 @@ export const ContactForm: React.FC<ContactFormProps> = ({
       textFieldMessage: "",
     },
   });
+
   // Handle changes in the SelectField
   const handleSelectChange = (value: string) => {
     onSelectChange(value);
     form.setValue("subject", value);
+  };
+
+  const handleDateChange = (value: string) => {
+    onDateChange(value);
+    form.setValue("inputDatePick", value);
   };
 
   // Update form values when selectedValue changes
@@ -117,13 +133,11 @@ export const ContactForm: React.FC<ContactFormProps> = ({
       console.log(values);
       setSubmitForm(true);
       setIsLoading(false);
-    }, 5000); // Adjust the delay time as needed (e.g., 1000 milliseconds)
+    }, 1000); // Adjust the delay time as needed (e.g., 1000 milliseconds)
 
-    // Clear the timeout when the component unmounts or when the selectedValue changes
     return () => clearTimeout(timeoutId);
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
   };
+
   useEffect(() => {
     console.log("form submitted", submitForm);
   }, [submitForm]);
@@ -204,6 +218,51 @@ export const ContactForm: React.FC<ContactFormProps> = ({
                       <p>* = Skal udfyldes</p>
                     </motion.div>
                   )}
+                  <FormField
+                    control={form.control}
+                    name="inputDatePick"
+                    render={({ field }) => (
+                      <FormItem className="mt-5">
+                        <FormLabel>Dato*</FormLabel>
+                        <FormControl>
+                          <div
+                            style={{ position: "relative" }}
+                            className={
+                              form.formState.errors.inputDatePick ? "shake" : ""
+                            }
+                          >
+                            <InputDatePicker {...field} />
+                            {form.formState.errors.inputDatePick ? (
+                              <div className="absolute top-1.5 right-0 pr-3 flex items-center pointer-events-none">
+                                <div>
+                                  <MdError
+                                    className={"text-red-500 text-2xl"}
+                                  />
+                                </div>
+                              </div>
+                            ) : form.formState.isSubmitted &&
+                              !form.formState.errors.inputDatePick ? (
+                              <div className="absolute top-1.5 right-0 pr-3 flex items-center pointer-events-none">
+                                <div>
+                                  <IoIosCheckmarkCircle
+                                    className={"text-green-500 text-2xl"}
+                                  />
+                                </div>
+                              </div>
+                            ) : (
+                              ""
+                            )}
+                          </div>
+                        </FormControl>
+                        <FormDescription className="text-transparent">
+                          Placeholder text
+                          {/* Remove text-transparent if you need to use the field description */}
+                        </FormDescription>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
                   <FormField
                     control={form.control}
                     name="amountOfKids"
@@ -1053,6 +1112,7 @@ export const ContactForm: React.FC<ContactFormProps> = ({
               </>
             )}
 
+            {/* ANDET */}
             {selectedValue === "andet" && (
               <>
                 {Object.keys(form.formState.errors).length > 0 && (
@@ -1385,6 +1445,8 @@ export const ContactForm: React.FC<ContactFormProps> = ({
                 </motion.div>
               </>
             )}
+
+            {/* TURNERING  */}
             {selectedValue === "turnering" && (
               <>
                 {Object.keys(form.formState.errors).length > 0 && (
