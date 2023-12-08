@@ -130,6 +130,8 @@ export const EditGameSheet = (game: Game) => {
     setSubmitting(false);
     setSubmitted(true);
     setTimeout(() => {
+      setSelectedPlatform([]);
+      setSelectedTags([]);
       setSubmitted(false);
       setEditOpen(false);
     }, 3000);

@@ -60,7 +60,7 @@ export const AddGameSheet = (game: Game) => {
   const gameTags = [
     { name: 'Action', value: 0 },
     { name: 'Adventure', value: 1 },
-    { name: 'Role-Playing Game (RPG)', value: 2 },
+    { name: 'RPG', value: 2 },
     { name: 'Shooter', value: 3 },
     { name: 'Simulation', value: 4 },
     { name: 'Strategy', value: 5 },
@@ -68,6 +68,11 @@ export const AddGameSheet = (game: Game) => {
     { name: 'Multiplayer', value: 7 },
     { name: 'Indie', value: 8 },
     { name: 'Open World', value: 9 },
+    { name: 'MOBA', value: 10 },
+    { name: 'Competitive', value: 11 },
+    { name: 'FPS', value: 12 },
+    { name: 'Party', value: 13 },
+    { name: 'Battle Royale', value: 14 },
   ];
 
   const consoles = [
@@ -89,7 +94,7 @@ export const AddGameSheet = (game: Game) => {
       id: addNewGame?.id || undefined,
       title: addNewGame?.name || '',
       platforms: selectedPlatform || [],
-      tags: selectedTags || [],
+      tags: addNewGame?.tags || [],
       description: addNewGame?.description_raw || '',
       background_image: addNewGame?.background_image || '',
     },
@@ -119,14 +124,20 @@ export const AddGameSheet = (game: Game) => {
       return;
     }
 
+    console.log('before', selectedTags);
+
+    setSelectedPlatform([]);
+    setSelectedTags([]);
+
+    console.log('after', selectedTags);
+
     setSubmitting(false);
     setSubmitted(true);
     setTimeout(() => {
       setSubmitted(false);
-      setSelectedPlatform([]);
-      setSelectedTags([]);
       setGameId(0);
       setAddOpen(false);
+      console.log('on close', selectedTags);
     }, 3000);
   };
 
@@ -214,7 +225,9 @@ export const AddGameSheet = (game: Game) => {
                     <div className='bg-contrastCol w-fit px-2 rounded-full'>
                       <Label key={index}>
                         <input
+                          value={tag.value}
                           type='checkbox'
+                          checked={selectedTags.some(p => p.value === tag.value)}
                           {...register('tags')}
                           onChange={() => handleCheckboxChange(tag)}
                           disabled={
