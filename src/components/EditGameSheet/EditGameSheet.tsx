@@ -9,14 +9,13 @@ import {
   SheetTitle,
 } from '@/components/ui/sheet';
 import { useAtom } from 'jotai';
-import { editGameAtom, showAddGameAtom, showEditGameAtom } from '../../states/store';
+import { editGameAtom, showEditGameAtom } from '../../states/store';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import ControlledEditableField from '../EditableInputField/ControlledEditableField';
 import ControlledEditableTextarea from '../ControlledEditableTextArea/ControlledEditableTextarea';
 import { Label } from '@/components/Inputfields/label';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
-import { Alert } from '@/components/ui/alert';
 import {
   AlertDialog,
   AlertDialogAction,

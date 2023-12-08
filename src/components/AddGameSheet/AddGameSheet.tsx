@@ -143,7 +143,7 @@ export const AddGameSheet = (game: Game) => {
         open={addOpen}
         onOpenChange={() => handleClose()}
       >
-        <SheetContent className='w-[400px] overflow-scroll'>
+        <SheetContent className='w-[400px] overflow-scroll border-none'>
           <SheetHeader>
             <SheetTitle>Tilføj spil</SheetTitle>
             <SheetDescription></SheetDescription>

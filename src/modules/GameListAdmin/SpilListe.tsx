@@ -120,7 +120,7 @@ export const SpilListe = () => {
       <AddGameSheet {...addNewGame} />
       <EditGameSheet {...editGame} />
 
-      <div className='flex flex-wrap gap-3 '>
+      <div className='flex flex-wrap gap-6 justify-center sm:justify-between lg:grid lg:grid-cols-3 xl:grid-cols-4'>
         {dbGameData &&
           !dbGameDataIsLoading &&
           dbGameData.map(game => (
