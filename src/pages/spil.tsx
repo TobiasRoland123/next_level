@@ -8,6 +8,7 @@ import { SelectField } from "@/components/Select/SelectField";
 import { FilterField } from "@/components/FilterField/FilterField";
 import { useEffect, useState } from "react";
 import { boolean } from "zod";
+import { AscendingDescending } from "@/components/AscendingDescending/AscendingDescending";
 
 export async function getServerSideProps() {
   let { data: gamelist, error } = await supabase.from("gamelist").select("*");
@@ -22,6 +23,7 @@ export default function Spil({ gamelist }: { gamelist: GameCardRoot[] }) {
   const [arrangedValue, setArrangedValue] = useState("");
   const [genreValue, setGenreValue] = useState("");
   const [searchValue, setSearcheValue] = useState("");
+  const [acsending, setAcsedning] = useState(true);
 
   const handleSelectChange = (value: string, type: string) => {
     type === "genre" && setGenreValue(value);
@@ -56,6 +58,10 @@ export default function Spil({ gamelist }: { gamelist: GameCardRoot[] }) {
     filterGames(genreValue, searchValue);
   }, [arrangedValue, genreValue, searchValue]);
 
+  const onChangeSort = () => {
+    setAcsedning(!acsending);
+  };
+
   return (
     <>
       <Layout>
@@ -75,6 +81,13 @@ export default function Spil({ gamelist }: { gamelist: GameCardRoot[] }) {
                     filterType="search"
                     inputPlaceholder="Søg"
                     onChange={handleSelectChange}
+                  />
+
+                  <AscendingDescending
+                    onChange={onChangeSort}
+                    trueState="A-Z"
+                    falseState="Z-A"
+                    pressed={acsending}
                   />
                   <FilterField
                     filterType="dropDown"
