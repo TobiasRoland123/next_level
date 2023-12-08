@@ -1,13 +1,10 @@
 import { supabase } from "../../utils/supabaseClient";
 import { GameCard } from "@/components/GameCard/GameCard";
-import { GameRoot, PlatformArr, Result, Tag } from "@/Types/gamelist";
 import { GameCardRoot } from "@/Types/gamecard";
 import { Layout } from "@/Layout";
 import { Hero } from "@/modules/Hero/Hero";
-import { SelectField } from "@/components/Select/SelectField";
 import { FilterField } from "@/components/FilterField/FilterField";
 import { useEffect, useState } from "react";
-import { boolean } from "zod";
 import { AscendingDescending } from "@/components/AscendingDescending/AscendingDescending";
 
 export async function getServerSideProps() {
@@ -19,30 +16,26 @@ export async function getServerSideProps() {
 
 export default function Spil({ gamelist }: { gamelist: GameCardRoot[] }) {
   // set Up useState
-  const [visibleGames, setVisibleGames] = useState(gamelist);
-  const [arrangedValue, setArrangedValue] = useState("");
+  const [acsending, setAcsedning] = useState(true);
   const [genreValue, setGenreValue] = useState("");
   const [searchValue, setSearcheValue] = useState("");
-  const [acsending, setAcsedning] = useState(true);
+
+  const [filteredGames, setFilteredGames] = useState<GameCardRoot[] | null>(null);
 
   const handleSelectChange = (value: string, type: string) => {
     type === "genre" && setGenreValue(value);
     type === "search" && setSearcheValue(value);
-    type === "arranged" && setArrangedValue(value);
+  };
+
+  const onChangeSort = () => {
+    setAcsedning(!acsending);
   };
 
   const filterGames = (genreValue: string, searchValue: string) => {
-    // console.log("props ", "'", arrangedValue, genreValue, searchValue, "'");
-    // console.log("gameList: ", gamelist);
-
     const filteredGameList = gamelist.filter((game) => {
       const hasGenre = genreValue && genreValue !== "Alle" ? game.tags.some((tag) => tag.name === genreValue) : true;
-
-      //
-      //
       const matchesSearch = searchValue
         ? game.title.toLowerCase().includes(searchValue.toLowerCase()) ||
-          game.description.toLowerCase().includes(searchValue.toLowerCase()) ||
           game.id.toString().includes(searchValue.toLowerCase()) ||
           game.platforms.some((platform) => platform.name.toString().toLowerCase() === searchValue.toLowerCase()) ||
           game.tags.some((tag) => tag.name.toLowerCase() === searchValue.toLowerCase())
@@ -50,17 +43,18 @@ export default function Spil({ gamelist }: { gamelist: GameCardRoot[] }) {
 
       return hasGenre && matchesSearch;
     });
-    setVisibleGames(filteredGameList);
+
+    const sortedGames = filteredGameList.sort((a, b) => {
+      return acsending ? a.title.localeCompare(b.title) : b.title.localeCompare(a.title);
+    });
+
+    setFilteredGames(sortedGames);
     console.log("filteredGameList: ", filteredGameList);
   };
 
   useEffect(() => {
     filterGames(genreValue, searchValue);
-  }, [arrangedValue, genreValue, searchValue]);
-
-  const onChangeSort = () => {
-    setAcsedning(!acsending);
-  };
+  }, [gamelist, acsending, genreValue, searchValue]);
 
   return (
     <>
@@ -88,6 +82,7 @@ export default function Spil({ gamelist }: { gamelist: GameCardRoot[] }) {
                     trueState="A-Z"
                     falseState="Z-A"
                     pressed={acsending}
+                    className=" md:order-2"
                   />
                   <FilterField
                     filterType="dropDown"
@@ -104,8 +99,8 @@ export default function Spil({ gamelist }: { gamelist: GameCardRoot[] }) {
               <div className="spacer w-full ">
                 <div className="flex flex-wrap gap-6 justify-center sm:justify-between lg:grid lg:grid-cols-3 xl:grid-cols-4">
                   {/*     <div className="flex flex-wrap gap-6 justify-center md:justify-between lg:justify-start"> */}
-                  {visibleGames &&
-                    visibleGames.map((game) => (
+                  {filteredGames &&
+                    filteredGames.map((game) => (
                       <div
                         key={game.id}
                         className="mb-10 "
