@@ -5,10 +5,10 @@ const nextConfig = {
     domains: ["media.rawg.io"],
     remotePatterns: [
       {
-        protocol: "https",
-        hostname: "media.rawg.io",
-        port: "",
-        pathname: "/media/games/**",
+        protocol: 'https',
+        hostname: 'media.rawg.io',
+        port: '',
+        pathname: '/media/**',
       },
     ],
   },

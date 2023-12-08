@@ -65,6 +65,7 @@ small {
 
 .spacer {
   @apply mx-6 mt-14 max-w-[1280px] md:mx-12 md:mt-20 lg:mx-20;
+
 }
 
 .calendarDatePickerMate tr {
@@ -206,6 +207,7 @@ small {
 }
 
 /* SHAKE ANIMATION FOR FORMS */
+
 .shake {
   animation: shakeField 0.4s ease-in-out forwards;
 }
@@ -223,6 +225,14 @@ small {
   100% {
     transform: translateX(0);
   }
+}
+
+@property --rotate {
+  syntax: "<angle>";
+  syntax: "<angle>";
+  initial-value: 132deg;
+  inherits: false;
+
 }
 
 /* LOADER ANIMATION */
