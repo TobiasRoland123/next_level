@@ -40,10 +40,10 @@ export default function Spil({ gamelist }: { gamelist: GameCardRoot[] }) {
       //
       const matchesSearch = searchValue
         ? game.title.toLowerCase().includes(searchValue.toLowerCase()) ||
-          game.description.toLowerCase().includes(searchValue) ||
-          game.id.toString().includes(searchValue) ||
-          game.platforms.some((platform) => platform.name.toString().toLowerCase() === searchValue) ||
-          game.tags.some((tag) => tag.name.toLowerCase() === searchValue)
+          game.description.toLowerCase().includes(searchValue.toLowerCase()) ||
+          game.id.toString().includes(searchValue.toLowerCase()) ||
+          game.platforms.some((platform) => platform.name.toString().toLowerCase() === searchValue.toLowerCase()) ||
+          game.tags.some((tag) => tag.name.toLowerCase() === searchValue.toLowerCase())
         : true;
 
       return hasGenre && matchesSearch;
