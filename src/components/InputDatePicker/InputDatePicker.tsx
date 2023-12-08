@@ -18,12 +18,18 @@ interface InputDatePickerProps {
 }
 
 export function InputDatePicker({ onDateChange }: InputDatePickerProps) {
-  const [date, setDate] = React.useState<Date>();
+  const [date, setDate] = React.useState<Date | undefined>(undefined);
 
-  const handleDateSelect = (selectedDate: Date) => {
-    const formattedDate = format(selectedDate, "dd-MM-yyyy"); // adjust the format as needed
-    setDate(selectedDate);
-    onDateChange(formattedDate);
+  const handleDateSelect = (selectedDate: Date | undefined) => {
+    if (selectedDate) {
+      const formattedDate = format(selectedDate, "dd-MM-yyyy");
+      setDate(selectedDate);
+      onDateChange(formattedDate);
+    } else {
+      // Handle the case when selectedDate is undefined, e.g., set a default value
+      setDate(undefined);
+      onDateChange(""); // Change this line based on your requirements
+    }
   };
 
   return (
