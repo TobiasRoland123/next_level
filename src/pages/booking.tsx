@@ -5,590 +5,21 @@ import { FaUserGroup } from "react-icons/fa6";
 import { FaCalendarAlt } from "react-icons/fa";
 import { IoTime } from "react-icons/io5";
 import { DatePicker } from "@/components/Calender/DatePicker";
-import { ReactNode, useState } from "react";
+import { useState } from "react";
 import { BookingTypes } from "@/enum/BookingTimes";
-import { createClient } from "@supabase/supabase-js";
+import { Matcher } from "react-day-picker";
+import { BTS, BookingArray, TimeSlot } from "@/Types/calendar";
+import { bookings } from "@/Types/bookingTestArray";
 
 export default function Booking() {
-  interface TimeSlot {
-    time: string;
-    index?: number | undefined;
-  }
-
-  interface BookingArray {
-    [index: number]: DateSchedule;
-  }
-
-  interface DateSchedule {
-    [date: string]: {
-      [computer: string]: BookingTimeSlot[];
-    };
-  }
-
-  interface BookingTimeSlot {
-    time: string;
-    booked: boolean;
-  }
-
-  type BTS = (number | undefined)[];
-
   const ledigeTider: Array<string> = ["14.00", "14.30", "15.00", "15.30", "16.00", "16.30", "17.00", "17.30", "18.00", "18.30", "19.00", "19.30", "20.00"];
   const [startTid, setStartTid] = useState<TimeSlot>({ time: "", index: undefined });
   const [slutTid, setSlutTid] = useState<TimeSlot>({ time: "", index: undefined });
   const [bTS, setBTS] = useState<BTS>([]);
-  const bookings: BookingArray = [
-    {
-      "2023-12-12": {
-        PC1: [
-          {
-            time: "14.00",
-            booked: false,
-          },
-          {
-            time: "14.30",
-            booked: false,
-          },
-          {
-            time: "15.00",
-            booked: false,
-          },
-          {
-            time: "15.30",
-            booked: false,
-          },
-          {
-            time: "16.00",
-            booked: false,
-          },
-          {
-            time: "16.30",
-            booked: false,
-          },
-          {
-            time: "17.00",
-            booked: false,
-          },
-          {
-            time: "17.30",
-            booked: false,
-          },
-          {
-            time: "18.00",
-            booked: false,
-          },
-          {
-            time: "18.30",
-            booked: false,
-          },
-          {
-            time: "19.00",
-            booked: false,
-          },
-          {
-            time: "19.30",
-            booked: false,
-          },
-          {
-            time: "20.00",
-            booked: false,
-          },
-        ],
-        PC2: [
-          {
-            time: "14.00",
-            booked: false,
-          },
-          {
-            time: "14.30",
-            booked: false,
-          },
-          {
-            time: "15.00",
-            booked: false,
-          },
-          {
-            time: "15.30",
-            booked: false,
-          },
-          {
-            time: "16.00",
-            booked: false,
-          },
-          {
-            time: "16.30",
-            booked: false,
-          },
-          {
-            time: "17.00",
-            booked: false,
-          },
-          {
-            time: "17.30",
-            booked: false,
-          },
-          {
-            time: "18.00",
-            booked: false,
-          },
-          {
-            time: "18.30",
-            booked: false,
-          },
-          {
-            time: "19.00",
-            booked: false,
-          },
-          {
-            time: "19.30",
-            booked: false,
-          },
-          {
-            time: "20.00",
-            booked: false,
-          },
-        ],
-        PC3: [
-          {
-            time: "14.00",
-            booked: false,
-          },
-          {
-            time: "14.30",
-            booked: false,
-          },
-          {
-            time: "15.00",
-            booked: false,
-          },
-          {
-            time: "15.30",
-            booked: false,
-          },
-          {
-            time: "16.00",
-            booked: false,
-          },
-          {
-            time: "16.30",
-            booked: false,
-          },
-          {
-            time: "17.00",
-            booked: false,
-          },
-          {
-            time: "17.30",
-            booked: false,
-          },
-          {
-            time: "18.00",
-            booked: false,
-          },
-          {
-            time: "18.30",
-            booked: false,
-          },
-          {
-            time: "19.00",
-            booked: false,
-          },
-          {
-            time: "19.30",
-            booked: false,
-          },
-          {
-            time: "20.00",
-            booked: false,
-          },
-        ],
-        PC4: [
-          {
-            time: "14.00",
-            booked: false,
-          },
-          {
-            time: "14.30",
-            booked: false,
-          },
-          {
-            time: "15.00",
-            booked: false,
-          },
-          {
-            time: "15.30",
-            booked: false,
-          },
-          {
-            time: "16.00",
-            booked: false,
-          },
-          {
-            time: "16.30",
-            booked: false,
-          },
-          {
-            time: "17.00",
-            booked: false,
-          },
-          {
-            time: "17.30",
-            booked: false,
-          },
-          {
-            time: "18.00",
-            booked: false,
-          },
-          {
-            time: "18.30",
-            booked: false,
-          },
-          {
-            time: "19.00",
-            booked: false,
-          },
-          {
-            time: "19.30",
-            booked: false,
-          },
-          {
-            time: "20.00",
-            booked: false,
-          },
-        ],
-        PC5: [
-          {
-            time: "14.00",
-            booked: false,
-          },
-          {
-            time: "14.30",
-            booked: false,
-          },
-          {
-            time: "15.00",
-            booked: false,
-          },
-          {
-            time: "15.30",
-            booked: false,
-          },
-          {
-            time: "16.00",
-            booked: false,
-          },
-          {
-            time: "16.30",
-            booked: false,
-          },
-          {
-            time: "17.00",
-            booked: false,
-          },
-          {
-            time: "17.30",
-            booked: false,
-          },
-          {
-            time: "18.00",
-            booked: false,
-          },
-          {
-            time: "18.30",
-            booked: false,
-          },
-          {
-            time: "19.00",
-            booked: false,
-          },
-          {
-            time: "19.30",
-            booked: false,
-          },
-          {
-            time: "20.00",
-            booked: false,
-          },
-        ],
-      },
-      "2023-12-13": {
-        PC1: [
-          {
-            time: "14.00",
-            booked: false,
-          },
-          {
-            time: "14.30",
-            booked: false,
-          },
-          {
-            time: "15.00",
-            booked: false,
-          },
-          {
-            time: "15.30",
-            booked: false,
-          },
-          {
-            time: "16.00",
-            booked: false,
-          },
-          {
-            time: "16.30",
-            booked: false,
-          },
-          {
-            time: "17.00",
-            booked: false,
-          },
-          {
-            time: "17.30",
-            booked: false,
-          },
-          {
-            time: "18.00",
-            booked: false,
-          },
-          {
-            time: "18.30",
-            booked: false,
-          },
-          {
-            time: "19.00",
-            booked: false,
-          },
-          {
-            time: "19.30",
-            booked: false,
-          },
-          {
-            time: "20.00",
-            booked: false,
-          },
-        ],
-        PC2: [
-          {
-            time: "14.00",
-            booked: false,
-          },
-          {
-            time: "14.30",
-            booked: false,
-          },
-          {
-            time: "15.00",
-            booked: false,
-          },
-          {
-            time: "15.30",
-            booked: false,
-          },
-          {
-            time: "16.00",
-            booked: false,
-          },
-          {
-            time: "16.30",
-            booked: false,
-          },
-          {
-            time: "17.00",
-            booked: false,
-          },
-          {
-            time: "17.30",
-            booked: false,
-          },
-          {
-            time: "18.00",
-            booked: false,
-          },
-          {
-            time: "18.30",
-            booked: false,
-          },
-          {
-            time: "19.00",
-            booked: false,
-          },
-          {
-            time: "19.30",
-            booked: false,
-          },
-          {
-            time: "20.00",
-            booked: false,
-          },
-        ],
-        PC3: [
-          {
-            time: "14.00",
-            booked: false,
-          },
-          {
-            time: "14.30",
-            booked: false,
-          },
-          {
-            time: "15.00",
-            booked: false,
-          },
-          {
-            time: "15.30",
-            booked: false,
-          },
-          {
-            time: "16.00",
-            booked: false,
-          },
-          {
-            time: "16.30",
-            booked: false,
-          },
-          {
-            time: "17.00",
-            booked: false,
-          },
-          {
-            time: "17.30",
-            booked: false,
-          },
-          {
-            time: "18.00",
-            booked: false,
-          },
-          {
-            time: "18.30",
-            booked: false,
-          },
-          {
-            time: "19.00",
-            booked: false,
-          },
-          {
-            time: "19.30",
-            booked: false,
-          },
-          {
-            time: "20.00",
-            booked: false,
-          },
-        ],
-        PC4: [
-          {
-            time: "14.00",
-            booked: false,
-          },
-          {
-            time: "14.30",
-            booked: false,
-          },
-          {
-            time: "15.00",
-            booked: false,
-          },
-          {
-            time: "15.30",
-            booked: false,
-          },
-          {
-            time: "16.00",
-            booked: false,
-          },
-          {
-            time: "16.30",
-            booked: false,
-          },
-          {
-            time: "17.00",
-            booked: false,
-          },
-          {
-            time: "17.30",
-            booked: false,
-          },
-          {
-            time: "18.00",
-            booked: false,
-          },
-          {
-            time: "18.30",
-            booked: false,
-          },
-          {
-            time: "19.00",
-            booked: false,
-          },
-          {
-            time: "19.30",
-            booked: false,
-          },
-          {
-            time: "20.00",
-            booked: false,
-          },
-        ],
-        PC5: [
-          {
-            time: "14.00",
-            booked: false,
-          },
-          {
-            time: "14.30",
-            booked: false,
-          },
-          {
-            time: "15.00",
-            booked: false,
-          },
-          {
-            time: "15.30",
-            booked: false,
-          },
-          {
-            time: "16.00",
-            booked: false,
-          },
-          {
-            time: "16.30",
-            booked: false,
-          },
-          {
-            time: "17.00",
-            booked: false,
-          },
-          {
-            time: "17.30",
-            booked: false,
-          },
-          {
-            time: "18.00",
-            booked: false,
-          },
-          {
-            time: "18.30",
-            booked: false,
-          },
-          {
-            time: "19.00",
-            booked: false,
-          },
-          {
-            time: "19.30",
-            booked: false,
-          },
-          {
-            time: "20.00",
-            booked: false,
-          },
-        ],
-      },
-    },
-  ];
 
   function checkDates() {
     console.log(bookings);
   }
-
   checkDates();
   function addTime(tid: string, index: number) {
     console.log("We are in");
@@ -643,6 +74,7 @@ export default function Booking() {
       } else {
         // @ts-ignore
         const diffStart = Math.abs(startTid.index - index); // Calculate absolute difference between constant1 and targetValue
+
         // @ts-ignore
         const diffSlut = Math.abs(slutTid.index - index); // Calculate absolute difference between constant2 and targetValue
 
@@ -751,6 +183,56 @@ export default function Booking() {
     }
   }
 
+  const disabledDays2 = (numberOfDays: number): Matcher | Matcher[] | undefined => {
+    const disabledDays: Date[] = [];
+    const daysInWeek = 7;
+
+    for (let i = 0; i < numberOfDays; i++) {
+      const currentDate = new Date();
+      currentDate.setDate(currentDate.getDate() + i);
+
+      const dayOfWeek = currentDate.getDay();
+      // 5 corresponds to Friday and 6 corresponds to Saturday
+      if (dayOfWeek === 5 || dayOfWeek === 6) {
+        const year = currentDate.getFullYear();
+        const month = String(currentDate.getMonth() + 1).padStart(2, "0"); // Months are zero-indexed
+        const day = String(currentDate.getDate()).padStart(2, "0");
+
+        // Format the date as "YYYY, MM, DD"
+        const formattedDate = `${Number(year)}, ${Number(month)}, ${Number(day)}`;
+
+        disabledDays.push(new Date(formattedDate));
+      }
+    }
+    const futureDate = new Date();
+    futureDate.setDate(futureDate.getDate() + 14);
+    const fYear = futureDate.getFullYear();
+    const fMonth = String(futureDate.getMonth() + 1).padStart(2, "0"); // Months are zero-indexed
+    const fDay = String(futureDate.getDate()).padStart(2, "0");
+
+    // Format the date as "YYYY, MM, DD"
+    const fFormattedDate = `${Number(fYear)}, ${Number(fMonth)}, ${Number(fDay)}`;
+    //@ts-ignore
+    disabledDays.push({ from: new Date(fFormattedDate), to: new Date(2050, 1, 1) });
+
+    //past day
+    const pastDate = new Date();
+    pastDate.setDate(pastDate.getDate() - 1);
+    const pYear = pastDate.getFullYear();
+    const pMonth = String(pastDate.getMonth() + 1).padStart(2, "0"); // Months are zero-indexed
+    const pDay = String(pastDate.getDate()).padStart(2, "0");
+
+    const pFormattedDate = `${Number(pYear)}, ${Number(pMonth)}, ${Number(pDay)}`;
+    //@ts-ignore
+    disabledDays.push({ from: new Date(2023, 1, 1), to: new Date(pFormattedDate) });
+
+    console.log(disabledDays);
+
+    return disabledDays;
+  };
+
+  const disabledDays: Matcher | Matcher[] | undefined = disabledDays2(14);
+
   return (
     <>
       <Layout>
@@ -780,7 +262,10 @@ export default function Booking() {
                   <FaCalendarAlt className="inline-block mt-0.4" />
                   <span>Dato</span>
                 </p>
-                <DatePicker></DatePicker>
+                <DatePicker
+                  // @ts-ignore
+                  disabledDays={disabledDays}
+                ></DatePicker>
               </div>
             </article>
             <article id="time" className="w-full">

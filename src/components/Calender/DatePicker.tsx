@@ -3,14 +3,17 @@
 import * as React from "react";
 
 import { Calendar } from "../../components/ui/calendar";
+import { Matcher } from "react-day-picker";
 
-export function DatePicker() {
+export function DatePicker(props: Matcher | Matcher[] | undefined) {
   const [date, setDate] = React.useState<Date | undefined>(new Date());
 
   return (
     <Calendar
       mode="single"
       selected={date}
+      //@ts-ignore
+      disabled={props.disabledDays}
       onSelect={(newDate) => {
         setDate(newDate);
         console.log(date);
