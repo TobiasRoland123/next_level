@@ -14,6 +14,8 @@ import { supabase } from "../../utils/supabaseClient";
 import { Bookings } from "@/Types/Bookings";
 import { futureDays, pastDays } from "@/calendarFunctions/calendarFunctions";
 import timeSlots from "@/Types/TimesArray";
+import { AvailibleTimeSlot } from "@/components/AvailibleTimeSlot/AvailibleTimeSlot";
+import { BookedTimeSlot } from "@/components/BookedTimeSlot/BookedTimeSlot";
 
 export async function getServerSideProps() {
   let { data: john, error } = await supabase.from("Bookings").select("*");
@@ -121,6 +123,7 @@ export default function Booking({ john }: { john: Bookings[] }) {
   }
 
   function addTime(tid: string, index: number) {
+    console.log("hello");
     // console.log"We are in");
 
     if (!startTid.time && !slutTid.time) {
@@ -459,18 +462,23 @@ export default function Booking({ john }: { john: Bookings[] }) {
                 <div className=" timeslots flex gap-2 flex-wrap mt-3">
                   {bookingDateTimes.map((time: BookingTimeSlot, index: number) => (
                     <div className="relative flex gap-2 flex-wrap mt-3">
-                      <input type="checkbox" name="tid" id={time.time} key={index} className="absolute z-0 opacity-0 peer" defaultChecked={bTS.includes(index)} disabled={time.booked} />
-                      <label
-                        htmlFor={time.time}
-                        onClick={() => addTime(time.time, index)}
-                        className={
-                          (startTid.index !== undefined && slutTid.index !== undefined && startTid.index !== null && slutTid.index !== null && index >= startTid.index && index <= slutTid.index) || startTid.index === index || slutTid.index === index
-                            ? "z-10 min-w-[85px] text-center py-2 border border-accentCol font-semibold transition ease-in-out duration-150 cursor-pointer bg-accentCol peer-disabled:bg-slate-500 peer-disabled:border-slate-500 peer-disabled:text-slate-700 peer-disabled:pointer-events-none peer-disabled:cursor-not-allowed"
-                            : "z-10 min-w-[85px] text-center py-2 border border-accentCol font-semibold transition ease-in-out duration-150 cursor-pointer peer-disabled:bg-slate-500 peer-disabled:border-slate-500 peer-disabled:text-slate-700 peer-disabled:pointer-events-none peer-disabled:cursor-not-allowed"
-                        }
-                      >
-                        {time.time}
-                      </label>
+                      {time.booked ? (
+                        <BookedTimeSlot time={time} index={index} allTimes={bookingDateTimes} />
+                      ) : (
+                        //  <input type="checkbox" name="tid" id={time.time} key={index} className="absolute z-0 opacity-0 peer" defaultChecked={bTS.includes(index)} disabled={time.booked} />
+                        // <label
+                        //   htmlFor={time.time}
+                        //   onClick={() => addTime(time.time, index)}
+                        //   className={
+                        //     (startTid.index !== undefined && slutTid.index !== undefined && startTid.index !== null && slutTid.index !== null && index >= startTid.index && index <= slutTid.index) || startTid.index === index || slutTid.index === index
+                        //       ? "z-10 min-w-[85px] text-center py-2 border border-accentCol font-semibold transition ease-in-out duration-150 cursor-pointer bg-accentCol peer-disabled:bg-slate-500 peer-disabled:border-slate-500 peer-disabled:text-slate-700 peer-disabled:pointer-events-none peer-disabled:cursor-not-allowed"
+                        //       : "z-10 min-w-[85px] text-center py-2 border border-accentCol font-semibold transition ease-in-out duration-150 cursor-pointer peer-disabled:bg-slate-500 peer-disabled:border-slate-500 peer-disabled:text-slate-700 peer-disabled:pointer-events-none peer-disabled:cursor-not-allowed"
+                        //   }
+                        // >
+                        //   {time.time}
+                        // </label>
+                        <AvailibleTimeSlot className={(startTid.index !== undefined && slutTid.index !== undefined && startTid.index !== null && slutTid.index !== null && index >= startTid.index && index <= slutTid.index) || startTid.index === index || slutTid.index === index ? "z-10 min-w-[85px] text-center py-2 border border-accentCol font-semibold transition ease-in-out duration-150 cursor-pointer bg-accentCol " : "z-10 min-w-[85px] text-center py-2 border border-accentCol font-semibold transition ease-in-out duration-150 cursor-pointer "} defaultChecked={bTS.includes(index)} index={index} onClick={() => addTime(time.time, index)} time={time} />
+                      )}
                     </div>
                   ))}
                 </div>
