@@ -4,6 +4,8 @@ import { Button } from "@/components/Button/Button";
 import { createClient } from "@supabase/supabase-js";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
+import { MdError } from "react-icons/md";
+import { IoIosCheckmarkCircle } from "react-icons/io";
 import * as z from "zod";
 import { Layout } from "@/Layout";
 import {
@@ -111,11 +113,41 @@ export const Login: React.FC<LoginProps> = ({}) => {
                   <FormItem className="mt-5">
                     <FormLabel>Email</FormLabel>
                     <FormControl>
-                      <Input
-                        {...field}
-                        id="email"
-                        type="email"
-                      />
+                      <div
+                        style={{ position: "relative" }}
+                        className={form.formState.errors.email ? "shake" : ""}
+                      >
+                        <Input
+                          style={{
+                            borderColor: form.formState.isSubmitted
+                              ? form.formState.errors.email
+                                ? "red"
+                                : "green"
+                              : "none",
+                          }}
+                          {...field}
+                          id="email"
+                          type="email"
+                        />
+                        {form.formState.errors.email ? (
+                          <div className="absolute top-2 right-0 pr-3 flex items-center pointer-events-none">
+                            <div>
+                              <MdError className={"text-red-500 text-2xl"} />
+                            </div>
+                          </div>
+                        ) : form.formState.isSubmitted &&
+                          !form.formState.errors.email ? (
+                          <div className="absolute top-2 right-0 pr-3 flex items-center pointer-events-none">
+                            <div>
+                              <IoIosCheckmarkCircle
+                                className={"text-green-500 text-2xl"}
+                              />
+                            </div>
+                          </div>
+                        ) : (
+                          ""
+                        )}
+                      </div>
                     </FormControl>
                     <FormDescription className="text-transparent">
                       Placeholder text
@@ -132,11 +164,43 @@ export const Login: React.FC<LoginProps> = ({}) => {
                   <FormItem className="mt-5">
                     <FormLabel>Password</FormLabel>
                     <FormControl>
-                      <Input
-                        {...field}
-                        id="password"
-                        type="password"
-                      />
+                      <div
+                        style={{ position: "relative" }}
+                        className={
+                          form.formState.errors.password ? "shake" : ""
+                        }
+                      >
+                        <Input
+                          style={{
+                            borderColor: form.formState.isSubmitted
+                              ? form.formState.errors.password
+                                ? "red"
+                                : "green"
+                              : "none",
+                          }}
+                          {...field}
+                          id="password"
+                          type="password"
+                        />
+                        {form.formState.errors.password ? (
+                          <div className="absolute top-2 right-0 pr-3 flex items-center pointer-events-none">
+                            <div>
+                              <MdError className={"text-red-500 text-2xl"} />
+                            </div>
+                          </div>
+                        ) : form.formState.isSubmitted &&
+                          !form.formState.errors.password ? (
+                          <div className="absolute top-2 right-0 pr-3 flex items-center pointer-events-none">
+                            <div>
+                              <IoIosCheckmarkCircle
+                                className={"text-green-500 text-2xl"}
+                              />
+                            </div>
+                          </div>
+                        ) : (
+                          ""
+                        )}
+                      </div>
                     </FormControl>
                     <FormDescription className="text-transparent">
                       Placeholder text
