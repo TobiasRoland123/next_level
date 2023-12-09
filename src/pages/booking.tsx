@@ -8,11 +8,12 @@ import { DatePicker } from "@/components/Calender/DatePicker";
 import { ChangeEvent, MouseEvent, useState } from "react";
 import { BookingTypes } from "@/enum/BookingTimes";
 import { Matcher } from "react-day-picker";
-import { BTS, BookingArray, BookingTimeSlot, TimeSlot } from "@/Types/calendar";
+import { BTS, BookingArray, BookingTimeSlot, PCObjects, TimeSlot, TimeSlotOptions } from "@/Types/calendar";
 import { bookings } from "@/Types/bookingTestArray";
 import { supabase } from "../../utils/supabaseClient";
 import { Bookings } from "@/Types/Bookings";
 import { futureDays, pastDays } from "@/calendarFunctions/calendarFunctions";
+import timeSlots from "@/Types/TimesArray";
 
 export async function getServerSideProps() {
   let { data: john, error } = await supabase.from("Bookings").select("*");
@@ -28,12 +29,11 @@ export default function Booking({ john }: { john: Bookings[] }) {
     endTime?: TimeSlot;
   }
 
-  const ledigeTider: Array<string> = ["14.00", "14.30", "15.00", "15.30", "16.00", "16.30", "17.00", "17.30", "18.00", "18.30", "19.00", "19.30", "20.00"];
   const [userChoices, setUserChoices] = useState<UserBooking | undefined>();
   const [startTid, setStartTid] = useState<TimeSlot>({ time: "", index: undefined });
   const [slutTid, setSlutTid] = useState<TimeSlot>({ time: "", index: undefined });
   const [bTS, setBTS] = useState<BTS>([]);
-  const [selectedDate, setSelectedDate] = useState<Date>();
+  const [bookingDateTimes, setBookingDateTimes] = useState<BookingTimeSlot[]>(timeSlots);
 
   //Make same function and use Enums with a switch Statement
   const handleAmountChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -49,14 +49,76 @@ export default function Booking({ john }: { john: Bookings[] }) {
     const Month = String(date.getMonth() + 1).padStart(2, "0"); // Months are zero-indexed
     const Day = String(date.getDate()).padStart(2, "0");
 
-    const FormattedDate = `${Number(Year)}, ${Number(Month)}, ${Number(Day)}`;
+    const FormattedDate = `${Number(Year)}-${Number(Month)}-${Number(Day)}`;
     console.log("FormattedDate", FormattedDate);
 
     setUserChoices((prevData) => ({
       ...prevData,
       date: FormattedDate,
     }));
+    bookingTimes(FormattedDate);
   };
+
+  function bookingTimes(chosenDate: string) {
+    //@ts-ignore
+    const matchingDate = Boolean(john.find((booking) => booking.date === chosenDate));
+    console.log(matchingDate, chosenDate);
+
+    if (!matchingDate) {
+      setBookingDateTimes(timeSlots);
+      return;
+    }
+    //@ts-ignore
+    const dateBooking = john.find((booking) => booking.date === chosenDate);
+    const PCS: PCObjects = { PC1: dateBooking?.PC1, PC2: dateBooking?.PC2, PC3: dateBooking?.PC3, PC4: dateBooking?.PC4, PC5: dateBooking?.PC5 };
+    console.log(PCS);
+
+    const availibleTimes: BookingTimeSlot[] = [];
+
+    for (const pc in PCS) {
+      // Iterate over each entry for the current PC
+      // @ts-ignore
+      for (const entry of PCS[pc]) {
+        // Find the corresponding entry in the resultArray or create a new one
+        const resultEntry: BookingTimeSlot | undefined = availibleTimes.find((item) => item.time === entry.time);
+
+        if (resultEntry) {
+          // If the entry exists, update the count based on the booked status
+          if (entry.booked) {
+            resultEntry.bookedCount = (resultEntry.bookedCount || 0) + 1;
+          }
+        } else {
+          // If the entry doesn't exist, create a new one
+          const newEntry = {
+            time: entry.time,
+            bookedCount: entry.booked ? 1 : 0,
+          };
+          availibleTimes.push(newEntry);
+        }
+      }
+    }
+
+    for (let i = 0; i < availibleTimes.length; i++) {
+      console.log(i);
+      if (i < 12) {
+        // @ts-ignore
+        if (availibleTimes[i].bookedCount > 4 && (availibleTimes[i + 1].bookedCount > 4 || availibleTimes[i - 1].bookedCount > 4)) {
+          availibleTimes[i].booked = true;
+        } else {
+          availibleTimes[i].booked = false;
+        }
+      } else if (i === 12) {
+        // @ts-ignore
+        if (availibleTimes[i].bookedCount > 4) {
+          availibleTimes[i].booked = true;
+        } else {
+          availibleTimes[i].booked = false;
+        }
+      }
+    }
+
+    setBookingDateTimes(availibleTimes);
+  }
 
   function addTime(tid: string, index: number) {
     // console.log"We are in");
@@ -262,9 +324,6 @@ export default function Booking({ john }: { john: Bookings[] }) {
 
           // Check if the inputDate is between currentDate and futureDate
           if (inputDate >= currentDate && inputDate <= futureDate) {
-            interface PCObjects {
-              [pc: string]: BookingTimeSlot[];
-            }
             // console.log"The date is between today and the latest possible day in the future.");
             const PCS: PCObjects = { PC1: bookings[i].PC1, PC2: bookings[i].PC2, PC3: bookings[i].PC1, PC4: bookings[i].PC1, PC5: bookings[i].PC1 };
             // console.logPCS);
@@ -275,6 +334,7 @@ export default function Booking({ john }: { john: Bookings[] }) {
             // Iterate over each key in the inputObject
             for (const pc in PCS) {
               // Iterate over each entry for the current PC
+              // @ts-ignore
               for (const entry of PCS[pc]) {
                 // Find the corresponding entry in the resultArray or create a new one
                 const resultEntry: BookingTimeSlot | undefined = resultArray.find((item) => item.time === entry.time);
@@ -396,15 +456,17 @@ export default function Booking({ john }: { john: Bookings[] }) {
                     </p>
                   )}
                 </div>
-                <div className="flex gap-2 flex-wrap mt-3">
-                  {ledigeTider.map((tid: string, index: number) => (
-                    //@ts-ignore
+                <div className=" timeslots flex gap-2 flex-wrap mt-3">
+                  {bookingDateTimes.map((time: BookingTimeSlot, index: number) => (
                     <div className="relative flex gap-2 flex-wrap mt-3">
-                      {/* @ts-ignore */}
-                      <label htmlFor={tid} onClick={() => addTime(tid, index)} className={(startTid.index !== null && startTid.index !== null && index >= startTid.index && index <= slutTid.index) || startTid.index === index || slutTid.index === index ? "z-10 min-w-[85px] text-center py-2 border border-accentCol font-semibold transition ease-in-out duration-150 cursor-pointer bg-accentCol" : " z-10 min-w-[85px] text-center py-2 border border-accentCol font-semibold transition ease-in-out duration-150 cursor-pointer"}>
-                        {tid}
+                      <input type="checkbox" name="tid" id={time.time} key={index} className="absolute z-0 opacity-0 peer" defaultChecked={bTS.includes(index)} disabled={time.booked} />
+                      <label
+                        htmlFor={time.time}
+                        onClick={() => addTime(time.time, index)}
+                        className={(startTid.index !== null && slutTid.index !== null && index >= startTid.index && index <= slutTid.index) || startTid.index === index || slutTid.index === index ? "z-10 min-w-[85px] text-center py-2 border border-accentCol font-semibold transition ease-in-out duration-150 cursor-pointer bg-accentCol peer-disabled:bg-slate-500 peer-disabled:border-slate-500 peer-disabled:text-slate-700 peer-disabled:pointer-events-none peer-disabled:cursor-not-allowed" : "z-10 min-w-[85px] text-center py-2 border border-accentCol font-semibold transition ease-in-out duration-150 cursor-pointer peer-disabled:bg-slate-500 peer-disabled:border-slate-500 peer-disabled:text-slate-700 peer-disabled:pointer-events-none peer-disabled:cursor-not-allowed"}
+                      >
+                        {time.time}
                       </label>
-                      <input type="checkbox" name="tid" id={tid} key={index} className="absolute z-0 opacity-0 " defaultChecked={bTS.includes(index)} />
                     </div>
                   ))}
                 </div>

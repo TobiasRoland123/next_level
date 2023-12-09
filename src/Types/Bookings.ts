@@ -1,10 +1,12 @@
+import { BookingTimeSlot, TimeSlot } from "./calendar";
+
 export interface Bookings {
   id: number;
   date: Date;
-  PC1: Array<{ time: string; booked: boolean }>;
-  PC2: Array<{ time: string; booked: boolean }>;
-  PC3: Array<{ time: string; booked: boolean }>;
-  PC4: Array<{ time: string; booked: boolean }>;
-  PC5: Array<{ time: string; booked: boolean }>;
-  NLP: Array<{ time: string; booked: boolean }>;
+  PC1: Array<BookingTimeSlot>;
+  PC2: Array<BookingTimeSlot>;
+  PC3: Array<BookingTimeSlot>;
+  PC4: Array<BookingTimeSlot>;
+  PC5: Array<BookingTimeSlot>;
+  NLP: Array<BookingTimeSlot>;
 }

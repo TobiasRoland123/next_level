@@ -65,7 +65,6 @@ small {
 
 .spacer {
   @apply mx-6 mt-14 max-w-[1280px] md:mx-12 md:mt-20 lg:mx-20;
-
 }
 
 .calendarDatePickerMate tr {
@@ -100,6 +99,7 @@ small {
   opacity: 0.2;
   z-index: 25;
 }
+
 
 @media (min-width: 600px) {
   h1 {
@@ -232,7 +232,6 @@ small {
   syntax: "<angle>";
   initial-value: 132deg;
   inherits: false;
-
 }
 
 /* LOADER ANIMATION */
@@ -267,25 +266,17 @@ small {
 
 @-webkit-keyframes at-ripple-pink {
   0% {
-    box-shadow: 0 4px 10px rgba(255, 10, 27, 0.1),
-      0 0 0 0 rgba(255, 10, 27, 0.6), 0 0 0 5px rgba(255, 10, 27, 0.2),
-      0 0 0 10px rgba(255, 10, 27, 0.1);
+    box-shadow: 0 4px 10px rgba(255, 10, 27, 0.1), 0 0 0 0 rgba(255, 10, 27, 0.6), 0 0 0 5px rgba(255, 10, 27, 0.2), 0 0 0 10px rgba(255, 10, 27, 0.1);
   }
   100% {
-    box-shadow: 0 4px 10px rgba(255, 10, 27, 0.6),
-      0 0 0 5px rgba(255, 10, 27, 0.2), 0 0 0 10px rgba(255, 10, 27, 0.1),
-      0 0 0 20px rgba(255, 10, 27, 0);
+    box-shadow: 0 4px 10px rgba(255, 10, 27, 0.6), 0 0 0 5px rgba(255, 10, 27, 0.2), 0 0 0 10px rgba(255, 10, 27, 0.1), 0 0 0 20px rgba(255, 10, 27, 0);
   }
 }
 @keyframes at-ripple-pink {
   0% {
-    box-shadow: 0 4px 10px rgba(255, 10, 27, 0.1),
-      0 0 0 0 rgba(255, 10, 27, 0.6), 0 0 0 5px rgba(255, 10, 27, 0.2),
-      0 0 0 10px rgba(255, 10, 27, 0.1);
+    box-shadow: 0 4px 10px rgba(255, 10, 27, 0.1), 0 0 0 0 rgba(255, 10, 27, 0.6), 0 0 0 5px rgba(255, 10, 27, 0.2), 0 0 0 10px rgba(255, 10, 27, 0.1);
   }
   100% {
-    box-shadow: 0 4px 10px rgba(255, 10, 27, 0.6),
-      0 0 0 5px rgba(255, 10, 27, 0.2), 0 0 0 10px rgba(255, 10, 27, 0.1),
-      0 0 0 20px rgba(255, 10, 27, 0);
+    box-shadow: 0 4px 10px rgba(255, 10, 27, 0.6), 0 0 0 5px rgba(255, 10, 27, 0.2), 0 0 0 10px rgba(255, 10, 27, 0.1), 0 0 0 20px rgba(255, 10, 27, 0);
   }
 }
