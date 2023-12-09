@@ -32,7 +32,6 @@ export default function Login() {
       await signInWithEmail();
     } catch (error) {
       console.error("Error during login:", error);
-      // You can also display the error to the user or perform other actions here
     }
   };
 
@@ -43,7 +42,8 @@ export default function Login() {
     });
 
     if (error) {
-      throw new Error(error.message); // Throw an error if there is an error during sign-in
+      let errorMessage = "An error occurred during login.";
+      throw new Error(errorMessage);
     }
 
     if (data) {
