@@ -16,6 +16,8 @@ export function DatePicker(props: Matcher | Matcher[] | undefined) {
       disabled={props.disabledDays}
       onSelect={(newDate) => {
         setDate(newDate);
+        //@ts-ignore
+        props.onSelect(newDate);
         console.log(date);
       }}
       className="calendarDatePickerMate rounded-md shadow bg-contrastCol w-full"

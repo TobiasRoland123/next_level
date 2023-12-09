@@ -24,7 +24,7 @@ export const Header = ({ pageList }: HeaderProps) => {
     setIsOpen(!isOpen);
   };
 
-  console.log(pageList);
+  // console.log(pageList);
 
   return (
     <>

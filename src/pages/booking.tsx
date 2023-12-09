@@ -5,7 +5,7 @@ import { FaUserGroup } from "react-icons/fa6";
 import { FaCalendarAlt } from "react-icons/fa";
 import { IoTime } from "react-icons/io5";
 import { DatePicker } from "@/components/Calender/DatePicker";
-import { useState } from "react";
+import { ChangeEvent, MouseEvent, useState } from "react";
 import { BookingTypes } from "@/enum/BookingTimes";
 import { Matcher } from "react-day-picker";
 import { BTS, BookingArray, BookingTimeSlot, TimeSlot } from "@/Types/calendar";
@@ -21,27 +21,59 @@ export async function getServerSideProps() {
 }
 
 export default function Booking({ john }: { john: Bookings[] }) {
+  interface UserBooking {
+    amount?: number;
+    date?: string;
+    startTime?: TimeSlot;
+    endTime?: TimeSlot;
+  }
+
   const ledigeTider: Array<string> = ["14.00", "14.30", "15.00", "15.30", "16.00", "16.30", "17.00", "17.30", "18.00", "18.30", "19.00", "19.30", "20.00"];
+  const [userChoices, setUserChoices] = useState<UserBooking | undefined>();
   const [startTid, setStartTid] = useState<TimeSlot>({ time: "", index: undefined });
   const [slutTid, setSlutTid] = useState<TimeSlot>({ time: "", index: undefined });
   const [bTS, setBTS] = useState<BTS>([]);
+  const [selectedDate, setSelectedDate] = useState<Date>();
+
+  //Make same function and use Enums with a switch Statement
+  const handleAmountChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setUserChoices((prevData) => ({
+      ...prevData,
+      amount: Number(e.target.value),
+    }));
+  };
+
+  const handleDateChange = (e: string) => {
+    const date = new Date(e);
+    const Year = date.getFullYear();
+    const Month = String(date.getMonth() + 1).padStart(2, "0"); // Months are zero-indexed
+    const Day = String(date.getDate()).padStart(2, "0");
+
+    const FormattedDate = `${Number(Year)}, ${Number(Month)}, ${Number(Day)}`;
+    console.log("FormattedDate", FormattedDate);
+
+    setUserChoices((prevData) => ({
+      ...prevData,
+      date: FormattedDate,
+    }));
+  };
 
   function addTime(tid: string, index: number) {
-    console.log("We are in");
+    // console.log"We are in");
 
     if (!startTid.time && !slutTid.time) {
-      console.log("!startTid.time");
+      // console.log"!startTid.time");
       setStartTid({ time: tid, index: index });
       timesArray(index, BookingTypes.StartTime);
     } else if (!slutTid.time) {
-      console.log("!slutTid.time");
+      // console.log"!slutTid.time");
       if (startTid.index !== undefined && startTid.index < index) {
-        console.log("startTid.index < index");
+        // console.log"startTid.index < index");
         setSlutTid({ time: tid, index: index });
         timesArray(index, BookingTypes.EndTime);
         // @ts-ignore
       } else if (startTid.index > index) {
-        console.log("startTid.index > index");
+        // console.log"startTid.index > index");
         setStartTid({ time: tid, index: index });
         setSlutTid({ time: startTid.time, index: startTid.index });
         timesArray(index, BookingTypes.NewStartOldEnd);
@@ -52,13 +84,13 @@ export default function Booking({ john }: { john: Bookings[] }) {
     } else if (!startTid.time) {
       // @ts-ignore
       if (slutTid.index > index) {
-        console.log("slutTid.index > index");
+        // console.log"slutTid.index > index");
         setStartTid({ time: tid, index: index });
         timesArray(index, BookingTypes.SameEndNewStart);
 
         // @ts-ignore
       } else if (slutTid.index < index) {
-        console.log("slutTid.index < index");
+        // console.log"slutTid.index < index");
         setSlutTid({ time: tid, index: index });
         setStartTid({ time: slutTid.time, index: slutTid.index });
         timesArray(index, BookingTypes.OldStartNewEnd);
@@ -67,13 +99,13 @@ export default function Booking({ john }: { john: Bookings[] }) {
         timesArray(index, BookingTypes.Clear);
       }
     } else {
-      console.log("startTid.index && slutTid.index has value");
+      // console.log"startTid.index && slutTid.index has value");
       if (startTid.index === index) {
-        console.log("startTid.index === index");
+        // console.log"startTid.index === index");
         setStartTid({ time: "", index: undefined });
         timesArray(index, BookingTypes.KeepEndRemoveStart);
       } else if (slutTid.index === index) {
-        console.log("slutTid.index === index");
+        // console.log"slutTid.index === index");
         setSlutTid({ time: "", index: undefined });
         timesArray(index, BookingTypes.KeepStartRemoveEnd);
       } else {
@@ -84,27 +116,27 @@ export default function Booking({ john }: { john: Bookings[] }) {
         const diffSlut = Math.abs(slutTid.index - index); // Calculate absolute difference between constant2 and targetValue
 
         if (diffStart < diffSlut) {
-          console.log("Index closes to startTime");
+          // console.log"Index closes to startTime");
           setStartTid({ time: tid, index: index });
           timesArray(index, BookingTypes.StartLowerEnd);
         } else if (diffStart > diffSlut) {
-          console.log("Index closes to endTime");
+          // console.log"Index closes to endTime");
           setSlutTid({ time: tid, index: index });
           timesArray(index, BookingTypes.StartHigherEnd);
         } else {
-          console.log("Same same, tag og ændre startTiden");
+          // console.log"Same same, tag og ændre startTiden");
           setStartTid({ time: tid, index: index });
           timesArray(index, BookingTypes.StartLowerEnd);
         }
       }
       //@ts-ignore
-      console.log("vi er ved Total Time");
+      // console.log"vi er ved Total Time");
     }
-    console.log(`StartTid: ${startTid.time}, ${startTid.index}`);
-    console.log(`SlutTid: ${slutTid.time}, ${slutTid.index}`);
+    // console.log`StartTid: ${startTid.time}, ${startTid.index}`);
+    // console.log`SlutTid: ${slutTid.time}, ${slutTid.index}`);
   }
   function timesArray(index: number, value: string) {
-    console.log("bTS", bTS);
+    // console.log"bTS", bTS);
     let diffVal: number;
     let newArr: number | undefined[] = [];
     switch (value) {
@@ -114,7 +146,7 @@ export default function Booking({ john }: { john: Bookings[] }) {
       case BookingTypes.EndTime:
         //@ts-ignore
         diffVal = index - bTS[0];
-        console.log("diffVal1", diffVal);
+        // console.log"diffVal1", diffVal);
 
         for (let i = 0; i <= diffVal; i++) {
           //@ts-ignore
@@ -125,7 +157,7 @@ export default function Booking({ john }: { john: Bookings[] }) {
       case BookingTypes.NewStartOldEnd:
         //@ts-ignore
         diffVal = startTid.index - index;
-        console.log("diffVal2", diffVal);
+        // console.log"diffVal2", diffVal);
 
         for (let i = 0; i <= diffVal; i++) {
           //@ts-ignore
@@ -139,7 +171,7 @@ export default function Booking({ john }: { john: Bookings[] }) {
       case BookingTypes.SameEndNewStart:
         //@ts-ignore
         diffVal = (index - slutTid.index) * -1;
-        console.log("diffVal4", diffVal);
+        // console.log"diffVal4", diffVal);
 
         for (let i = 0; i <= diffVal; i++) {
           //@ts-ignore
@@ -150,7 +182,7 @@ export default function Booking({ john }: { john: Bookings[] }) {
       case BookingTypes.OldStartNewEnd:
         //@ts-ignore
         diffVal = startTid.index - index;
-        console.log("diffVal2", diffVal);
+        // console.log"diffVal2", diffVal);
 
         for (let i = 0; i <= diffVal; i++) {
           //@ts-ignore
@@ -167,7 +199,7 @@ export default function Booking({ john }: { john: Bookings[] }) {
       case BookingTypes.StartLowerEnd:
         //@ts-ignore
         diffVal = index - slutTid.index;
-        console.log("diffVal2", diffVal);
+        // console.log"diffVal2", diffVal);
 
         for (let i = 0; i <= diffVal; i++) {
           //@ts-ignore
@@ -178,7 +210,7 @@ export default function Booking({ john }: { john: Bookings[] }) {
       case BookingTypes.StartHigherEnd:
         //@ts-ignore
         diffVal = startTid.index - index;
-        console.log("diffVal2", diffVal);
+        // console.log"diffVal2", diffVal);
 
         for (let i = 0; i <= diffVal; i++) {
           //@ts-ignore
@@ -190,7 +222,7 @@ export default function Booking({ john }: { john: Bookings[] }) {
   const disabledDays123 = (numberOfDays: number): Matcher | Matcher[] | undefined => {
     const disabledDays: Date[] = [];
     const daysInWeek = 7;
-    console.log("numberOfDays", numberOfDays);
+    // console.log"numberOfDays", numberOfDays);
 
     for (let i = 0; i < numberOfDays; i++) {
       const currentDate = new Date();
@@ -233,9 +265,9 @@ export default function Booking({ john }: { john: Bookings[] }) {
             interface PCObjects {
               [pc: string]: BookingTimeSlot[];
             }
-            console.log("The date is between today and the latest possible day in the future.");
+            // console.log"The date is between today and the latest possible day in the future.");
             const PCS: PCObjects = { PC1: bookings[i].PC1, PC2: bookings[i].PC2, PC3: bookings[i].PC1, PC4: bookings[i].PC1, PC5: bookings[i].PC1 };
-            console.log(PCS);
+            // console.logPCS);
 
             // Create a new array to store the results
             const resultArray: BookingTimeSlot[] = [];
@@ -263,7 +295,7 @@ export default function Booking({ john }: { john: Bookings[] }) {
               }
             }
 
-            console.log("resultArray", resultArray);
+            // console.log"resultArray", resultArray);
             const PCLedigeTider = resultArray.some((slot, index) => {
               if (index < resultArray.length - 1) {
                 const nextSlot = resultArray[index + 1];
@@ -272,10 +304,10 @@ export default function Booking({ john }: { john: Bookings[] }) {
               return false;
             });
             if (PCLedigeTider === true) {
-              console.log(PCLedigeTider);
+              // console.logPCLedigeTider);
             } else {
-              console.log(PCLedigeTider);
-              console.log(new Date(bookings[i].date));
+              // console.logPCLedigeTider);
+              // console.lognew Date(bookings[i].date));
 
               disabledDays.push(new Date(bookings[i].date));
             }
@@ -283,7 +315,7 @@ export default function Booking({ john }: { john: Bookings[] }) {
         }
       }
     }
-    console.log("disabledDays", disabledDays);
+    // console.log"disabledDays", disabledDays);
 
     return disabledDays;
   };
@@ -306,7 +338,7 @@ export default function Booking({ john }: { john: Bookings[] }) {
                   <FaUserGroup className="inline-block mt-0.4" />
                   <span>Antal (max 5)</span>
                 </p>
-                <Input type="number" max={5} min={1} className="border-white"></Input>
+                <Input type="number" max={5} min={1} className="border-white" onChange={handleAmountChange}></Input>
               </div>
             </article>
             <article id="date" className="w-full">
@@ -322,6 +354,7 @@ export default function Booking({ john }: { john: Bookings[] }) {
                 <DatePicker
                   // @ts-ignore
                   disabledDays={disabledDays}
+                  onSelect={handleDateChange}
                 ></DatePicker>
               </div>
             </article>
@@ -334,8 +367,15 @@ export default function Booking({ john }: { john: Bookings[] }) {
                 <p className="mt-0 flex flex-row align-middle gap-x-2">
                   <IoTime className="inline-block mt-0.4" />
                   <span>Tid</span>
-                  <button onClick={() => console.log(bTS)}>Check State</button>
-                  <button onClick={() => console.log(john)}>Check Supabase</button>
+                  <button className="p-4 border border-white " onClick={() => console.log(bTS)}>
+                    Check State
+                  </button>
+                  <button className="p-4 border border-white " onClick={() => console.log(john)}>
+                    Check Supabase
+                  </button>
+                  <button className="p-4 border border-white " onClick={() => console.log(userChoices)}>
+                    Check Choices State
+                  </button>
                 </p>
                 <div className="mt-3">
                   {!startTid.time && !slutTid.time ? (
