@@ -15,7 +15,8 @@ export interface DateSchedule {
 
 export interface BookingTimeSlot {
   time: string;
-  booked: boolean;
+  booked?: boolean;
+  bookedCount?: number | undefined;
 }
 
 export type BTS = (number | undefined)[];

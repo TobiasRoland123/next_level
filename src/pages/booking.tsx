@@ -8,19 +8,24 @@ import { DatePicker } from "@/components/Calender/DatePicker";
 import { useState } from "react";
 import { BookingTypes } from "@/enum/BookingTimes";
 import { Matcher } from "react-day-picker";
-import { BTS, BookingArray, TimeSlot } from "@/Types/calendar";
+import { BTS, BookingArray, BookingTimeSlot, TimeSlot } from "@/Types/calendar";
 import { bookings } from "@/Types/bookingTestArray";
+import { supabase } from "../../utils/supabaseClient";
+import { Bookings } from "@/Types/Bookings";
+import { futureDays, pastDays } from "@/calendarFunctions/calendarFunctions";
 
-export default function Booking() {
+export async function getServerSideProps() {
+  let { data: john, error } = await supabase.from("Bookings").select("*");
+
+  return { props: { john } };
+}
+
+export default function Booking({ john }: { john: Bookings[] }) {
   const ledigeTider: Array<string> = ["14.00", "14.30", "15.00", "15.30", "16.00", "16.30", "17.00", "17.30", "18.00", "18.30", "19.00", "19.30", "20.00"];
   const [startTid, setStartTid] = useState<TimeSlot>({ time: "", index: undefined });
   const [slutTid, setSlutTid] = useState<TimeSlot>({ time: "", index: undefined });
   const [bTS, setBTS] = useState<BTS>([]);
 
-  function checkDates() {
-    console.log(bookings);
-  }
-  checkDates();
   function addTime(tid: string, index: number) {
     console.log("We are in");
 
@@ -182,10 +187,10 @@ export default function Booking() {
         break;
     }
   }
-
-  const disabledDays2 = (numberOfDays: number): Matcher | Matcher[] | undefined => {
+  const disabledDays123 = (numberOfDays: number): Matcher | Matcher[] | undefined => {
     const disabledDays: Date[] = [];
     const daysInWeek = 7;
+    console.log("numberOfDays", numberOfDays);
 
     for (let i = 0; i < numberOfDays; i++) {
       const currentDate = new Date();
@@ -204,34 +209,86 @@ export default function Booking() {
         disabledDays.push(new Date(formattedDate));
       }
     }
-    const futureDate = new Date();
-    futureDate.setDate(futureDate.getDate() + 14);
-    const fYear = futureDate.getFullYear();
-    const fMonth = String(futureDate.getMonth() + 1).padStart(2, "0"); // Months are zero-indexed
-    const fDay = String(futureDate.getDate()).padStart(2, "0");
 
-    // Format the date as "YYYY, MM, DD"
-    const fFormattedDate = `${Number(fYear)}, ${Number(fMonth)}, ${Number(fDay)}`;
-    //@ts-ignore
-    disabledDays.push({ from: new Date(fFormattedDate), to: new Date(2050, 1, 1) });
+    disabledDays.push(pastDays());
+    disabledDays.push(futureDays(numberOfDays));
+    // @ts-ignore
+    disabledDays.push(BookedDays(numberOfDays, john));
 
-    //past day
-    const pastDate = new Date();
-    pastDate.setDate(pastDate.getDate() - 1);
-    const pYear = pastDate.getFullYear();
-    const pMonth = String(pastDate.getMonth() + 1).padStart(2, "0"); // Months are zero-indexed
-    const pDay = String(pastDate.getDate()).padStart(2, "0");
+    function BookedDays(days: number, bookings: Bookings[]) {
+      if (bookings.length > 0) {
+        for (let i = 0; i < bookings.length; i++) {
+          const date = bookings[i].date;
+          const inputDate = new Date(date);
 
-    const pFormattedDate = `${Number(pYear)}, ${Number(pMonth)}, ${Number(pDay)}`;
-    //@ts-ignore
-    disabledDays.push({ from: new Date(2023, 1, 1), to: new Date(pFormattedDate) });
+          // Get the current date
+          const currentDate = new Date();
 
-    console.log(disabledDays);
+          // Calculate the date 14 days in the future
+          const futureDate = new Date();
+          futureDate.setDate(currentDate.getDate() + days);
+
+          // Check if the inputDate is between currentDate and futureDate
+          if (inputDate >= currentDate && inputDate <= futureDate) {
+            interface PCObjects {
+              [pc: string]: BookingTimeSlot[];
+            }
+            console.log("The date is between today and the latest possible day in the future.");
+            const PCS: PCObjects = { PC1: bookings[i].PC1, PC2: bookings[i].PC2, PC3: bookings[i].PC1, PC4: bookings[i].PC1, PC5: bookings[i].PC1 };
+            console.log(PCS);
+
+            // Create a new array to store the results
+            const resultArray: BookingTimeSlot[] = [];
+
+            // Iterate over each key in the inputObject
+            for (const pc in PCS) {
+              // Iterate over each entry for the current PC
+              for (const entry of PCS[pc]) {
+                // Find the corresponding entry in the resultArray or create a new one
+                const resultEntry: BookingTimeSlot | undefined = resultArray.find((item) => item.time === entry.time);
+
+                if (resultEntry) {
+                  // If the entry exists, update the count based on the booked status
+                  if (entry.booked) {
+                    resultEntry.bookedCount = (resultEntry.bookedCount || 0) + 1;
+                  }
+                } else {
+                  // If the entry doesn't exist, create a new one
+                  const newEntry = {
+                    time: entry.time,
+                    bookedCount: entry.booked ? 1 : 0,
+                  };
+                  resultArray.push(newEntry);
+                }
+              }
+            }
+
+            console.log("resultArray", resultArray);
+            const PCLedigeTider = resultArray.some((slot, index) => {
+              if (index < resultArray.length - 1) {
+                const nextSlot = resultArray[index + 1];
+                return slot.bookedCount !== 5 && nextSlot.bookedCount !== 5;
+              }
+              return false;
+            });
+            if (PCLedigeTider === true) {
+              console.log(PCLedigeTider);
+            } else {
+              console.log(PCLedigeTider);
+              console.log(new Date(bookings[i].date));
+
+              disabledDays.push(new Date(bookings[i].date));
+            }
+          }
+        }
+      }
+    }
+    console.log("disabledDays", disabledDays);
 
     return disabledDays;
   };
 
-  const disabledDays: Matcher | Matcher[] | undefined = disabledDays2(14);
+  const disabledDays: Matcher | Matcher[] | undefined = disabledDays123(21);
 
   return (
     <>
@@ -278,6 +335,7 @@ export default function Booking() {
                   <IoTime className="inline-block mt-0.4" />
                   <span>Tid</span>
                   <button onClick={() => console.log(bTS)}>Check State</button>
+                  <button onClick={() => console.log(john)}>Check Supabase</button>
                 </p>
                 <div className="mt-3">
                   {!startTid.time && !slutTid.time ? (
