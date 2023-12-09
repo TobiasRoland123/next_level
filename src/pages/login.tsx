@@ -23,17 +23,21 @@ import { zodResolver } from "@hookform/resolvers/zod";
 interface LoginProps {}
 
 export const Login: React.FC<LoginProps> = ({}) => {
+  const [supabaseError, setSupabaseError] = useState<string | null>(null);
+  const [isLoginValid, setIsLoginValid] = useState<boolean | null>(null);
   const supaUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const supaKey = process.env.NEXT_PUBLIC_SUPABASE_KEY;
   const router = useRouter();
 
   //   const supabase = createClientComponentClient();
   const [user, setUser] = useState({ email: "", password: "" });
+
   const supabase = createClient(
     "https://zwcshwxjwoffkdrdvbtp.supabase.co",
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp3Y3Nod3hqd29mZmtkcmR2YnRwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDEwNzg5NzgsImV4cCI6MjAxNjY1NDk3OH0.yq0erC0CIBZmUG9uMC8u1YVyG4g2dsf3PrpekxJDq34"
   );
 
+  // Errormessages for validation of the string in the input field.
   const formSchema = z.object({
     email: z.string().email("Indtast en gyldig email"),
     password: z.string().min(6, { message: "Password skal være min 6 tegn" }),
@@ -57,17 +61,24 @@ export const Login: React.FC<LoginProps> = ({}) => {
 
   const handleLogin = async (values: z.infer<typeof formSchema>) => {
     try {
+      setSupabaseError(null);
+      setIsLoginValid(null);
+
       const { data, error } = await supabase.auth.signInWithPassword({
         email: values.email,
         password: values.password,
       });
 
+      // ! Set errormessage for Supabase here.
       if (error) {
-        let errorMessage = "An error occurred during login.";
+        let errorMessage = "Forkert password eller email!";
+        setSupabaseError(errorMessage); // Set the error message
+        setIsLoginValid(false);
         throw new Error(errorMessage);
       }
 
       if (data) {
+        setIsLoginValid(true);
         router.push("/admin");
       }
     } catch (error) {
@@ -75,32 +86,16 @@ export const Login: React.FC<LoginProps> = ({}) => {
     }
   };
 
-  // async function signInWithEmail() {
-  //   const { data, error } = await supabase.auth.signInWithPassword({
-  //     email: user.email,
-  //     password: user.password,
-  //   });
-
-  //   if (error) {
-  //     let errorMessage = "An error occurred during login.";
-  //     throw new Error(errorMessage);
-  //   }
-
-  //   if (data) {
-  //     router.push("/admin");
-  //   }
-  // }
-
-  // const onSubmit = async (values: z.infer<typeof formSchema>) => {
-  //   console.log(values);
-  // };
   return (
     <>
       <main className="flex justify-center pb-10 ">
         <section className=" bg-contrastCol/50 backdrop-blur-sm mt-28 mx-4 px-4 py-6 rounded-sm h-fit  ">
-          <h3 className=" mb-4">
-            Login to acess <span className="text-accentCol">admin page</span>
-          </h3>
+          <h3>Login to access admin page</h3>
+          {isLoginValid === false ? (
+            <h4 className="text-accentCol shake">{supabaseError}</h4>
+          ) : (
+            <h4 className="text-transparent">Placeholder text</h4>
+          )}
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(handleLogin)}
@@ -115,21 +110,29 @@ export const Login: React.FC<LoginProps> = ({}) => {
                     <FormControl>
                       <div
                         style={{ position: "relative" }}
-                        className={form.formState.errors.email ? "shake" : ""}
+                        className={
+                          form.formState.errors.email || isLoginValid === false
+                            ? "shake"
+                            : ""
+                        }
                       >
                         <Input
                           style={{
-                            borderColor: form.formState.isSubmitted
-                              ? form.formState.errors.email
+                            borderColor:
+                              form.formState.isSubmitted &&
+                              (form.formState.errors.email ||
+                                isLoginValid === false)
                                 ? "red"
-                                : "green"
-                              : "none",
+                                : isLoginValid === true
+                                ? "green"
+                                : "none",
                           }}
                           {...field}
                           id="email"
                           type="email"
                         />
-                        {form.formState.errors.email ? (
+                        {form.formState.errors.email ||
+                        isLoginValid === false ? (
                           <div className="absolute top-2 right-0 pr-3 flex items-center pointer-events-none">
                             <div>
                               <MdError className={"text-red-500 text-2xl"} />
@@ -167,22 +170,29 @@ export const Login: React.FC<LoginProps> = ({}) => {
                       <div
                         style={{ position: "relative" }}
                         className={
-                          form.formState.errors.password ? "shake" : ""
+                          form.formState.errors.password ||
+                          isLoginValid === false
+                            ? "shake"
+                            : ""
                         }
                       >
                         <Input
                           style={{
-                            borderColor: form.formState.isSubmitted
-                              ? form.formState.errors.password
+                            borderColor:
+                              form.formState.isSubmitted &&
+                              (form.formState.errors.password ||
+                                isLoginValid === false)
                                 ? "red"
-                                : "green"
-                              : "none",
+                                : isLoginValid === true
+                                ? "green"
+                                : "none",
                           }}
                           {...field}
                           id="password"
                           type="password"
                         />
-                        {form.formState.errors.password ? (
+                        {form.formState.errors.password ||
+                        isLoginValid === false ? (
                           <div className="absolute top-2 right-0 pr-3 flex items-center pointer-events-none">
                             <div>
                               <MdError className={"text-red-500 text-2xl"} />
