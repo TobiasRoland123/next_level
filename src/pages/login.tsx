@@ -34,7 +34,7 @@ export const Login: React.FC<LoginProps> = ({}) => {
 
   const formSchema = z.object({
     email: z.string().email("Indtast en gyldig email"),
-    password: z.string().min(6, { message: "Password er min 6 langt" }),
+    password: z.string().min(6, { message: "Password skal være min 6 tegn" }),
   });
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -53,31 +53,45 @@ export const Login: React.FC<LoginProps> = ({}) => {
     router.push("/admin");
   }
 
-  const handleLogin = async (e: FormEvent) => {
-    e.preventDefault();
-    console.log("user", user);
+  const handleLogin = async (values: z.infer<typeof formSchema>) => {
     try {
-      await signInWithEmail();
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: values.email,
+        password: values.password,
+      });
+
+      if (error) {
+        let errorMessage = "An error occurred during login.";
+        throw new Error(errorMessage);
+      }
+
+      if (data) {
+        router.push("/admin");
+      }
     } catch (error) {
       console.error("Error:", error);
     }
   };
 
-  async function signInWithEmail() {
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email: user.email,
-      password: user.password,
-    });
+  // async function signInWithEmail() {
+  //   const { data, error } = await supabase.auth.signInWithPassword({
+  //     email: user.email,
+  //     password: user.password,
+  //   });
 
-    if (error) {
-      let errorMessage = "An error occurred during login.";
-      throw new Error(errorMessage);
-    }
+  //   if (error) {
+  //     let errorMessage = "An error occurred during login.";
+  //     throw new Error(errorMessage);
+  //   }
 
-    if (data) {
-      router.push("/admin");
-    }
-  }
+  //   if (data) {
+  //     router.push("/admin");
+  //   }
+  // }
+
+  // const onSubmit = async (values: z.infer<typeof formSchema>) => {
+  //   console.log(values);
+  // };
   return (
     <>
       <main className="flex justify-center pb-10 ">
@@ -87,7 +101,7 @@ export const Login: React.FC<LoginProps> = ({}) => {
           </h3>
           <Form {...form}>
             <form
-              onSubmit={handleLogin}
+              onSubmit={form.handleSubmit(handleLogin)}
               className="w-full"
             >
               <FormField
@@ -98,12 +112,9 @@ export const Login: React.FC<LoginProps> = ({}) => {
                     <FormLabel>Email</FormLabel>
                     <FormControl>
                       <Input
-                        value={user.email}
+                        {...field}
                         id="email"
                         type="email"
-                        onChange={(e) =>
-                          setUser({ ...user, email: e.target.value })
-                        }
                       />
                     </FormControl>
                     <FormDescription className="text-transparent">
@@ -122,13 +133,9 @@ export const Login: React.FC<LoginProps> = ({}) => {
                     <FormLabel>Password</FormLabel>
                     <FormControl>
                       <Input
-                        value={user.password}
+                        {...field}
                         id="password"
                         type="password"
-                        className="mb-4"
-                        onChange={(e) =>
-                          setUser({ ...user, password: e.target.value })
-                        }
                       />
                     </FormControl>
                     <FormDescription className="text-transparent">
