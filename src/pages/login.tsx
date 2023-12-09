@@ -12,7 +12,10 @@ export default function Login() {
 
   //   const supabase = createClientComponentClient();
   const [user, setUser] = useState({ email: "", password: "" });
-  const supabase = createClient("https://zwcshwxjwoffkdrdvbtp.supabase.co", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp3Y3Nod3hqd29mZmtkcmR2YnRwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDEwNzg5NzgsImV4cCI6MjAxNjY1NDk3OH0.yq0erC0CIBZmUG9uMC8u1YVyG4g2dsf3PrpekxJDq34");
+  const supabase = createClient(
+    "https://zwcshwxjwoffkdrdvbtp.supabase.co",
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp3Y3Nod3hqd29mZmtkcmR2YnRwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDEwNzg5NzgsImV4cCI6MjAxNjY1NDk3OH0.yq0erC0CIBZmUG9uMC8u1YVyG4g2dsf3PrpekxJDq34"
+  );
   getSession();
   async function getSession() {
     const { data, error } = await supabase.auth.getSession();
@@ -38,14 +41,30 @@ export default function Login() {
   }
   return (
     <>
-      <main className="w-fit max-w-main pb-10 ">
+      <main className="flex justify-center pb-10 ">
         <section className=" bg-contrastCol/50 backdrop-blur-sm mt-28 mx-4 px-4 py-6 rounded-sm h-fit  ">
           <h3 className=" mb-4">
             Login to acess <span className="text-accentCol">admin page</span>
           </h3>
-          <form onSubmit={handleLogin} className="w-full">
-            <Input value={user.email} id="email" labelText="Email" type="email" onChange={(e) => setUser({ ...user, email: e.target.value })}></Input>
-            <Input value={user.password} id="password" labelText="Password" type="password" className="mb-4" onChange={(e) => setUser({ ...user, password: e.target.value })}></Input>
+          <form
+            onSubmit={handleLogin}
+            className="w-full"
+          >
+            <Input
+              value={user.email}
+              id="email"
+              labelText="Email"
+              type="email"
+              onChange={(e) => setUser({ ...user, email: e.target.value })}
+            ></Input>
+            <Input
+              value={user.password}
+              id="password"
+              labelText="Password"
+              type="password"
+              className="mb-4"
+              onChange={(e) => setUser({ ...user, password: e.target.value })}
+            ></Input>
             <Button>Login</Button>
           </form>
         </section>
