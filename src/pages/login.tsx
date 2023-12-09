@@ -24,10 +24,16 @@ export default function Login() {
     }
     router.push("/admin");
   }
-  const handleLogin = (e: FormEvent) => {
+
+  const handleLogin = async (e: FormEvent) => {
     e.preventDefault();
     console.log("user", user);
-    signInWithEmail();
+    try {
+      await signInWithEmail();
+    } catch (error) {
+      console.error("Error during login:", error);
+      // You can also display the error to the user or perform other actions here
+    }
   };
 
   async function signInWithEmail() {
@@ -35,6 +41,11 @@ export default function Login() {
       email: user.email,
       password: user.password,
     });
+
+    if (error) {
+      throw new Error(error.message); // Throw an error if there is an error during sign-in
+    }
+
     if (data) {
       router.push("/admin");
     }
