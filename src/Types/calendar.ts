@@ -28,4 +28,11 @@ export interface PCObjects {
   [pc: string]: BookingTimeSlot[] | undefined;
 }
 
+export interface UserBooking {
+  amount?: number;
+  date?: string;
+  startTime?: TimeSlot;
+  endTime?: TimeSlot;
+}
+
 export type BTS = (number | undefined)[];

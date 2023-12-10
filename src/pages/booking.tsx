@@ -8,7 +8,7 @@ import { DatePicker } from "@/components/Calender/DatePicker";
 import { ChangeEvent, MouseEvent, useState } from "react";
 import { BookingTypes } from "@/enum/BookingTimes";
 import { Matcher } from "react-day-picker";
-import { BTS, BookingArray, BookingTimeSlot, PCObjects, TimeSlot, TimeSlotOptions } from "@/Types/calendar";
+import { BTS, BookingArray, BookingTimeSlot, PCObjects, TimeSlot, TimeSlotOptions, UserBooking } from "@/Types/calendar";
 import { bookings } from "@/Types/bookingTestArray";
 import { supabase } from "../../utils/supabaseClient";
 import { Bookings } from "@/Types/Bookings";
@@ -24,13 +24,6 @@ export async function getServerSideProps() {
 }
 
 export default function Booking({ john }: { john: Bookings[] }) {
-  interface UserBooking {
-    amount?: number;
-    date?: string;
-    startTime?: TimeSlot;
-    endTime?: TimeSlot;
-  }
-
   const [userChoices, setUserChoices] = useState<UserBooking | undefined>();
   const [startTid, setStartTid] = useState<TimeSlot>({ time: "", index: undefined });
   const [slutTid, setSlutTid] = useState<TimeSlot>({ time: "", index: undefined });
@@ -124,11 +117,13 @@ export default function Booking({ john }: { john: Bookings[] }) {
 
   function addTime(tid: string, index: number) {
     console.log("hello");
-    // console.log"We are in");
 
-    if (!startTid.time && !slutTid.time) {
-      // console.log"!startTid.time");
+    if ((!userChoices?.startTime?.time || userChoices?.startTime?.index !== undefined) && (!userChoices?.endTime?.time || userChoices?.endTime?.index !== undefined)) {
       setStartTid({ time: tid, index: index });
+      setUserChoices((prevData) => ({
+        ...prevData,
+        startTime: { time: tid, index: index },
+      }));
       timesArray(index, BookingTypes.StartTime);
     } else if (!slutTid.time) {
       // console.log"!slutTid.time");
@@ -141,9 +136,20 @@ export default function Booking({ john }: { john: Bookings[] }) {
         // console.log"startTid.index > index");
         setStartTid({ time: tid, index: index });
         setSlutTid({ time: startTid.time, index: startTid.index });
+        //@ts-ignore
+        setUserChoices((prevData) => ({
+          ...prevData,
+          startTime: { time: tid, index: index },
+          endTime: { time: userChoices?.startTime?.time, index: userChoices?.startTime?.index },
+        }));
         timesArray(index, BookingTypes.NewStartOldEnd);
       } else if (startTid.index === index) {
         setStartTid({ time: "", index: undefined });
+        //@ts-ignore
+        setUserChoices((prevData) => ({
+          ...prevData,
+          startTime: { time: "", index: undefined },
+        }));
         timesArray(index, BookingTypes.Clear);
       }
     } else if (!startTid.time) {
@@ -151,6 +157,11 @@ export default function Booking({ john }: { john: Bookings[] }) {
       if (slutTid.index > index) {
         // console.log"slutTid.index > index");
         setStartTid({ time: tid, index: index });
+        //@ts-ignore
+        setUserChoices((prevData) => ({
+          ...prevData,
+          startTime: { time: tid, index: index },
+        }));
         timesArray(index, BookingTypes.SameEndNewStart);
 
         // @ts-ignore
@@ -158,9 +169,20 @@ export default function Booking({ john }: { john: Bookings[] }) {
         // console.log"slutTid.index < index");
         setSlutTid({ time: tid, index: index });
         setStartTid({ time: slutTid.time, index: slutTid.index });
+        //@ts-ignore
+        setUserChoices((prevData) => ({
+          ...prevData,
+          endTime: { time: tid, index: index },
+          startTime: { time: userChoices?.endTime?.time, index: userChoices?.endTime?.index },
+        }));
         timesArray(index, BookingTypes.OldStartNewEnd);
       } else if (slutTid.index === index) {
         setSlutTid({ time: "", index: undefined });
+        //@ts-ignore
+        setUserChoices((prevData) => ({
+          ...prevData,
+          endTime: { time: "", index: undefined },
+        }));
         timesArray(index, BookingTypes.Clear);
       }
     } else {
@@ -168,10 +190,19 @@ export default function Booking({ john }: { john: Bookings[] }) {
       if (startTid.index === index) {
         // console.log"startTid.index === index");
         setStartTid({ time: "", index: undefined });
+        //@ts-ignore
+        setUserChoices((prevData) => ({
+          ...prevData,
+          startTime: { time: "", index: undefined },
+        }));
         timesArray(index, BookingTypes.KeepEndRemoveStart);
       } else if (slutTid.index === index) {
         // console.log"slutTid.index === index");
         setSlutTid({ time: "", index: undefined });
+        setUserChoices((prevData) => ({
+          ...prevData,
+          endTime: { time: "", index: undefined },
+        }));
         timesArray(index, BookingTypes.KeepStartRemoveEnd);
       } else {
         // @ts-ignore
@@ -183,14 +214,26 @@ export default function Booking({ john }: { john: Bookings[] }) {
         if (diffStart < diffSlut) {
           // console.log"Index closes to startTime");
           setStartTid({ time: tid, index: index });
+          setUserChoices((prevData) => ({
+            ...prevData,
+            startTime: { time: tid, index: index },
+          }));
           timesArray(index, BookingTypes.StartLowerEnd);
         } else if (diffStart > diffSlut) {
           // console.log"Index closes to endTime");
           setSlutTid({ time: tid, index: index });
+          setUserChoices((prevData) => ({
+            ...prevData,
+            endTime: { time: tid, index: index },
+          }));
           timesArray(index, BookingTypes.StartHigherEnd);
         } else {
           // console.log"Same same, tag og ændre startTiden");
           setStartTid({ time: tid, index: index });
+          setUserChoices((prevData) => ({
+            ...prevData,
+            startTime: { time: tid, index: index },
+          }));
           timesArray(index, BookingTypes.StartLowerEnd);
         }
       }
@@ -326,7 +369,7 @@ export default function Booking({ john }: { john: Bookings[] }) {
           futureDate.setDate(currentDate.getDate() + days);
 
           // Check if the inputDate is between currentDate and futureDate
-          if (inputDate >= currentDate && inputDate <= futureDate) {
+          if (inputDate >= currentDate && inputDate <= futureDate && userChoices?.amount !== undefined) {
             // console.log"The date is between today and the latest possible day in the future.");
             const PCS: PCObjects = { PC1: bookings[i].PC1, PC2: bookings[i].PC2, PC3: bookings[i].PC1, PC4: bookings[i].PC1, PC5: bookings[i].PC1 };
             // console.logPCS);
@@ -360,9 +403,12 @@ export default function Booking({ john }: { john: Bookings[] }) {
 
             // console.log"resultArray", resultArray);
             const PCLedigeTider = resultArray.some((slot, index) => {
-              if (index < resultArray.length - 1) {
+              //@ts-ignore
+              const maxPC = 5 - userChoices?.amount;
+              if (index < resultArray.length - 1 && slot.bookedCount !== undefined) {
                 const nextSlot = resultArray[index + 1];
-                return slot.bookedCount !== 5 && nextSlot.bookedCount !== 5;
+                //@ts-ignore
+                return slot.bookedCount < maxPC && nextSlot.bookedCount < maxPC;
               }
               return false;
             });
@@ -439,6 +485,9 @@ export default function Booking({ john }: { john: Bookings[] }) {
                   <button className="p-4 border border-white " onClick={() => console.log(userChoices)}>
                     Check Choices State
                   </button>
+                  <button className="p-4 border border-white " onClick={() => console.log(bookingDateTimes)}>
+                    Check Boking Date Times
+                  </button>
                 </p>
                 <div className="mt-3">
                   {!startTid.time && !slutTid.time ? (
@@ -463,7 +512,7 @@ export default function Booking({ john }: { john: Bookings[] }) {
                   {bookingDateTimes.map((time: BookingTimeSlot, index: number) => (
                     <div className="relative flex gap-2 flex-wrap mt-3">
                       {time.booked ? (
-                        <BookedTimeSlot time={time} index={index} allTimes={bookingDateTimes} />
+                        <BookedTimeSlot time={time} index={index} allTimes={bookingDateTimes} userChoices={userChoices} />
                       ) : (
                         //  <input type="checkbox" name="tid" id={time.time} key={index} className="absolute z-0 opacity-0 peer" defaultChecked={bTS.includes(index)} disabled={time.booked} />
                         // <label
@@ -477,7 +526,7 @@ export default function Booking({ john }: { john: Bookings[] }) {
                         // >
                         //   {time.time}
                         // </label>
-                        <AvailibleTimeSlot className={(startTid.index !== undefined && slutTid.index !== undefined && startTid.index !== null && slutTid.index !== null && index >= startTid.index && index <= slutTid.index) || startTid.index === index || slutTid.index === index ? "z-10 min-w-[85px] text-center py-2 border border-accentCol font-semibold transition ease-in-out duration-150 cursor-pointer bg-accentCol " : "z-10 min-w-[85px] text-center py-2 border border-accentCol font-semibold transition ease-in-out duration-150 cursor-pointer "} defaultChecked={bTS.includes(index)} index={index} onClick={() => addTime(time.time, index)} time={time} />
+                        <AvailibleTimeSlot className={userChoices?.startTime?.index !== undefined && userChoices?.endTime?.index !== undefined && index >= userChoices?.startTime?.index && index <= userChoices?.endTime?.index ? "z-10 min-w-[85px] text-center py-2 border border-accentCol font-semibold transition ease-in-out duration-150 cursor-pointer bg-accentCol " : "z-10 min-w-[85px] text-center py-2 border border-accentCol font-semibold transition ease-in-out duration-150 cursor-pointer "} defaultChecked={bTS.includes(index)} index={index} onClick={() => addTime(time.time, index)} time={time} />
                       )}
                     </div>
                   ))}
