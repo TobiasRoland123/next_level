@@ -23,6 +23,7 @@ export const SelectField: React.FC<SelectFieldProps> = ({ onSelectChange, select
           <SelectItem value="firma-event">Firma event</SelectItem>
           <SelectItem value="turnering">Turnering</SelectItem>
           <SelectItem value="andet">Andet</SelectItem>
+          <SelectItem value="nlp">NLP-rummet</SelectItem>
         </SelectContent>
       </Select>
     </>
