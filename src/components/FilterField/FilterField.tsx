@@ -1,10 +1,18 @@
-import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Input, InputProps } from "../Inputfields/Inputfield";
-import { on } from "stream";
-import { useEffect, useState } from "react";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { Input, InputProps } from '../Inputfields/Inputfield';
+import { on } from 'stream';
+import { useEffect, useState } from 'react';
 
 interface filterFieldProps {
-  filterType: "dropDown" | "search";
+  filterType: 'dropDown' | 'search';
   dropDownHeader?: string;
   dropDownItems?: Array<string>;
   inputPlaceholder?: string;
@@ -12,9 +20,15 @@ interface filterFieldProps {
   onChange: (value: string, type: string) => void;
 }
 
-export const FilterField = ({ filterType, dropDownHeader, dropDownItems, inputPlaceholder, onChange }: filterFieldProps) => {
-  const [inputValue, setInputValue] = useState("");
-  const valueType = dropDownHeader?.toLowerCase() || inputPlaceholder?.toLowerCase() || "";
+export const FilterField = ({
+  filterType,
+  dropDownHeader,
+  dropDownItems,
+  inputPlaceholder,
+  onChange,
+}: filterFieldProps) => {
+  const [inputValue, setInputValue] = useState('');
+  const valueType = dropDownHeader?.toLowerCase() || inputPlaceholder?.toLowerCase() || '';
 
   // console.log("This is valueType", valueType);
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -22,34 +36,34 @@ export const FilterField = ({ filterType, dropDownHeader, dropDownItems, inputPl
   };
 
   useEffect(() => {
-    onChange(inputValue, "search");
+    onChange(inputValue, 'search');
   }, [inputValue]);
 
   return (
     <>
-      {filterType === "dropDown" ? (
+      {filterType === 'dropDown' ? (
         <Select
-          onValueChange={(chosenValue) => {
+          onValueChange={chosenValue => {
             onChange(chosenValue, valueType);
           }}
         >
-          <SelectTrigger className=" max-w-[250px] ">
-            <SelectValue placeholder={dropDownHeader ? dropDownHeader : "Filips dejlige mor"} />
+          <SelectTrigger className=' max-w-[250px] '>
+            <SelectValue placeholder={dropDownHeader ? dropDownHeader : 'Filips dejlige mor'} />
           </SelectTrigger>
           <SelectContent>
-            {dropDownItems?.map((item) => {
+            {dropDownItems?.map(item => {
               return <SelectItem value={item}>{item}</SelectItem>;
             })}
           </SelectContent>
         </Select>
       ) : (
         <Input
-          type="search"
+          type='search'
           isSearch
           value={inputValue}
           placeholder={inputPlaceholder}
           onChange={handleInputChange}
-          isEmpty={inputValue === ""}
+          isEmpty={inputValue === ''}
         />
       )}
     </>
