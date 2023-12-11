@@ -132,6 +132,7 @@ export default function Booking({ john }: { john: Bookings[] }) {
         } else if (userChoices?.endTime?.index === index) {
           console.log('userChoices?.endTime?.index === index');
           editBookedTimes(tid, index, BookingTypes.SingleValueStart);
+          //@ts-ignore
           setTimeChosen({ time: userChoices.startTime.time, index: userChoices.startTime.index });
           //@ts-ignore
           setBookTimes([userChoices?.startTime?.time]);
@@ -144,9 +145,9 @@ export default function Booking({ john }: { john: Bookings[] }) {
           console.log('Check hvilken værdi som er tættest på tid/index, skift rundt');
 
           // Skal der køres script her som tjekker om der er nogle booked dates i mellem?
-
+          //@ts-ignore
           const diffStart = Math.abs(userChoices?.startTime?.index - index); // Calculate absolute difference between constant1 and targetValue
-
+          //@ts-ignore
           const diffSlut = Math.abs(userChoices?.endTime?.index - index); // Calculate absolute difference between constant2 and targetValue
 
           console.log('diffStart:', diffStart, 'diffSlut:', diffSlut);
