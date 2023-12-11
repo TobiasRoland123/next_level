@@ -77,7 +77,7 @@ const GameCard = forwardRef<HTMLDivElement, GameCardProps>(
                       ))}
                   </div>
                   <div className='w-full h-full'>
-                    <h4 className='mt-0'>{Name}</h4>
+                    <h4 className='mt-0 md:truncate md:max-w-[15ch]'>{Name}</h4>
                     <motion.div
                       initial='default'
                       animate={isHovered ? { width: '100%' } : { width: '0%' }}
@@ -91,7 +91,7 @@ const GameCard = forwardRef<HTMLDivElement, GameCardProps>(
           </DialogTrigger>
 
           {!IsAdmin && (
-            <DialogContent className='w-5/6 grid h-[60vh] lg:h-[80vh] lg:max-h-[600px] overflow-y-scroll max-w-[800px] p-0'>
+            <DialogContent className='w-5/6 grid min-h-fit lg:max-h-[600px] overflow-y-scroll max-w-[800px] p-0'>
               <div className='h-[160px] col-start-1 row-start-1 rounded-t'>
                 <Image
                   src={`${Image_}`}
@@ -107,7 +107,7 @@ const GameCard = forwardRef<HTMLDivElement, GameCardProps>(
               <div className='px-4 flex flex-col gap-3'>
                 <div className='flex items-center gap-2 flex-wrap justify-between'>
                   <div>
-                    <h3 className='mt-0'>{Name}</h3>
+                    <h3 className='mt-0 '>{Name}</h3>
                     <div className='w-1/3 h-[2px]  bg-accentCol rounded'></div>
                   </div>
                   <div className='flex gap-3'>
