@@ -63,6 +63,7 @@ export const SpilListe = () => {
   /* Filter funktion */
 
   const gameTags = [
+    { name: 'Alle', value: -1 },
     { name: 'Action', value: 0 },
     { name: 'Adventure', value: 1 },
     { name: 'RPG', value: 2 },
