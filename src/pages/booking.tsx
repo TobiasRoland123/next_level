@@ -1,33 +1,33 @@
-import { Layout } from "@/Layout";
-import { Hero } from "@/modules/Hero/Hero";
-import { Input } from "@/components/Inputfields/Inputfield";
-import { FaUserGroup } from "react-icons/fa6";
-import { FaCalendarAlt } from "react-icons/fa";
-import { IoTime } from "react-icons/io5";
-import { DatePicker } from "@/components/Calender/DatePicker";
-import { ChangeEvent, MouseEvent, useState } from "react";
-import { BookingTypes } from "@/enum/BookingTimes";
-import { Matcher } from "react-day-picker";
-import { BTS, BookingArray, BookingTimeSlot, PCObjects, TimeSlot, TimeSlotOptions, UserBooking } from "@/Types/calendar";
-import { bookings } from "@/Types/bookingTestArray";
-import { supabase } from "../../utils/supabaseClient";
-import { Bookings } from "@/Types/Bookings";
-import { futureDays, pastDays } from "@/calendarFunctions/calendarFunctions";
-import timeSlots from "@/Types/TimesArray";
-import { AvailibleTimeSlot } from "@/components/AvailibleTimeSlot/AvailibleTimeSlot";
-import { BookedTimeSlot } from "@/components/BookedTimeSlot/BookedTimeSlot";
+import { Layout } from '@/Layout';
+import { Hero } from '@/modules/Hero/Hero';
+import { Input } from '@/components/Inputfields/Inputfield';
+import { FaUserGroup } from 'react-icons/fa6';
+import { FaCalendarAlt } from 'react-icons/fa';
+import { IoTime } from 'react-icons/io5';
+import { DatePicker } from '@/components/Calender/DatePicker';
+import { ChangeEvent, useState } from 'react';
+import { BookingTypes } from '@/enum/BookingTimes';
+import { Matcher } from 'react-day-picker';
+import { BookingTimeSlot, PCObjects, TimeSlot, TimeSlotOptions, UserBooking } from '@/Types/calendar';
+import { supabase } from '../../utils/supabaseClient';
+import { Bookings } from '@/Types/Bookings';
+import { futureDays, pastDays } from '@/calendarFunctions/calendarFunctions';
+import timeSlots from '@/Types/TimesArray';
+import { AvailibleTimeSlot } from '@/components/AvailibleTimeSlot/AvailibleTimeSlot';
+import { BookedTimeSlot } from '@/components/BookedTimeSlot/BookedTimeSlot';
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 
 export async function getServerSideProps() {
-  let { data: john, error } = await supabase.from("Bookings").select("*");
+  let { data: john, error } = await supabase.from('Bookings').select('*');
 
   return { props: { john } };
 }
 
 export default function Booking({ john }: { john: Bookings[] }) {
   const [userChoices, setUserChoices] = useState<UserBooking | undefined>();
-  const [startTid, setStartTid] = useState<TimeSlot>({ time: "", index: undefined });
-  const [slutTid, setSlutTid] = useState<TimeSlot>({ time: "", index: undefined });
-  const [bTS, setBTS] = useState<BTS>([]);
+  const [openDialogAlert, setOpenDialogAlert] = useState(false);
+  const [timeChosen, setTimeChosen] = useState<TimeSlot>({ time: '', index: undefined });
+  const [bookTimes, setBookTimes] = useState<string[]>([]);
   const [bookingDateTimes, setBookingDateTimes] = useState<BookingTimeSlot[]>(timeSlots);
 
   //Make same function and use Enums with a switch Statement
@@ -41,17 +41,18 @@ export default function Booking({ john }: { john: Bookings[] }) {
   const handleDateChange = (e: string) => {
     const date = new Date(e);
     const Year = date.getFullYear();
-    const Month = String(date.getMonth() + 1).padStart(2, "0"); // Months are zero-indexed
-    const Day = String(date.getDate()).padStart(2, "0");
+    const Month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-indexed
+    const Day = String(date.getDate()).padStart(2, '0');
 
     const FormattedDate = `${Number(Year)}-${Number(Month)}-${Number(Day)}`;
-    console.log("FormattedDate", FormattedDate);
+    console.log('FormattedDate', FormattedDate);
 
     setUserChoices((prevData) => ({
       ...prevData,
       date: FormattedDate,
     }));
     bookingTimes(FormattedDate);
+    editBookedTimes('', 0, BookingTypes.ClearAll);
   };
 
   function bookingTimes(chosenDate: string) {
@@ -116,217 +117,467 @@ export default function Booking({ john }: { john: Bookings[] }) {
   }
 
   function addTime(tid: string, index: number) {
-    console.log("hello");
+    console.log('hello');
+    console.log('timeChosen', timeChosen);
+    console.log('bookTimes', bookTimes);
+    console.log('Knnap tid', tid);
 
-    if ((!userChoices?.startTime?.time || userChoices?.startTime?.index !== undefined) && (!userChoices?.endTime?.time || userChoices?.endTime?.index !== undefined)) {
-      setStartTid({ time: tid, index: index });
-      setUserChoices((prevData) => ({
-        ...prevData,
-        startTime: { time: tid, index: index },
-      }));
-      timesArray(index, BookingTypes.StartTime);
-    } else if (!slutTid.time) {
-      // console.log"!slutTid.time");
-      if (startTid.index !== undefined && startTid.index < index) {
-        // console.log"startTid.index < index");
-        setSlutTid({ time: tid, index: index });
-        timesArray(index, BookingTypes.EndTime);
-        // @ts-ignore
-      } else if (startTid.index > index) {
-        // console.log"startTid.index > index");
-        setStartTid({ time: tid, index: index });
-        setSlutTid({ time: startTid.time, index: startTid.index });
-        //@ts-ignore
-        setUserChoices((prevData) => ({
-          ...prevData,
-          startTime: { time: tid, index: index },
-          endTime: { time: userChoices?.startTime?.time, index: userChoices?.startTime?.index },
-        }));
-        timesArray(index, BookingTypes.NewStartOldEnd);
-      } else if (startTid.index === index) {
-        setStartTid({ time: "", index: undefined });
-        //@ts-ignore
-        setUserChoices((prevData) => ({
-          ...prevData,
-          startTime: { time: "", index: undefined },
-        }));
-        timesArray(index, BookingTypes.Clear);
-      }
-    } else if (!startTid.time) {
-      // @ts-ignore
-      if (slutTid.index > index) {
-        // console.log"slutTid.index > index");
-        setStartTid({ time: tid, index: index });
-        //@ts-ignore
-        setUserChoices((prevData) => ({
-          ...prevData,
-          startTime: { time: tid, index: index },
-        }));
-        timesArray(index, BookingTypes.SameEndNewStart);
-
-        // @ts-ignore
-      } else if (slutTid.index < index) {
-        // console.log"slutTid.index < index");
-        setSlutTid({ time: tid, index: index });
-        setStartTid({ time: slutTid.time, index: slutTid.index });
-        //@ts-ignore
-        setUserChoices((prevData) => ({
-          ...prevData,
-          endTime: { time: tid, index: index },
-          startTime: { time: userChoices?.endTime?.time, index: userChoices?.endTime?.index },
-        }));
-        timesArray(index, BookingTypes.OldStartNewEnd);
-      } else if (slutTid.index === index) {
-        setSlutTid({ time: "", index: undefined });
-        //@ts-ignore
-        setUserChoices((prevData) => ({
-          ...prevData,
-          endTime: { time: "", index: undefined },
-        }));
-        timesArray(index, BookingTypes.Clear);
-      }
-    } else {
-      // console.log"startTid.index && slutTid.index has value");
-      if (startTid.index === index) {
-        // console.log"startTid.index === index");
-        setStartTid({ time: "", index: undefined });
-        //@ts-ignore
-        setUserChoices((prevData) => ({
-          ...prevData,
-          startTime: { time: "", index: undefined },
-        }));
-        timesArray(index, BookingTypes.KeepEndRemoveStart);
-      } else if (slutTid.index === index) {
-        // console.log"slutTid.index === index");
-        setSlutTid({ time: "", index: undefined });
-        setUserChoices((prevData) => ({
-          ...prevData,
-          endTime: { time: "", index: undefined },
-        }));
-        timesArray(index, BookingTypes.KeepStartRemoveEnd);
-      } else {
-        // @ts-ignore
-        const diffStart = Math.abs(startTid.index - index); // Calculate absolute difference between constant1 and targetValue
-
-        // @ts-ignore
-        const diffSlut = Math.abs(slutTid.index - index); // Calculate absolute difference between constant2 and targetValue
-
-        if (diffStart < diffSlut) {
-          // console.log"Index closes to startTime");
-          setStartTid({ time: tid, index: index });
+    if (timeChosen.index === undefined) {
+      console.log('!timeChosen');
+      if (userChoices?.startTime?.index || userChoices?.endTime?.index) {
+        console.log('userChoices?.startTime?.index && userChoices?.endTime?.index');
+        if (userChoices?.startTime?.index === index) {
+          console.log('userChoices?.startTime?.index === index');
+          editBookedTimes(tid, index, BookingTypes.SingleValueEnd);
+        } else if (userChoices?.endTime?.index === index) {
+          console.log('userChoices?.endTime?.index === index');
+          editBookedTimes(tid, index, BookingTypes.SingleValueStart);
+          setTimeChosen({ time: userChoices.startTime.time, index: userChoices.startTime.index });
+          //@ts-ignore
+          setBookTimes([userChoices?.startTime?.time]);
           setUserChoices((prevData) => ({
             ...prevData,
-            startTime: { time: tid, index: index },
+            endTime: { time: '', index: undefined },
+            startTime: { time: '', index: undefined },
           }));
-          timesArray(index, BookingTypes.StartLowerEnd);
-        } else if (diffStart > diffSlut) {
-          // console.log"Index closes to endTime");
-          setSlutTid({ time: tid, index: index });
+        } else {
+          console.log('Check hvilken værdi som er tættest på tid/index, skift rundt');
+
+          // Skal der køres script her som tjekker om der er nogle booked dates i mellem?
+
+          const diffStart = Math.abs(userChoices?.startTime?.index - index); // Calculate absolute difference between constant1 and targetValue
+
+          const diffSlut = Math.abs(userChoices?.endTime?.index - index); // Calculate absolute difference between constant2 and targetValue
+
+          console.log('diffStart:', diffStart, 'diffSlut:', diffSlut);
+
+          if (diffStart < diffSlut) {
+            // console.log"Index closes to startTime");
+            editBookedTimes(tid, index, BookingTypes.UpdateStart);
+            // timesArray(index, BookingTypes.StartLowerEnd);
+          } else if (diffStart > diffSlut) {
+            // console.log"Index closes to endTime");
+            editBookedTimes(tid, index, BookingTypes.UpdateEnd);
+            // timesArray(index, BookingTypes.StartHigherEnd);
+          } else {
+            editBookedTimes(tid, index, BookingTypes.UpdateStart);
+          }
+        }
+      } else {
+        console.log('UserChoices Empty --> timeChosen = tid + index');
+        editBookedTimes(tid, index, BookingTypes.SingleValue);
+      }
+    } else if (timeChosen.index === index) {
+      console.log('Sæt timeChosen === ()');
+      editBookedTimes(tid, index, BookingTypes.ClearTimeChosen);
+      setTimeChosen({ time: '', index: undefined });
+    } else if (timeChosen.index !== index && timeChosen.index !== undefined) {
+      if (timeChosen.index < index) {
+        console.log('timeChosen er lavere end index - Sæt timeChosen til starr.');
+        editBookedTimes(tid, index, BookingTypes.SetStartToTimeChosen);
+      } else if (timeChosen.index > index) {
+        console.log('timeChosen højere end index - Sæt timeChosen til end.');
+        editBookedTimes(tid, index, BookingTypes.SetEndToTimeChosen);
+      }
+    }
+    console.log(timeChosen);
+  }
+
+  function editBookedTimes(tid: string, index: number, statement: string | undefined) {
+    let isolatedArray: BookingTimeSlot[];
+    let bookInstance: boolean;
+    let newBookTimes: string[] = [];
+
+    switch (statement) {
+      case BookingTypes.SingleValue:
+        setBookTimes([tid]);
+        setTimeChosen({ time: tid, index: index });
+        setUserChoices((prevData) => ({
+          ...prevData,
+          startTime: { time: '', index: undefined },
+          endTime: { time: '', index: undefined },
+        }));
+        break;
+      case BookingTypes.SingleValueEnd:
+        if (userChoices?.endTime?.index !== undefined) {
+          setTimeChosen({ time: userChoices.endTime.time, index: userChoices.endTime.index });
+          //@ts-ignore
+          setBookTimes([userChoices?.endTime?.time]);
+          setUserChoices((prevData) => ({
+            ...prevData,
+            startTime: { time: '', index: undefined },
+            endTime: { time: '', index: undefined },
+          }));
+        }
+        break;
+      case BookingTypes.SingleValueStart:
+        if (userChoices?.startTime?.index !== undefined) {
+          setTimeChosen({ time: userChoices.startTime.time, index: userChoices.startTime.index });
+          //@ts-ignore
+          setBookTimes([userChoices?.startTime?.time]);
+          setUserChoices((prevData) => ({
+            ...prevData,
+            endTime: { time: '', index: undefined },
+            startTime: { time: '', index: undefined },
+          }));
+        }
+        break;
+      case BookingTypes.ClearTimeChosen:
+        setBookTimes([]);
+        break;
+      case BookingTypes.SetStartToTimeChosen:
+        console.log('SetStartToTimeChosen');
+        //Set startTime to same value as timeChosen and set endTime to the new value "tid" - IF no booked spaces between, else come with error
+        //@ts-ignore
+        isolatedArray = bookingDateTimes.slice(timeChosen.index, index + 1);
+        bookInstance = isolatedArray.some((el) => el.booked === true);
+
+        if (bookInstance) {
+          // Lav en Alert Dialog som kommer op. Vælg ny tid.
+          setOpenDialogAlert(true);
+        } else {
           setUserChoices((prevData) => ({
             ...prevData,
             endTime: { time: tid, index: index },
+            startTime: { time: timeChosen.time, index: timeChosen.index },
           }));
-          timesArray(index, BookingTypes.StartHigherEnd);
+          setTimeChosen({ time: '', index: undefined });
+          for (let i = 0; i < isolatedArray.length; i++) {
+            newBookTimes.push(isolatedArray[i].time);
+          }
+          setBookTimes(newBookTimes);
+        }
+        break;
+      case BookingTypes.SetEndToTimeChosen:
+        console.log('SetEndToTimeChosen');
+
+        //Set endTime to same value as timeChosen and set startTime to the new value "tid" - IF no booked spaces between, else come with error
+        //@ts-ignore
+        isolatedArray = bookingDateTimes.slice(index, timeChosen.index + 1);
+        bookInstance = isolatedArray.some((el) => el.booked === true);
+
+        if (bookInstance) {
+          // Lav en Alert Dialog som kommer op. Vælg ny tid.
+          setOpenDialogAlert(true);
         } else {
-          // console.log"Same same, tag og ændre startTiden");
-          setStartTid({ time: tid, index: index });
           setUserChoices((prevData) => ({
             ...prevData,
             startTime: { time: tid, index: index },
+            endTime: { time: timeChosen.time, index: timeChosen.index },
           }));
-          timesArray(index, BookingTypes.StartLowerEnd);
+          setTimeChosen({ time: '', index: undefined });
+          for (let i = 0; i < isolatedArray.length; i++) {
+            newBookTimes.push(isolatedArray[i].time);
+          }
+          setBookTimes(newBookTimes);
         }
-      }
-      //@ts-ignore
-      // console.log"vi er ved Total Time");
+        break;
+      case BookingTypes.UpdateStart:
+        //Index er tættest på start, så det er denne der skal opdateres - hvis ikke der er bookinger i vejen!
+        console.log('index: ', index, 'timeChosen', timeChosen.index);
+        if (userChoices?.startTime?.index !== undefined && index > userChoices?.startTime?.index) {
+          //@ts-ignore
+          isolatedArray = bookingDateTimes.slice(userChoices.startTime.index, index + 1);
+          console.log('isolatedArry - StartTime to Index', isolatedArray);
+          bookInstance = isolatedArray.some((el) => el.booked === true);
+
+          if (bookInstance) {
+            setOpenDialogAlert(true);
+          } else {
+            //@ts-ignore
+            let newBookArray: BookingTimeSlot[] = bookingDateTimes.slice(index, userChoices?.endTime?.index + 1);
+            for (let i = 0; i < newBookArray.length; i++) {
+              newBookTimes.push(newBookArray[i].time);
+            }
+            setBookTimes(newBookTimes);
+            setUserChoices((prevData) => ({
+              ...prevData,
+              startTime: { time: tid, index: index },
+            }));
+          }
+        } else if (userChoices?.startTime?.index !== undefined && index < userChoices?.startTime.index) {
+          //@ts-ignore
+          isolatedArray = bookingDateTimes.slice(index, userChoices.startTime.index + 1);
+          console.log('isolatedArry - StartTime to Index', isolatedArray);
+          bookInstance = isolatedArray.some((el) => el.booked === true);
+
+          if (bookInstance) {
+            setOpenDialogAlert(true);
+          } else {
+            //@ts-ignore
+            let newBookArray: BookingTimeSlot[] = bookingDateTimes.slice(index, userChoices?.endTime?.index + 1);
+            for (let i = 0; i < newBookArray.length; i++) {
+              newBookTimes.push(newBookArray[i].time);
+            }
+            setBookTimes(newBookTimes);
+            setUserChoices((prevData) => ({
+              ...prevData,
+              startTime: { time: tid, index: index },
+            }));
+          }
+        }
+        break;
+      case BookingTypes.UpdateEnd:
+        console.log('index: ', index, 'timeChosen', timeChosen.index);
+        if (userChoices?.endTime?.index !== undefined && index > userChoices?.endTime?.index) {
+          //@ts-ignore
+          isolatedArray = bookingDateTimes.slice(userChoices.endTime.index, index + 1);
+          console.log('isolatedArry - endTime to Index', isolatedArray);
+          bookInstance = isolatedArray.some((el) => el.booked === true);
+
+          if (bookInstance) {
+            setOpenDialogAlert(true);
+          } else {
+            let newBookArray: BookingTimeSlot[] = bookingDateTimes.slice(userChoices?.startTime?.index, index + 1);
+            for (let i = 0; i < newBookArray.length; i++) {
+              newBookTimes.push(newBookArray[i].time);
+            }
+            setBookTimes(newBookTimes);
+            setUserChoices((prevData) => ({
+              ...prevData,
+              endTime: { time: tid, index: index },
+            }));
+          }
+        } else if (userChoices?.endTime?.index !== undefined && index < userChoices?.endTime.index) {
+          //@ts-ignore
+          isolatedArray = bookingDateTimes.slice(index, userChoices.endTime.index + 1);
+          console.log('isolatedArry - Index to EndTime', isolatedArray);
+          bookInstance = isolatedArray.some((el) => el.booked === true);
+
+          if (bookInstance) {
+            setOpenDialogAlert(true);
+          } else {
+            let newBookArray: BookingTimeSlot[] = bookingDateTimes.slice(userChoices?.startTime?.index, index + 1);
+            for (let i = 0; i < newBookArray.length; i++) {
+              newBookTimes.push(newBookArray[i].time);
+            }
+            setBookTimes(newBookTimes);
+            setUserChoices((prevData) => ({
+              ...prevData,
+              endTime: { time: tid, index: index },
+            }));
+          }
+        }
+        break;
+      case BookingTypes.ClearAll:
+        setTimeChosen({ time: '', index: undefined });
+        setBookTimes([]);
+        setUserChoices((prevData) => ({
+          ...prevData,
+          endTime: { time: '', index: undefined },
+          startTime: { time: '', index: undefined },
+        }));
+        break;
     }
-    // console.log`StartTid: ${startTid.time}, ${startTid.index}`);
-    // console.log`SlutTid: ${slutTid.time}, ${slutTid.index}`);
   }
-  function timesArray(index: number, value: string) {
-    // console.log"bTS", bTS);
-    let diffVal: number;
-    let newArr: number | undefined[] = [];
-    switch (value) {
-      case BookingTypes.StartTime:
-        setBTS([index]);
-        break;
-      case BookingTypes.EndTime:
-        //@ts-ignore
-        diffVal = index - bTS[0];
-        // console.log"diffVal1", diffVal);
 
-        for (let i = 0; i <= diffVal; i++) {
-          //@ts-ignore
-          newArr.push(startTid.index + i);
-        }
-        setBTS(newArr);
-        break;
-      case BookingTypes.NewStartOldEnd:
-        //@ts-ignore
-        diffVal = startTid.index - index;
-        // console.log"diffVal2", diffVal);
+  // if ((!userChoices?.startTime?.time || userChoices?.startTime?.index !== undefined) && (!userChoices?.endTime?.time || userChoices?.endTime?.index !== undefined)) {
+  //   setUserChoices((prevData) => ({
+  //     ...prevData,
+  //     startTime: { time: tid, index: index },
+  //   }));
+  //   timesArray(index, BookingTypes.StartTime);
+  // } else if (!userChoices?.endTime?.time) {
+  //   if (startTid.index !== undefined && startTid.index < index) {
+  //     // console.log"startTid.index < index");
+  //     setSlutTid({ time: tid, index: index });
+  //     timesArray(index, BookingTypes.EndTime);
+  //     // @ts-ignore
+  //   } else if (startTid.index > index) {
+  //     // console.log"startTid.index > index");
+  //     setStartTid({ time: tid, index: index });
+  //     setSlutTid({ time: startTid.time, index: startTid.index });
+  //     //@ts-ignore
+  //     setUserChoices((prevData) => ({
+  //       ...prevData,
+  //       startTime: { time: tid, index: index },
+  //       endTime: { time: userChoices?.startTime?.time, index: userChoices?.startTime?.index },
+  //     }));
+  //     timesArray(index, BookingTypes.NewStartOldEnd);
+  //   } else if (startTid.index === index) {
+  //     setStartTid({ time: "", index: undefined });
+  //     //@ts-ignore
+  //     setUserChoices((prevData) => ({
+  //       ...prevData,
+  //       startTime: { time: "", index: undefined },
+  //     }));
+  //     timesArray(index, BookingTypes.Clear);
+  //   }
+  // } else if (!startTid.time) {
+  //   // @ts-ignore
+  //   if (slutTid.index > index) {
+  //     // console.log"slutTid.index > index");
+  //     setStartTid({ time: tid, index: index });
+  //     //@ts-ignore
+  //     setUserChoices((prevData) => ({
+  //       ...prevData,
+  //       startTime: { time: tid, index: index },
+  //     }));
+  //     timesArray(index, BookingTypes.SameEndNewStart);
 
-        for (let i = 0; i <= diffVal; i++) {
-          //@ts-ignore
-          newArr.push(index + i);
-        }
-        setBTS(newArr);
-        break;
-      case BookingTypes.Clear:
-        setBTS([]);
-        break;
-      case BookingTypes.SameEndNewStart:
-        //@ts-ignore
-        diffVal = (index - slutTid.index) * -1;
-        // console.log"diffVal4", diffVal);
+  //     // @ts-ignore
+  //   } else if (slutTid.index < index) {
+  //     // console.log"slutTid.index < index");
+  //     setSlutTid({ time: tid, index: index });
+  //     setStartTid({ time: slutTid.time, index: slutTid.index });
+  //     //@ts-ignore
+  //     setUserChoices((prevData) => ({
+  //       ...prevData,
+  //       endTime: { time: tid, index: index },
+  //       startTime: { time: userChoices?.endTime?.time, index: userChoices?.endTime?.index },
+  //     }));
+  //     timesArray(index, BookingTypes.OldStartNewEnd);
+  //   } else if (slutTid.index === index) {
+  //     setSlutTid({ time: "", index: undefined });
+  //     //@ts-ignore
+  //     setUserChoices((prevData) => ({
+  //       ...prevData,
+  //       endTime: { time: "", index: undefined },
+  //     }));
+  //     timesArray(index, BookingTypes.Clear);
+  //   }
+  // } else {
+  //   // console.log"startTid.index && slutTid.index has value");
+  //   if (startTid.index === index) {
+  //     // console.log"startTid.index === index");
+  //     setStartTid({ time: "", index: undefined });
+  //     //@ts-ignore
+  //     setUserChoices((prevData) => ({
+  //       ...prevData,
+  //       startTime: { time: "", index: undefined },
+  //     }));
+  //     timesArray(index, BookingTypes.KeepEndRemoveStart);
+  //   } else if (slutTid.index === index) {
+  //     // console.log"slutTid.index === index");
+  //     setSlutTid({ time: "", index: undefined });
+  //     setUserChoices((prevData) => ({
+  //       ...prevData,
+  //       endTime: { time: "", index: undefined },
+  //     }));
+  //     timesArray(index, BookingTypes.KeepStartRemoveEnd);
+  //   } else {
+  //     // @ts-ignore
+  //     const diffStart = Math.abs(startTid.index - index); // Calculate absolute difference between constant1 and targetValue
 
-        for (let i = 0; i <= diffVal; i++) {
-          //@ts-ignore
-          newArr.push(index + i);
-        }
-        setBTS(newArr);
-        break;
-      case BookingTypes.OldStartNewEnd:
-        //@ts-ignore
-        diffVal = startTid.index - index;
-        // console.log"diffVal2", diffVal);
+  //     // @ts-ignore
+  //     const diffSlut = Math.abs(slutTid.index - index); // Calculate absolute difference between constant2 and targetValue
 
-        for (let i = 0; i <= diffVal; i++) {
-          //@ts-ignore
-          newArr.push(index + i);
-        }
-        setBTS(newArr);
-        break;
-      case BookingTypes.KeepEndRemoveStart:
-        setBTS([slutTid.index]);
-        break;
-      case BookingTypes.KeepStartRemoveEnd:
-        setBTS([startTid.index]);
-        break;
-      case BookingTypes.StartLowerEnd:
-        //@ts-ignore
-        diffVal = index - slutTid.index;
-        // console.log"diffVal2", diffVal);
+  //     if (diffStart < diffSlut) {
+  //       // console.log"Index closes to startTime");
+  //       setStartTid({ time: tid, index: index });
+  //       setUserChoices((prevData) => ({
+  //         ...prevData,
+  //         startTime: { time: tid, index: index },
+  //       }));
+  //       timesArray(index, BookingTypes.StartLowerEnd);
+  //     } else if (diffStart > diffSlut) {
+  //       // console.log"Index closes to endTime");
+  //       setSlutTid({ time: tid, index: index });
+  //       setUserChoices((prevData) => ({
+  //         ...prevData,
+  //         endTime: { time: tid, index: index },
+  //       }));
+  //       timesArray(index, BookingTypes.StartHigherEnd);
+  //     } else {
+  //       // console.log"Same same, tag og ændre startTiden");
+  //       setStartTid({ time: tid, index: index });
+  //       setUserChoices((prevData) => ({
+  //         ...prevData,
+  //         startTime: { time: tid, index: index },
+  //       }));
+  //       timesArray(index, BookingTypes.StartLowerEnd);
+  //     }
+  //   }
+  //   //@ts-ignore
+  //   // console.log"vi er ved Total Time");
+  // }
+  // console.log`StartTid: ${startTid.time}, ${startTid.index}`);
+  // console.log`SlutTid: ${slutTid.time}, ${slutTid.index}`);
 
-        for (let i = 0; i <= diffVal; i++) {
-          //@ts-ignore
-          newArr.push(index + i);
-        }
-        setBTS(newArr);
-        break;
-      case BookingTypes.StartHigherEnd:
-        //@ts-ignore
-        diffVal = startTid.index - index;
-        // console.log"diffVal2", diffVal);
+  // function timesArray(index: number, value: string) {
+  //   // console.log"bTS", bTS);
+  //   let diffVal: number;
+  //   let newArr: number | undefined[] = [];
+  //   switch (value) {
+  //     case BookingTypes.StartTime:
+  //       setBTS([index]);
+  //       break;
+  //     case BookingTypes.EndTime:
+  //       //@ts-ignore
+  //       diffVal = index - bTS[0];
+  //       // console.log"diffVal1", diffVal);
 
-        for (let i = 0; i <= diffVal; i++) {
-          //@ts-ignore
-          newArr.push(index + i);
-        }
-        break;
-    }
-  }
+  //       for (let i = 0; i <= diffVal; i++) {
+  //         //@ts-ignore
+  //         newArr.push(startTid.index + i);
+  //       }
+  //       setBTS(newArr);
+  //       break;
+  //     case BookingTypes.NewStartOldEnd:
+  //       //@ts-ignore
+  //       diffVal = startTid.index - index;
+  //       // console.log"diffVal2", diffVal);
+
+  //       for (let i = 0; i <= diffVal; i++) {
+  //         //@ts-ignore
+  //         newArr.push(index + i);
+  //       }
+  //       setBTS(newArr);
+  //       break;
+  //     case BookingTypes.Clear:
+  //       setBTS([]);
+  //       break;
+  //     case BookingTypes.SameEndNewStart:
+  //       //@ts-ignore
+  //       diffVal = (index - slutTid.index) * -1;
+  //       // console.log"diffVal4", diffVal);
+
+  //       for (let i = 0; i <= diffVal; i++) {
+  //         //@ts-ignore
+  //         newArr.push(index + i);
+  //       }
+  //       setBTS(newArr);
+  //       break;
+  //     case BookingTypes.OldStartNewEnd:
+  //       //@ts-ignore
+  //       diffVal = startTid.index - index;
+  //       // console.log"diffVal2", diffVal);
+
+  //       for (let i = 0; i <= diffVal; i++) {
+  //         //@ts-ignore
+  //         newArr.push(index + i);
+  //       }
+  //       setBTS(newArr);
+  //       break;
+  //     case BookingTypes.KeepEndRemoveStart:
+  //       setBTS([slutTid.index]);
+  //       break;
+  //     case BookingTypes.KeepStartRemoveEnd:
+  //       setBTS([startTid.index]);
+  //       break;
+  //     case BookingTypes.StartLowerEnd:
+  //       //@ts-ignore
+  //       diffVal = index - slutTid.index;
+  //       // console.log"diffVal2", diffVal);
+
+  //       for (let i = 0; i <= diffVal; i++) {
+  //         //@ts-ignore
+  //         newArr.push(index + i);
+  //       }
+  //       setBTS(newArr);
+  //       break;
+  //     case BookingTypes.StartHigherEnd:
+  //       //@ts-ignore
+  //       diffVal = startTid.index - index;
+  //       // console.log"diffVal2", diffVal);
+
+  //       for (let i = 0; i <= diffVal; i++) {
+  //         //@ts-ignore
+  //         newArr.push(index + i);
+  //       }
+  //       break;
+  //   }
+  // }
   const disabledDays123 = (numberOfDays: number): Matcher | Matcher[] | undefined => {
     const disabledDays: Date[] = [];
     const daysInWeek = 7;
@@ -340,8 +591,8 @@ export default function Booking({ john }: { john: Bookings[] }) {
       // 5 corresponds to Friday and 6 corresponds to Saturday
       if (dayOfWeek === 5 || dayOfWeek === 6) {
         const year = currentDate.getFullYear();
-        const month = String(currentDate.getMonth() + 1).padStart(2, "0"); // Months are zero-indexed
-        const day = String(currentDate.getDate()).padStart(2, "0");
+        const month = String(currentDate.getMonth() + 1).padStart(2, '0'); // Months are zero-indexed
+        const day = String(currentDate.getDate()).padStart(2, '0');
 
         // Format the date as "YYYY, MM, DD"
         const formattedDate = `${Number(year)}, ${Number(month)}, ${Number(day)}`;
@@ -384,7 +635,6 @@ export default function Booking({ john }: { john: Bookings[] }) {
               for (const entry of PCS[pc]) {
                 // Find the corresponding entry in the resultArray or create a new one
                 const resultEntry: BookingTimeSlot | undefined = resultArray.find((item) => item.time === entry.time);
-
                 if (resultEntry) {
                   // If the entry exists, update the count based on the booked status
                   if (entry.booked) {
@@ -435,29 +685,29 @@ export default function Booking({ john }: { john: Bookings[] }) {
     <>
       <Layout>
         <main>
-          <Hero header="Book DK's mest unikke gaming oplevelse" redWord={["unikke"]} isFrontPage={false} content="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam non urna aliquet, mollis lacus sed, dignissim lectus. Curabitur eget diam volutpat, facilisis massa nec, varius nulla." />
+          <Hero header="Book DK's mest unikke gaming oplevelse" redWord={['unikke']} isFrontPage={false} content='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam non urna aliquet, mollis lacus sed, dignissim lectus. Curabitur eget diam volutpat, facilisis massa nec, varius nulla.' />
           <section>
-            <article id="antalGuests" className="w-full">
-              <div className="bg-contrastCol mt-8 p-4 lg:block">
-                <h4 className="mt-0">Hvor mange kommer i?</h4>
+            <article id='antalGuests' className='w-full'>
+              <div className='bg-contrastCol mt-8 p-4 lg:block'>
+                <h4 className='mt-0'>Hvor mange kommer i?</h4>
                 <p> For at vi kan checke om der er PC'er nok til jer, så vil vi gerne vide hvor mang i kommer. </p>
               </div>
-              <div className="bg-contrastCol md:mt-8 p-4 lg:block">
-                <p className="mt-0 flex flex-row align-middle gap-x-2">
-                  <FaUserGroup className="inline-block mt-0.4" />
+              <div className='bg-contrastCol md:mt-8 p-4 lg:block'>
+                <p className='mt-0 flex flex-row align-middle gap-x-2'>
+                  <FaUserGroup className='inline-block mt-0.4' />
                   <span>Antal (max 5)</span>
                 </p>
-                <Input type="number" max={5} min={1} className="border-white" onChange={handleAmountChange}></Input>
+                <Input type='number' max={5} min={1} className='border-white' onChange={handleAmountChange}></Input>
               </div>
             </article>
-            <article id="date" className="w-full">
-              <div className="bg-contrastCol mt-8 p-4 lg:block">
-                <h4 className="mt-0">Hvilken dag vil i komme?</h4>
+            <article id='date' className='w-full'>
+              <div className='bg-contrastCol mt-8 p-4 lg:block'>
+                <h4 className='mt-0'>Hvilken dag vil i komme?</h4>
                 <p> I kan booke tid 14 dage frem og alle ledige datoer vil være markeret med grøn farve. Dage vi er fuldt bookede er market med rød.</p>
               </div>
-              <div className="bg-contrastCol md:mt-8 p-4 lg:block">
-                <p className="mt-0 flex flex-row align-middle gap-x-2">
-                  <FaCalendarAlt className="inline-block mt-0.4" />
+              <div className='bg-contrastCol md:mt-8 p-4 lg:block'>
+                <p className='mt-0 flex flex-row align-middle gap-x-2'>
+                  <FaCalendarAlt className='inline-block mt-0.4' />
                   <span>Dato</span>
                 </p>
                 <DatePicker
@@ -467,50 +717,52 @@ export default function Booking({ john }: { john: Bookings[] }) {
                 ></DatePicker>
               </div>
             </article>
-            <article id="time" className="w-full">
-              <div className="bg-contrastCol mt-8 p-4 lg:block">
-                <h4 className="mt-0">Hvor længe skal i game?</h4>
+            <article id='time' className='w-full'>
+              <div className='bg-contrastCol mt-8 p-4 lg:block'>
+                <h4 className='mt-0'>Hvor længe skal i game?</h4>
                 <p>Vi booker i tidsrummet 14.00 - 20.00, vælg hvor mange timer og hvornår i vil booke pc'er, ud fra de ledige tider for neden</p>
               </div>
-              <div className="bg-contrastCol md:mt-8 p-4 lg:block">
-                <p className="mt-0 flex flex-row align-middle gap-x-2">
-                  <IoTime className="inline-block mt-0.4" />
+              <div className='bg-contrastCol md:mt-8 p-4 lg:block'>
+                <p className='mt-0 flex flex-row align-middle gap-x-2'>
+                  <IoTime className='inline-block mt-0.4' />
                   <span>Tid</span>
-                  <button className="p-4 border border-white " onClick={() => console.log(bTS)}>
-                    Check State
+                  <button className='p-4 border border-white ' onClick={() => console.log(bookTimes)}>
+                    Check Booking Status
                   </button>
-                  <button className="p-4 border border-white " onClick={() => console.log(john)}>
+                  <button className='p-4 border border-white ' onClick={() => console.log(john)}>
                     Check Supabase
                   </button>
-                  <button className="p-4 border border-white " onClick={() => console.log(userChoices)}>
+                  <button className='p-4 border border-white ' onClick={() => console.log(userChoices)}>
                     Check Choices State
                   </button>
-                  <button className="p-4 border border-white " onClick={() => console.log(bookingDateTimes)}>
+                  <button className='p-4 border border-white ' onClick={() => console.log(timeChosen)}>
+                    Check timeChosen
+                  </button>
+                  <button className='p-4 border border-white ' onClick={() => console.log(bookingDateTimes)}>
                     Check Boking Date Times
                   </button>
                 </p>
-                <div className="mt-3">
-                  {!startTid.time && !slutTid.time ? (
-                    ""
+                <div className='mt-3'>
+                  {userChoices?.startTime?.index === undefined || userChoices?.endTime?.time === undefined ? (
+                    <p>
+                      {' '}
+                      Tispunkt: <span className='font-semibold'> {timeChosen.time} </span>
+                    </p>
                   ) : (
                     <p>
                       Tidspunkt:
-                      {!startTid.time ? "" : <span className="font-semibold"> {startTid.time} </span>} -{!slutTid.time ? "" : <span className="font-semibold"> {slutTid.time} </span>}
-                      {!startTid.time || !slutTid.time ? (
-                        ""
-                      ) : (
-                        <span>
-                          Timer:
-                          {/* @ts-ignore */}
-                          {Math.abs(startTid.index - slutTid.index) / 2}
-                        </span>
-                      )}
+                      <span className='font-semibold'> {userChoices?.startTime?.time} </span> -<span className='font-semibold'> {userChoices?.endTime?.time} </span>
+                      <span>
+                        Timer:
+                        {/* @ts-ignore */}
+                        {Math.abs(userChoices?.startTime?.index - userChoices?.endTime?.index) / 2}
+                      </span>
                     </p>
                   )}
                 </div>
-                <div className=" timeslots flex gap-2 flex-wrap mt-3">
+                <div className=' timeslots flex gap-2 flex-wrap mt-3'>
                   {bookingDateTimes.map((time: BookingTimeSlot, index: number) => (
-                    <div className="relative flex gap-2 flex-wrap mt-3">
+                    <div className='relative flex gap-2 flex-wrap mt-3'>
                       {time.booked ? (
                         <BookedTimeSlot time={time} index={index} allTimes={bookingDateTimes} userChoices={userChoices} />
                       ) : (
@@ -526,16 +778,28 @@ export default function Booking({ john }: { john: Bookings[] }) {
                         // >
                         //   {time.time}
                         // </label>
-                        <AvailibleTimeSlot className={userChoices?.startTime?.index !== undefined && userChoices?.endTime?.index !== undefined && index >= userChoices?.startTime?.index && index <= userChoices?.endTime?.index ? "z-10 min-w-[85px] text-center py-2 border border-accentCol font-semibold transition ease-in-out duration-150 cursor-pointer bg-accentCol " : "z-10 min-w-[85px] text-center py-2 border border-accentCol font-semibold transition ease-in-out duration-150 cursor-pointer "} defaultChecked={bTS.includes(index)} index={index} onClick={() => addTime(time.time, index)} time={time} />
+                        <AvailibleTimeSlot className={bookTimes.includes(time.time) ? 'z-10 min-w-[85px] text-center py-2 border border-accentCol font-semibold transition ease-in-out duration-150 cursor-pointer bg-accentCol' : 'z-10 min-w-[85px] text-center py-2 border border-accentCol font-semibold transition ease-in-out duration-150 cursor-pointer'} defaultChecked={bookTimes.includes(time.time)} index={index} onClick={() => addTime(time.time, index)} time={time} />
                       )}
                     </div>
                   ))}
+                  <AlertDialog open={openDialogAlert} onOpenChange={setOpenDialogAlert}>
+                    <AlertDialogContent>
+                      <AlertDialogHeader>
+                        <AlertDialogTitle>Dette er en test</AlertDialogTitle>
+                        <AlertDialogDescription>slap af, det er bare en test</AlertDialogDescription>
+                      </AlertDialogHeader>
+                      <AlertDialogFooter>
+                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogAction>Continue</AlertDialogAction>
+                      </AlertDialogFooter>
+                    </AlertDialogContent>
+                  </AlertDialog>
                 </div>
               </div>
             </article>
-            <article id="personalInfo" className="w-full">
+            <article id='personalInfo' className='w-full'>
               <div>
-                {" "}
+                {' '}
                 <h3>INDSÆT KONTAKT FORMULAR HER TIL BOOKING</h3>
               </div>
             </article>

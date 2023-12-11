@@ -1,5 +1,5 @@
 export interface TimeSlot {
-  time: string;
+  time?: string;
   index?: number | undefined;
 }
 
@@ -34,5 +34,3 @@ export interface UserBooking {
   startTime?: TimeSlot;
   endTime?: TimeSlot;
 }
-
-export type BTS = (number | undefined)[];
