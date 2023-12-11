@@ -16,6 +16,8 @@ import timeSlots from '@/Types/TimesArray';
 import { AvailibleTimeSlot } from '@/components/AvailibleTimeSlot/AvailibleTimeSlot';
 import { BookedTimeSlot } from '@/components/BookedTimeSlot/BookedTimeSlot';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
+import bookingTimeSlots from '@/Types/PCBookingsArray';
+import { array } from 'zod';
 
 export async function getServerSideProps() {
   let { data: john, error } = await supabase.from('Bookings').select('*');
@@ -113,7 +115,6 @@ export default function Booking({ john }: { john: Bookings[] }) {
   }
 
   function addTime(tid: string, index: number) {
-
     if (timeChosen.index === undefined) {
       // console.log('!timeChosen');
       if (userChoices?.startTime?.index || userChoices?.endTime?.index) {
@@ -666,8 +667,84 @@ export default function Booking({ john }: { john: Bookings[] }) {
   const disabledDays: Matcher | Matcher[] | undefined = disabledDays123(21);
 
   function updateSupabase() {
-    
+    let newSupabaseObject: Bookings[];
+    // @ts-ignore
+    let alreadyDate: boolean = john.some((el) => el.date === userChoices?.date);
+    // console.log(alreadyDate);
+    if (alreadyDate) {
+      //Loop through each pc and change booked === true for the times used, for every amount of PC booked
+    } else {
+      //Make new object for SupaBase
+      let PC1: BookingTimeSlot[] = timeSlots;
+      let PC2: BookingTimeSlot[] = timeSlots;
+      let PC3: BookingTimeSlot[] = timeSlots;
+      let PC4: BookingTimeSlot[] = timeSlots;
+      let PC5: BookingTimeSlot[] = timeSlots;
+
+      let PCs: BookingTimeSlot[][] = [];
+
+      for (let i = 0; i < 5; i++) {
+        PCs.push(timeSlots);
+      }
+      // console.log('PCs', PCs);
+      let startToBook = bookingDateTimes.findIndex((el) => el.time === userChoices?.startTime?.time);
+
+      let endToBook = bookingDateTimes.findIndex((el) => el.time === userChoices?.endTime?.time);
+
+      let arrayOfBookingTimes = bookingDateTimes.slice(startToBook, endToBook + 1);
+
+      // console.log('startToBook:', startToBook, 'endToToBook :', endToToBook, 'arrayOfBookingTimes: ', arrayOfBookingTimes);
+      let timesToBook = [];
+      let timesToBookCheck = [];
+      for (let i = 0; i < arrayOfBookingTimes.length; i++) {
+        timesToBook.push(arrayOfBookingTimes[i].time);
+        timesToBookCheck.push(false);
+      }
+      // Run through every amount of PC's booked
+      // @ts-ignore
+      for (let i = 0; i < userChoices.amount; i++) {
+        console.log('User PC amount:', i);
+
+        // Run through each of the PC's, if booked = false on the matching time --> Change to booked = true. if true,ignore, go to next pc
+        //@ts-ignore
+        for (let k = 0; k < userChoices?.amount; k++) {
+          // console.log('PCs', [k], PCs[k]);
+          console.log('k', [k]);
+
+          // Run through all of the times to Book
+          for (let j = 0; j < timesToBook.length; j++) {
+            // console.log('timesToBook', [j], timesToBook[j]);
+            console.log('j', [j]);
+
+            if (timesToBookCheck[j] === true) {
+              break;
+            }
+            //Now do the final check and change if false
+            for (let l = 0; l < 13; l++) {
+              // if()
+              if (PCs[k][l].time === timesToBook[j] && PCs[k][l].booked === false) {
+                // console.log('PCs', [k], [l], PCs[k][l]);
+                // console.log("IT's FALSE!!!!", PCs[k][l].booked);
+                console.log('l', [l]);
+                PCs[k][l].booked = true;
+                timesToBookCheck[j] = true;
+                // console.log([k], PCs);
+                break;
+              }
+            }
+          }
+        }
+      }
+      console.log('Edited PCS', PCs);
+
+      //     const { data, error } = await supabase
+      //   .from('Bookings')
+      // .insert([{ date: userChoices.date, PC1: 'otherValue' }])
+      // .select();
+    }
   }
+
+  function bookPCTimes(PC: BookingTimeSlot[], times: string[]) {}
 
   return (
     <>
