@@ -2,12 +2,16 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
+    domains: ["media.rawg.io"],
+
     remotePatterns: [
       {
-        protocol: 'https',
-        hostname: 'media.rawg.io',
-        port: '',
-        pathname: '/**',
+
+        protocol: "https",
+        hostname: "media.rawg.io",
+        port: "",
+        pathname: "/media/games/**",
+
       },
     ],
   },
