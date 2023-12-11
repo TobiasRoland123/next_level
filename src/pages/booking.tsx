@@ -45,7 +45,6 @@ export default function Booking({ john }: { john: Bookings[] }) {
     const Day = String(date.getDate()).padStart(2, '0');
 
     const FormattedDate = `${Number(Year)}-${Number(Month)}-${Number(Day)}`;
-    console.log('FormattedDate', FormattedDate);
 
     setUserChoices((prevData) => ({
       ...prevData,
@@ -58,7 +57,6 @@ export default function Booking({ john }: { john: Bookings[] }) {
   function bookingTimes(chosenDate: string) {
     //@ts-ignore
     const matchingDate = Boolean(john.find((booking) => booking.date === chosenDate));
-    console.log(matchingDate, chosenDate);
 
     if (!matchingDate) {
       setBookingDateTimes(timeSlots);
@@ -67,7 +65,6 @@ export default function Booking({ john }: { john: Bookings[] }) {
     //@ts-ignore
     const dateBooking = john.find((booking) => booking.date === chosenDate);
     const PCS: PCObjects = { PC1: dateBooking?.PC1, PC2: dateBooking?.PC2, PC3: dateBooking?.PC3, PC4: dateBooking?.PC4, PC5: dateBooking?.PC5 };
-    console.log(PCS);
 
     const availibleTimes: BookingTimeSlot[] = [];
 
@@ -95,7 +92,6 @@ export default function Booking({ john }: { john: Bookings[] }) {
     }
 
     for (let i = 0; i < availibleTimes.length; i++) {
-      console.log(i);
       if (i < 12) {
         // @ts-ignore
         if (availibleTimes[i].bookedCount > 4 && (availibleTimes[i + 1].bookedCount > 4 || availibleTimes[i - 1].bookedCount > 4)) {
@@ -117,20 +113,16 @@ export default function Booking({ john }: { john: Bookings[] }) {
   }
 
   function addTime(tid: string, index: number) {
-    console.log('hello');
-    console.log('timeChosen', timeChosen);
-    console.log('bookTimes', bookTimes);
-    console.log('Knnap tid', tid);
 
     if (timeChosen.index === undefined) {
-      console.log('!timeChosen');
+      // console.log('!timeChosen');
       if (userChoices?.startTime?.index || userChoices?.endTime?.index) {
-        console.log('userChoices?.startTime?.index && userChoices?.endTime?.index');
+        // console.log('userChoices?.startTime?.index && userChoices?.endTime?.index');
         if (userChoices?.startTime?.index === index) {
-          console.log('userChoices?.startTime?.index === index');
+          // console.log('userChoices?.startTime?.index === index');
           editBookedTimes(tid, index, BookingTypes.SingleValueEnd);
         } else if (userChoices?.endTime?.index === index) {
-          console.log('userChoices?.endTime?.index === index');
+          // console.log('userChoices?.endTime?.index === index');
           editBookedTimes(tid, index, BookingTypes.SingleValueStart);
           //@ts-ignore
           setTimeChosen({ time: userChoices.startTime.time, index: userChoices.startTime.index });
@@ -142,7 +134,7 @@ export default function Booking({ john }: { john: Bookings[] }) {
             startTime: { time: '', index: undefined },
           }));
         } else {
-          console.log('Check hvilken værdi som er tættest på tid/index, skift rundt');
+          // console.log('Check hvilken værdi som er tættest på tid/index, skift rundt');
 
           // Skal der køres script her som tjekker om der er nogle booked dates i mellem?
           //@ts-ignore
@@ -150,7 +142,7 @@ export default function Booking({ john }: { john: Bookings[] }) {
           //@ts-ignore
           const diffSlut = Math.abs(userChoices?.endTime?.index - index); // Calculate absolute difference between constant2 and targetValue
 
-          console.log('diffStart:', diffStart, 'diffSlut:', diffSlut);
+          // console.log('diffStart:', diffStart, 'diffSlut:', diffSlut);
 
           if (diffStart < diffSlut) {
             // console.log"Index closes to startTime");
@@ -165,23 +157,23 @@ export default function Booking({ john }: { john: Bookings[] }) {
           }
         }
       } else {
-        console.log('UserChoices Empty --> timeChosen = tid + index');
+        // console.log('UserChoices Empty --> timeChosen = tid + index');
         editBookedTimes(tid, index, BookingTypes.SingleValue);
       }
     } else if (timeChosen.index === index) {
-      console.log('Sæt timeChosen === ()');
+      // console.log('Sæt timeChosen === ()');
       editBookedTimes(tid, index, BookingTypes.ClearTimeChosen);
       setTimeChosen({ time: '', index: undefined });
     } else if (timeChosen.index !== index && timeChosen.index !== undefined) {
       if (timeChosen.index < index) {
-        console.log('timeChosen er lavere end index - Sæt timeChosen til starr.');
+        // console.log('timeChosen er lavere end index - Sæt timeChosen til starr.');
         editBookedTimes(tid, index, BookingTypes.SetStartToTimeChosen);
       } else if (timeChosen.index > index) {
-        console.log('timeChosen højere end index - Sæt timeChosen til end.');
+        // console.log('timeChosen højere end index - Sæt timeChosen til end.');
         editBookedTimes(tid, index, BookingTypes.SetEndToTimeChosen);
       }
     }
-    console.log(timeChosen);
+    // console.log(timeChosen);
   }
 
   function editBookedTimes(tid: string, index: number, statement: string | undefined) {
@@ -227,7 +219,6 @@ export default function Booking({ john }: { john: Bookings[] }) {
         setBookTimes([]);
         break;
       case BookingTypes.SetStartToTimeChosen:
-        console.log('SetStartToTimeChosen');
         //Set startTime to same value as timeChosen and set endTime to the new value "tid" - IF no booked spaces between, else come with error
         //@ts-ignore
         isolatedArray = bookingDateTimes.slice(timeChosen.index, index + 1);
@@ -250,8 +241,6 @@ export default function Booking({ john }: { john: Bookings[] }) {
         }
         break;
       case BookingTypes.SetEndToTimeChosen:
-        console.log('SetEndToTimeChosen');
-
         //Set endTime to same value as timeChosen and set startTime to the new value "tid" - IF no booked spaces between, else come with error
         //@ts-ignore
         isolatedArray = bookingDateTimes.slice(index, timeChosen.index + 1);
@@ -275,11 +264,9 @@ export default function Booking({ john }: { john: Bookings[] }) {
         break;
       case BookingTypes.UpdateStart:
         //Index er tættest på start, så det er denne der skal opdateres - hvis ikke der er bookinger i vejen!
-        console.log('index: ', index, 'timeChosen', timeChosen.index);
         if (userChoices?.startTime?.index !== undefined && index > userChoices?.startTime?.index) {
           //@ts-ignore
           isolatedArray = bookingDateTimes.slice(userChoices.startTime.index, index + 1);
-          console.log('isolatedArry - StartTime to Index', isolatedArray);
           bookInstance = isolatedArray.some((el) => el.booked === true);
 
           if (bookInstance) {
@@ -299,7 +286,6 @@ export default function Booking({ john }: { john: Bookings[] }) {
         } else if (userChoices?.startTime?.index !== undefined && index < userChoices?.startTime.index) {
           //@ts-ignore
           isolatedArray = bookingDateTimes.slice(index, userChoices.startTime.index + 1);
-          console.log('isolatedArry - StartTime to Index', isolatedArray);
           bookInstance = isolatedArray.some((el) => el.booked === true);
 
           if (bookInstance) {
@@ -319,11 +305,9 @@ export default function Booking({ john }: { john: Bookings[] }) {
         }
         break;
       case BookingTypes.UpdateEnd:
-        console.log('index: ', index, 'timeChosen', timeChosen.index);
         if (userChoices?.endTime?.index !== undefined && index > userChoices?.endTime?.index) {
           //@ts-ignore
           isolatedArray = bookingDateTimes.slice(userChoices.endTime.index, index + 1);
-          console.log('isolatedArry - endTime to Index', isolatedArray);
           bookInstance = isolatedArray.some((el) => el.booked === true);
 
           if (bookInstance) {
@@ -342,7 +326,6 @@ export default function Booking({ john }: { john: Bookings[] }) {
         } else if (userChoices?.endTime?.index !== undefined && index < userChoices?.endTime.index) {
           //@ts-ignore
           isolatedArray = bookingDateTimes.slice(index, userChoices.endTime.index + 1);
-          console.log('isolatedArry - Index to EndTime', isolatedArray);
           bookInstance = isolatedArray.some((el) => el.booked === true);
 
           if (bookInstance) {
@@ -682,6 +665,10 @@ export default function Booking({ john }: { john: Bookings[] }) {
 
   const disabledDays: Matcher | Matcher[] | undefined = disabledDays123(21);
 
+  function updateSupabase() {
+    
+  }
+
   return (
     <>
       <Layout>
@@ -802,6 +789,7 @@ export default function Booking({ john }: { john: Bookings[] }) {
               <div>
                 {' '}
                 <h3>INDSÆT KONTAKT FORMULAR HER TIL BOOKING</h3>
+                <button onClick={() => updateSupabase()}>Tryk for fixe Bookinger i supaBase - PC Table</button>
               </div>
             </article>
           </section>
