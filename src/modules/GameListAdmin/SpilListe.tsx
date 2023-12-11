@@ -17,7 +17,7 @@ import { EditGameSheet } from '../../components/EditGameSheet/EditGameSheet';
 import { supabase } from '../../../utils/supabaseClient';
 import { useAtom } from 'jotai';
 import { useQueries } from '@tanstack/react-query';
-import { Game, GameRoot, Result } from '@/Types/gamelist';
+import { Result } from '@/Types/gamelist';
 
 export const SpilListe = () => {
   const [searchString, setSearchString] = useState<string>('');
@@ -73,7 +73,7 @@ export const SpilListe = () => {
 
   console.log('gameData & db', gameData && gameData?.results, dbGameData);
   return (
-    <div>
+    <div className='w-full flex flex-col gap-3'>
       <Popover
         open={open}
         onOpenChange={setOpen}
@@ -82,7 +82,8 @@ export const SpilListe = () => {
           <Button
             role='combobox'
             aria-expanded={open}
-            className='justify-between max uppercase font-bold hover:bg-transparent border-2 border-accentCol transition-colors duration-300'
+            size='default'
+            className='justify-between w-fit uppercase font-bold hover:bg-transparent border-2 border-accentCol transition-colors duration-300 mt-4'
           >
             Tilføj spil
             <PlusCircle className='ml-2 h-4 w-4 shrink-0 opacity-50' />
@@ -120,7 +121,7 @@ export const SpilListe = () => {
       <AddGameSheet {...addNewGame} />
       <EditGameSheet {...editGame} />
 
-      <div className='flex flex-wrap gap-3 '>
+      <div className='flex flex-wrap gap-6 justify-center sm:justify-between lg:grid lg:grid-cols-3 xl:grid-cols-4'>
         {dbGameData &&
           !dbGameDataIsLoading &&
           dbGameData.map(game => (

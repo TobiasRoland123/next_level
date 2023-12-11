@@ -6,10 +6,12 @@ const nextConfig = {
 
     remotePatterns: [
       {
+
         protocol: "https",
         hostname: "media.rawg.io",
         port: "",
         pathname: "/media/games/**",
+
       },
     ],
   },
