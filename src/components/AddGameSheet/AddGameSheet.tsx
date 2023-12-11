@@ -18,6 +18,7 @@ import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { supabase } from '../../../utils/supabaseClient';
+import { platform } from 'os';
 
 export const AddGameSheet = (game: Game) => {
   const [addOpen, setAddOpen] = useAtom(showAddGameAtom);
@@ -60,7 +61,7 @@ export const AddGameSheet = (game: Game) => {
   const gameTags = [
     { name: 'Action', value: 0 },
     { name: 'Adventure', value: 1 },
-    { name: 'Role-Playing Game (RPG)', value: 2 },
+    { name: 'RPG', value: 2 },
     { name: 'Shooter', value: 3 },
     { name: 'Simulation', value: 4 },
     { name: 'Strategy', value: 5 },
@@ -68,6 +69,14 @@ export const AddGameSheet = (game: Game) => {
     { name: 'Multiplayer', value: 7 },
     { name: 'Indie', value: 8 },
     { name: 'Open World', value: 9 },
+    { name: 'MOBA', value: 10 },
+    { name: 'Competitive', value: 11 },
+    { name: 'FPS', value: 12 },
+    { name: 'Party', value: 13 },
+    { name: 'Battle Royale', value: 14 },
+    { name: 'Racing', value: 15 },
+    { name: 'Co-op', value: 16 },
+    { name: 'Survival', value: 17 },
   ];
 
   const consoles = [
@@ -89,7 +98,7 @@ export const AddGameSheet = (game: Game) => {
       id: addNewGame?.id || undefined,
       title: addNewGame?.name || '',
       platforms: selectedPlatform || [],
-      tags: selectedTags || [],
+      tags: addNewGame?.tags || [],
       description: addNewGame?.description_raw || '',
       background_image: addNewGame?.background_image || '',
     },
@@ -119,14 +128,20 @@ export const AddGameSheet = (game: Game) => {
       return;
     }
 
+    console.log('before', selectedTags);
+
+    setSelectedPlatform([]);
+    setSelectedTags([]);
+
+    console.log('after', selectedTags);
+
     setSubmitting(false);
     setSubmitted(true);
     setTimeout(() => {
       setSubmitted(false);
-      setSelectedPlatform([]);
-      setSelectedTags([]);
       setGameId(0);
       setAddOpen(false);
+      console.log('on close', selectedTags);
     }, 3000);
   };
 
@@ -143,7 +158,7 @@ export const AddGameSheet = (game: Game) => {
         open={addOpen}
         onOpenChange={() => handleClose()}
       >
-        <SheetContent className='w-[400px] overflow-scroll'>
+        <SheetContent className='w-[400px] overflow-scroll border-none'>
           <SheetHeader>
             <SheetTitle>Tilføj spil</SheetTitle>
             <SheetDescription></SheetDescription>
@@ -190,13 +205,14 @@ export const AddGameSheet = (game: Game) => {
               </div>
 
               <div>
-                <Label>Konsoller</Label>
+                <Label>Platforme</Label>
                 <div className='flex gap-1'>
                   {consoles.map((console, index) => (
                     <div className='bg-contrastCol w-fit px-2 rounded-full'>
                       <Label key={index}>
                         <input
                           value={console.value}
+                          checked={selectedPlatform.some(p => p.value === console.value)}
                           type='checkbox'
                           {...register('platforms')}
                           onChange={() => handlePlatformChange(console)}
@@ -214,7 +230,9 @@ export const AddGameSheet = (game: Game) => {
                     <div className='bg-contrastCol w-fit px-2 rounded-full'>
                       <Label key={index}>
                         <input
+                          value={tag.value}
                           type='checkbox'
+                          checked={selectedTags.some(p => p.value === tag.value)}
                           {...register('tags')}
                           onChange={() => handleCheckboxChange(tag)}
                           disabled={

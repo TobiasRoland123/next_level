@@ -23,11 +23,25 @@ export default function Spil() {
   return (
     <QueryClientProvider client={queryClient}>
       <LayoutAdmin>
-        <main className='spacer flex flex-col w-full'>
-          <h1 className='mt-20'>Admin Spil</h1>
-          <div className='flex justify-center w-full'>
-            <SpilListe />
-          </div>
+        <main>
+          <section>
+            <div className='flex justify-center'>
+              <div className='spacer w-full'>
+                <h1 className='mt-20'>Admin Spil</h1>
+                <p>
+                  Her kan du administrere hvilke spil, som er til rådighed i jeres sortiment. Det er
+                  muligt at tilføje, redigere og fjerne spil.
+                </p>
+              </div>
+            </div>
+          </section>
+          <section>
+            <div className='flex justify-center'>
+              <div className='spacer w-full'>
+                <SpilListe />
+              </div>
+            </div>
+          </section>
         </main>
       </LayoutAdmin>
     </QueryClientProvider>
