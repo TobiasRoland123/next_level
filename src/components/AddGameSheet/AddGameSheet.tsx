@@ -124,7 +124,6 @@ export const AddGameSheet = (game: Game) => {
 
     if (error) {
       console.error('Supabase error:', error);
-      // Handle the error appropriately
       return;
     }
 
