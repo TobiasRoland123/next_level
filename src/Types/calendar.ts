@@ -29,7 +29,7 @@ export interface PCObjects {
 }
 
 export interface UserBooking {
-  amount?: number;
+  amount?: number | null;
   date?: string;
   startTime?: TimeSlot;
   endTime?: TimeSlot;
