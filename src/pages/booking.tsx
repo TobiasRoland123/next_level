@@ -5,7 +5,7 @@ import { FaUserGroup } from 'react-icons/fa6';
 import { FaCalendarAlt } from 'react-icons/fa';
 import { IoTime } from 'react-icons/io5';
 import { DatePicker } from '@/components/Calender/DatePicker';
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { BookingTypes } from '@/enum/BookingTimes';
 import { Matcher } from 'react-day-picker';
 import { BookingTimeSlot, PCObjects, TimeSlot, TimeSlotOptions, UserBooking } from '@/Types/calendar';
@@ -48,6 +48,9 @@ export default function Booking({ john }: { john: Bookings[] }) {
   const [timeChosen, setTimeChosen] = useState<TimeSlot>({ time: '', index: undefined });
   const [bookTimes, setBookTimes] = useState<string[]>([]);
   const [bookingDateTimes, setBookingDateTimes] = useState<BookingTimeSlot[]>(timeSlots);
+  const amountRef = useRef<HTMLDivElement | null>(null);
+  const dateRef = useRef<HTMLDivElement | null>(null);
+  const timeRef = useRef<HTMLDivElement | null>(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -65,6 +68,15 @@ export default function Booking({ john }: { john: Bookings[] }) {
       router.events.off('routeChangeComplete', handleRouteChange);
     };
   }, [router.events]);
+  useEffect(() => {
+    if (timeRef.current && userChoices?.endTime && userChoices.startTime && userChoices?.amount && userChoices.date) {
+      timeRef.current.scrollIntoView({ behavior: 'smooth' });
+    } else if (dateRef.current && userChoices?.amount && userChoices.date) {
+      dateRef.current.scrollIntoView({ behavior: 'smooth' });
+    } else if (amountRef.current && userChoices?.amount) {
+      amountRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [userChoices]);
 
   //Make same function and use Enums with a switch Statement
   const handleAmountChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -933,7 +945,7 @@ export default function Booking({ john }: { john: Bookings[] }) {
           {bookingComplete === false ? (
             <AnimatePresence>
               <section id='bookingBlock' className='spacer'>
-                <article id='antalGuests' className='w-full'>
+                <article id='antalGuests' className='w-full' ref={amountRef}>
                   <div className='bg-contrastCol mt-8 p-4 lg:block'>
                     <h4 className='mt-0'>Hvor mange computere vil du booke?</h4>
                     <p> For at vi kan checke om der er PC'er nok til jer, så vil vi gerne vide hvor mang i kommer. </p>
@@ -949,6 +961,7 @@ export default function Booking({ john }: { john: Bookings[] }) {
                 </article>
                 {amountValue !== undefined && Number(amountValue) < 6 && Number(amountValue) > 0 ? (
                   <motion.article
+                    ref={dateRef}
                     id='date'
                     className='w-full'
                     initial={{ opacity: 0, y: '-50%' }}
@@ -984,6 +997,7 @@ export default function Booking({ john }: { john: Bookings[] }) {
                 )}
                 {amountValue !== undefined && Number(amountValue) < 6 && Number(amountValue) > 0 && userChoices?.date !== undefined ? (
                   <motion.article
+                    ref={timeRef}
                     id='time'
                     className='w-full'
                     initial={{ opacity: 0, y: '-50%' }}
@@ -1117,7 +1131,7 @@ export default function Booking({ john }: { john: Bookings[] }) {
             </AnimatePresence>
           ) : (
             // @ts-ignore
-            <BookingRecieved userChoices={userChoices}  />
+            <BookingRecieved userChoices={userChoices} />
           )}
         </main>
       </Layout>
