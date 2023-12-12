@@ -20,6 +20,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { FormControl, FormItem, FormLabel, FormDescription, FormMessage, FormField, Form, useFormField } from '../components/ui/form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
+import BookingForm from '@/modules/BookingForm/BookingForm';
 
 export async function getServerSideProps() {
   let { data: john, error } = await supabase.from('Bookings').select('*');
@@ -879,33 +880,6 @@ export default function Booking({ john }: { john: Bookings[] }) {
     console.log(alertDetail);
   }
 
-  const formSchema = z.object({
-    dato: z.string(),
-    antal: z.string(),
-    startTid: z.string(),
-    slutTid: z.string(),
-    navn: z.string(),
-    telefon: z.string(),
-    email: z.string().email('Indtast en gyldig email'),
-  });
-
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      //@ts-ignore
-      dato: userChoices?.date.toString(),
-      //@ts-ignore
-      antal: userChoices?.amount.toString(),
-      //@ts-ignore
-      startTid: userChoices?.startTime?.time,
-      //@ts-ignore
-      slutTid: userChoices?.endTime.time,
-      navn: '',
-      telefon: '',
-      email: '',
-    },
-  });
-
   // const handleBookingChange = (statement: string, value: string) => {
   //   switch (statement) {
   //     case BookingTypes.FormName:
@@ -1090,26 +1064,7 @@ export default function Booking({ john }: { john: Bookings[] }) {
                     ease: [0, 0.71, 0.2, 1.01],
                   }}
                 >
-                  {/* <Form>
-                    <FormField
-                      control={form.control}
-                      name='name'
-                      render={({ field }) => (
-                        <FormItem className='mt-5'>
-                          <FormLabel>Navn</FormLabel>
-                          <FormControl>
-                            <div className={`mt-8 w-[11.25rem] ${!form.formState.errors ? 'shake' : ''}`}>
-                              <SelectField onSelectChange={handleBookingChange(BookingTypes.FormName)} s electedValue={selectedValue} {...field} />
-                            </div>
-                          </FormControl>
-                          <FormDescription></FormDescription>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </Form> */}
-                  <h3>INDSÆT KONTAKT FORMULAR HER TIL BOOKING</h3>
-                  <button onClick={() => updateSupabase()}>Tryk for fixe Bookinger i supaBase - PC Table</button>
+                  <BookingForm userChoices={userChoices} />
                 </motion.article>
               ) : (
                 ''
@@ -1120,7 +1075,4 @@ export default function Booking({ john }: { john: Bookings[] }) {
       </Layout>
     </>
   );
-}
-function useForm<T>(arg0: { resolver: any; defaultValues: { email: any; password: any } }) {
-  throw new Error('Function not implemented.');
 }

@@ -8,7 +8,7 @@ export enum BookingTypes {
   ClearAll = 'CLEAR',
   UpdateStart = 'UPDATE_START',
   UpdateEnd = 'UPDATE_END',
-  FormName = "FORM_NAME",
-  FormPhone = "FORM_PHONE"
-  FormEmial = "FORM_EMAIL"
+  FormName = 'FORM_NAME',
+  FormPhone = 'FORM_PHONE',
+  FormEmial = 'FORM_EMAIL',
 }
