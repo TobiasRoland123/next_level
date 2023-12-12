@@ -9,26 +9,16 @@ import {
   SheetTitle,
 } from '@/components/ui/sheet';
 import { useAtom } from 'jotai';
-import { editGameAtom, showAddGameAtom, showEditGameAtom } from '../../states/store';
+import { editGameAtom, showEditGameAtom } from '../../states/store';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import ControlledEditableField from '../EditableInputField/ControlledEditableField';
 import ControlledEditableTextarea from '../ControlledEditableTextArea/ControlledEditableTextarea';
 import { Label } from '@/components/Inputfields/label';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
-import { Alert } from '@/components/ui/alert';
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogHeader,
-  AlertDialogPortal,
-  AlertDialogTrigger,
-} from '@/components/ui/alert-dialog';
 import { Skeleton } from '@/components/ui/skeleton';
 import { supabase } from '../../../utils/supabaseClient';
+import { SletSpil } from './SletSpil';
 
 export const EditGameSheet = (game: Game) => {
   const [editOpen, setEditOpen] = useAtom(showEditGameAtom);
@@ -131,6 +121,8 @@ export const EditGameSheet = (game: Game) => {
     setSubmitting(false);
     setSubmitted(true);
     setTimeout(() => {
+      setSelectedPlatform([]);
+      setSelectedTags([]);
       setSubmitted(false);
       setEditOpen(false);
     }, 3000);
@@ -255,58 +247,5 @@ export const EditGameSheet = (game: Game) => {
         </SheetContent>
       </Sheet>
     </>
-  );
-};
-
-export const SletSpil = () => {
-  const [editOpen, setEditOpen] = useAtom(showEditGameAtom);
-  const [editGame, setEditGame] = useAtom(editGameAtom);
-  const handleDeleteGame = async () => {
-    const { data, error } = await supabase.from('gamelist').delete().eq('id', editGame.id);
-    setEditOpen(false);
-  };
-
-  return (
-    <AlertDialog>
-      <AlertDialogTrigger>
-        <Button
-          className='max uppercase font-bold hover:bg-transparent border-2 border-accentCol transition-colors duration-300'
-          size='sm'
-          type='button'
-        >
-          Slet
-        </Button>
-      </AlertDialogTrigger>
-      <AlertDialogPortal>
-        <AlertDialogContent className='border-none max-w-[500px]'>
-          <AlertDialogHeader>
-            <h4>Er du sikker?</h4>
-          </AlertDialogHeader>
-          <AlertDialogDescription>
-            <p>
-              Denne handling kan ikke fortrydes. Dette vil permanent slette spillet og vil selv
-              skulle tilføje det igen.
-            </p>
-          </AlertDialogDescription>
-          <AlertDialogCancel asChild>
-            <Button
-              className='max uppercase font-bold hover:bg-transparent border-2 border-accentCol transition-colors duration-300'
-              size='sm'
-            >
-              Fortryd
-            </Button>
-          </AlertDialogCancel>
-          <AlertDialogAction asChild>
-            <Button
-              className='max uppercase font-bold hover:bg-transparent border-2 border-accentCol transition-colors duration-300'
-              size='sm'
-              onClick={() => handleDeleteGame()}
-            >
-              Slet
-            </Button>
-          </AlertDialogAction>
-        </AlertDialogContent>
-      </AlertDialogPortal>
-    </AlertDialog>
   );
 };

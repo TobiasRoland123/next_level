@@ -1,20 +1,11 @@
 import { useAnimate, stagger } from "framer-motion";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "../ui/select";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
 interface SelectFieldProps {
   selectedValue: string;
   onSelectChange: (selectValue: string) => void;
 }
 
-export const SelectField: React.FC<SelectFieldProps> = ({
-  onSelectChange,
-  selectedValue,
-}) => {
+export const SelectField: React.FC<SelectFieldProps> = ({ onSelectChange, selectedValue }) => {
   return (
     <>
       <Select
@@ -32,6 +23,7 @@ export const SelectField: React.FC<SelectFieldProps> = ({
           <SelectItem value="firma-event">Firma event</SelectItem>
           <SelectItem value="turnering">Turnering</SelectItem>
           <SelectItem value="andet">Andet</SelectItem>
+          <SelectItem value="nlp">NLP-rummet</SelectItem>
         </SelectContent>
       </Select>
     </>
