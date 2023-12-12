@@ -44,6 +44,14 @@ export default function Booking({ john }: { john: Bookings[] }) {
   const [bookTimes, setBookTimes] = useState<string[]>([]);
   const [bookingDateTimes, setBookingDateTimes] = useState<BookingTimeSlot[]>(timeSlots);
 
+  //Make same function and use Enums with a switch Statement
+  const handleAmountChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setUserChoices((prevData) => ({
+      ...prevData,
+      amount: Number(e.target.value),
+    }));
+  };
+
   const handleDateChange = (e: string) => {
     const date = new Date(e);
     const Year = date.getFullYear();
