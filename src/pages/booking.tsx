@@ -675,11 +675,11 @@ export default function Booking({ john }: { john: Bookings[] }) {
       //Loop through each pc and change booked === true for the times used, for every amount of PC booked
     } else {
       //Make new object for SupaBase
-      let PC1: BookingTimeSlot[] = timeSlots;
-      let PC2: BookingTimeSlot[] = timeSlots;
-      let PC3: BookingTimeSlot[] = timeSlots;
-      let PC4: BookingTimeSlot[] = timeSlots;
-      let PC5: BookingTimeSlot[] = timeSlots;
+      // let PC1: BookingTimeSlot[] = timeSlots;
+      // let PC2: BookingTimeSlot[] = timeSlots;
+      // let PC3: BookingTimeSlot[] = timeSlots;
+      // let PC4: BookingTimeSlot[] = timeSlots;
+      // let PC5: BookingTimeSlot[] = timeSlots;
 
       let PCs: BookingTimeSlot[][] = [];
 
@@ -695,53 +695,118 @@ export default function Booking({ john }: { john: Bookings[] }) {
 
       // console.log('startToBook:', startToBook, 'endToToBook :', endToToBook, 'arrayOfBookingTimes: ', arrayOfBookingTimes);
       let timesToBook = [];
-      let timesToBookCheck = [];
       for (let i = 0; i < arrayOfBookingTimes.length; i++) {
         timesToBook.push(arrayOfBookingTimes[i].time);
-        timesToBookCheck.push(false);
       }
-      // Run through every amount of PC's booked
-      // @ts-ignore
-      for (let i = 0; i < userChoices.amount; i++) {
-        console.log('User PC amount:', i);
+      console.log('PCs', PCs);
 
-        // Run through each of the PC's, if booked = false on the matching time --> Change to booked = true. if true,ignore, go to next pc
-        //@ts-ignore
-        for (let k = 0; k < userChoices?.amount; k++) {
-          // console.log('PCs', [k], PCs[k]);
-          console.log('k', [k]);
+      //trial 48
+      //@ts-ignore
+      // for (let i = 0; i < userChoices?.amount; i++) {
+      let bookedTimes: Array<string> = [];
 
-          // Run through all of the times to Book
-          for (let j = 0; j < timesToBook.length; j++) {
-            // console.log('timesToBook', [j], timesToBook[j]);
-            console.log('j', [j]);
+      while (bookedTimes.length < timesToBook.length) {
+        console.log('bookedTimes', bookedTimes);
+        console.log('timesToBook', timesToBook);
+        console.log(PCs.length);
 
-            if (timesToBookCheck[j] === true) {
+        for (let i = 0; i < PCs.length; i++) {
+          for (let j = 0; j < PCs[i].length; j++) {
+            const currentPC = PCs[i][j];
+            const currentTime = currentPC.time;
+            console.log(bookedTimes);
+
+            if (timesToBook.includes(currentTime) && !currentPC.booked && !bookedTimes.includes(currentTime)) {
+              // Update the "booked" property to true
+              currentPC.booked = true;
+
+              // Add the booked time to the set
+              bookedTimes.push(currentTime);
+              console.log(PCs);
+
+              // Break the inner loop since we found a match
               break;
-            }
-            //Now do the final check and change if false
-            for (let l = 0; l < 13; l++) {
-              // if()
-              if (PCs[k][l].time === timesToBook[j] && PCs[k][l].booked === false) {
-                // console.log('PCs', [k], [l], PCs[k][l]);
-                // console.log("IT's FALSE!!!!", PCs[k][l].booked);
-                console.log('l', [l]);
-                PCs[k][l].booked = true;
-                timesToBookCheck[j] = true;
-                // console.log([k], PCs);
-                break;
-              }
             }
           }
         }
       }
-      console.log('Edited PCS', PCs);
-
-      //     const { data, error } = await supabase
-      //   .from('Bookings')
-      // .insert([{ date: userChoices.date, PC1: 'otherValue' }])
-      // .select();
     }
+
+    //   for (let i = 0; i < PCs.length; i++) {
+    //     console.log('bookedTimes', bookedTimes);
+    //     console.log('timesToBook', timesToBook);
+    //     console.log(PCs.length);
+    //     if (bookedTimes.length === timesToBook.length) {
+    //       return;
+    //     }
+
+    //     for (let j = 0; j < PCs[i].length; j++) {
+    //       const currentPC = PCs[i][j];
+    //       const currentTime = currentPC.time;
+    //       console.log(bookedTimes);
+
+    //       if (timesToBook.includes(currentTime) && !currentPC.booked && !bookedTimes.includes(currentTime)) {
+    //         // Update the "booked" property to true
+    //         currentPC.booked = true;
+
+    //         // Add the booked time to the set
+    //         bookedTimes.push(currentTime);
+
+    //         // Break the inner loop since we found a match
+    //         break;
+    //       }
+    //     }
+    //   }
+    // }
+
+    // Run through every amount of PC's booked
+    // @ts-ignore
+    // for (let i = 0; i < userChoices.amount; i++) {
+    //   console.log('User PC amount:', i);
+
+    //   // Run through each of the PC's, if booked = false on the matching time --> Change to booked = true. if true,ignore, go to next pc
+    //   //@ts-ignore
+    //   for (let k = 0; k < userChoices?.amount; k++) {
+    //     // console.log('PCs', [k], PCs[k]);
+    //     console.log('k', [k]);
+
+    //     if (timesToBookCheck[timesToBook.length - 1] === true) {
+    //       for (let i = 0; i < timesToBook.length; i++) {
+    //         timesToBookCheck[i] = false;
+    //       }
+    //     }
+
+    //     // Run through all of the times to Book
+    //     for (let j = 0; j < timesToBook.length; j++) {
+    //       // console.log('timesToBook', [j], timesToBook[j]);
+    //       console.log('j', [j]);
+
+    //       if (timesToBookCheck[j] === true) {
+    //         break;
+    //       }
+    //       //Now do the final check and change if false
+    //       for (let l = 0; l < 13; l++) {
+    //         // if()
+    //         if (PCs[k][l].time === timesToBook[j] && PCs[k][l].booked === false) {
+    //           // console.log('PCs', [k], [l], PCs[k][l]);
+    //           // console.log("IT's FALSE!!!!", PCs[k][l].booked);
+    //           console.log('l', [l]);
+    //           console.log(PCs[k][l].time, PCs[k][l].booked);
+    //           PCs[k][l].booked = true;
+    //           timesToBookCheck[j] = true;
+    //           // console.log([k], PCs);
+    //           break;
+    //         }
+    //       }
+    //     }
+    //   }
+    // }
+    // console.log('Edited PCS', PCs);
+
+    //     const { data, error } = await supabase
+    //   .from('Bookings')
+    // .insert([{ date: userChoices.date, PC1: 'otherValue' }])
+    // .select();
   }
 
   function bookPCTimes(PC: BookingTimeSlot[], times: string[]) {}

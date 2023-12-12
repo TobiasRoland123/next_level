@@ -30,11 +30,7 @@ export const BookedTimeSlot = ({ time, index, allTimes, userChoices }: BookedTim
       let slicing = userChoices.startTime.index;
       let shortendArray = allTimes.slice(slicing);
       let indexOfLastPossible = shortendArray.findIndex((tid) => tid.booked === true) - 1;
-      return (
-        <p>
-          Hvis du starter kl. {userChoices.startTime.time} er det seneste du kan booke til kl. {shortendArray[indexOfLastPossible].time}.
-        </p>
-      );
+      return <p>{/* Hvis du starter kl. {userChoices.startTime.time} er det seneste du kan booke til kl. {shortendArray[indexOfLastPossible].time}. */}</p>;
     } else if (userChoices?.startTime?.index !== undefined && userChoices.startTime.index > index) {
       let slicing = userChoices.startTime.index;
       let shortendArray = allTimes.slice(0, -slicing);
