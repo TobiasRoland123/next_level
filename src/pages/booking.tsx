@@ -26,19 +26,10 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { AnimatePresence, motion } from "framer-motion";
-import {
-  FormControl,
-  FormItem,
-  FormLabel,
-  FormDescription,
-  FormMessage,
-  FormField,
-  Form,
-  useFormField,
-} from "../components/ui/form";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
+import bookingTimeSlots from "@/Types/PCBookingsArray";
+import { array } from "zod";
+import { log, time } from "console";
+import { NLP } from "@/components/Cards/Card.stories";
 
 export async function getServerSideProps() {
   let { data: john, error } = await supabase.from("Bookings").select("*");
@@ -46,55 +37,19 @@ export async function getServerSideProps() {
   return { props: { john } };
 }
 
-interface AlertDetails {
-  start: string | undefined;
-  slut: string;
-  arr: string[];
-}
-
 export default function Booking({ john }: { john: Bookings[] }) {
   const [userChoices, setUserChoices] = useState<UserBooking | undefined>();
-  const [amountValue, setAmountValue] = useState<number | "">();
-  const [openAmount, setOpenAmount] = useState(false);
   const [openDialogAlert, setOpenDialogAlert] = useState(false);
-  const [alertDetail, setAlertDetail] = useState<AlertDetails>();
   const [timeChosen, setTimeChosen] = useState<TimeSlot>({ time: "", index: undefined });
   const [bookTimes, setBookTimes] = useState<string[]>([]);
   const [bookingDateTimes, setBookingDateTimes] = useState<BookingTimeSlot[]>(timeSlots);
 
   //Make same function and use Enums with a switch Statement
   const handleAmountChange = (e: ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.value);
-    let amountChosen = e.target.value;
-    if (e.target.value.length >= 1) {
-      amountChosen = e.target.value.substring(e.target.value.length - 1, e.target.value.length);
-      console.log("HER1");
-    }
-
-    if (/^[1-5]$/.test(amountChosen) || amountChosen === "") {
-      console.log("HER2");
-      setOpenAmount(false);
-      if (/^[1-5]$/.test(amountChosen)) {
-        console.log(typeof Number(amountChosen), Number(amountChosen));
-        console.log("HER3");
-        setUserChoices((prevData) => ({
-          ...prevData,
-          amount: Number(amountChosen),
-        }));
-        setAmountValue(Number(amountChosen));
-      } else if (amountChosen === "") {
-        console.log("HER4");
-        console.log(typeof Number(amountChosen), Number(amountChosen));
-        setUserChoices((prevData) => ({
-          ...prevData,
-          amount: null,
-        }));
-        setAmountValue("");
-      }
-    } else {
-      console.log("HER5");
-      setOpenAmount(true);
-    }
+    setUserChoices((prevData) => ({
+      ...prevData,
+      amount: Number(e.target.value),
+    }));
   };
 
   const handleDateChange = (e: string) => {
@@ -291,11 +246,8 @@ export default function Booking({ john }: { john: Bookings[] }) {
         isolatedArray = bookingDateTimes.slice(timeChosen.index, index + 1);
         bookInstance = isolatedArray.some((el) => el.booked === true);
 
-        console.log("isolatedArray, SetStartToTimeChosen", isolatedArray);
-
         if (bookInstance) {
           // Lav en Alert Dialog som kommer op. Vælg ny tid.
-          errorMessagePopUp(timeChosen.time, tid, isolatedArray);
           setOpenDialogAlert(true);
         } else {
           setUserChoices((prevData) => ({
@@ -316,12 +268,8 @@ export default function Booking({ john }: { john: Bookings[] }) {
         isolatedArray = bookingDateTimes.slice(index, timeChosen.index + 1);
         bookInstance = isolatedArray.some((el) => el.booked === true);
 
-        console.log("isolatedArray, SetEndToTimeChosen", isolatedArray);
-
         if (bookInstance) {
           // Lav en Alert Dialog som kommer op. Vælg ny tid.
-          //@ts-ignore
-          errorMessagePopUp(tid, timeChosen.time, isolatedArray);
           setOpenDialogAlert(true);
         } else {
           setUserChoices((prevData) => ({
@@ -343,9 +291,7 @@ export default function Booking({ john }: { john: Bookings[] }) {
           isolatedArray = bookingDateTimes.slice(userChoices.startTime.index, index + 1);
           bookInstance = isolatedArray.some((el) => el.booked === true);
 
-          console.log("isolatedArray, UpdateStart1", isolatedArray);
           if (bookInstance) {
-            errorMessagePopUp(userChoices.startTime.time, tid, isolatedArray);
             setOpenDialogAlert(true);
           } else {
             //@ts-ignore
@@ -364,11 +310,7 @@ export default function Booking({ john }: { john: Bookings[] }) {
           isolatedArray = bookingDateTimes.slice(index, userChoices.startTime.index + 1);
           bookInstance = isolatedArray.some((el) => el.booked === true);
 
-          console.log("isolatedArray, UpdateStart2", isolatedArray);
-
           if (bookInstance) {
-            //@ts-ignore
-            errorMessagePopUp(tid, userChoices.startTime.time, isolatedArray);
             setOpenDialogAlert(true);
           } else {
             //@ts-ignore
@@ -390,10 +332,7 @@ export default function Booking({ john }: { john: Bookings[] }) {
           isolatedArray = bookingDateTimes.slice(userChoices.endTime.index, index + 1);
           bookInstance = isolatedArray.some((el) => el.booked === true);
 
-          console.log("isolatedArray, UpdateEnd1", isolatedArray);
-
           if (bookInstance) {
-            errorMessagePopUp(userChoices.endTime.time, tid, isolatedArray);
             setOpenDialogAlert(true);
           } else {
             let newBookArray: BookingTimeSlot[] = bookingDateTimes.slice(userChoices?.startTime?.index, index + 1);
@@ -411,11 +350,7 @@ export default function Booking({ john }: { john: Bookings[] }) {
           isolatedArray = bookingDateTimes.slice(index, userChoices.endTime.index + 1);
           bookInstance = isolatedArray.some((el) => el.booked === true);
 
-          console.log("isolatedArray, UpdateEnd2", isolatedArray);
-
           if (bookInstance) {
-            //@ts-ignore
-            errorMessagePopUp(tid, userChoices.endTime.time, isolatedArray);
             setOpenDialogAlert(true);
           } else {
             let newBookArray: BookingTimeSlot[] = bookingDateTimes.slice(userChoices?.startTime?.index, index + 1);
@@ -551,202 +486,158 @@ export default function Booking({ john }: { john: Bookings[] }) {
 
   const disabledDays: Matcher | Matcher[] | undefined = disabledDays123(21);
 
+  const sendToSupabase = async (object: any) => {
+    const { data, error } = await supabase.from("Bookings").insert([object]).select();
+  };
+
+  const createBooking = (amount: number) => {
+    const startToBook = bookingDateTimes.findIndex((el) => el.time === userChoices?.startTime?.time);
+    const endToBook = bookingDateTimes.findIndex((el) => el.time === userChoices?.endTime?.time);
+    const timesToBook = bookingDateTimes.slice(startToBook, endToBook + 1).map((time) => time.time);
+
+    const basePc = [
+      { time: "14.00", booked: false, bookedCount: 0 },
+      { time: "14.30", booked: false, bookedCount: 0 },
+      { time: "15.00", booked: false, bookedCount: 0 },
+      { time: "15.30", booked: false, bookedCount: 0 },
+      { time: "16.00", booked: false, bookedCount: 0 },
+      { time: "16.30", booked: false, bookedCount: 0 },
+      { time: "17.00", booked: false, bookedCount: 0 },
+      { time: "17.30", booked: false, bookedCount: 0 },
+      { time: "18.00", booked: false, bookedCount: 0 },
+      { time: "18.30", booked: false, bookedCount: 0 },
+      { time: "19.00", booked: false, bookedCount: 0 },
+      { time: "19.30", booked: false, bookedCount: 0 },
+      { time: "20.00", booked: false, bookedCount: 0 },
+    ];
+
+    const bookedPcs: Array<Array<{ time: string; booked: boolean; bookedCount: number }>> = [];
+
+    for (let i = 1; i < 6; i++) {
+      if (i <= amount) {
+        console.log("i:", i, "userAmount:", amount);
+
+        bookedPcs.push(
+          basePc.map((timeSlot) => {
+            if (timesToBook.includes(timeSlot.time) && timeSlot.booked === false) {
+              console.log("im included: ", timeSlot.time);
+
+              return { time: timeSlot.time, booked: true, bookedCount: 0 };
+            } else {
+              console.log("im not included:", timeSlot.time);
+
+              return timeSlot;
+            }
+          })
+        );
+      } else {
+        bookedPcs.push(basePc);
+      }
+    }
+
+    const supabaseObject = {
+      date: userChoices?.date,
+      PC1: bookedPcs[0],
+      PC2: bookedPcs[1],
+      PC3: bookedPcs[2],
+      PC4: bookedPcs[3],
+      PC5: bookedPcs[4],
+      NLP: null,
+    };
+    console.log("supabaseObject", supabaseObject);
+
+    sendToSupabase(supabaseObject);
+  };
+
   function updateSupabase() {
-    let newSupabaseObject: Bookings[];
+    const newSupabaseObject = [
+      [
+        { time: "14.00", booked: false, bookedCount: 0 },
+        { time: "14.30", booked: false, bookedCount: 0 },
+        { time: "15.00", booked: false, bookedCount: 0 },
+        { time: "15.30", booked: false, bookedCount: 0 },
+        { time: "16.00", booked: false, bookedCount: 0 },
+        { time: "16.30", booked: false, bookedCount: 0 },
+        { time: "17.00", booked: false, bookedCount: 0 },
+        { time: "17.30", booked: false, bookedCount: 0 },
+        { time: "18.00", booked: false, bookedCount: 0 },
+        { time: "18.30", booked: false, bookedCount: 0 },
+        { time: "19.00", booked: false, bookedCount: 0 },
+        { time: "19.30", booked: false, bookedCount: 0 },
+        { time: "20.00", booked: false, bookedCount: 0 },
+      ],
+      [
+        { time: "14.00", booked: false, bookedCount: 0 },
+        { time: "14.30", booked: false, bookedCount: 0 },
+        { time: "15.00", booked: false, bookedCount: 0 },
+        { time: "15.30", booked: false, bookedCount: 0 },
+        { time: "16.00", booked: false, bookedCount: 0 },
+        { time: "16.30", booked: false, bookedCount: 0 },
+        { time: "17.00", booked: false, bookedCount: 0 },
+        { time: "17.30", booked: false, bookedCount: 0 },
+        { time: "18.00", booked: false, bookedCount: 0 },
+        { time: "18.30", booked: false, bookedCount: 0 },
+        { time: "19.00", booked: false, bookedCount: 0 },
+        { time: "19.30", booked: false, bookedCount: 0 },
+        { time: "20.00", booked: false, bookedCount: 0 },
+      ],
+      [
+        { time: "14.00", booked: false, bookedCount: 0 },
+        { time: "14.30", booked: false, bookedCount: 0 },
+        { time: "15.00", booked: false, bookedCount: 0 },
+        { time: "15.30", booked: false, bookedCount: 0 },
+        { time: "16.00", booked: false, bookedCount: 0 },
+        { time: "16.30", booked: false, bookedCount: 0 },
+        { time: "17.00", booked: false, bookedCount: 0 },
+        { time: "17.30", booked: false, bookedCount: 0 },
+        { time: "18.00", booked: false, bookedCount: 0 },
+        { time: "18.30", booked: false, bookedCount: 0 },
+        { time: "19.00", booked: false, bookedCount: 0 },
+        { time: "19.30", booked: false, bookedCount: 0 },
+        { time: "20.00", booked: false, bookedCount: 0 },
+      ],
+      [
+        { time: "14.00", booked: false, bookedCount: 0 },
+        { time: "14.30", booked: false, bookedCount: 0 },
+        { time: "15.00", booked: false, bookedCount: 0 },
+        { time: "15.30", booked: false, bookedCount: 0 },
+        { time: "16.00", booked: false, bookedCount: 0 },
+        { time: "16.30", booked: false, bookedCount: 0 },
+        { time: "17.00", booked: false, bookedCount: 0 },
+        { time: "17.30", booked: false, bookedCount: 0 },
+        { time: "18.00", booked: false, bookedCount: 0 },
+        { time: "18.30", booked: false, bookedCount: 0 },
+        { time: "19.00", booked: false, bookedCount: 0 },
+        { time: "19.30", booked: false, bookedCount: 0 },
+        { time: "20.00", booked: false, bookedCount: 0 },
+      ],
+      [
+        { time: "14.00", booked: false, bookedCount: 0 },
+        { time: "14.30", booked: false, bookedCount: 0 },
+        { time: "15.00", booked: false, bookedCount: 0 },
+        { time: "15.30", booked: false, bookedCount: 0 },
+        { time: "16.00", booked: false, bookedCount: 0 },
+        { time: "16.30", booked: false, bookedCount: 0 },
+        { time: "17.00", booked: false, bookedCount: 0 },
+        { time: "17.30", booked: false, bookedCount: 0 },
+        { time: "18.00", booked: false, bookedCount: 0 },
+        { time: "18.30", booked: false, bookedCount: 0 },
+        { time: "19.00", booked: false, bookedCount: 0 },
+        { time: "19.30", booked: false, bookedCount: 0 },
+        { time: "20.00", booked: false, bookedCount: 0 },
+      ],
+    ];
     // @ts-ignore
     let alreadyDate: boolean = john.some((el) => el.date === userChoices?.date);
     // console.log(alreadyDate);
     if (alreadyDate) {
       //Loop through each pc and change booked === true for the times used, for every amount of PC booked
     } else {
-      //Make new object for SupaBase
-      // let PC1: BookingTimeSlot[] = timeSlots;
-      // let PC2: BookingTimeSlot[] = timeSlots;
-      // let PC3: BookingTimeSlot[] = timeSlots;
-      // let PC4: BookingTimeSlot[] = timeSlots;
-      // let PC5: BookingTimeSlot[] = timeSlots;
-
-      let PCs: BookingTimeSlot[][] = [];
-
-      for (let i = 0; i < 5; i++) {
-        PCs.push(timeSlots);
-      }
-      // console.log('PCs', PCs);
-      let startToBook = bookingDateTimes.findIndex((el) => el.time === userChoices?.startTime?.time);
-
-      let endToBook = bookingDateTimes.findIndex((el) => el.time === userChoices?.endTime?.time);
-
-      let arrayOfBookingTimes = bookingDateTimes.slice(startToBook, endToBook + 1);
-
-      // console.log('startToBook:', startToBook, 'endToToBook :', endToToBook, 'arrayOfBookingTimes: ', arrayOfBookingTimes);
-      let timesToBook = [];
-      for (let i = 0; i < arrayOfBookingTimes.length; i++) {
-        timesToBook.push(arrayOfBookingTimes[i].time);
-      }
-      console.log("PCs", PCs);
-
-      //trial 48
-      //@ts-ignore
-      // for (let i = 0; i < userChoices?.amount; i++) {
-      let bookedTimes: Array<string> = [];
-
-      while (bookedTimes.length < timesToBook.length) {
-        console.log("bookedTimes", bookedTimes);
-        console.log("timesToBook", timesToBook);
-        console.log(PCs.length);
-
-        for (let i = 0; i < PCs.length; i++) {
-          for (let j = 0; j < PCs[i].length; j++) {
-            const currentPC = PCs[i][j];
-            const currentTime = currentPC.time;
-            console.log(bookedTimes);
-
-            if (timesToBook.includes(currentTime) && !currentPC.booked && !bookedTimes.includes(currentTime)) {
-              // Update the "booked" property to true
-              currentPC.booked = true;
-
-              // Add the booked time to the set
-              bookedTimes.push(currentTime);
-              console.log(PCs);
-
-              // Break the inner loop since we found a match
-              break;
-            }
-          }
-        }
-      }
+      userChoices?.amount && createBooking(userChoices?.amount);
     }
-
-    //   for (let i = 0; i < PCs.length; i++) {
-    //     console.log('bookedTimes', bookedTimes);
-    //     console.log('timesToBook', timesToBook);
-    //     console.log(PCs.length);
-    //     if (bookedTimes.length === timesToBook.length) {
-    //       return;
-    //     }
-
-    //     for (let j = 0; j < PCs[i].length; j++) {
-    //       const currentPC = PCs[i][j];
-    //       const currentTime = currentPC.time;
-    //       console.log(bookedTimes);
-
-    //       if (timesToBook.includes(currentTime) && !currentPC.booked && !bookedTimes.includes(currentTime)) {
-    //         // Update the "booked" property to true
-    //         currentPC.booked = true;
-
-    //         // Add the booked time to the set
-    //         bookedTimes.push(currentTime);
-
-    //         // Break the inner loop since we found a match
-    //         break;
-    //       }
-    //     }
-    //   }
-    // }
-
-    // Run through every amount of PC's booked
-    // @ts-ignore
-    // for (let i = 0; i < userChoices.amount; i++) {
-    //   console.log('User PC amount:', i);
-
-    //   // Run through each of the PC's, if booked = false on the matching time --> Change to booked = true. if true,ignore, go to next pc
-    //   //@ts-ignore
-    //   for (let k = 0; k < userChoices?.amount; k++) {
-    //     // console.log('PCs', [k], PCs[k]);
-    //     console.log('k', [k]);
-
-    //     if (timesToBookCheck[timesToBook.length - 1] === true) {
-    //       for (let i = 0; i < timesToBook.length; i++) {
-    //         timesToBookCheck[i] = false;
-    //       }
-    //     }
-
-    //     // Run through all of the times to Book
-    //     for (let j = 0; j < timesToBook.length; j++) {
-    //       // console.log('timesToBook', [j], timesToBook[j]);
-    //       console.log('j', [j]);
-
-    //       if (timesToBookCheck[j] === true) {
-    //         break;
-    //       }
-    //       //Now do the final check and change if false
-    //       for (let l = 0; l < 13; l++) {
-    //         // if()
-    //         if (PCs[k][l].time === timesToBook[j] && PCs[k][l].booked === false) {
-    //           // console.log('PCs', [k], [l], PCs[k][l]);
-    //           // console.log("IT's FALSE!!!!", PCs[k][l].booked);
-    //           console.log('l', [l]);
-    //           console.log(PCs[k][l].time, PCs[k][l].booked);
-    //           PCs[k][l].booked = true;
-    //           timesToBookCheck[j] = true;
-    //           // console.log([k], PCs);
-    //           break;
-    //         }
-    //       }
-    //     }
-    //   }
-    // }
-    // console.log('Edited PCS', PCs);
-
-    //     const { data, error } = await supabase
-    //   .from('Bookings')
-    // .insert([{ date: userChoices.date, PC1: 'otherValue' }])
-    // .select();
   }
 
-  // function bookPCTimes(PC: BookingTimeSlot[], times: string[]) {}
-  function errorMessagePopUp(start: string | undefined, slut: string, arr: BookingTimeSlot[]) {
-    const errorTimes: string[] = [];
-    for (let i = 0; i < arr.length; i++) {
-      if (arr[i].booked === true) {
-        errorTimes.push(arr[i].time);
-      }
-    }
-    setAlertDetail({ start: start, slut: slut, arr: errorTimes });
-    console.log(alertDetail);
-  }
-
-  const formSchema = z.object({
-    dato: z.string(),
-    antal: z.string(),
-    startTid: z.string(),
-    slutTid: z.string(),
-    navn: z.string(),
-    telefon: z.string(),
-    email: z.string().email("Indtast en gyldig email"),
-  });
-
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      //@ts-ignore
-      dato: userChoices?.date.toString(),
-      //@ts-ignore
-      antal: userChoices?.amount.toString(),
-      //@ts-ignore
-      startTid: userChoices?.startTime?.time,
-      //@ts-ignore
-      slutTid: userChoices?.endTime.time,
-      navn: "",
-      telefon: "",
-      email: "",
-    },
-  });
-
-  // const handleBookingChange = (statement: string, value: string) => {
-  //   switch (statement) {
-  //     case BookingTypes.FormName:
-  //       // @ts-ignore
-  //       form.setValue('navn', value);
-  //       break;
-  //     case BookingTypes.FormPhone:
-  //       form.setValue('telefon', value);
-  //       break;
-  //     case BookingTypes.FormEmial:
-  //       form.setValue('email', value);
-  //       break;
-  //   }
-  // };
+  function bookPCTimes(PC: BookingTimeSlot[], times: string[]) {}
 
   return (
     <>
@@ -758,244 +649,186 @@ export default function Booking({ john }: { john: Bookings[] }) {
             isFrontPage={false}
             content="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam non urna aliquet, mollis lacus sed, dignissim lectus. Curabitur eget diam volutpat, facilisis massa nec, varius nulla."
           />
-          <AnimatePresence>
-            <section>
-              <article
-                id="antalGuests"
-                className="w-full"
-              >
-                <div className="bg-contrastCol mt-8 p-4 lg:block">
-                  <h4 className="mt-0">Hvor mange computere vil du booke?</h4>
-                  <p> For at vi kan checke om der er PC'er nok til jer, så vil vi gerne vide hvor mang i kommer. </p>
-                </div>
-                <div className="bg-contrastCol md:mt-8 p-4 lg:block">
-                  <p className="mt-0 flex flex-row align-middle gap-x-2">
-                    <FaUserGroup className="inline-block mt-0.4" />
-                    <span>Antal computere (max 5)</span>
-                  </p>
-                  <span className={openAmount ? "block text-accentCol" : "hidden"}>Du må max vælge et tal mellem 1-5.</span>
-                  <Input
-                    type="number"
-                    className="border-white remove-arrow"
-                    onChange={handleAmountChange}
-                    value={amountValue}
-                  ></Input>
-                </div>
-              </article>
-              {amountValue !== undefined && Number(amountValue) < 6 && Number(amountValue) > 0 ? (
-                <motion.article
-                  id="date"
-                  className="w-full"
-                  initial={{ opacity: 0, y: "-50%" }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{
-                    type: "spring",
-                    stiffness: 100,
-                    duration: 0.3,
-                    ease: [0, 0.71, 0.2, 1.01],
-                  }}
-                >
-                  <div className="bg-contrastCol mt-8 p-4 lg:block">
-                    <h4 className="mt-0">Hvilken dag vil i komme?</h4>
+          <section>
+            <article
+              id="antalGuests"
+              className="w-full"
+            >
+              <div className="bg-contrastCol mt-8 p-4 lg:block">
+                <h4 className="mt-0">Hvor mange kommer i?</h4>
+                <p> For at vi kan checke om der er PC'er nok til jer, så vil vi gerne vide hvor mang i kommer. </p>
+              </div>
+              <div className="bg-contrastCol md:mt-8 p-4 lg:block">
+                <p className="mt-0 flex flex-row align-middle gap-x-2">
+                  <FaUserGroup className="inline-block mt-0.4" />
+                  <span>Antal (max 5)</span>
+                </p>
+                <Input
+                  type="number"
+                  max={5}
+                  min={1}
+                  className="border-white"
+                  onChange={handleAmountChange}
+                ></Input>
+              </div>
+            </article>
+            <article
+              id="date"
+              className="w-full"
+            >
+              <div className="bg-contrastCol mt-8 p-4 lg:block">
+                <h4 className="mt-0">Hvilken dag vil i komme?</h4>
+                <p>
+                  {" "}
+                  I kan booke tid 14 dage frem og alle ledige datoer vil være markeret med grøn farve. Dage vi er fuldt bookede er
+                  market med rød.
+                </p>
+              </div>
+              <div className="bg-contrastCol md:mt-8 p-4 lg:block">
+                <p className="mt-0 flex flex-row align-middle gap-x-2">
+                  <FaCalendarAlt className="inline-block mt-0.4" />
+                  <span>Dato</span>
+                </p>
+                <DatePicker
+                  // @ts-ignore
+                  disabledDays={disabledDays}
+                  onSelect={handleDateChange}
+                ></DatePicker>
+              </div>
+            </article>
+            <article
+              id="time"
+              className="w-full"
+            >
+              <div className="bg-contrastCol mt-8 p-4 lg:block">
+                <h4 className="mt-0">Hvor længe skal i game?</h4>
+                <p>
+                  Vi booker i tidsrummet 14.00 - 20.00, vælg hvor mange timer og hvornår i vil booke pc'er, ud fra de ledige tider
+                  for neden
+                </p>
+              </div>
+              <div className="bg-contrastCol md:mt-8 p-4 lg:block">
+                <p className="mt-0 flex flex-row align-middle gap-x-2">
+                  <IoTime className="inline-block mt-0.4" />
+                  <span>Tid</span>
+                  <button
+                    className="p-4 border border-white "
+                    onClick={() => console.log(bookTimes)}
+                  >
+                    Check Booking Status
+                  </button>
+                  <button
+                    className="p-4 border border-white "
+                    onClick={() => console.log(john)}
+                  >
+                    Check Supabase
+                  </button>
+                  <button
+                    className="p-4 border border-white "
+                    onClick={() => console.log(userChoices)}
+                  >
+                    Check Choices State
+                  </button>
+                  <button
+                    className="p-4 border border-white "
+                    onClick={() => console.log(timeChosen)}
+                  >
+                    Check timeChosen
+                  </button>
+                  <button
+                    className="p-4 border border-white "
+                    onClick={() => console.log(bookingDateTimes)}
+                  >
+                    Check Boking Date Times
+                  </button>
+                </p>
+                <div className="mt-3">
+                  {userChoices?.startTime?.index === undefined || userChoices?.endTime?.time === undefined ? (
                     <p>
                       {" "}
-                      I kan booke tid 14 dage frem og alle ledige datoer vil være markeret med grøn farve. Dage vi er fuldt
-                      bookede er market med rød.
+                      Tispunkt: <span className="font-semibold"> {timeChosen.time} </span>
                     </p>
-                  </div>
-                  <div className="bg-contrastCol md:mt-8 p-4 lg:block">
-                    <p className="mt-0 flex flex-row align-middle gap-x-2">
-                      <FaCalendarAlt className="inline-block mt-0.4" />
-                      <span>Dato</span>
-                    </p>
-                    <DatePicker
-                      // @ts-ignore
-                      disabledDays={disabledDays}
-                      onSelect={handleDateChange}
-                    ></DatePicker>
-                  </div>
-                </motion.article>
-              ) : (
-                ""
-              )}
-              {amountValue !== undefined &&
-              Number(amountValue) < 6 &&
-              Number(amountValue) > 0 &&
-              userChoices?.date !== undefined ? (
-                <motion.article
-                  id="time"
-                  className="w-full"
-                  initial={{ opacity: 0, y: "-50%" }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{
-                    type: "spring",
-                    stiffness: 100,
-                    duration: 0.3,
-                    ease: [0, 0.71, 0.2, 1.01],
-                  }}
-                >
-                  <div className="bg-contrastCol mt-8 p-4 lg:block">
-                    <h4 className="mt-0">Hvor længe skal i game?</h4>
+                  ) : (
                     <p>
-                      Vi booker i tidsrummet 14.00 - 20.00, vælg hvor mange timer og hvornår i vil booke pc'er, ud fra de ledige
-                      tider for neden
+                      Tidspunkt:
+                      <span className="font-semibold"> {userChoices?.startTime?.time} </span> -
+                      <span className="font-semibold"> {userChoices?.endTime?.time} </span>
+                      <span>
+                        Timer:
+                        {/* @ts-ignore */}
+                        {Math.abs(userChoices?.startTime?.index - userChoices?.endTime?.index) / 2}
+                      </span>
                     </p>
-                  </div>
-                  <div className="bg-contrastCol md:mt-8 p-4 lg:block">
-                    <p className="mt-0 flex flex-row align-middle gap-x-2">
-                      <IoTime className="inline-block mt-0.4" />
-                      <span>Tid</span>
-                      {/* <button className='p-4 border border-white ' onClick={() => console.log(bookTimes)}>
-                        Check Booking Status
-                      </button>
-                      <button className='p-4 border border-white ' onClick={() => console.log(john)}>
-                        Check Supabase
-                      </button>
-                      <button className='p-4 border border-white ' onClick={() => console.log(userChoices)}>
-                        Check Choices State
-                      </button>
-                      <button className='p-4 border border-white ' onClick={() => console.log(timeChosen)}>
-                        Check timeChosen
-                      </button>
-                      <button className='p-4 border border-white ' onClick={() => console.log(bookingDateTimes)}>
-                        Check Boking Date Times
-                      </button> */}
-                    </p>
-                    <div className="mt-3">
-                      {userChoices?.startTime?.index === undefined || userChoices?.endTime?.time === undefined ? (
-                        <p>
-                          {" "}
-                          Tispunkt: <span className="font-semibold"> {timeChosen.time} </span>
-                        </p>
+                  )}
+                </div>
+                <div className=" timeslots flex gap-2 flex-wrap mt-3">
+                  {bookingDateTimes.map((time: BookingTimeSlot, index: number) => (
+                    <div className="relative flex gap-2 flex-wrap mt-3">
+                      {time.booked ? (
+                        <BookedTimeSlot
+                          time={time}
+                          index={index}
+                          allTimes={bookingDateTimes}
+                          userChoices={userChoices}
+                        />
                       ) : (
-                        <p>
-                          Tidspunkt:
-                          <span className="font-semibold"> {userChoices?.startTime?.time} </span> -
-                          <span className="font-semibold"> {userChoices?.endTime?.time} </span>
-                          <span>
-                            Timer:
-                            {/* @ts-ignore */}
-                            {Math.abs(userChoices?.startTime?.index - userChoices?.endTime?.index) / 2}
-                          </span>
-                        </p>
+                        //  <input type="checkbox" name="tid" id={time.time} key={index} className="absolute z-0 opacity-0 peer" defaultChecked={bTS.includes(index)} disabled={time.booked} />
+                        // <label
+                        //   htmlFor={time.time}
+                        //   onClick={() => addTime(time.time, index)}
+                        //   className={
+                        //     (startTid.index !== undefined && slutTid.index !== undefined && startTid.index !== null && slutTid.index !== null && index >= startTid.index && index <= slutTid.index) || startTid.index === index || slutTid.index === index
+                        //       ? "z-10 min-w-[85px] text-center py-2 border border-accentCol font-semibold transition ease-in-out duration-150 cursor-pointer bg-accentCol peer-disabled:bg-slate-500 peer-disabled:border-slate-500 peer-disabled:text-slate-700 peer-disabled:pointer-events-none peer-disabled:cursor-not-allowed"
+                        //       : "z-10 min-w-[85px] text-center py-2 border border-accentCol font-semibold transition ease-in-out duration-150 cursor-pointer peer-disabled:bg-slate-500 peer-disabled:border-slate-500 peer-disabled:text-slate-700 peer-disabled:pointer-events-none peer-disabled:cursor-not-allowed"
+                        //   }
+                        // >
+                        //   {time.time}
+                        // </label>
+                        <AvailibleTimeSlot
+                          className={
+                            bookTimes.includes(time.time)
+                              ? "z-10 min-w-[85px] text-center py-2 border border-accentCol font-semibold transition ease-in-out duration-150 cursor-pointer bg-accentCol"
+                              : "z-10 min-w-[85px] text-center py-2 border border-accentCol font-semibold transition ease-in-out duration-150 cursor-pointer"
+                          }
+                          defaultChecked={bookTimes.includes(time.time)}
+                          index={index}
+                          onClick={() => addTime(time.time, index)}
+                          time={time}
+                        />
                       )}
                     </div>
-                    <div className=" timeslots flex gap-2 flex-wrap mt-3">
-                      {bookingDateTimes.map((time: BookingTimeSlot, index: number) => (
-                        <div className="relative flex gap-2 flex-wrap mt-3">
-                          {time.booked ? (
-                            <BookedTimeSlot
-                              time={time}
-                              index={index}
-                              allTimes={bookingDateTimes}
-                              userChoices={userChoices}
-                            />
-                          ) : (
-                            //  <input type="checkbox" name="tid" id={time.time} key={index} className="absolute z-0 opacity-0 peer" defaultChecked={bTS.includes(index)} disabled={time.booked} />
-                            // <label
-                            //   htmlFor={time.time}
-                            //   onClick={() => addTime(time.time, index)}
-                            //   className={
-                            //     (startTid.index !== undefined && slutTid.index !== undefined && startTid.index !== null && slutTid.index !== null && index >= startTid.index && index <= slutTid.index) || startTid.index === index || slutTid.index === index
-                            //       ? "z-10 min-w-[85px] text-center py-2 border border-accentCol font-semibold transition ease-in-out duration-150 cursor-pointer bg-accentCol peer-disabled:bg-slate-500 peer-disabled:border-slate-500 peer-disabled:text-slate-700 peer-disabled:pointer-events-none peer-disabled:cursor-not-allowed"
-                            //       : "z-10 min-w-[85px] text-center py-2 border border-accentCol font-semibold transition ease-in-out duration-150 cursor-pointer peer-disabled:bg-slate-500 peer-disabled:border-slate-500 peer-disabled:text-slate-700 peer-disabled:pointer-events-none peer-disabled:cursor-not-allowed"
-                            //   }
-                            // >
-                            //   {time.time}
-                            // </label>
-                            <AvailibleTimeSlot
-                              className={
-                                bookTimes.includes(time.time)
-                                  ? "z-10 min-w-[85px] text-center py-2 border border-accentCol font-semibold transition ease-in-out duration-150 cursor-pointer bg-accentCol"
-                                  : "z-10 min-w-[85px] text-center py-2 border border-accentCol font-semibold transition ease-in-out duration-150 cursor-pointer"
-                              }
-                              defaultChecked={bookTimes.includes(time.time)}
-                              index={index}
-                              onClick={() => addTime(time.time, index)}
-                              time={time}
-                            />
-                          )}
-                        </div>
-                      ))}
-                      <AlertDialog
-                        open={openDialogAlert}
-                        onOpenChange={setOpenDialogAlert}
-                      >
-                        <AlertDialogContent>
-                          <AlertDialogHeader>
-                            <AlertDialogTitle>Du kan ikke booke her.</AlertDialogTitle>
-                            <AlertDialogDescription>
-                              Det er ikke muligt at booke fra {alertDetail?.start} til {alertDetail?.slut}, da følgende tider er
-                              booket:{" "}
-                              <ul className="flex flex-col gap-x-1">
-                                {alertDetail?.arr.map((tid) => (
-                                  <li>{tid}</li>
-                                ))}
-                              </ul>
-                              Vælg en af de gyldige tider.
-                            </AlertDialogDescription>
-                          </AlertDialogHeader>
-                          <AlertDialogFooter>
-                            <AlertDialogCancel>Cancel</AlertDialogCancel>
-                            <AlertDialogAction>Continue</AlertDialogAction>
-                          </AlertDialogFooter>
-                        </AlertDialogContent>
-                      </AlertDialog>
-                    </div>
-                  </div>
-                </motion.article>
-              ) : (
-                ""
-              )}
-              {amountValue !== undefined &&
-              Number(amountValue) < 6 &&
-              Number(amountValue) > 0 &&
-              userChoices?.date !== undefined &&
-              userChoices?.startTime?.index !== undefined &&
-              userChoices.endTime?.index !== undefined ? (
-                <motion.article
-                  id="personalInfo"
-                  className="w-full"
-                  initial={{ opacity: 0, y: "-50%" }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{
-                    type: "spring",
-                    stiffness: 100,
-                    duration: 0.3,
-                    ease: [0, 0.71, 0.2, 1.01],
-                  }}
-                >
-                  {/* <Form>
-                    <FormField
-                      control={form.control}
-                      name='name'
-                      render={({ field }) => (
-                        <FormItem className='mt-5'>
-                          <FormLabel>Navn</FormLabel>
-                          <FormControl>
-                            <div className={`mt-8 w-[11.25rem] ${!form.formState.errors ? 'shake' : ''}`}>
-                              <SelectField onSelectChange={handleBookingChange(BookingTypes.FormName)} s electedValue={selectedValue} {...field} />
-                            </div>
-                          </FormControl>
-                          <FormDescription></FormDescription>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </Form> */}
-                  <h3>INDSÆT KONTAKT FORMULAR HER TIL BOOKING</h3>
-                  <button onClick={() => updateSupabase()}>Tryk for fixe Bookinger i supaBase - PC Table</button>
-                </motion.article>
-              ) : (
-                ""
-              )}
-            </section>
-          </AnimatePresence>
+                  ))}
+                  <AlertDialog
+                    open={openDialogAlert}
+                    onOpenChange={setOpenDialogAlert}
+                  >
+                    <AlertDialogContent>
+                      <AlertDialogHeader>
+                        <AlertDialogTitle>Dette er en test</AlertDialogTitle>
+                        <AlertDialogDescription>slap af, det er bare en test</AlertDialogDescription>
+                      </AlertDialogHeader>
+                      <AlertDialogFooter>
+                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogAction>Continue</AlertDialogAction>
+                      </AlertDialogFooter>
+                    </AlertDialogContent>
+                  </AlertDialog>
+                </div>
+              </div>
+            </article>
+            <article
+              id="personalInfo"
+              className="w-full"
+            >
+              <div>
+                {" "}
+                <h3>INDSÆT KONTAKT FORMULAR HER TIL BOOKING</h3>
+                <button onClick={() => updateSupabase()}>Tryk for fixe Bookinger i supaBase - PC Table</button>
+              </div>
+            </article>
+          </section>
         </main>
       </Layout>
     </>
   );
-}
-function useForm<T>(arg0: { resolver: any; defaultValues: { email: any; password: any } }) {
-  throw new Error("Function not implemented.");
 }
