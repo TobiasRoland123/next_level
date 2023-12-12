@@ -115,7 +115,9 @@ export default function Booking({ john }: { john: Bookings[] }) {
       if (i < 12) {
         // @ts-ignore
         if (
+          // @ts-ignore
           availibleTimes[i].bookedCount > 4 &&
+          // @ts-ignore
           (availibleTimes[i + 1].bookedCount > 4 || availibleTimes[i - 1].bookedCount > 4)
         ) {
           availibleTimes[i].booked = true;
