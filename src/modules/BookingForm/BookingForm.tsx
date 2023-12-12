@@ -12,6 +12,9 @@ import { Layout } from '@/Layout';
 import { FormControl, FormItem, FormLabel, FormDescription, FormMessage, FormField, Form } from '@/components/ui/form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { UserBooking } from '@/Types/calendar';
+import { formattedDate } from '@/calendarFunctions/calendarFunctions';
+import { useAtom } from 'jotai';
+import { bookingCompleteAtom } from '@/states/store';
 
 interface BookingProps {
   userChoices: UserBooking;
@@ -20,6 +23,7 @@ interface BookingProps {
 export const BookingForm: React.FC<BookingProps> = ({ userChoices }) => {
   const [supabaseError, setSupabaseError] = useState<string | null>(null);
   const [isBookingValid, setIsBookingValid] = useState<boolean | null>(null);
+  const [bookingComplete, setBookingComplete] = useAtom(bookingCompleteAtom);
   const antal = userChoices.amount;
   const dato = userChoices.date;
   const startTid = userChoices.startTime?.time;
@@ -32,6 +36,24 @@ export const BookingForm: React.FC<BookingProps> = ({ userChoices }) => {
   const [user, setUser] = useState({ email: '', navn: '', telefon: '' });
 
   const supabase = createClient('https://zwcshwxjwoffkdrdvbtp.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp3Y3Nod3hqd29mZmtkcmR2YnRwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDEwNzg5NzgsImV4cCI6MjAxNjY1NDk3OH0.yq0erC0CIBZmUG9uMC8u1YVyG4g2dsf3PrpekxJDq34');
+
+  const timerImellem = () => {
+
+    const startTimeString: string | undefined = startTid?.replace(".",":")
+    const endTimeString: string | undefined = slutTid?.replace('.', ':');
+    
+    // Convert time strings to Date objects
+    const startTime: Date = new Date(`2000-01-01T${startTimeString}`);
+    const endTime: Date = new Date(`2000-01-01T${endTimeString}`);
+    
+    // Calculate the time difference in milliseconds
+    const timeDiffMillis: number = endTime.getTime() - startTime.getTime();
+    
+    // Convert milliseconds to hours
+    const hoursDiff: number = timeDiffMillis / (1000 * 60 * 60);
+
+    return (hoursDiff)
+  }
 
   // Errormessages for validation of the string in the input field.
   const formSchema = z.object({
@@ -73,6 +95,7 @@ export const BookingForm: React.FC<BookingProps> = ({ userChoices }) => {
       if (data) {
         console.log('data', data);
         setIsBookingValid(true);
+        setBookingComplete(true)
       }
     } catch (error) {
       console.error('Error:', error);
@@ -80,134 +103,150 @@ export const BookingForm: React.FC<BookingProps> = ({ userChoices }) => {
   };
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(handleBooking)} className='w-full'>
-        <FormField
-          control={form.control}
-          name='navn'
-          render={({ field }) => (
-            <FormItem className='mt-5'>
-              <FormLabel>Navn</FormLabel>
-              <FormControl>
-                <div style={{ position: 'relative' }} className={form.formState.errors.navn || isBookingValid === false ? 'shake' : ''}>
-                  <Input
-                    style={{
-                      borderColor: form.formState.isSubmitted && (form.formState.errors.navn || isBookingValid === false) ? 'red' : isBookingValid === true ? 'green' : 'none',
-                    }}
-                    {...field}
-                    id='navn'
-                    type='text'
-                  />
-                  {form.formState.errors.navn || isBookingValid === false ? (
-                    <div className='absolute top-2 right-0 pr-3 flex items-center pointer-events-none'>
-                      <div>
-                        <MdError className={'text-red-500 text-2xl'} />
-                      </div>
+    <>
+      <article id='contactForm' className='w-full'>
+        <div className='bg-contrastCol mt-8 p-4 lg:block'>
+          <h4>Kontaktoplysnigner</h4>
+          <p>Så mangler vi bare de sidste detaljer for at din booking er klaret!</p>
+          <h4>Booking Oplysninger</h4>
+          <p className='font-semibold flex flex-col gap-y-3'>
+            <span>{formattedDate(dato as string)}</span>
+            <span>{antal} computere</span>
+            <span>{timerImellem()} timer ({startTid} - {slutTid})</span>
+          </p>
+        </div>
+      </article>
+      <article>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(handleBooking)} className='w-full'>
+            <FormField
+              control={form.control}
+              name='navn'
+              render={({ field }) => (
+                <FormItem className='mt-5'>
+                  <FormLabel>Navn</FormLabel>
+                  <FormControl>
+                    <div style={{ position: 'relative' }} className={form.formState.errors.navn || isBookingValid === false ? 'shake' : ''}>
+                      <Input
+                        style={{
+                          borderColor: form.formState.isSubmitted && (form.formState.errors.navn || isBookingValid === false) ? 'red' : isBookingValid === true ? 'green' : 'none',
+                        }}
+                        {...field}
+                        id='navn'
+                        type='text'
+                      />
+                      {form.formState.errors.navn || isBookingValid === false ? (
+                        <div className='absolute top-2 right-0 pr-3 flex items-center pointer-events-none'>
+                          <div>
+                            <MdError className={'text-red-500 text-2xl'} />
+                          </div>
+                        </div>
+                      ) : form.formState.isSubmitted && !form.formState.errors.email ? (
+                        <div className='absolute top-2 right-0 pr-3 flex items-center pointer-events-none'>
+                          <div>
+                            <IoIosCheckmarkCircle className={'text-green-500 text-2xl'} />
+                          </div>
+                        </div>
+                      ) : (
+                        ''
+                      )}
                     </div>
-                  ) : form.formState.isSubmitted && !form.formState.errors.email ? (
-                    <div className='absolute top-2 right-0 pr-3 flex items-center pointer-events-none'>
-                      <div>
-                        <IoIosCheckmarkCircle className={'text-green-500 text-2xl'} />
-                      </div>
+                  </FormControl>
+                  <FormDescription className='text-transparent'>
+                    Placeholder text
+                    {/* Remove text-transparent if you need to use the field description */}
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name='email'
+              render={({ field }) => (
+                <FormItem className='mt-5'>
+                  <FormLabel>Email</FormLabel>
+                  <FormControl>
+                    <div style={{ position: 'relative' }} className={form.formState.errors.email || isBookingValid === false ? 'shake' : ''}>
+                      <Input
+                        style={{
+                          borderColor: form.formState.isSubmitted && (form.formState.errors.email || isBookingValid === false) ? 'red' : isBookingValid === true ? 'green' : 'none',
+                        }}
+                        {...field}
+                        id='email'
+                        type='email'
+                      />
+                      {form.formState.errors.email || isBookingValid === false ? (
+                        <div className='absolute top-2 right-0 pr-3 flex items-center pointer-events-none'>
+                          <div>
+                            <MdError className={'text-red-500 text-2xl'} />
+                          </div>
+                        </div>
+                      ) : form.formState.isSubmitted && !form.formState.errors.email ? (
+                        <div className='absolute top-2 right-0 pr-3 flex items-center pointer-events-none'>
+                          <div>
+                            <IoIosCheckmarkCircle className={'text-green-500 text-2xl'} />
+                          </div>
+                        </div>
+                      ) : (
+                        ''
+                      )}
                     </div>
-                  ) : (
-                    ''
-                  )}
-                </div>
-              </FormControl>
-              <FormDescription className='text-transparent'>
-                Placeholder text
-                {/* Remove text-transparent if you need to use the field description */}
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name='email'
-          render={({ field }) => (
-            <FormItem className='mt-5'>
-              <FormLabel>Email</FormLabel>
-              <FormControl>
-                <div style={{ position: 'relative' }} className={form.formState.errors.email || isBookingValid === false ? 'shake' : ''}>
-                  <Input
-                    style={{
-                      borderColor: form.formState.isSubmitted && (form.formState.errors.email || isBookingValid === false) ? 'red' : isBookingValid === true ? 'green' : 'none',
-                    }}
-                    {...field}
-                    id='email'
-                    type='email'
-                  />
-                  {form.formState.errors.email || isBookingValid === false ? (
-                    <div className='absolute top-2 right-0 pr-3 flex items-center pointer-events-none'>
-                      <div>
-                        <MdError className={'text-red-500 text-2xl'} />
-                      </div>
+                  </FormControl>
+                  <FormDescription className='text-transparent'>
+                    Placeholder text
+                    {/* Remove text-transparent if you need to use the field description */}
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name='telefon'
+              render={({ field }) => (
+                <FormItem className='mt-5'>
+                  <FormLabel>Telefon nummmer</FormLabel>
+                  <FormControl>
+                    <div style={{ position: 'relative' }} className={form.formState.errors.telefon || isBookingValid === false ? 'shake' : ''}>
+                      <Input
+                        style={{
+                          borderColor: form.formState.isSubmitted && (form.formState.errors.telefon || isBookingValid === false) ? 'red' : isBookingValid === true ? 'green' : 'none',
+                        }}
+                        {...field}
+                        id='telefon'
+                        type='tel'
+                      />
+                      {form.formState.errors.telefon || isBookingValid === false ? (
+                        <div className='absolute top-2 right-0 pr-3 flex items-center pointer-events-none'>
+                          <div>
+                            <MdError className={'text-red-500 text-2xl'} />
+                          </div>
+                        </div>
+                      ) : form.formState.isSubmitted && !form.formState.errors.telefon ? (
+                        <div className='absolute top-2 right-0 pr-3 flex items-center pointer-events-none'>
+                          <div>
+                            <IoIosCheckmarkCircle className={'text-green-500 text-2xl'} />
+                          </div>
+                        </div>
+                      ) : (
+                        ''
+                      )}
                     </div>
-                  ) : form.formState.isSubmitted && !form.formState.errors.email ? (
-                    <div className='absolute top-2 right-0 pr-3 flex items-center pointer-events-none'>
-                      <div>
-                        <IoIosCheckmarkCircle className={'text-green-500 text-2xl'} />
-                      </div>
-                    </div>
-                  ) : (
-                    ''
-                  )}
-                </div>
-              </FormControl>
-              <FormDescription className='text-transparent'>
-                Placeholder text
-                {/* Remove text-transparent if you need to use the field description */}
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name='telefon'
-          render={({ field }) => (
-            <FormItem className='mt-5'>
-              <FormLabel>Telefon nummmer</FormLabel>
-              <FormControl>
-                <div style={{ position: 'relative' }} className={form.formState.errors.telefon || isBookingValid === false ? 'shake' : ''}>
-                  <Input
-                    style={{
-                      borderColor: form.formState.isSubmitted && (form.formState.errors.telefon || isBookingValid === false) ? 'red' : isBookingValid === true ? 'green' : 'none',
-                    }}
-                    {...field}
-                    id='telefon'
-                    type='tel'
-                  />
-                  {form.formState.errors.telefon || isBookingValid === false ? (
-                    <div className='absolute top-2 right-0 pr-3 flex items-center pointer-events-none'>
-                      <div>
-                        <MdError className={'text-red-500 text-2xl'} />
-                      </div>
-                    </div>
-                  ) : form.formState.isSubmitted && !form.formState.errors.telefon ? (
-                    <div className='absolute top-2 right-0 pr-3 flex items-center pointer-events-none'>
-                      <div>
-                        <IoIosCheckmarkCircle className={'text-green-500 text-2xl'} />
-                      </div>
-                    </div>
-                  ) : (
-                    ''
-                  )}
-                </div>
-              </FormControl>
-              <FormDescription className='text-transparent'>
-                Placeholder text
-                {/* Remove text-transparent if you need to use the field description */}
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <Button>Book din tid</Button>
-      </form>
-    </Form>
+                  </FormControl>
+                  <FormDescription className='text-transparent'>
+                    Placeholder text
+                    {/* Remove text-transparent if you need to use the field description */}
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <Button>Book din tid</Button>
+          </form>
+        </Form>
+      </article>
+    </>
   );
 };
 

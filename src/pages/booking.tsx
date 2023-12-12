@@ -5,13 +5,13 @@ import { FaUserGroup } from 'react-icons/fa6';
 import { FaCalendarAlt } from 'react-icons/fa';
 import { IoTime } from 'react-icons/io5';
 import { DatePicker } from '@/components/Calender/DatePicker';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { BookingTypes } from '@/enum/BookingTimes';
 import { Matcher } from 'react-day-picker';
 import { BookingTimeSlot, PCObjects, TimeSlot, TimeSlotOptions, UserBooking } from '@/Types/calendar';
 import { supabase } from '../../utils/supabaseClient';
 import { Bookings } from '@/Types/Bookings';
-import { futureDays, pastDays } from '@/calendarFunctions/calendarFunctions';
+import { formattedDate, futureDays, pastDays } from '@/calendarFunctions/calendarFunctions';
 import timeSlots from '@/Types/TimesArray';
 import { AvailibleTimeSlot } from '@/components/AvailibleTimeSlot/AvailibleTimeSlot';
 import { BookedTimeSlot } from '@/components/BookedTimeSlot/BookedTimeSlot';
@@ -21,6 +21,10 @@ import { FormControl, FormItem, FormLabel, FormDescription, FormMessage, FormFie
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import BookingForm from '@/modules/BookingForm/BookingForm';
+import { bookingCompleteAtom } from '@/states/store';
+import { useAtom } from 'jotai';
+import { BookingRecieved } from '@/modules/BookingRecieved/bookingRecieved';
+import { useRouter } from 'next/router';
 
 export async function getServerSideProps() {
   let { data: john, error } = await supabase.from('Bookings').select('*');
@@ -38,11 +42,29 @@ export default function Booking({ john }: { john: Bookings[] }) {
   const [userChoices, setUserChoices] = useState<UserBooking | undefined>();
   const [amountValue, setAmountValue] = useState<number | ''>();
   const [openAmount, setOpenAmount] = useState(false);
+  const [bookingComplete, setBookingComplete] = useAtom(bookingCompleteAtom);
   const [openDialogAlert, setOpenDialogAlert] = useState(false);
   const [alertDetail, setAlertDetail] = useState<AlertDetails>();
   const [timeChosen, setTimeChosen] = useState<TimeSlot>({ time: '', index: undefined });
   const [bookTimes, setBookTimes] = useState<string[]>([]);
   const [bookingDateTimes, setBookingDateTimes] = useState<BookingTimeSlot[]>(timeSlots);
+  const router = useRouter();
+
+  useEffect(() => {
+    // Subscribe to the router's "routeChangeComplete" event
+    const handleRouteChange = (url: string) => {
+      console.log(`Route changed to: ${url}`);
+      setBookingComplete(false);
+    };
+
+    // Add the event listener
+    router.events.on('routeChangeComplete', handleRouteChange);
+
+    // Clean up the event listener on component unmount
+    return () => {
+      router.events.off('routeChangeComplete', handleRouteChange);
+    };
+  }, [router.events]);
 
   //Make same function and use Enums with a switch Statement
   const handleAmountChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -80,19 +102,27 @@ export default function Booking({ john }: { john: Bookings[] }) {
   };
 
   const handleDateChange = (e: string) => {
-    const date = new Date(e);
-    const Year = date.getFullYear();
-    const Month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-indexed
-    const Day = String(date.getDate()).padStart(2, '0');
+    if (e === undefined) {
+      setUserChoices((prevData) => ({
+        ...prevData,
+        date: undefined,
+      }));
+    } else {
+      console.log(e);
+      const date = new Date(e);
+      const Year = date.getFullYear();
+      const Month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-indexed
+      const Day = String(date.getDate()).padStart(2, '0');
 
-    const FormattedDate = `${Number(Year)}-${Number(Month)}-${Number(Day)}`;
+      const FormattedDate = `${Number(Year)}-${Number(Month)}-${Number(Day)}`;
 
-    setUserChoices((prevData) => ({
-      ...prevData,
-      date: FormattedDate,
-    }));
-    bookingTimes(FormattedDate);
-    editBookedTimes('', 0, BookingTypes.ClearAll);
+      setUserChoices((prevData) => ({
+        ...prevData,
+        date: FormattedDate,
+      }));
+      bookingTimes(FormattedDate);
+      editBookedTimes('', 0, BookingTypes.ClearAll);
+    }
   };
 
   function bookingTimes(chosenDate: string) {
@@ -900,76 +930,80 @@ export default function Booking({ john }: { john: Bookings[] }) {
       <Layout>
         <main>
           <Hero header="Book DK's mest unikke gaming oplevelse" redWord={['unikke']} isFrontPage={false} content='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam non urna aliquet, mollis lacus sed, dignissim lectus. Curabitur eget diam volutpat, facilisis massa nec, varius nulla.' />
-          <AnimatePresence>
-            <section>
-              <article id='antalGuests' className='w-full'>
-                <div className='bg-contrastCol mt-8 p-4 lg:block'>
-                  <h4 className='mt-0'>Hvor mange computere vil du booke?</h4>
-                  <p> For at vi kan checke om der er PC'er nok til jer, så vil vi gerne vide hvor mang i kommer. </p>
-                </div>
-                <div className='bg-contrastCol md:mt-8 p-4 lg:block'>
-                  <p className='mt-0 flex flex-row align-middle gap-x-2'>
-                    <FaUserGroup className='inline-block mt-0.4' />
-                    <span>Antal computere (max 5)</span>
-                  </p>
-                  <span className={openAmount ? 'block text-accentCol' : 'hidden'}>Du må max vælge et tal mellem 1-5.</span>
-                  <Input type='number' className='border-white remove-arrow' onChange={handleAmountChange} value={amountValue}></Input>
-                </div>
-              </article>
-              {amountValue !== undefined && Number(amountValue) < 6 && Number(amountValue) > 0 ? (
-                <motion.article
-                  id='date'
-                  className='w-full'
-                  initial={{ opacity: 0, y: '-50%' }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{
-                    type: 'spring',
-                    stiffness: 100,
-                    duration: 0.3,
-                    ease: [0, 0.71, 0.2, 1.01],
-                  }}
-                >
+          {bookingComplete === false ? (
+            <AnimatePresence>
+              <section id='bookingBlock' className='spacer'>
+                <article id='antalGuests' className='w-full'>
                   <div className='bg-contrastCol mt-8 p-4 lg:block'>
-                    <h4 className='mt-0'>Hvilken dag vil i komme?</h4>
-                    <p> I kan booke tid 14 dage frem og alle ledige datoer vil være markeret med grøn farve. Dage vi er fuldt bookede er market med rød.</p>
+                    <h4 className='mt-0'>Hvor mange computere vil du booke?</h4>
+                    <p> For at vi kan checke om der er PC'er nok til jer, så vil vi gerne vide hvor mang i kommer. </p>
                   </div>
                   <div className='bg-contrastCol md:mt-8 p-4 lg:block'>
                     <p className='mt-0 flex flex-row align-middle gap-x-2'>
-                      <FaCalendarAlt className='inline-block mt-0.4' />
-                      <span>Dato</span>
+                      <FaUserGroup className='inline-block mt-0.4' />
+                      <span>Antal computere (max 5)</span>
                     </p>
-                    <DatePicker
-                      // @ts-ignore
-                      disabledDays={disabledDays}
-                      onSelect={handleDateChange}
-                    ></DatePicker>
+                    <span className={openAmount ? 'block text-accentCol' : 'hidden'}>Du må max vælge et tal mellem 1-5.</span>
+                    <Input type='number' className='border-white remove-arrow' onChange={handleAmountChange} value={amountValue}></Input>
                   </div>
-                </motion.article>
-              ) : (
-                ''
-              )}
-              {amountValue !== undefined && Number(amountValue) < 6 && Number(amountValue) > 0 && userChoices?.date !== undefined ? (
-                <motion.article
-                  id='time'
-                  className='w-full'
-                  initial={{ opacity: 0, y: '-50%' }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{
-                    type: 'spring',
-                    stiffness: 100,
-                    duration: 0.3,
-                    ease: [0, 0.71, 0.2, 1.01],
-                  }}
-                >
-                  <div className='bg-contrastCol mt-8 p-4 lg:block'>
-                    <h4 className='mt-0'>Hvor længe skal i game?</h4>
-                    <p>Vi booker i tidsrummet 14.00 - 20.00, vælg hvor mange timer og hvornår i vil booke pc'er, ud fra de ledige tider for neden</p>
-                  </div>
-                  <div className='bg-contrastCol md:mt-8 p-4 lg:block'>
-                    <p className='mt-0 flex flex-row align-middle gap-x-2'>
-                      <IoTime className='inline-block mt-0.4' />
-                      <span>Tid</span>
-                      {/* <button className='p-4 border border-white ' onClick={() => console.log(bookTimes)}>
+                </article>
+                {amountValue !== undefined && Number(amountValue) < 6 && Number(amountValue) > 0 ? (
+                  <motion.article
+                    id='date'
+                    className='w-full'
+                    initial={{ opacity: 0, y: '-50%' }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{
+                      type: 'spring',
+                      stiffness: 100,
+                      duration: 0.3,
+                      ease: [0, 0.71, 0.2, 1.01],
+                    }}
+                  >
+                    <div className='bg-contrastCol mt-8 p-4 lg:block'>
+                      <h4 className='mt-0'>Hvilken dag vil i komme?</h4>
+                      <p> I kan booke tid 14 dage frem og alle ledige datoer vil være markeret med grøn farve. Dage vi er fuldt bookede er market med rød.</p>
+                    </div>
+                    <div className='bg-contrastCol md:mt-8 p-4 lg:block'>
+                      <p className='mt-0 flex flex-row align-middle gap-x-2'>
+                        <FaCalendarAlt className='inline-block mt-0.4' />
+                        <span>Dato</span>
+                        <span>
+                          <b>{userChoices?.date === undefined ? '' : `- ${formattedDate(userChoices?.date)}`}</b>
+                        </span>
+                      </p>
+                      <DatePicker
+                        // @ts-ignore
+                        disabledDays={disabledDays}
+                        onSelect={handleDateChange}
+                      ></DatePicker>
+                    </div>
+                  </motion.article>
+                ) : (
+                  ''
+                )}
+                {amountValue !== undefined && Number(amountValue) < 6 && Number(amountValue) > 0 && userChoices?.date !== undefined ? (
+                  <motion.article
+                    id='time'
+                    className='w-full'
+                    initial={{ opacity: 0, y: '-50%' }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{
+                      type: 'spring',
+                      stiffness: 100,
+                      duration: 0.3,
+                      ease: [0, 0.71, 0.2, 1.01],
+                    }}
+                  >
+                    <div className='bg-contrastCol mt-8 p-4 lg:block'>
+                      <h4 className='mt-0'>Hvor længe skal i game?</h4>
+                      <p>Vi booker i tidsrummet 14.00 - 20.00, vælg hvor mange timer og hvornår i vil booke pc'er, ud fra de ledige tider for neden</p>
+                    </div>
+                    <div className='bg-contrastCol md:mt-8 p-4 lg:block'>
+                      <p className='mt-0 flex flex-row align-middle gap-x-2'>
+                        <IoTime className='inline-block mt-0.4' />
+                        <span>Tid</span>
+                        {/* <button className='p-4 border border-white ' onClick={() => console.log(bookTimes)}>
                         Check Booking Status
                       </button>
                       <button className='p-4 border border-white ' onClick={() => console.log(john)}>
@@ -984,93 +1018,107 @@ export default function Booking({ john }: { john: Bookings[] }) {
                       <button className='p-4 border border-white ' onClick={() => console.log(bookingDateTimes)}>
                         Check Boking Date Times
                       </button> */}
-                    </p>
-                    <div className='mt-3'>
-                      {userChoices?.startTime?.index === undefined || userChoices?.endTime?.time === undefined ? (
-                        <p>
-                          {' '}
-                          Tispunkt: <span className='font-semibold'> {timeChosen.time} </span>
-                        </p>
-                      ) : (
-                        <p>
-                          Tidspunkt:
-                          <span className='font-semibold'> {userChoices?.startTime?.time} </span> -<span className='font-semibold'> {userChoices?.endTime?.time} </span>
-                          <span>
-                            Timer:
-                            {/* @ts-ignore */}
-                            {Math.abs(userChoices?.startTime?.index - userChoices?.endTime?.index) / 2}
-                          </span>
-                        </p>
-                      )}
+                      </p>
+                      <div className='mt-3'>
+                        {userChoices?.startTime?.index === undefined || userChoices?.endTime?.time === undefined ? (
+                          <p>
+                            Tispunkt:
+                            <span>
+                              <b>{timeChosen.time}</b>
+                            </span>
+                          </p>
+                        ) : (
+                          <p>
+                            Tidspunkt:
+                            <span>
+                              {' '}
+                              <b>{userChoices?.startTime?.time}</b>{' '}
+                            </span>{' '}
+                            -
+                            <span>
+                              {' '}
+                              <b>{userChoices?.endTime?.time}</b>{' '}
+                            </span>
+                            <span className='block mt-2'>
+                              Timer:
+                              {/* @ts-ignore */}
+                              <b>{Math.abs(userChoices?.startTime?.index - userChoices?.endTime?.index) / 2}</b>
+                            </span>
+                          </p>
+                        )}
+                      </div>
+                      <div className=' timeslots flex gap-2 flex-wrap mt-3'>
+                        {bookingDateTimes.map((time: BookingTimeSlot, index: number) => (
+                          <div className='relative flex gap-2 flex-wrap mt-3'>
+                            {time.booked ? (
+                              <BookedTimeSlot time={time} index={index} allTimes={bookingDateTimes} userChoices={userChoices} />
+                            ) : (
+                              //  <input type="checkbox" name="tid" id={time.time} key={index} className="absolute z-0 opacity-0 peer" defaultChecked={bTS.includes(index)} disabled={time.booked} />
+                              // <label
+                              //   htmlFor={time.time}
+                              //   onClick={() => addTime(time.time, index)}
+                              //   className={
+                              //     (startTid.index !== undefined && slutTid.index !== undefined && startTid.index !== null && slutTid.index !== null && index >= startTid.index && index <= slutTid.index) || startTid.index === index || slutTid.index === index
+                              //       ? "z-10 min-w-[85px] text-center py-2 border border-accentCol font-semibold transition ease-in-out duration-150 cursor-pointer bg-accentCol peer-disabled:bg-slate-500 peer-disabled:border-slate-500 peer-disabled:text-slate-700 peer-disabled:pointer-events-none peer-disabled:cursor-not-allowed"
+                              //       : "z-10 min-w-[85px] text-center py-2 border border-accentCol font-semibold transition ease-in-out duration-150 cursor-pointer peer-disabled:bg-slate-500 peer-disabled:border-slate-500 peer-disabled:text-slate-700 peer-disabled:pointer-events-none peer-disabled:cursor-not-allowed"
+                              //   }
+                              // >
+                              //   {time.time}
+                              // </label>
+                              <AvailibleTimeSlot className={bookTimes.includes(time.time) ? 'z-10 min-w-[85px] text-center py-2 border border-accentCol font-semibold transition ease-in-out duration-150 cursor-pointer bg-accentCol' : 'z-10 min-w-[85px] text-center py-2 border border-accentCol font-semibold transition ease-in-out duration-150 cursor-pointer'} defaultChecked={bookTimes.includes(time.time)} index={index} onClick={() => addTime(time.time, index)} time={time} />
+                            )}
+                          </div>
+                        ))}
+                        <AlertDialog open={openDialogAlert} onOpenChange={setOpenDialogAlert}>
+                          <AlertDialogContent>
+                            <AlertDialogHeader>
+                              <AlertDialogTitle>Du kan ikke booke her.</AlertDialogTitle>
+                              <AlertDialogDescription>
+                                Det er ikke muligt at booke fra {alertDetail?.start} til {alertDetail?.slut}, da følgende tider er booket:{' '}
+                                <ul className='flex flex-col gap-x-1'>
+                                  {alertDetail?.arr.map((tid) => (
+                                    <li>{tid}</li>
+                                  ))}
+                                </ul>
+                                Vælg en af de gyldige tider.
+                              </AlertDialogDescription>
+                            </AlertDialogHeader>
+                            <AlertDialogFooter>
+                              <AlertDialogCancel>Cancel</AlertDialogCancel>
+                              <AlertDialogAction>Continue</AlertDialogAction>
+                            </AlertDialogFooter>
+                          </AlertDialogContent>
+                        </AlertDialog>
+                      </div>
                     </div>
-                    <div className=' timeslots flex gap-2 flex-wrap mt-3'>
-                      {bookingDateTimes.map((time: BookingTimeSlot, index: number) => (
-                        <div className='relative flex gap-2 flex-wrap mt-3'>
-                          {time.booked ? (
-                            <BookedTimeSlot time={time} index={index} allTimes={bookingDateTimes} userChoices={userChoices} />
-                          ) : (
-                            //  <input type="checkbox" name="tid" id={time.time} key={index} className="absolute z-0 opacity-0 peer" defaultChecked={bTS.includes(index)} disabled={time.booked} />
-                            // <label
-                            //   htmlFor={time.time}
-                            //   onClick={() => addTime(time.time, index)}
-                            //   className={
-                            //     (startTid.index !== undefined && slutTid.index !== undefined && startTid.index !== null && slutTid.index !== null && index >= startTid.index && index <= slutTid.index) || startTid.index === index || slutTid.index === index
-                            //       ? "z-10 min-w-[85px] text-center py-2 border border-accentCol font-semibold transition ease-in-out duration-150 cursor-pointer bg-accentCol peer-disabled:bg-slate-500 peer-disabled:border-slate-500 peer-disabled:text-slate-700 peer-disabled:pointer-events-none peer-disabled:cursor-not-allowed"
-                            //       : "z-10 min-w-[85px] text-center py-2 border border-accentCol font-semibold transition ease-in-out duration-150 cursor-pointer peer-disabled:bg-slate-500 peer-disabled:border-slate-500 peer-disabled:text-slate-700 peer-disabled:pointer-events-none peer-disabled:cursor-not-allowed"
-                            //   }
-                            // >
-                            //   {time.time}
-                            // </label>
-                            <AvailibleTimeSlot className={bookTimes.includes(time.time) ? 'z-10 min-w-[85px] text-center py-2 border border-accentCol font-semibold transition ease-in-out duration-150 cursor-pointer bg-accentCol' : 'z-10 min-w-[85px] text-center py-2 border border-accentCol font-semibold transition ease-in-out duration-150 cursor-pointer'} defaultChecked={bookTimes.includes(time.time)} index={index} onClick={() => addTime(time.time, index)} time={time} />
-                          )}
-                        </div>
-                      ))}
-                      <AlertDialog open={openDialogAlert} onOpenChange={setOpenDialogAlert}>
-                        <AlertDialogContent>
-                          <AlertDialogHeader>
-                            <AlertDialogTitle>Du kan ikke booke her.</AlertDialogTitle>
-                            <AlertDialogDescription>
-                              Det er ikke muligt at booke fra {alertDetail?.start} til {alertDetail?.slut}, da følgende tider er booket:{' '}
-                              <ul className='flex flex-col gap-x-1'>
-                                {alertDetail?.arr.map((tid) => (
-                                  <li>{tid}</li>
-                                ))}
-                              </ul>
-                              Vælg en af de gyldige tider.
-                            </AlertDialogDescription>
-                          </AlertDialogHeader>
-                          <AlertDialogFooter>
-                            <AlertDialogCancel>Cancel</AlertDialogCancel>
-                            <AlertDialogAction>Continue</AlertDialogAction>
-                          </AlertDialogFooter>
-                        </AlertDialogContent>
-                      </AlertDialog>
-                    </div>
-                  </div>
-                </motion.article>
-              ) : (
-                ''
-              )}
-              {amountValue !== undefined && Number(amountValue) < 6 && Number(amountValue) > 0 && userChoices?.date !== undefined && userChoices?.startTime?.index !== undefined && userChoices.endTime?.index !== undefined ? (
-                <motion.article
-                  id='personalInfo'
-                  className='w-full'
-                  initial={{ opacity: 0, y: '-50%' }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{
-                    type: 'spring',
-                    stiffness: 100,
-                    duration: 0.3,
-                    ease: [0, 0.71, 0.2, 1.01],
-                  }}
-                >
-                  <BookingForm userChoices={userChoices} />
-                </motion.article>
-              ) : (
-                ''
-              )}
-            </section>
-          </AnimatePresence>
+                  </motion.article>
+                ) : (
+                  ''
+                )}
+                {amountValue !== undefined && Number(amountValue) < 6 && Number(amountValue) > 0 && userChoices?.date !== undefined && userChoices?.startTime?.index !== undefined && userChoices.endTime?.index !== undefined ? (
+                  <motion.article
+                    id='personalInfo'
+                    className='w-full'
+                    initial={{ opacity: 0, y: '-50%' }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{
+                      type: 'spring',
+                      stiffness: 100,
+                      duration: 0.3,
+                      ease: [0, 0.71, 0.2, 1.01],
+                    }}
+                  >
+                    <BookingForm userChoices={userChoices} />
+                  </motion.article>
+                ) : (
+                  ''
+                )}
+              </section>
+            </AnimatePresence>
+          ) : (
+            // @ts-ignore
+            <BookingRecieved userChoices={userChoices}  />
+          )}
         </main>
       </Layout>
     </>

@@ -48,7 +48,7 @@ export const BookedTimeSlot = ({ time, index, allTimes, userChoices }: BookedTim
     <>
       <input type='checkbox' name='tid' id={time.time} key={index} className='absolute z-0 opacity-0' disabled />
       <Popover>
-        <PopoverTrigger className='min-w-[85px]'>
+        <PopoverTrigger className='min-w-[85px] cursor-not-allowed'>
           <label htmlFor={time.time} className='w-full block text-center py-2 border bg-slate-500 border-slate-500 text-slate-700 pointer-events-none cursor-not-allowed'>
             {time.time}
           </label>

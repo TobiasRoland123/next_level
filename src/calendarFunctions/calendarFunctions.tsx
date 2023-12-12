@@ -26,3 +26,20 @@ export function futureDays(days: number) {
 
   return pastDisabledDays;
 }
+
+  export const formattedDate = (date: string) => {
+    const dateDate = new Date(date);
+
+    // Days of the week and months in Danish
+    const weekDays = ['Søndag', 'Mandag', 'Tirsdag', 'Onsdag', 'Torsdag', 'Fredag', 'Lørdag'];
+    const months = ['januar', 'februar', 'marts', 'april', 'maj', 'juni', 'juli', 'august', 'september', 'oktober', 'november', 'december'];
+
+    // Get day, month, and year
+    const dayOfWeek = weekDays[dateDate.getDay()];
+    const dayOfMonth = dateDate.getDate();
+    const month = months[dateDate.getMonth()];
+    const year = dateDate.getFullYear();
+
+    // Formatted output string
+    return `${dayOfWeek} d. ${dayOfMonth} ${month}, ${year}`;
+  };
