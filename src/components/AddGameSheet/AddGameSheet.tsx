@@ -1,6 +1,6 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
-import { Game, Result } from '@/Types/gamelist';
+import { Game } from '@/Types/gamelist';
 import {
   Sheet,
   SheetContent,
@@ -18,7 +18,6 @@ import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { supabase } from '../../../utils/supabaseClient';
-import { platform } from 'os';
 
 export const AddGameSheet = (game: Game) => {
   const [addOpen, setAddOpen] = useAtom(showAddGameAtom);
@@ -27,7 +26,7 @@ export const AddGameSheet = (game: Game) => {
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
-  const [chosenGameTags, setChosenGameTags] = useState<Array<string>>([]);
+
   const [selectedTags, setSelectedTags] = useState<Array<{ name: string; value: number }>>([]);
   const [selectedPlatform, setSelectedPlatform] = useState<Array<{ name: string; value: number }>>(
     []
