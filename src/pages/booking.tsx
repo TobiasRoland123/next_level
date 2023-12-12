@@ -44,14 +44,6 @@ export default function Booking({ john }: { john: Bookings[] }) {
   const [bookTimes, setBookTimes] = useState<string[]>([]);
   const [bookingDateTimes, setBookingDateTimes] = useState<BookingTimeSlot[]>(timeSlots);
 
-  //Make same function and use Enums with a switch Statement
-  const handleAmountChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setUserChoices((prevData) => ({
-      ...prevData,
-      amount: Number(e.target.value),
-    }));
-  };
-
   const handleDateChange = (e: string) => {
     const date = new Date(e);
     const Year = date.getFullYear();
@@ -486,6 +478,10 @@ export default function Booking({ john }: { john: Bookings[] }) {
 
   const disabledDays: Matcher | Matcher[] | undefined = disabledDays123(21);
 
+  const sendToSupabase = async (object: any) => {
+    const { data, error } = await supabase.from("Bookings").insert([object]).select();
+  };
+
   const createBooking = (amount: number) => {
     const startToBook = bookingDateTimes.findIndex((el) => el.time === userChoices?.startTime?.time);
     const endToBook = bookingDateTimes.findIndex((el) => el.time === userChoices?.endTime?.time);
@@ -531,9 +527,18 @@ export default function Booking({ john }: { john: Bookings[] }) {
       }
     }
 
-    const supabaseObject = [{ date: userChoices?.date, ...bookedPcs, NLP: null }];
-
+    const supabaseObject = {
+      date: userChoices?.date,
+      PC1: bookedPcs[0],
+      PC2: bookedPcs[1],
+      PC3: bookedPcs[2],
+      PC4: bookedPcs[3],
+      PC5: bookedPcs[4],
+      NLP: null,
+    };
     console.log("supabaseObject", supabaseObject);
+
+    sendToSupabase(supabaseObject);
   };
 
   function updateSupabase() {
