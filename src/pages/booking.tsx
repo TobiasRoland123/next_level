@@ -18,6 +18,9 @@ import { BookedTimeSlot } from '@/components/BookedTimeSlot/BookedTimeSlot';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import bookingTimeSlots from '@/Types/PCBookingsArray';
 import { array } from 'zod';
+import InputMask from 'react-input-mask';
+import { Popover, PopoverTrigger } from '@/components/ui/popover';
+import { PopoverContent } from '@radix-ui/react-popover';
 
 export async function getServerSideProps() {
   let { data: john, error } = await supabase.from('Bookings').select('*');
@@ -25,19 +28,50 @@ export async function getServerSideProps() {
   return { props: { john } };
 }
 
+interface AlertDetails {
+  start: string | undefined;
+  slut: string;
+  arr: string[];
+}
+
 export default function Booking({ john }: { john: Bookings[] }) {
   const [userChoices, setUserChoices] = useState<UserBooking | undefined>();
+  const [amountValue, setAmountValue] = useState<number | ''>();
+  const [openAmount, setOpenAmount] = useState(false);
   const [openDialogAlert, setOpenDialogAlert] = useState(false);
+  const [alertDetail, setAlertDetail] = useState<AlertDetails>();
   const [timeChosen, setTimeChosen] = useState<TimeSlot>({ time: '', index: undefined });
   const [bookTimes, setBookTimes] = useState<string[]>([]);
   const [bookingDateTimes, setBookingDateTimes] = useState<BookingTimeSlot[]>(timeSlots);
 
   //Make same function and use Enums with a switch Statement
   const handleAmountChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setUserChoices((prevData) => ({
-      ...prevData,
-      amount: Number(e.target.value),
-    }));
+    console.log(e.target.value);
+    let amountChosen = e.target.value;
+    if (e.target.value.length > 1) {
+      amountChosen = e.target.value.substring(e.target.value.length - 1, e.target.value.length);
+    }
+
+    if (/^[1-5]$/.test(amountChosen) || amountChosen === '') {
+      setOpenAmount(false);
+      if (/^[1-5]$/.test(amountChosen)) {
+        console.log(typeof Number(amountChosen), Number(amountChosen));
+        setUserChoices((prevData) => ({
+          ...prevData,
+          amount: Number(amountChosen),
+        }));
+        setAmountValue(Number(amountChosen));
+      } else if (amountChosen === '') {
+        console.log(typeof Number(amountChosen), Number(amountChosen));
+        setUserChoices((prevData) => ({
+          ...prevData,
+          amount: null,
+        }));
+        setAmountValue('');
+      }
+    } else {
+      setOpenAmount(true);
+    }
   };
 
   const handleDateChange = (e: string) => {
@@ -225,8 +259,11 @@ export default function Booking({ john }: { john: Bookings[] }) {
         isolatedArray = bookingDateTimes.slice(timeChosen.index, index + 1);
         bookInstance = isolatedArray.some((el) => el.booked === true);
 
+        console.log('isolatedArray, SetStartToTimeChosen', isolatedArray);
+
         if (bookInstance) {
           // Lav en Alert Dialog som kommer op. Vælg ny tid.
+          errorMessagePopUp(timeChosen.time, tid, isolatedArray);
           setOpenDialogAlert(true);
         } else {
           setUserChoices((prevData) => ({
@@ -247,8 +284,12 @@ export default function Booking({ john }: { john: Bookings[] }) {
         isolatedArray = bookingDateTimes.slice(index, timeChosen.index + 1);
         bookInstance = isolatedArray.some((el) => el.booked === true);
 
+        console.log('isolatedArray, SetEndToTimeChosen', isolatedArray);
+
         if (bookInstance) {
           // Lav en Alert Dialog som kommer op. Vælg ny tid.
+          //@ts-ignore
+          errorMessagePopUp(tid, timeChosen.time, isolatedArray);
           setOpenDialogAlert(true);
         } else {
           setUserChoices((prevData) => ({
@@ -270,7 +311,9 @@ export default function Booking({ john }: { john: Bookings[] }) {
           isolatedArray = bookingDateTimes.slice(userChoices.startTime.index, index + 1);
           bookInstance = isolatedArray.some((el) => el.booked === true);
 
+          console.log('isolatedArray, UpdateStart1', isolatedArray);
           if (bookInstance) {
+            errorMessagePopUp(userChoices.startTime.time, tid, isolatedArray);
             setOpenDialogAlert(true);
           } else {
             //@ts-ignore
@@ -289,7 +332,11 @@ export default function Booking({ john }: { john: Bookings[] }) {
           isolatedArray = bookingDateTimes.slice(index, userChoices.startTime.index + 1);
           bookInstance = isolatedArray.some((el) => el.booked === true);
 
+          console.log('isolatedArray, UpdateStart2', isolatedArray);
+
           if (bookInstance) {
+            //@ts-ignore
+            errorMessagePopUp(tid, userChoices.startTime.time, isolatedArray);
             setOpenDialogAlert(true);
           } else {
             //@ts-ignore
@@ -311,7 +358,10 @@ export default function Booking({ john }: { john: Bookings[] }) {
           isolatedArray = bookingDateTimes.slice(userChoices.endTime.index, index + 1);
           bookInstance = isolatedArray.some((el) => el.booked === true);
 
+          console.log('isolatedArray, UpdateEnd1', isolatedArray);
+
           if (bookInstance) {
+            errorMessagePopUp(userChoices.endTime.time, tid, isolatedArray);
             setOpenDialogAlert(true);
           } else {
             let newBookArray: BookingTimeSlot[] = bookingDateTimes.slice(userChoices?.startTime?.index, index + 1);
@@ -329,7 +379,11 @@ export default function Booking({ john }: { john: Bookings[] }) {
           isolatedArray = bookingDateTimes.slice(index, userChoices.endTime.index + 1);
           bookInstance = isolatedArray.some((el) => el.booked === true);
 
+          console.log('isolatedArray, UpdateEnd2', isolatedArray);
+
           if (bookInstance) {
+            //@ts-ignore
+            errorMessagePopUp(tid, userChoices.endTime.time, isolatedArray);
             setOpenDialogAlert(true);
           } else {
             let newBookArray: BookingTimeSlot[] = bookingDateTimes.slice(userChoices?.startTime?.index, index + 1);
@@ -809,7 +863,17 @@ export default function Booking({ john }: { john: Bookings[] }) {
     // .select();
   }
 
-  function bookPCTimes(PC: BookingTimeSlot[], times: string[]) {}
+  // function bookPCTimes(PC: BookingTimeSlot[], times: string[]) {}
+  function errorMessagePopUp(start: string | undefined, slut: string, arr: BookingTimeSlot[]) {
+    const errorTimes: string[] = [];
+    for (let i = 0; i < arr.length; i++) {
+      if (arr[i].booked === true) {
+        errorTimes.push(arr[i].time);
+      }
+    }
+    setAlertDetail({ start: start, slut: slut, arr: errorTimes });
+    console.log(alertDetail);
+  }
 
   return (
     <>
@@ -827,7 +891,8 @@ export default function Booking({ john }: { john: Bookings[] }) {
                   <FaUserGroup className='inline-block mt-0.4' />
                   <span>Antal (max 5)</span>
                 </p>
-                <Input type='number' max={5} min={1} className='border-white' onChange={handleAmountChange}></Input>
+                <span className={openAmount ? 'block text-accentCol' : 'hidden'}>Du må max vælge et tal mellem 1-5.</span>
+                <Input type='number' className='border-white remove-arrow' onChange={handleAmountChange} value={amountValue}></Input>
               </div>
             </article>
             <article id='date' className='w-full'>
@@ -915,8 +980,16 @@ export default function Booking({ john }: { john: Bookings[] }) {
                   <AlertDialog open={openDialogAlert} onOpenChange={setOpenDialogAlert}>
                     <AlertDialogContent>
                       <AlertDialogHeader>
-                        <AlertDialogTitle>Dette er en test</AlertDialogTitle>
-                        <AlertDialogDescription>slap af, det er bare en test</AlertDialogDescription>
+                        <AlertDialogTitle>Du kan ikke booke her.</AlertDialogTitle>
+                        <AlertDialogDescription>
+                          Det er ikke muligt at booke fra {alertDetail?.start} til {alertDetail?.slut}, da følgende tider er booket:{' '}
+                          <ul className='flex flex-col gap-x-1'>
+                            {alertDetail?.arr.map((tid) => (
+                              <li>{tid}</li>
+                            ))}
+                          </ul>
+                          Vælg en af de gyldige tider.
+                        </AlertDialogDescription>
                       </AlertDialogHeader>
                       <AlertDialogFooter>
                         <AlertDialogCancel>Cancel</AlertDialogCancel>
