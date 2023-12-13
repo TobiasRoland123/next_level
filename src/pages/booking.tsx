@@ -119,6 +119,11 @@ export default function Booking({ john }: { john: Bookings[] }) {
         ...prevData,
         date: undefined,
       }));
+    } else if (e === userChoices?.date) {
+      setUserChoices((prevData) => ({
+        ...prevData,
+        date: undefined,
+      }));
     } else {
       console.log(e);
       const date = new Date(e);
@@ -1063,7 +1068,7 @@ export default function Booking({ john }: { john: Bookings[] }) {
                       </div>
                       <div className=' timeslots flex gap-2 flex-wrap mt-3'>
                         {bookingDateTimes.map((time: BookingTimeSlot, index: number) => (
-                          <div className='relative flex gap-2 flex-wrap mt-3'>
+                          <div className='relative flex justify-between gap-2 flex-wrap mt-3'>
                             {time.booked ? (
                               <BookedTimeSlot time={time} index={index} allTimes={bookingDateTimes} userChoices={userChoices} />
                             ) : (
@@ -1084,22 +1089,23 @@ export default function Booking({ john }: { john: Bookings[] }) {
                           </div>
                         ))}
                         <AlertDialog open={openDialogAlert} onOpenChange={setOpenDialogAlert}>
-                          <AlertDialogContent>
+                          <AlertDialogContent className='max-w-[300px] sm:max-w-[400px]'>
                             <AlertDialogHeader>
                               <AlertDialogTitle>Du kan ikke booke her.</AlertDialogTitle>
-                              <AlertDialogDescription>
-                                Det er ikke muligt at booke fra {alertDetail?.start} til {alertDetail?.slut}, da følgende tider er booket:{' '}
-                                <ul className='flex flex-col gap-x-1'>
+                              <AlertDialogDescription className='text-left'>
+                                Det er ikke muligt at booke fra <span className='font-semibold'>{alertDetail?.start}</span> til <span className='font-semibold'>{alertDetail?.slut}</span>, da følgende tider er fuldt bookede:{' '}
+                                <ul className='flex flex-col pt-2'>
                                   {alertDetail?.arr.map((tid) => (
-                                    <li>{tid}</li>
+                                    <li className='mt-1'>
+                                      <span className='font-semibold'>{tid}</span>
+                                    </li>
                                   ))}
                                 </ul>
-                                Vælg en af de gyldige tider.
+                                <span className='mt-2 block'>Vælg en ny tid, som ikke går ind over de bookede tider.</span>
                               </AlertDialogDescription>
                             </AlertDialogHeader>
                             <AlertDialogFooter>
-                              <AlertDialogCancel>Cancel</AlertDialogCancel>
-                              <AlertDialogAction>Continue</AlertDialogAction>
+                              <AlertDialogAction>Fortsæt</AlertDialogAction>
                             </AlertDialogFooter>
                           </AlertDialogContent>
                         </AlertDialog>

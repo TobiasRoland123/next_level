@@ -15,6 +15,9 @@ import { UserBooking } from '@/Types/calendar';
 import { formattedDate } from '@/calendarFunctions/calendarFunctions';
 import { useAtom } from 'jotai';
 import { bookingCompleteAtom } from '@/states/store';
+import { FaUserGroup } from 'react-icons/fa6';
+import { FaCalendarAlt } from 'react-icons/fa';
+import { IoTime } from 'react-icons/io5';
 
 interface BookingProps {
   userChoices: UserBooking;
@@ -38,22 +41,21 @@ export const BookingForm: React.FC<BookingProps> = ({ userChoices }) => {
   const supabase = createClient('https://zwcshwxjwoffkdrdvbtp.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp3Y3Nod3hqd29mZmtkcmR2YnRwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDEwNzg5NzgsImV4cCI6MjAxNjY1NDk3OH0.yq0erC0CIBZmUG9uMC8u1YVyG4g2dsf3PrpekxJDq34');
 
   const timerImellem = () => {
-
-    const startTimeString: string | undefined = startTid?.replace(".",":")
+    const startTimeString: string | undefined = startTid?.replace('.', ':');
     const endTimeString: string | undefined = slutTid?.replace('.', ':');
-    
+
     // Convert time strings to Date objects
     const startTime: Date = new Date(`2000-01-01T${startTimeString}`);
     const endTime: Date = new Date(`2000-01-01T${endTimeString}`);
-    
+
     // Calculate the time difference in milliseconds
     const timeDiffMillis: number = endTime.getTime() - startTime.getTime();
-    
+
     // Convert milliseconds to hours
     const hoursDiff: number = timeDiffMillis / (1000 * 60 * 60);
 
-    return (hoursDiff)
-  }
+    return hoursDiff;
+  };
 
   // Errormessages for validation of the string in the input field.
   const formSchema = z.object({
@@ -95,7 +97,7 @@ export const BookingForm: React.FC<BookingProps> = ({ userChoices }) => {
       if (data) {
         console.log('data', data);
         setIsBookingValid(true);
-        setBookingComplete(true)
+        setBookingComplete(true);
       }
     } catch (error) {
       console.error('Error:', error);
@@ -107,12 +109,21 @@ export const BookingForm: React.FC<BookingProps> = ({ userChoices }) => {
       <article id='contactForm' className='w-full'>
         <div className='bg-contrastCol mt-8 p-4 lg:block'>
           <h4>Kontaktoplysnigner</h4>
-          <p>Så mangler vi bare de sidste detaljer for at din booking er klaret!</p>
+          <p>Så mangler vi bare de sidste detaljer for at din booking er klaret! Udfyld navn, email og telefonnummer for at fuldføre din reservation.</p>
           <h4>Booking Oplysninger</h4>
-          <p className='font-semibold flex flex-col gap-y-3'>
-            <span>{formattedDate(dato as string)}</span>
-            <span>{antal} computere</span>
-            <span>{timerImellem()} timer ({startTid} - {slutTid})</span>
+          <p className='font-semibold flex flex-col align-middle gap-y-3 mt-2'>
+            <p className='flex flex-row align-middle'>
+              <FaCalendarAlt className='inline-block mr-3 text-accentCol' /> <span>{formattedDate(dato as string)}</span>
+            </p>
+            <p className='flex flex-row align-middle'>
+              <FaUserGroup className='inline-block mr-3 text-accentCol' /> <span>{antal} computere</span>
+            </p>
+            <p className='flex flex-row align-middle'>
+              <IoTime className='inline-block mr-3 text-accentCol' />
+              <span>
+                {timerImellem()} timer ({startTid} - {slutTid})
+              </span>
+            </p>
           </p>
         </div>
       </article>
