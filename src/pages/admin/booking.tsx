@@ -1,24 +1,76 @@
-import { LayoutAdmin } from "@/Layout_Admin";
-import { createClient } from "@supabase/supabase-js";
-import { useRouter } from "next/router";
+import { LayoutAdmin } from '@/Layout_Admin';
+import { createClient } from '@supabase/supabase-js';
+import { useRouter } from 'next/router';
+import { supabase } from '../../../utils/supabaseClient';
+import { json } from 'stream/consumers';
+import { UserBookingsProps } from '@/Types/adminBooking';
+import { DataTable } from '@/components/BookingTable/data-table';
+import { columns } from '@/components/BookingTable/columns';
 
-export default function Booking() {
+export async function getServerSideProps() {
+  let { data: UserBookings, error } = await supabase.from('UserBookings').select('*');
+  console.log(error);
+
+  return { props: { UserBookings } };
+}
+
+export default function Booking({ UserBookings }: { UserBookings: UserBookingsProps[] }) {
+  const bookingsToday = () => {
+    const today = new Date();
+    const bookings: UserBookingsProps[] = [];
+    for (let i = 0; i < UserBookings.length; i++) {
+      const userDate = new Date(UserBookings[i].dato);
+      if (userDate === today) {
+        bookings.push(UserBookings[i]);
+      }
+    }
+    //sort bookings according to start Time
+    return bookings;
+  };
+  const futureBookings = () => {
+    //filter out dates from today and before today ++ sort according to starttimes.
+  };
+
+  const pastBookings = () => {
+    //filter out dates from today and after today ++ sort according to starttimes.
+  };
+
   // COMMENT OUT FROM HERE TO DISABLE LOGIN GUARD
   const router = useRouter();
-  const supabase = createClient("https://zwcshwxjwoffkdrdvbtp.supabase.co", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp3Y3Nod3hqd29mZmtkcmR2YnRwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDEwNzg5NzgsImV4cCI6MjAxNjY1NDk3OH0.yq0erC0CIBZmUG9uMC8u1YVyG4g2dsf3PrpekxJDq34");
   getSession();
   async function getSession() {
     const { data, error } = await supabase.auth.getSession();
     if (data.session === null) {
-      router.push("/login");
+      router.push('/login');
     }
   }
-  // COMMENT OUT TO HERE TO DISABLE LOGIN GUARD
+
+  function showData() {
+    console.log(UserBookings);
+    const dato = new Date(UserBookings[0].dato);
+    console.log('dato', dato);
+  }
+
+  showData();
+
+  // En checkbox om du vil se forrige bookinger også, lav et tredje table under der viser disse.
   return (
     <>
       <LayoutAdmin>
-        <main className="w-fit max-w-main pb-10 ">
-          <h1 className="mt-20">Admin Booking</h1>
+        <main className='spacer pb-10 '>
+          <h1 className='mt-20'>Administrer bookinger</h1>
+          <section>
+            <article>
+              <h3>Bookinger i dag</h3>
+              <div className='bg-contrastCol mt-8 p-4 lg:block bookingTable'>
+                <DataTable columns={columns} data={UserBookings} />
+              </div>
+            </article>
+            <article>
+              <h3>Fremtidige bookinger</h3>
+              <div className='bg-contrastCol mt-8 p-4 hidden lg:block'>content</div>
+            </article>
+          </section>
         </main>
       </LayoutAdmin>
     </>
