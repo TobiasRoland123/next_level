@@ -252,18 +252,14 @@ export default function Booking({ UserBookings, Bookings }: { UserBookings: User
           <section>
             <article>
               <h3>Bookinger i dag</h3>
-              <div className='bg-contrastCol mt-8 p-4 lg:block bookingTable'>
-                {/* <DataTable columns={columns} data={UserBookings} udløbne={false} /> */}
-                <DataTable columns={columns} data={bookingsToday()} udløbne={false} />
-              </div>
+              <div className='bg-contrastCol mt-8 p-4 lg:block flex align-middle justify-center bookingTable'>{bookingsToday().length < 1 ? <p className='m-0'>Ingen bookinger i dag.</p> : <DataTable columns={columns} data={bookingsToday()} udløbne={false} />}</div>
             </article>
             <article>
               <h3>Alle bookinger</h3>
               {/* <DataTable columns={columns} data={futureBookings()} udløbne={true} onCheckedChange={(e: any) => isChecked(e)} /> */}
-              <div className='bg-contrastCol mt-8 p-4 lg:block'>{showExpiredBookings ? <DataTable columns={columns} data={allBookings()} udløbne={true} onCheckedChange={(e: any) => isChecked(e)} /> : <DataTable columns={columns} data={futureBookings()} udløbne={true} onCheckedChange={(e: any) => isChecked(e)} />}</div>
+              <div className='bg-contrastCol mt-8 p-4 lg:block flex align-middle justify-center'>{UserBookings.length < 1 ? <p className='m-0'>Ingen bookinger.</p> : showExpiredBookings ? <DataTable columns={columns} data={allBookings()} udløbne={true} onCheckedChange={(e: any) => isChecked(e)} /> : <DataTable columns={columns} data={futureBookings()} udløbne={true} onCheckedChange={(e: any) => isChecked(e)} />}</div>
             </article>
           </section>
-          <button onClick={() => seeBookings()}>see data</button>
         </main>
         <AlertDialog open={openDialogAlert} onOpenChange={setOpenDialogAlert}>
           <AlertDialogContent>
