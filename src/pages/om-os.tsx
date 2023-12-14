@@ -50,12 +50,14 @@ export default function OmOs() {
                 <div className=' mt-6 md:mt-0'>
                   <h3 className='mt-0'>find os her</h3>
                   <p>
+
                     Vores <span className='italic'>base of operation</span>{' '}
                     ligger i Glostrup. Her har vi skabt, hvad vi mener, er
                     muligvis den bedste gamingoplevelse i Danmark. Vi har gæster
                     i alle aldre, som spiller lige fra et par timer til hele
                     natten. Vi har åbent når du har mest lyst til at game, og
                     det har vi haft siden dag ét.
+
                   </p>
 
                   <h4>Her kan du parkere</h4>
@@ -229,6 +231,7 @@ export default function OmOs() {
                     Next level <span className='text-accentCol'>Vision</span>
                   </h2>
                   <p>
+
                     Vores vision er et gaming center hvor der er plads til alle.
                     Dette gælder også din personlighed. Vi har sørget for plads
                     ved computerne, men også til sejre og nederlag. Vi har skabt
@@ -295,6 +298,7 @@ export default function OmOs() {
                         afkobling
                       </h3>
                       <p className='mt-2'>
+
                         Måske det lyder lidt modsigende, da gaming ofte går hedt
                         for sig. Men vi har skabt et frirum for dem som mener at
                         gaming kan være afslappende.

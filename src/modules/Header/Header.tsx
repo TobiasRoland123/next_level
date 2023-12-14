@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Button } from "../../components/Button/Button";
-import { NavLinkDropDown } from "../../components/NavLinkDropDown/NavLinkDropDown";
+import Link from "next/link";
+import { AnimatePresence, delay, motion } from "framer-motion";
+import router from "next/router";
 
 interface HeaderProps {
   pageList: Array<{
@@ -15,9 +17,26 @@ interface HeaderProps {
     };
   }>;
 }
+const container = {
+  hidden: { opacity: 1 },
+  show: {
+    opacity: 1,
+  },
+};
+
+const item = {
+  hidden: { opacity: 0, y: "-10%" },
+  show: { opacity: 1, y: "0%" },
+};
+
+const underLine = {
+  hidden: { width: 0 },
+  show: { width: "100%" },
+};
 
 export const Header = ({ pageList }: HeaderProps) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
 
   const ToggleMenu = () => {
     setIsOpen(!isOpen);
@@ -84,9 +103,9 @@ export const Header = ({ pageList }: HeaderProps) => {
         <div
           className={`my-3 backdrop-blur-sm ${
             isOpen ? "bg-primaryCol" : "bg-contrastCol/70"
-          } flex justify-between items-center px-4 gap-6 rounded-sm md:py-2 md:bg-contrastCol/70 xl:mx-auto max-w-main`}
+          } flex justify-between items-center px-4 gap-6 rounded-sm  md:bg-contrastCol/70 xl:mx-auto max-w-main h-16`}
         >
-          <div className=" flex gap-8 font-bold ">
+          <div className="items-center h-full flex gap-8 font-bold ">
             <a href="/">
               <svg
                 width="40"
@@ -111,28 +130,82 @@ export const Header = ({ pageList }: HeaderProps) => {
             </a>
 
             {/* DESKTOP MENU */}
-            <ul className="md:flex hidden border-l-2 border-l-accentCol pl-8 gap-6 ">
-              {pageList.map((pages) => {
-                return (
-                  <>
-                    {pages.page.subPages ? (
-                      <NavLinkDropDown
-                        title={pages.page.pageTitle}
-                        href={pages.page.href}
-                        ItemList={pages.page.subPages}
-                      />
-                    ) : (
-                      <a
-                        href={pages.page.href}
-                        className="flex justify-center items-center border-2 border-transparent text-center hover:border-b-accentCol w-16 h-12 mt-auto mb-auto"
+
+            <AnimatePresence>
+              <div className=" hidden md:flex uppercase h-full items-center">
+                {pageList.map((pages, index) =>
+                  pages.page.subPages ? (
+                    <motion.div
+                      variants={container}
+                      key={index}
+                      initial="hidden"
+                      whileHover="show"
+                      transition={{
+                        type: "spring",
+                        stiffness: 100,
+                        duration: 0.3,
+                      }}
+                      className="group relative h-full justify-center w-[115px] flex items-center"
+                    >
+                      <motion.div className="mt-5 w-full flex flex-col justify-center">
+                        <Link
+                          className="text-center"
+                          href={pages.page.href}
+                        >
+                          {pages.page.pageTitle}
+                        </Link>
+                        <motion.div
+                          variants={underLine}
+                          transition={{ duration: 0.1 }}
+                          className="h-[2px] rounded-full bg-accentCol mt-[18px]"
+                        ></motion.div>
+                      </motion.div>
+                      <motion.div
+                        variants={item}
+                        className="bg-contrastCol/70 backdrop-blur-sm w-[115px] py-0 flex-col absolute flex top-16 rounded-b-sm"
                       >
-                        {pages.page.pageTitle}
-                      </a>
-                    )}
-                  </>
-                );
-              })}
-            </ul>
+                        {pages.page.subPages.map((subPage) => (
+                          <motion.div className="h-7 flex items-center hover:border-l-2 border-accentCol transition-all duration-75 p-2 ease-in-out">
+                            <motion.div
+                              className=""
+                              whileHover={{ x: 10 }}
+                            >
+                              <Link
+                                className="text-xs"
+                                href={subPage.href}
+                              >
+                                {subPage.pageTitle}
+                              </Link>
+                            </motion.div>
+                          </motion.div>
+                        ))}
+                      </motion.div>
+                    </motion.div>
+                  ) : (
+                    <motion.div
+                      variants={container}
+                      initial="hidden"
+                      whileHover="show"
+                      className="relative h-full justify-center w-[115px] flex items-center"
+                    >
+                      <motion.div className="mt-5 w-full flex flex-col justify-center">
+                        <Link
+                          className="text-center"
+                          href={pages.page.href}
+                        >
+                          {pages.page.pageTitle}
+                        </Link>
+                        <motion.div
+                          variants={underLine}
+                          transition={{ duration: 0.1 }}
+                          className="h-[2px] rounded-full bg-accentCol mt-[18px]"
+                        ></motion.div>
+                      </motion.div>
+                    </motion.div>
+                  )
+                )}
+              </div>
+            </AnimatePresence>
           </div>
 
           <button

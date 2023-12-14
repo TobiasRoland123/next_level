@@ -1,6 +1,6 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
-import { Game, Result } from '@/Types/gamelist';
+import { Game } from '@/Types/gamelist';
 import {
   Sheet,
   SheetContent,
@@ -18,7 +18,7 @@ import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { supabase } from '../../../utils/supabaseClient';
-import { platform } from 'os';
+import { Checkbox } from '../ui/checkbox';
 
 export const AddGameSheet = (game: Game) => {
   const [addOpen, setAddOpen] = useAtom(showAddGameAtom);
@@ -27,7 +27,7 @@ export const AddGameSheet = (game: Game) => {
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
-  const [chosenGameTags, setChosenGameTags] = useState<Array<string>>([]);
+
   const [selectedTags, setSelectedTags] = useState<Array<{ name: string; value: number }>>([]);
   const [selectedPlatform, setSelectedPlatform] = useState<Array<{ name: string; value: number }>>(
     []
@@ -40,6 +40,7 @@ export const AddGameSheet = (game: Game) => {
       setSelectedTags([...selectedTags, tag]);
     }
   };
+
   const handlePlatformChange = (platform: { name: string; value: number }) => {
     if (selectedPlatform.some(selectedPlatform => selectedPlatform.value === platform.value)) {
       setSelectedPlatform(
@@ -207,14 +208,27 @@ export const AddGameSheet = (game: Game) => {
                 <Label>Platforme</Label>
                 <div className='flex gap-1'>
                   {consoles.map((console, index) => (
-                    <div className='bg-contrastCol w-fit px-2 rounded-full'>
-                      <Label key={index}>
-                        <input
+                    <div
+                      className={`${
+                        selectedPlatform.some(p => p.value === console.value)
+                          ? 'bg-accentCol'
+                          : 'bg-contrastCol'
+                      } w-fit px-2 rounded-full transition ease-in-out duration-150  `}
+                    >
+                      <Label
+                        className='flex h-5 items-center gap-1'
+                        key={index}
+                      >
+                        <Checkbox
+                          className={`border-none transition-all ease-in-out data-[state=checked]:bg-transparent duration-150 ${
+                            selectedPlatform.some(p => p.value === console.value)
+                              ? 'w-4 opacity-100'
+                              : 'w-0 opacity-0'
+                          } `}
                           value={console.value}
                           checked={selectedPlatform.some(p => p.value === console.value)}
-                          type='checkbox'
                           {...register('platforms')}
-                          onChange={() => handlePlatformChange(console)}
+                          onCheckedChange={() => handlePlatformChange(console)}
                         />
                         {console.name}
                       </Label>
@@ -226,14 +240,31 @@ export const AddGameSheet = (game: Game) => {
                 <Label>Tags</Label>
                 <div className='flex gap-1 flex-wrap'>
                   {gameTags.map((tag, index) => (
-                    <div className='bg-contrastCol w-fit px-2 rounded-full'>
-                      <Label key={index}>
-                        <input
+                    <div
+                      className={`${
+                        selectedTags.some(p => p.value === tag.value)
+                          ? 'bg-accentCol'
+                          : 'bg-contrastCol'
+                      } w-fit px-2 rounded-full ${
+                        !selectedTags.some(p => p.value === tag.value) && selectedTags.length >= 3
+                          ? 'opacity-25'
+                          : ''
+                      } transition ease-in-out duration-150 `}
+                    >
+                      <Label
+                        className='flex h-5 items-center gap-1'
+                        key={index}
+                      >
+                        <Checkbox
                           value={tag.value}
-                          type='checkbox'
+                          className={`border-none transition-all ease-in-out data-[state=checked]:bg-transparent duration-150 ${
+                            selectedTags.some(p => p.value === tag.value)
+                              ? 'w-4 opacity-100'
+                              : 'w-0 opacity-0'
+                          }`}
                           checked={selectedTags.some(p => p.value === tag.value)}
                           {...register('tags')}
-                          onChange={() => handleCheckboxChange(tag)}
+                          onCheckedChange={() => handleCheckboxChange(tag)}
                           disabled={
                             !selectedTags.some(p => p.value === tag.value) &&
                             selectedTags.length >= 3
