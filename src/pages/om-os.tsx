@@ -13,7 +13,7 @@ export default function OmOs() {
             header='Hvem er next level?'
             redWord={['next', 'level?']}
             isFrontPage={false}
-            content='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam non urna aliquet, mollis lacus sed, dignissim lectus. Curabitur eget diam volutpat, facilisis massa nec, varius nulla.'
+            content='“Strength in unity, my friends.” Vi er et lille dedikeret hold. Vi lever af og for at give den bedste gaming oplevelse der findes. Vi er selv inkarnerede gamere og har mange nederlag og sejre under bæltet. Vi giver aldrig op, og kæmper hele tiden for at forbedre vores gaming center.'
           />
 
           <section className='grid'>
@@ -50,12 +50,14 @@ export default function OmOs() {
                 <div className=' mt-6 md:mt-0'>
                   <h3 className='mt-0'>find os her</h3>
                   <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam
-                    blandit quis ex faucibus commodo. Vestibulum consectetur
-                    elit erat. Cras et nulla eu purus luctus suscipit. Vivamus
-                    odio nisl, euismod quis sem pellentesque, rutrum aliquam
-                    metus. Duis lacus tortor, efficitur id consectetur in,
-                    eleifend eu nibh.
+
+                    Vores <span className='italic'>base of operation</span>{' '}
+                    ligger i Glostrup. Her har vi skabt, hvad vi mener, er
+                    muligvis den bedste gamingoplevelse i Danmark. Vi har gæster
+                    i alle aldre, som spiller lige fra et par timer til hele
+                    natten. Vi har åbent når du har mest lyst til at game, og
+                    det har vi haft siden dag ét.
+
                   </p>
 
                   <h4>Her kan du parkere</h4>
@@ -223,35 +225,21 @@ export default function OmOs() {
               </div>
             </article>
             <section>
-              <div className='grid  grid-cols-1 md:grid-cols-1 lg:grid-cols-2'>
-                <div className='spacer col-start-1 '>
+              <div className='flex justify-center'>
+                <div className='spacer w-full'>
                   <h2>
                     Next level <span className='text-accentCol'>Vision</span>
                   </h2>
                   <p>
-                    Contrary to popular belief, Lorem Ipsum is not simply random
-                    text. It has roots in a piece of classical Latin literature
-                    from 45 BC, making it over 2000 years old. Richard
-                    McClintock, a Latin professor at Hampden-Sydney College in
-                    Virginia, looked up one of the more obscure Latin words,
-                    consectetur, from a Lorem Ipsum passage, and going through
-                    the cites of the word in classical literature, discovered
-                    the undoubtable source. Lorem Ipsum comes from sections
-                    1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum"
+
+                    Vores vision er et gaming center hvor der er plads til alle.
+                    Dette gælder også din personlighed. Vi har sørget for plads
+                    ved computerne, men også til sejre og nederlag. Vi har skabt
+                    det vi mener er de perfekte rammer for hvordan et gaming
+                    center skal være.
                   </p>
                 </div>
-                <div className='mt-6 aspect-video col-start-1 md:col-start-1 lg:col-start-2 spacer'>
-                  <iframe
-                    className='w-full h-full'
-                    width='560'
-                    height='315'
-                    src='https://www.youtube.com/embed/Usy96kk_Wcs?si=D4hXtrbwk3XWV_OY'
-                    title='YouTube video player'
-                    allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
-                  />
-                </div>
               </div>
-
               <article className='flex justify-center '>
                 <div className='spacer w-full'>
                   <h2
@@ -283,10 +271,9 @@ export default function OmOs() {
                         Sammenhold
                       </h3>
                       <p className='mt-2'>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        Nam blandit quis ex faucibus commodo. Vestibulum
-                        consectetur elit erat. Cras et nulla eu purus luctus
-                        suscipit.{' '}
+                        Hos Next Level står vi sammen. Vi går op i at alle er
+                        velkomne og siger “nej tak” til diskrimination både
+                        fysisk og online.
                       </p>
                     </li>
                     <li className='text-center row-start-2 col-start-1 '>
@@ -311,10 +298,10 @@ export default function OmOs() {
                         afkobling
                       </h3>
                       <p className='mt-2'>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        Nam blandit quis ex faucibus commodo. Vestibulum
-                        consectetur elit erat. Cras et nulla eu purus luctus
-                        suscipit.{' '}
+
+                        Måske det lyder lidt modsigende, da gaming ofte går hedt
+                        for sig. Men vi har skabt et frirum for dem som mener at
+                        gaming kan være afslappende.
                       </p>
                     </li>
                     <li className='text-center row-start-2 col-start-3'>
@@ -339,10 +326,9 @@ export default function OmOs() {
                         Udstyr i top
                       </h3>
                       <p className='mt-2'>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        Nam blandit quis ex faucibus commodo. Vestibulum
-                        consectetur elit erat. Cras et nulla eu purus luctus
-                        suscipit.{' '}
+                        Lag er et fremmedord for os. Vi sørger for lav ‘ping’ og
+                        har det bedste udstyr på markedet, så du ikke bliver
+                        afbrudt af lagspikes eller
                       </p>
                     </li>
                   </ul>
