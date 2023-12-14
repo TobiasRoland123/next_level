@@ -69,12 +69,17 @@ export default function Booking({ john }: { john: Bookings[] }) {
     };
   }, [router.events]);
   useEffect(() => {
-    if (timeRef.current && userChoices?.endTime && userChoices.startTime && userChoices?.amount && userChoices.date) {
+    if (timeRef.current && userChoices?.endTime?.index !== undefined && userChoices?.startTime?.index !== undefined && userChoices?.amount && userChoices.date) {
       timeRef.current.scrollIntoView({ behavior: 'smooth' });
+      console.log('1');
+      console.log(userChoices.startTime);
+      console.log(userChoices.endTime);
     } else if (dateRef.current && userChoices?.amount && userChoices.date) {
       dateRef.current.scrollIntoView({ behavior: 'smooth' });
+      console.log('2');
     } else if (amountRef.current && userChoices?.amount) {
       amountRef.current?.scrollIntoView({ behavior: 'smooth' });
+      console.log('3');
     }
   }, [userChoices]);
 
