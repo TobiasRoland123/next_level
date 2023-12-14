@@ -61,9 +61,13 @@ export function DataTable<TData, TValue>({ columns, data, udløbne, onCheckedCha
           ))}
         </ul>
       </div>
-      <div className='flex-1 text-sm text-muted-foreground mb-2'>
-        {table.getFilteredSelectedRowModel().rows.length} ud af {table.getFilteredRowModel().rows.length} rækker er valgt.
-      </div>
+      {columns.length > 10 ? (
+        <div className='flex-1 text-sm text-muted-foreground mb-2'>
+          {table.getFilteredSelectedRowModel().rows.length} ud af {table.getFilteredRowModel().rows.length} rækker er valgt.
+        </div>
+      ) : (
+        ''
+      )}
 
       <div className='rounded-md border'>
         <Table>
@@ -71,7 +75,7 @@ export function DataTable<TData, TValue>({ columns, data, udløbne, onCheckedCha
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
-                  return <TableHead key={header.id}>{header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}</TableHead>;
+                  return <TableHead key={`${header.id}${Math.floor(Math.random() * 1000)}`}>{header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}</TableHead>;
                 })}
               </TableRow>
             ))}
@@ -80,9 +84,9 @@ export function DataTable<TData, TValue>({ columns, data, udløbne, onCheckedCha
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 //Add an on click that only shows the content on mobile where the table might not be so readable
-                <TableRow key={row.id} data-state={row.getIsSelected() && 'selected'}>
+                <TableRow key={`${row.id}${Math.floor(Math.random() * 1000)}`} data-state={row.getIsSelected() && 'selected'}>
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
+                    <TableCell key={`${cell.id}${Math.floor(Math.random() * 1000)}`}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
                   ))}
                 </TableRow>
               ))
@@ -99,7 +103,6 @@ export function DataTable<TData, TValue>({ columns, data, udløbne, onCheckedCha
           <Button variant='ghost' size='sm' onClick={() => table.previousPage()} disabled={!table.getCanPreviousPage()}>
             Forrige
           </Button>
-
           <span className='font-medium text-sm'>
             Side {table.getState().pagination.pageIndex + 1} af {table.getPageCount()}
           </span>
