@@ -1,7 +1,7 @@
 'use client';
 
-import { ColumnDef, ColumnFiltersState, SortingState, flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, useReactTable } from '@tanstack/react-table';
-
+import { ColumnDef, ColumnFiltersState, SortingState, flexRender, getCoreRowModel, getFilteredRowModel, VisibilityState, getPaginationRowModel, getSortedRowModel, useReactTable } from '@tanstack/react-table';
+import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Button } from '../Button/Button';
 import { Input } from '../Inputfields/Inputfield';
@@ -17,6 +17,7 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
   const [rowSelection, setRowSelection] = React.useState({});
+  const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
   const table = useReactTable({
     data,
     columns,
@@ -27,22 +28,30 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
     onColumnFiltersChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
     onRowSelectionChange: setRowSelection,
+    onColumnVisibilityChange: setColumnVisibility,
     state: {
       sorting,
+      columnVisibility,
       columnFilters,
       rowSelection,
     },
   });
 
-    function deleteEntries() {
-      //Delete the entries from table.getFilteredSelectedRowModel() after a modal pops up and ask if you really want to do this
-    }
+  function deleteEntries() {
+    //Delete the entries from table.getFilteredSelectedRowModel() after a modal pops up and ask if you really want to do this
+  }
 
   return (
-    <div>
-      {/* <div className='flex items-center py-4'>
-        <Input placeholder='Filter emails...' value={(table.getColumn('email')?.getFilterValue() as string) ?? ''} onChange={(event) => table.getColumn('email')?.setFilterValue(event.target.value)} className='max-w-sm' />
-      </div> */}
+    <>
+      <h4 className='mt-2'>Settings</h4>
+      <div>
+        <div>
+          <Checkbox></Checkbox>
+          <label>Vis navn, email og telefon nummer</label>
+        </div>
+        <Checkbox></Checkbox>
+        <label>Vis udløbne bookinger</label>
+      </div>
       <div>
         <ul>
           {/* Med dette kan vi lave en function der sletter de valgte fx */}
@@ -94,6 +103,6 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
         </Button>
       </div> */}
       </div>
-    </div>
+    </>
   );
 }
