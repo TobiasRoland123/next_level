@@ -50,9 +50,16 @@ export const FilterField = ({
           <SelectTrigger className=' max-w-[250px] '>
             <SelectValue placeholder={dropDownHeader ? dropDownHeader : 'Filips dejlige mor'} />
           </SelectTrigger>
-          <SelectContent>
+          <SelectContent className='border-none'>
             {dropDownItems?.map(item => {
-              return <SelectItem value={item}>{item}</SelectItem>;
+              return (
+                <SelectItem
+                  className='duration-50'
+                  value={item}
+                >
+                  {item}
+                </SelectItem>
+              );
             })}
           </SelectContent>
         </Select>
