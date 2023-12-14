@@ -34,6 +34,8 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           onChange={handleInputChange}
           ref={ref}
           {...props}
+          // @ts-ignore
+          onWheel={(e) => e.target.blur()}
         />
         {isSearch && isEmpty && inputValue === "" && (
           <div

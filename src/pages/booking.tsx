@@ -46,6 +46,9 @@ export default function Booking({ john }: { john: Bookings[] }) {
 
   //Make same function and use Enums with a switch Statement
   const handleAmountChange = (e: ChangeEvent<HTMLInputElement>) => {
+    console.log("typeOf inputValue:", typeof e.target.value);
+    console.log("inputValue:", e.target.value);
+
     setUserChoices((prevData) => ({
       ...prevData,
       amount: Number(e.target.value),
@@ -492,7 +495,7 @@ export default function Booking({ john }: { john: Bookings[] }) {
     const { data, error } = await supabase.from("Bookings").insert([object]).select();
   };
 
-  const createBooking = (amount: number) => {
+  const createBooking = (amount: number, alreadyDate: boolean) => {
     const startToBook = bookingDateTimes.findIndex((el) => el.time === userChoices?.startTime?.time);
     const endToBook = bookingDateTimes.findIndex((el) => el.time === userChoices?.endTime?.time);
     const timesToBook = bookingDateTimes.slice(startToBook, endToBook + 1).map((time) => time.time);
@@ -513,42 +516,53 @@ export default function Booking({ john }: { john: Bookings[] }) {
       { time: "20.00", booked: false, bookedCount: 0 },
     ];
 
-    const bookedPcs: Array<Array<{ time: string; booked: boolean; bookedCount: number }>> = [];
+    if (!alreadyDate) {
+      const bookedPcs: Array<Array<{ time: string; booked: boolean; bookedCount: number }>> = [];
 
-    for (let i = 1; i < 6; i++) {
-      if (i <= amount) {
-        console.log("i:", i, "userAmount:", amount);
+      for (let i = 1; i < 6; i++) {
+        if (i <= amount) {
+          console.log("i:", i, "userAmount:", amount);
 
-        bookedPcs.push(
-          basePc.map((timeSlot) => {
-            if (timesToBook.includes(timeSlot.time) && timeSlot.booked === false) {
-              console.log("im included: ", timeSlot.time);
+          bookedPcs.push(
+            basePc.map((timeSlot) => {
+              if (timesToBook.includes(timeSlot.time) && timeSlot.booked === false) {
+                console.log("im included: ", timeSlot.time);
 
-              return { time: timeSlot.time, booked: true, bookedCount: 0 };
-            } else {
-              console.log("im not included:", timeSlot.time);
+                return { time: timeSlot.time, booked: true, bookedCount: 0 };
+              } else {
+                console.log("im not included:", timeSlot.time);
 
-              return timeSlot;
-            }
-          })
-        );
-      } else {
-        bookedPcs.push(basePc);
+                return timeSlot;
+              }
+            })
+          );
+        } else {
+          bookedPcs.push(basePc);
+        }
       }
+      const supabaseObject = {
+        date: userChoices?.date,
+        PC1: bookedPcs[0],
+        PC2: bookedPcs[1],
+        PC3: bookedPcs[2],
+        PC4: bookedPcs[3],
+        PC5: bookedPcs[4],
+        NLP: null,
+      };
+      console.log("supabaseObject", supabaseObject);
+
+      sendToSupabase(supabaseObject);
+    } else {
+      const updatedSupabaseObject = john.map((day) => {
+        if (userChoices?.date === day.date.toString()) {
+          let pickedDay = { ...day };
+        } else {
+          return day;
+        }
+      });
+
+      console.log("updatedSupabaseObject", updatedSupabaseObject);
     }
-
-    const supabaseObject = {
-      date: userChoices?.date,
-      PC1: bookedPcs[0],
-      PC2: bookedPcs[1],
-      PC3: bookedPcs[2],
-      PC4: bookedPcs[3],
-      PC5: bookedPcs[4],
-      NLP: null,
-    };
-    console.log("supabaseObject", supabaseObject);
-
-    sendToSupabase(supabaseObject);
   };
 
   function updateSupabase() {
@@ -631,12 +645,9 @@ export default function Booking({ john }: { john: Bookings[] }) {
     ];
     // @ts-ignore
     let alreadyDate: boolean = john.some((el) => el.date === userChoices?.date);
-    // console.log(alreadyDate);
-    if (alreadyDate) {
-      //Loop through each pc and change booked === true for the times used, for every amount of PC booked
-    } else {
-      userChoices?.amount && createBooking(userChoices?.amount);
-    }
+
+    //Loop through each pc and change booked === true for the times used, for every amount of PC booked
+    userChoices?.amount && createBooking(userChoices?.amount, alreadyDate);
   }
 
   function bookPCTimes(PC: BookingTimeSlot[], times: string[]) {}
@@ -665,12 +676,14 @@ export default function Booking({ john }: { john: Bookings[] }) {
                   <FaUserGroup className="inline-block mt-0.4" />
                   <span>Antal (max 5)</span>
                 </p>
+
                 <Input
                   type="number"
                   max={5}
                   min={1}
-                  className="border-white"
+                  className="border-white remove-arrow"
                   onChange={handleAmountChange}
+                  value={userChoices?.amount ? userChoices.amount : ""}
                 ></Input>
               </div>
             </article>
@@ -681,7 +694,6 @@ export default function Booking({ john }: { john: Bookings[] }) {
               <div className="bg-contrastCol mt-8 p-4 lg:block">
                 <h4 className="mt-0">Hvilken dag vil i komme?</h4>
                 <p>
-                  {" "}
                   I kan booke tid 14 dage frem og alle ledige datoer vil være markeret med grøn farve. Dage vi er fuldt bookede er
                   market med rød.
                 </p>
@@ -727,7 +739,11 @@ export default function Booking({ john }: { john: Bookings[] }) {
                   </button>
                   <button
                     className="p-4 border border-white "
-                    onClick={() => console.log(userChoices)}
+                    onClick={() => {
+                      console.log("userChoices: ", userChoices);
+                      console.log("userChoices.amount: ", userChoices?.amount);
+                      console.log("typeOf userChoices.amount: ", typeof userChoices?.amount);
+                    }}
                   >
                     Check Choices State
                   </button>
