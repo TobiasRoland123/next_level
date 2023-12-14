@@ -190,6 +190,7 @@ export const SpilListe = () => {
               <CommandList className='w-full h-full'>
                 {gameData.results.map((game: Result) => (
                   <CommandItem
+                    className='cursor-pointer'
                     onSelect={() => {
                       setGameId(game.id);
                       setOpen(false);
