@@ -1,6 +1,9 @@
-import { Layout } from "@/Layout";
-import { RelatedContact } from "../../components/RelatedContact/RelatedContact";
-import { Hero } from "@/modules/Hero/Hero";
+import { Layout } from '@/Layout';
+import { RelatedContact } from '../../components/RelatedContact/RelatedContact';
+import { Hero } from '@/modules/Hero/Hero';
+import { Accordion } from '@radix-ui/react-accordion';
+import { Accordions } from '@/components/Accordion/Accordion';
+import { Button } from '@/components/Button/Button';
 
 export default function Turneringer() {
   return (
@@ -10,37 +13,85 @@ export default function Turneringer() {
           <Hero
             isFrontPage={false}
             buttonProps={{
-              children: "Kontakt os",
-              link: "../om-os/kontakt?turnering",
+              children: 'Kontakt os',
+              link: '../om-os/kontakt?turnering',
             }}
-            content="Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur"
-            header="De vildeste turneringer"
-            redWord={["turneringer"]}
+            content='En turnering er den bedste måde at få testet dine skills. Har du et hold som du gerne vil have testet af? Så er det en af vores turneringer du skal deltage i. Vi afholder turneringer i det mest populære spil.'
+            header='De vildeste turneringer'
+            redWord={['turneringer']}
           />
 
           <section>
-            <article className="flex justify-center">
-              <div className="spacer w-full">
+            <article className='flex justify-center'>
+              <div className='spacer w-full'>
                 <h2>
-                  Find din næste <span className="text-accentCol">turnering</span>
+                  Find din næste{' '}
+                  <span className='text-accentCol'>turnering</span>
                 </h2>
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus auctor euismod posuere. Integer non
-                  ullamcorper mi. Vestibulum et congue lorem. Suspendisse iaculis semper mauris eget aliquet. Mauris malesuada
-                  purus et rhoncus auctor. Fusce vitae justo risus. Vestibulum convallis justo eu diam dignissim posuere. Donec
-                  acv
-                </p>
-                <div className="border-2 border-green-500">Turnering lineup løsning comming soon</div>
+                <p className='mb-10'>Se de kommende turneringer nedenfor.</p>
+
+                <Accordions
+                  items={[
+                    {
+                      item: {
+                        itemHeader: 'League of Legends 06 - 07/01/24 ',
+                        itemContent:
+                          'Den ultimative league of legends turnering. Store præmier fra Shark Gaming, BenQ og Logitech. ',
+                        children: [
+                          <span>
+                            <br />
+                            <Button link='/om-os/kontakt?turnering'>
+                              Tilmed dit hold
+                            </Button>
+                          </span>,
+                        ],
+                      },
+                    },
+                    {
+                      item: {
+                        itemHeader: 'Counter-Strike 2 03 - 04/02/24 ',
+                        itemContent:
+                          'Den ultimative Counter-Strike 2 turnering. Store præmier fra Shark Gaming, BenQ og Logitech. ',
+                        children: [
+                          <span>
+                            <br />
+                            <Button link='/om-os/kontakt?turnering'>
+                              Tilmed dit hold
+                            </Button>
+                          </span>,
+                        ],
+                      },
+                    },
+                    {
+                      item: {
+                        itemHeader: 'Fortnite 13 - 14/04/24 ',
+                        itemContent:
+                          'Den ultimative Fortnite turnering. Store præmier fra Shark Gaming, BenQ og Logitech. ',
+                        children: [
+                          <span>
+                            <br />
+                            <Button link='/om-os/kontakt?turnering'>
+                              Tilmed dit hold
+                            </Button>
+                          </span>,
+                        ],
+                      },
+                    },
+                  ]}
+                />
               </div>
             </article>
           </section>
           <section>
             <RelatedContact
-              header="Du kan altid kontakte os"
-              redWord={["kontakte", "os"]}
-              subHeader="har du spørgsmål til kommende turneringer?"
-              content="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus auctor euismod posuere. Integer non ullamcorper mi. Vestibulum et congue lorem. Suspendisse iaculis semper mauris eget aliquet. Mauris malesuada purus et rhoncus auctor. Fusce vitae justo risus. Vestibulum convallis justo eu diam dignissim posuere. Donec ac maximus lectus. Praesent non nibh eget sem tincidunt ultricies vel vitae magna. Nullam eget tellus id quam commodo iaculis convallis a odio. Phasellus sagittis velit eget leo. "
-              buttonProps={{ children: "Kontakt os om turneringer", link: "../om-os/kontakt?turneringer" }}
+              header='Du kan altid kontakte os'
+              redWord={['kontakte', 'os']}
+              subHeader='har du spørgsmål til kommende turneringer?'
+              content='Har du spørgsmål angående de kommende turneringer? Måske har du en idé til en turnering, eller vil samarbejde omkring en turnering. Ønsker du at tilmelde dit hold kan det gøres her '
+              buttonProps={{
+                children: 'Kontakt os om turneringer',
+                link: '../om-os/kontakt?turneringer',
+              }}
             />
           </section>
         </main>
