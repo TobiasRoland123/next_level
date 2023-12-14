@@ -222,35 +222,34 @@ export default function OmOs() {
                 </div>
               </div>
             </article>
-            <section>
-              <div className='grid  grid-cols-1 md:grid-cols-1 lg:grid-cols-2'>
-                <div className='spacer col-start-1 '>
-                  <h2>
-                    Next level <span className='text-accentCol'>Vision</span>
-                  </h2>
-                  <p>
-                    Contrary to popular belief, Lorem Ipsum is not simply random
-                    text. It has roots in a piece of classical Latin literature
-                    from 45 BC, making it over 2000 years old. Richard
-                    McClintock, a Latin professor at Hampden-Sydney College in
-                    Virginia, looked up one of the more obscure Latin words,
-                    consectetur, from a Lorem Ipsum passage, and going through
-                    the cites of the word in classical literature, discovered
-                    the undoubtable source. Lorem Ipsum comes from sections
-                    1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum"
-                  </p>
+            <section className=''>
+              <section className='flex justify-center'>
+                <div className='spacer w-full'>
+                  <div className=' grid gap-10 grid-cols-1 md:grid-cols-1 lg:grid-cols-2'>
+                    <div className=' col-start-1 '>
+                      <h2>
+                        Next level{' '}
+                        <span className='text-accentCol'>Vision</span>
+                      </h2>
+                      <p>
+                        Vores vision er et gaming center hvor der er plads til
+                        alle. Dette gælder også din personlighed. Vi har sørget
+                        for plads ved computerne, men også til sejre og
+                        nederlag. Vi har skabt det vi mener er de perfekte
+                        rammer for hvordan et gaming center skal være.
+                      </p>
+                    </div>
+                    <div className='aspect-video col-start-1 md:col-start-1 lg:col-start-2'>
+                      <iframe
+                        className='w-full h-full'
+                        src='https://www.youtube.com/embed/Usy96kk_Wcs?si=D4hXtrbwk3XWV_OY'
+                        title='YouTube video player'
+                        allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
+                      />
+                    </div>
+                  </div>
                 </div>
-                <div className='mt-6 aspect-video col-start-1 md:col-start-1 lg:col-start-2 spacer'>
-                  <iframe
-                    className='w-full h-full'
-                    width='560'
-                    height='315'
-                    src='https://www.youtube.com/embed/Usy96kk_Wcs?si=D4hXtrbwk3XWV_OY'
-                    title='YouTube video player'
-                    allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
-                  />
-                </div>
-              </div>
+              </section>
 
               <article className='flex justify-center '>
                 <div className='spacer w-full'>
