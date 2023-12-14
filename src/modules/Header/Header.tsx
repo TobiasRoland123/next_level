@@ -95,7 +95,12 @@ export const Header = ({ pageList }: HeaderProps) => {
         </ul>
 
         <div className="flex justify-center mt-10">
-          <Button className="text-2xl font-bold px-8 py-6">Book tid</Button>
+          <Button
+            className="text-2xl font-bold px-8 py-6"
+            link="/booking"
+          >
+            Book tid
+          </Button>
         </div>
       </div>
 
@@ -217,7 +222,12 @@ export const Header = ({ pageList }: HeaderProps) => {
             <span className={`h-1 bg-accentCol w-full ${isOpen && "translate-y-[-0.35rem] -rotate-45 "}  transition-all	`}></span>
           </button>
 
-          <Button className="hidden md:block my-1">Book tid</Button>
+          <Button
+            className="hidden md:block my-1"
+            link="/booking"
+          >
+            Book tid
+          </Button>
         </div>
       </nav>
     </>
