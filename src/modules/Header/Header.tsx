@@ -1,16 +1,5 @@
 import React, { useState } from 'react';
 import { Button } from '../../components/Button/Button';
-
-import {
-  NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuIndicator,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  NavigationMenuTrigger,
-  NavigationMenuViewport,
-} from '@/components/ui/navigation-menu';
 import Link from 'next/link';
 import { AnimatePresence, delay, motion } from 'framer-motion';
 
@@ -141,46 +130,8 @@ export const Header = ({ pageList }: HeaderProps) => {
 
             {/* DESKTOP MENU */}
 
-            {/*    <NavigationMenu>
-              <NavigationMenuList className='flex gap-6 font-semibold'>
-                {pageList.map((pages, index) => {
-                  return (
-                    <>
-                      {pages.page.subPages ? (
-                        <div className='flex'>
-                          <div className='bg-transparent p-0 relative group'>
-                            <Link href={pages.page.href}>{pages.page.pageTitle}</Link>
-                          </div>
-
-                          <div className='  absolute hidden'>
-                            {pages.page.subPages.map((subPage, index) => (
-                              <Link
-                                key={index}
-                                title={subPage.pageTitle}
-                                href={subPage.href}
-                              >
-                                {subPage.pageTitle}
-                              </Link>
-                            ))}
-                          </div>
-                        </div>
-                      ) : (
-                        <Link
-                          href={pages.page.href}
-                          legacyBehavior
-                          passHref
-                        >
-                          {pages.page.pageTitle}
-                        </Link>
-                      )}
-                    </>
-                  );
-                })}
-                <NavigationMenuIndicator />
-              </NavigationMenuList>
-            </NavigationMenu> */}
             <AnimatePresence>
-              <div className=' hidden md:flex uppercase gap-6 h-full items-center'>
+              <div className=' hidden md:flex uppercase h-full items-center'>
                 {pageList.map((pages, index) =>
                   pages.page.subPages ? (
                     <motion.div
