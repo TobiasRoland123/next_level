@@ -3,17 +3,19 @@
 import { ColumnDef, ColumnFiltersState, SortingState, flexRender, getCoreRowModel, getFilteredRowModel, VisibilityState, getPaginationRowModel, getSortedRowModel, useReactTable } from '@tanstack/react-table';
 import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Button } from '../Button/Button';
 import { Input } from '../Inputfields/Inputfield';
 import { Checkbox } from '@/components/ui/checkbox';
 import React from 'react';
+import { Button } from '../ui/button';
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  udløbne: boolean;
+  onCheckedChange?: (isChecked: boolean) => void;
 }
 
-export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData, TValue>) {
+export function DataTable<TData, TValue>({ columns, data, udløbne, onCheckedChange }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
   const [rowSelection, setRowSelection] = React.useState({});
@@ -43,16 +45,15 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
 
   return (
     <>
-      <h4 className='mt-2'>Settings</h4>
-      <div>
-        <div>
-          <Checkbox></Checkbox>
-          <label>Vis navn, email og telefon nummer</label>
+      {udløbne ? (
+        <div className='flex flex-row gap-x-2 align-top justify-start mb-2'>
+          <Checkbox onCheckedChange={onCheckedChange} className='mt-1'></Checkbox>
+          <label>Vis udløbne bookinger</label>
         </div>
-        <Checkbox></Checkbox>
-        <label>Vis udløbne bookinger</label>
-      </div>
-      <div>
+      ) : (
+        ''
+      )}
+      <div className='mb-2'>
         <ul>
           {/* Med dette kan vi lave en function der sletter de valgte fx */}
           {table.getFilteredSelectedRowModel().rows.map((booking) => (
@@ -60,7 +61,7 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
           ))}
         </ul>
       </div>
-      <div className='flex-1 text-sm text-muted-foreground'>
+      <div className='flex-1 text-sm text-muted-foreground mb-2'>
         {table.getFilteredSelectedRowModel().rows.length} ud af {table.getFilteredRowModel().rows.length} rækker er valgt.
       </div>
 
@@ -94,14 +95,18 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
             )}
           </TableBody>
         </Table>
-        {/* <div className='flex items-center justify-end space-x-2 py-4'>
-        <Button variant='secondary' size='sm' onClick={() => table.previousPage()} disabled={!table.getCanPreviousPage()}>
-          Previous
-        </Button>
-        <Button variant='secondary' size='sm' onClick={() => table.nextPage()} disabled={!table.getCanNextPage()}>
-          Next
-        </Button>
-      </div> */}
+        <div className='flex items-center justify-end space-x-2'>
+          <Button variant='ghost' size='sm' onClick={() => table.previousPage()} disabled={!table.getCanPreviousPage()}>
+            Forrige
+          </Button>
+
+          <span className='font-medium text-sm'>
+            Side {table.getState().pagination.pageIndex + 1} af {table.getPageCount()}
+          </span>
+          <Button variant='ghost' size='sm' onClick={() => table.nextPage()} disabled={!table.getCanNextPage()}>
+            Næste
+          </Button>
+        </div>
       </div>
     </>
   );
