@@ -71,6 +71,7 @@
     "autoprefixer": "^10.0.1",
     "postcss": "^8",
     "storybook": "^7.5.3",
+    "supabase": "^1.115.5",
     "tailwindcss": "^3.3.0",
     "typescript": "^5",
     "webpack": "^5.89.0",
