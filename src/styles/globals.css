@@ -304,3 +304,8 @@ small {
     box-shadow: 0 4px 10px rgba(255, 10, 27, 0.6), 0 0 0 5px rgba(255, 10, 27, 0.2), 0 0 0 10px rgba(255, 10, 27, 0.1), 0 0 0 20px rgba(255, 10, 27, 0);
   }
 }
+
+input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 1000px hsl(0 0% 18%) inset !important;
+  -webkit-text-fill-color: hsl(0 0% 95%) !important;
+}
