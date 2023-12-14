@@ -25,6 +25,7 @@ import { bookingCompleteAtom } from '@/states/store';
 import { useAtom } from 'jotai';
 import { BookingRecieved } from '@/modules/BookingRecieved/bookingRecieved';
 import { useRouter } from 'next/router';
+import { log } from 'console';
 
 export async function getServerSideProps() {
   let { data: john, error } = await supabase.from('Bookings').select('*');
@@ -51,6 +52,7 @@ export default function Booking({ john }: { john: Bookings[] }) {
   const amountRef = useRef<HTMLDivElement | null>(null);
   const dateRef = useRef<HTMLDivElement | null>(null);
   const timeRef = useRef<HTMLDivElement | null>(null);
+  const bookingRef = useRef<HTMLDivElement | null>(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -69,17 +71,18 @@ export default function Booking({ john }: { john: Bookings[] }) {
     };
   }, [router.events]);
   useEffect(() => {
-    if (timeRef.current && userChoices?.endTime?.index !== undefined && userChoices?.startTime?.index !== undefined && userChoices?.amount && userChoices.date) {
-      timeRef.current.scrollIntoView({ behavior: 'smooth' });
+    if (bookingRef.current && userChoices?.startTime?.index !== undefined && userChoices?.amount && userChoices.date) {
+      bookingRef.current.scrollIntoView({ behavior: 'smooth' });
       console.log('1');
       console.log(userChoices.startTime);
       console.log(userChoices.endTime);
-    } else if (dateRef.current && userChoices?.amount && userChoices.date) {
-      dateRef.current.scrollIntoView({ behavior: 'smooth' });
+    } else if (timeRef.current && userChoices?.amount && userChoices.date && userChoices?.startTime?.index === undefined && userChoices?.endTime?.index === undefined && timeChosen.index === undefined) {
+      timeRef.current.scrollIntoView({ behavior: 'smooth' });
       console.log('2');
-    } else if (amountRef.current && userChoices?.amount) {
-      amountRef.current?.scrollIntoView({ behavior: 'smooth' });
+    } else if (dateRef.current && userChoices?.amount && userChoices?.startTime?.index === undefined && timeChosen.index === undefined) {
+      dateRef.current?.scrollIntoView({ behavior: 'smooth' });
       console.log('3');
+      console.log(userChoices.startTime);
     }
   }, [userChoices]);
 
@@ -1133,7 +1136,9 @@ export default function Booking({ john }: { john: Bookings[] }) {
                       ease: [0, 0.71, 0.2, 1.01],
                     }}
                   >
+                    {/* <div ref={bookingRef}> */}
                     <BookingForm userChoices={userChoices} />
+                    {/* </div> */}
                   </motion.article>
                 ) : (
                   ''
