@@ -45,11 +45,7 @@ export const Hero = ({ header, content, buttonProps, redWord, isFrontPage, link 
 
   return (
     <>
-      <header
-        className={`flex min-h-[50vh] justify-center ${
-          isFrontPage ? "bg-hero2" : "bg-hero1"
-        } bg-center md:bg-left bg-cover bg-no-repeat pb-10`}
-      >
+      <header className={`flex min-h-[50vh] justify-center ${isFrontPage ? "bg-hero2 md:bg-left-top" : "bg-hero1 md:bg-left"} bg-center bg-cover bg-no-repeat pb-10`}>
         <div className="max-w-screen-xl w-full mt-20  spacer">
           <section className=" bg-contrastCol/50 backdrop-blur-sm mt-28 px-4 py-6 rounded-sm h-fit md:max-w-[66%]">
             {renderHeader()}
@@ -60,13 +56,7 @@ export const Hero = ({ header, content, buttonProps, redWord, isFrontPage, link 
               </p>
             )}
 
-            {buttonProps && (
-              <Button
-                link={link}
-                className=" mt-7"
-                {...buttonProps}
-              ></Button>
-            )}
+            {buttonProps && <Button link={link} className=" mt-7" {...buttonProps}></Button>}
           </section>
         </div>
       </header>
