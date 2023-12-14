@@ -1,8 +1,10 @@
-import React, { useState } from "react";
-import { Button } from "../../components/Button/Button";
-import Link from "next/link";
-import { AnimatePresence, delay, motion } from "framer-motion";
-import router from "next/router";
+
+import React, { useState } from 'react';
+import { Button } from '../../components/Button/Button';
+import Link from 'next/link';
+import { AnimatePresence, delay, motion } from 'framer-motion';
+import { ChevronDown } from 'lucide-react';
+
 
 interface HeaderProps {
   pageList: Array<{
@@ -27,6 +29,11 @@ const container = {
 const item = {
   hidden: { opacity: 0, y: "-10%" },
   show: { opacity: 1, y: "0%" },
+};
+
+const chevron = {
+  hidden: { transform: 'rotate(0deg)' },
+  show: { transform: 'rotate(180deg)' },
 };
 
 const underLine = {
@@ -95,7 +102,12 @@ export const Header = ({ pageList }: HeaderProps) => {
         </ul>
 
         <div className="flex justify-center mt-10">
-          <Button className="text-2xl font-bold px-8 py-6">Book tid</Button>
+          <Button
+            className="text-2xl font-bold px-8 py-6"
+            link="/booking"
+          >
+            Book tid
+          </Button>
         </div>
       </div>
 
@@ -147,13 +159,22 @@ export const Header = ({ pageList }: HeaderProps) => {
                       }}
                       className="group relative h-full justify-center w-[115px] flex items-center"
                     >
-                      <motion.div className="mt-5 w-full flex flex-col justify-center">
-                        <Link
-                          className="text-center"
-                          href={pages.page.href}
-                        >
-                          {pages.page.pageTitle}
-                        </Link>
+                      <motion.div className='mt-5 w-full flex flex-col justify-center'>
+                        <motion.div className='flex justify-center gap-1'>
+                          <Link
+                            className='text-center'
+                            href={pages.page.href}
+                          >
+                            {pages.page.pageTitle}
+                          </Link>
+                          <motion.div
+                            variants={chevron}
+                            transition={{ duration: 0.1 }}
+                            className='flex justify-center items-center'
+                          >
+                            <ChevronDown size={12} />
+                          </motion.div>
+                        </motion.div>
                         <motion.div
                           variants={underLine}
                           transition={{ duration: 0.1 }}
@@ -217,7 +238,12 @@ export const Header = ({ pageList }: HeaderProps) => {
             <span className={`h-1 bg-accentCol w-full ${isOpen && "translate-y-[-0.35rem] -rotate-45 "}  transition-all	`}></span>
           </button>
 
-          <Button className="hidden md:block my-1">Book tid</Button>
+          <Button
+            className="hidden md:block my-1"
+            link="/booking"
+          >
+            Book tid
+          </Button>
         </div>
       </nav>
     </>
