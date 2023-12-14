@@ -224,22 +224,37 @@ export default function OmOs() {
                 </div>
               </div>
             </article>
-            <section>
-              <div className='flex justify-center'>
-                <div className='spacer w-full'>
-                  <h2>
-                    Next level <span className='text-accentCol'>Vision</span>
-                  </h2>
-                  <p>
 
-                    Vores vision er et gaming center hvor der er plads til alle.
-                    Dette gælder også din personlighed. Vi har sørget for plads
-                    ved computerne, men også til sejre og nederlag. Vi har skabt
-                    det vi mener er de perfekte rammer for hvordan et gaming
-                    center skal være.
-                  </p>
+            <section className=''>
+              <section className='flex justify-center'>
+                <div className='spacer w-full'>
+                  <div className=' grid gap-10 grid-cols-1 md:grid-cols-1 lg:grid-cols-2'>
+                    <div className=' col-start-1 '>
+                      <h2>
+                        Next level{' '}
+                        <span className='text-accentCol'>Vision</span>
+                      </h2>
+                      <p>
+                        Vores vision er et gaming center hvor der er plads til
+                        alle. Dette gælder også din personlighed. Vi har sørget
+                        for plads ved computerne, men også til sejre og
+                        nederlag. Vi har skabt det vi mener er de perfekte
+                        rammer for hvordan et gaming center skal være.
+                      </p>
+                    </div>
+                    <div className='aspect-video col-start-1 md:col-start-1 lg:col-start-2'>
+                      <iframe
+                        className='w-full h-full'
+                        src='https://www.youtube.com/embed/Usy96kk_Wcs?si=D4hXtrbwk3XWV_OY'
+                        title='YouTube video player'
+                        allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
+                      />
+                    </div>
+                  </div>
                 </div>
-              </div>
+              </section>
+
+
               <article className='flex justify-center '>
                 <div className='spacer w-full'>
                   <h2
