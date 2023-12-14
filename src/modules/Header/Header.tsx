@@ -167,7 +167,7 @@ export const Header = ({ pageList }: HeaderProps) => {
                           <motion.div className='h-7 flex items-center hover:border-l-2 border-accentCol transition-all duration-75 p-2 ease-in-out'>
                             <motion.div
                               className=''
-                              whileHover={{ x: 10 }}
+                              whileHover={{ x: 4 }}
                             >
                               <Link
                                 className='text-xs'
