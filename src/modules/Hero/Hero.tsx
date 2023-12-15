@@ -1,5 +1,3 @@
-import Image from "next/image";
-import heroPlaceholder from "../../../public/images/hero-placeholder.webp";
 import { Button, ButtonProps } from "../../components/Button/Button";
 import { HyphenatedText } from "../../components/HyphenatedText/HyphenatedText";
 
@@ -45,7 +43,11 @@ export const Hero = ({ header, content, buttonProps, redWord, isFrontPage, link 
 
   return (
     <>
-      <header className={`flex min-h-[50vh] justify-center ${isFrontPage ? "bg-hero2 md:bg-left-top" : "bg-hero1 md:bg-left"} bg-center bg-cover bg-no-repeat pb-10`}>
+      <header
+        className={`flex min-h-[50vh] justify-center ${
+          isFrontPage ? "bg-hero2_mobile md:bg-hero2  md:bg-left-top" : "bg-hero1 md:bg-left"
+        } bg-center bg-cover bg-no-repeat pb-10`}
+      >
         <div className="max-w-screen-xl w-full mt-20  spacer">
           <section className=" bg-contrastCol/50 backdrop-blur-sm mt-28 px-4 py-6 rounded-sm h-fit md:max-w-[66%]">
             {renderHeader()}
@@ -56,7 +58,13 @@ export const Hero = ({ header, content, buttonProps, redWord, isFrontPage, link 
               </p>
             )}
 
-            {buttonProps && <Button link={link} className=" mt-7" {...buttonProps}></Button>}
+            {buttonProps && (
+              <Button
+                link={link}
+                className=" mt-7"
+                {...buttonProps}
+              ></Button>
+            )}
           </section>
         </div>
       </header>
