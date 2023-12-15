@@ -3,8 +3,6 @@
 @tailwind utilities;
 
 @import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
 body {
   /* position: relative; */
@@ -72,7 +70,9 @@ small {
   text-align: center;
 }
 
-.calendarDatePickerMate .rdp-tbody .\[\&\:has\(\[aria-selected\]\)\]\:bg-accent:has([aria-selected]) {
+.calendarDatePickerMate
+  .rdp-tbody
+  .\[\&\:has\(\[aria-selected\]\)\]\:bg-accent:has([aria-selected]) {
   background-color: transparent !important;
 }
 .calendarDatePickerMate .rdp-tbody button.rdp-button:not(:disabled)::after {
@@ -290,18 +290,22 @@ small {
 
 @-webkit-keyframes at-ripple-pink {
   0% {
-    box-shadow: 0 4px 10px rgba(255, 10, 27, 0.1), 0 0 0 0 rgba(255, 10, 27, 0.6), 0 0 0 5px rgba(255, 10, 27, 0.2), 0 0 0 10px rgba(255, 10, 27, 0.1);
+    box-shadow: 0 4px 10px rgba(255, 10, 27, 0.1), 0 0 0 0 rgba(255, 10, 27, 0.6),
+      0 0 0 5px rgba(255, 10, 27, 0.2), 0 0 0 10px rgba(255, 10, 27, 0.1);
   }
   100% {
-    box-shadow: 0 4px 10px rgba(255, 10, 27, 0.6), 0 0 0 5px rgba(255, 10, 27, 0.2), 0 0 0 10px rgba(255, 10, 27, 0.1), 0 0 0 20px rgba(255, 10, 27, 0);
+    box-shadow: 0 4px 10px rgba(255, 10, 27, 0.6), 0 0 0 5px rgba(255, 10, 27, 0.2),
+      0 0 0 10px rgba(255, 10, 27, 0.1), 0 0 0 20px rgba(255, 10, 27, 0);
   }
 }
 @keyframes at-ripple-pink {
   0% {
-    box-shadow: 0 4px 10px rgba(255, 10, 27, 0.1), 0 0 0 0 rgba(255, 10, 27, 0.6), 0 0 0 5px rgba(255, 10, 27, 0.2), 0 0 0 10px rgba(255, 10, 27, 0.1);
+    box-shadow: 0 4px 10px rgba(255, 10, 27, 0.1), 0 0 0 0 rgba(255, 10, 27, 0.6),
+      0 0 0 5px rgba(255, 10, 27, 0.2), 0 0 0 10px rgba(255, 10, 27, 0.1);
   }
   100% {
-    box-shadow: 0 4px 10px rgba(255, 10, 27, 0.6), 0 0 0 5px rgba(255, 10, 27, 0.2), 0 0 0 10px rgba(255, 10, 27, 0.1), 0 0 0 20px rgba(255, 10, 27, 0);
+    box-shadow: 0 4px 10px rgba(255, 10, 27, 0.6), 0 0 0 5px rgba(255, 10, 27, 0.2),
+      0 0 0 10px rgba(255, 10, 27, 0.1), 0 0 0 20px rgba(255, 10, 27, 0);
   }
 }
 
