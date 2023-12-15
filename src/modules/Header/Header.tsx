@@ -25,8 +25,8 @@ const container = {
 };
 
 const item = {
-  hidden: { opacity: 0, y: '-10%' },
-  show: { opacity: 1, y: '0%' },
+  hidden: { height: '0px' },
+  show: { height: 'fit-content' },
 };
 
 const chevron = {
@@ -153,11 +153,11 @@ export const Header = ({ pageList }: HeaderProps) => {
                       transition={{
                         type: 'spring',
                         stiffness: 100,
-                        duration: 0.3,
+                        duration: 0.1,
                       }}
                       className='group relative h-full justify-center w-[115px] flex items-center'
                     >
-                      <motion.div className='mt-5 w-full flex flex-col justify-center'>
+                      <motion.div className='mt-5 w-full flex flex-col justify-center '>
                         <motion.div className='flex justify-center gap-1'>
                           <Link
                             className='text-center'
@@ -181,7 +181,8 @@ export const Header = ({ pageList }: HeaderProps) => {
                       </motion.div>
                       <motion.div
                         variants={item}
-                        className='bg-contrastCol/70 backdrop-blur-sm w-[115px] py-0 flex-col absolute flex top-16 rounded-b-sm'
+                        transition={{ duration: 0.28 }}
+                        className='bg-contrastCol/80 backdrop-blur-md w-[115px] py-0 flex-col absolute flex top-16 rounded-b-sm overflow-hidden'
                       >
                         {pages.page.subPages.map(subPage => (
                           <motion.div className='h-7 flex items-center hover:border-l-2 border-accentCol transition-all duration-75 p-2 ease-in-out'>
