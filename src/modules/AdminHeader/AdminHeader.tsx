@@ -3,6 +3,7 @@ import { Button } from '../../components/Button/Button';
 import { NavLinkDropDown } from '../../components/NavLinkDropDown/NavLinkDropDown';
 import { Router, useRouter } from 'next/router';
 import { createClient } from '@supabase/supabase-js';
+import { supabase } from '../../../utils/supabaseClient';
 
 interface HeaderProps {
   pageList: Array<{
@@ -20,10 +21,7 @@ interface HeaderProps {
 
 export const AdminHeader = ({ pageList }: HeaderProps) => {
   const router = useRouter();
-  const supabase = createClient(
-    'https://zwcshwxjwoffkdrdvbtp.supabase.co',
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp3Y3Nod3hqd29mZmtkcmR2YnRwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDEwNzg5NzgsImV4cCI6MjAxNjY1NDk3OH0.yq0erC0CIBZmUG9uMC8u1YVyG4g2dsf3PrpekxJDq34'
-  );
+
   const signUserOut = async () => {
     const { error } = await supabase.auth.signOut();
     router.push('/login');
