@@ -159,7 +159,12 @@ export const Footer = () => {
               </svg>
             </a>
 
-            <Button className="md:items-center w-full">Book nu</Button>
+            <Button
+              className="md:items-center w-full"
+              link="/booking"
+            >
+              Book nu
+            </Button>
           </header>
           <section className="md:order-1 md:flex md:gap-x-20 ">
             <div className="mt-12 md:mt-0">
@@ -204,7 +209,7 @@ export const Footer = () => {
               <div className="mt-6">
                 <p className="font-bold">Adresse</p>
                 <a
-                  href="https://maps.app.goo.gl/gTyHSkDryC8BR8TT9k"
+                  href="https://maps.app.goo.gl/eKRjh2DJL8qw7nvX8"
                   className="underline"
                 >
                   Hovedvejen 3A,
@@ -240,7 +245,7 @@ export const Footer = () => {
                   <p className="">
                     Se vores priser{" "}
                     <a
-                      href="/priserl"
+                      href="/priser"
                       className=" text-accentCol"
                     >
                       her
