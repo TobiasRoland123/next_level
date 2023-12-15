@@ -224,7 +224,7 @@ export const Footer = () => {
                     Læs mere om events{" "}
                     <a
                       href="/events"
-                      className="text-accentCol font-bold"
+                      className="text-accentCol text-lg font-bold"
                     >
                       her
                     </a>
@@ -241,7 +241,7 @@ export const Footer = () => {
                     Se vores priser{" "}
                     <a
                       href="/priserl"
-                      className=" text-accentCol font-bold"
+                      className=" text-accentCol text-lg font-bold"
                     >
                       her
                     </a>
