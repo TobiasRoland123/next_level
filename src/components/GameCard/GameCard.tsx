@@ -4,8 +4,7 @@ import Image from 'next/image';
 import { cn } from '../../lib/utils';
 import { forwardRef, useState } from 'react';
 import { AnimatePresence, HTMLMotionProps, motion } from 'framer-motion';
-import { Dialog, DialogContent, DialogTrigger, DialogClose } from '../ui/dialog';
-import { Description } from '@radix-ui/react-dialog';
+import { Dialog, DialogContent, DialogTrigger } from '../ui/dialog';
 
 const gameCardVariants = cva(
   'max-w-[700px] lg:max-h-[200px] w-full h-full  rounded cursor-pointer grid',
