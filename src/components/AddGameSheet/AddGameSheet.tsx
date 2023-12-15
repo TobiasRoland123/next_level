@@ -9,7 +9,7 @@ import {
   SheetTitle,
 } from '@/components/ui/sheet';
 import { useAtom } from 'jotai';
-import { addNewGameAtom, gameIdAtom, showAddGameAtom } from '../../states/store';
+import { addNewGameAtom, gameIdAtom, openErrorAtom, showAddGameAtom } from '../../states/store';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import ControlledEditableField from '../EditableInputField/ControlledEditableField';
 import ControlledEditableTextarea from '../ControlledEditableTextArea/ControlledEditableTextarea';
@@ -19,6 +19,16 @@ import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { supabase } from '../../../utils/supabaseClient';
 import { Checkbox } from '../ui/checkbox';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogHeader,
+  AlertDialogPortal,
+  AlertDialogTrigger,
+} from '../ui/alert-dialog';
 
 export const AddGameSheet = (game: Game) => {
   const [addOpen, setAddOpen] = useAtom(showAddGameAtom);
@@ -27,6 +37,7 @@ export const AddGameSheet = (game: Game) => {
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [openError, setOpenError] = useAtom(openErrorAtom);
 
   const [selectedTags, setSelectedTags] = useState<Array<{ name: string; value: number }>>([]);
   const [selectedPlatform, setSelectedPlatform] = useState<Array<{ name: string; value: number }>>(
@@ -125,6 +136,9 @@ export const AddGameSheet = (game: Game) => {
 
     if (error) {
       console.error('Supabase error:', error);
+      if (parseInt(error.code) === 23505) {
+        setOpenError(true);
+      }
       return;
     }
 
@@ -288,11 +302,52 @@ export const AddGameSheet = (game: Game) => {
                     ? 'Spillet er blevet tilføjet!'
                     : 'Tilføj spil'}
                 </Button>
+                <ErrorMsg />
               </div>
             </form>
           </SheetHeader>
         </SheetContent>
       </Sheet>
     </>
+  );
+};
+
+export const ErrorMsg = () => {
+  const [openError, setOpenError] = useAtom(openErrorAtom);
+  const [addOpen, setAddOpen] = useAtom(showAddGameAtom);
+  const [gameId, setGameId] = useAtom(gameIdAtom);
+
+  return (
+    <AlertDialog
+      open={openError}
+      onOpenChange={setOpenError}
+    >
+      <AlertDialogPortal>
+        <AlertDialogContent className='border-none max-w-[500px]'>
+          <AlertDialogHeader>
+            <h4>Dette spil findes allerede?</h4>
+          </AlertDialogHeader>
+          <AlertDialogDescription>
+            <p>
+              Denne handling kunne ikke gennemføres, da dette spil allerede er I jeres sortiment.
+            </p>
+          </AlertDialogDescription>
+          <div className='flex justify-end gap-3'>
+            <AlertDialogAction asChild>
+              <Button
+                className='w-fit uppercase font-bold hover:bg-transparent border-2 border-accentCol transition-colors duration-300'
+                size='sm'
+                onClick={() => {
+                  setGameId(0);
+                  setAddOpen(false);
+                }}
+              >
+                Okay
+              </Button>
+            </AlertDialogAction>
+          </div>
+        </AlertDialogContent>
+      </AlertDialogPortal>
+    </AlertDialog>
   );
 };
