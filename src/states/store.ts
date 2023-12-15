@@ -7,5 +7,9 @@ export const gameIdAtom = atom<number>(0);
 export const addNewGameAtom = atom<Game>({} as Game);
 export const editGameAtom = atom<Game>({} as Game);
 export const bookingCompleteAtom = atom<boolean>(false);
+
+export const submitFormAtom = atom<boolean>(false);
+
 export const deleteEntry = atom<number | null>(null);
 export const openErrorAtom = atom<boolean>(false);
+

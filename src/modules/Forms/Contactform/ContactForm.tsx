@@ -3,7 +3,16 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { useState, useEffect } from 'react';
 import * as z from 'zod';
-import { FormControl, FormItem, FormLabel, FormDescription, FormMessage, FormField, Form, useFormField } from '../../../components/ui/form';
+import {
+  FormControl,
+  FormItem,
+  FormLabel,
+  FormDescription,
+  FormMessage,
+  FormField,
+  Form,
+  useFormField,
+} from '../../../components/ui/form';
 import InputMask from 'react-input-mask';
 import { Input } from '../../../components/Inputfields/Inputfield';
 import { Button } from '../../../components/Button/Button';
@@ -13,6 +22,8 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { MdError } from 'react-icons/md';
 import { IoIosCheckmarkCircle } from 'react-icons/io';
 import { InputDatePicker } from '../../../components/InputDatePicker/InputDatePicker';
+import { useAtom } from 'jotai';
+import { submitFormAtom } from '@/states/store';
 
 interface ContactFormProps {
   // Add any additional props if needed
@@ -22,7 +33,12 @@ interface ContactFormProps {
   onDateChange: (value: string) => void;
 }
 
-export const ContactForm: React.FC<ContactFormProps> = ({ selectedValue, selectedDate, onDateChange, onSelectChange }) => {
+export const ContactForm: React.FC<ContactFormProps> = ({
+  selectedValue,
+  selectedDate,
+  onDateChange,
+  onSelectChange,
+}) => {
   const formSchema = z.object({
     subject: z.string().min(1, {
       message: 'Vælg venligst et emne',
@@ -53,7 +69,7 @@ export const ContactForm: React.FC<ContactFormProps> = ({ selectedValue, selecte
 
     ...(selectedValue === 'nlp' && {
       amountOfParticipants: z.string().refine(
-        (value) => {
+        value => {
           const parsedValue = parseInt(value, 10);
           return !isNaN(parsedValue) && parsedValue >= 6 && parsedValue <= 10;
         },
@@ -72,13 +88,18 @@ export const ContactForm: React.FC<ContactFormProps> = ({ selectedValue, selecte
     }),
 
     email: z.string().email('Indtast en gyldig email'),
-    phoneNum: z.union([z.string().length(0, { message: 'Indtast venligst et gyldigt telefonnummer' }), z.string().min(11)]).optional(),
+    phoneNum: z
+      .union([
+        z.string().length(0, { message: 'Indtast venligst et gyldigt telefonnummer' }),
+        z.string().min(11),
+      ])
+      .optional(),
 
     textFieldMessage: z.string().min(1, {
       message: 'Uddyb venligst hvorfor du henvender dig',
     }),
   });
-  const [submitForm, setSubmitForm] = useState<boolean | null>(null);
+  const [submitForm, setSubmitForm] = useAtom(submitFormAtom);
   const [isLoading, setIsLoading] = useState<boolean | null>(null);
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
@@ -164,8 +185,16 @@ export const ContactForm: React.FC<ContactFormProps> = ({ selectedValue, selecte
                 <FormItem className='mt-5'>
                   <FormLabel>Hvad vil du gerne kontakt os omkring?</FormLabel>
                   <FormControl>
-                    <div className={`mt-8 w-[11.25rem] ${selectedValue === '' ? 'bdr-ripple-ani-btn pink' : ''} ${!form.formState.errors ? 'shake' : ''}`}>
-                      <SelectField onSelectChange={handleSelectChange} selectedValue={selectedValue} {...field} />
+                    <div
+                      className={`mt-8 w-[11.25rem] ${
+                        selectedValue === '' ? 'bdr-ripple-ani-btn pink' : ''
+                      } ${!form.formState.errors ? 'shake' : ''}`}
+                    >
+                      <SelectField
+                        onSelectChange={handleSelectChange}
+                        selectedValue={selectedValue}
+                        {...field}
+                      />
                     </div>
                   </FormControl>
                   <FormDescription className='text-transparent'>
@@ -211,9 +240,12 @@ export const ContactForm: React.FC<ContactFormProps> = ({ selectedValue, selecte
                       <FormItem className='mt-5'>
                         <FormLabel>Dato*</FormLabel>
                         <FormControl>
-                          <div style={{ position: 'relative' }} className={form.formState.errors.inputDatePick ? 'shake' : ''}>
+                          <div
+                            style={{ position: 'relative' }}
+                            className={form.formState.errors.inputDatePick ? 'shake' : ''}
+                          >
                             <InputDatePicker
-                              onDateChange={(value) => {
+                              onDateChange={value => {
                                 handleDateChange(value);
                                 field.onChange(value); // Ensure the field's onChange is called
                               }}
@@ -225,7 +257,8 @@ export const ContactForm: React.FC<ContactFormProps> = ({ selectedValue, selecte
                                   <MdError className={'text-red-500 text-2xl'} />
                                 </div>
                               </div>
-                            ) : form.formState.isSubmitted && !form.formState.errors.inputDatePick ? (
+                            ) : form.formState.isSubmitted &&
+                              !form.formState.errors.inputDatePick ? (
                               <div className='absolute top-2 left-52 pr-3 flex items-center pointer-events-none'>
                                 <div>
                                   <IoIosCheckmarkCircle className={'text-green-500 text-2xl'} />
@@ -252,11 +285,18 @@ export const ContactForm: React.FC<ContactFormProps> = ({ selectedValue, selecte
                       <FormItem className='mt-5'>
                         <FormLabel>Antal børn*</FormLabel>
                         <FormControl>
-                          <div style={{ position: 'relative' }} className={form.formState.errors.amountOfKids ? 'shake' : ''}>
+                          <div
+                            style={{ position: 'relative' }}
+                            className={form.formState.errors.amountOfKids ? 'shake' : ''}
+                          >
                             {/* @ts-ignore */}
                             <Input
                               style={{
-                                borderColor: form.formState.isSubmitted ? (form.formState.errors.amountOfKids ? 'red' : 'green') : 'none',
+                                borderColor: form.formState.isSubmitted
+                                  ? form.formState.errors.amountOfKids
+                                    ? 'red'
+                                    : 'green'
+                                  : 'none',
                               }}
                               // Add this line
                               className='remove-arrow'
@@ -270,7 +310,8 @@ export const ContactForm: React.FC<ContactFormProps> = ({ selectedValue, selecte
                                   <MdError className={'text-red-500 text-2xl'} />
                                 </div>
                               </div>
-                            ) : form.formState.isSubmitted && !form.formState.errors.amountOfKids ? (
+                            ) : form.formState.isSubmitted &&
+                              !form.formState.errors.amountOfKids ? (
                               <div className='absolute top-1.5 right-0 pr-3 flex items-center pointer-events-none'>
                                 <div>
                                   <IoIosCheckmarkCircle className={'text-green-500 text-2xl'} />
@@ -307,11 +348,18 @@ export const ContactForm: React.FC<ContactFormProps> = ({ selectedValue, selecte
                       <FormItem className='mt-5'>
                         <FormLabel>Antal voksne* </FormLabel>
                         <FormControl>
-                          <div style={{ position: 'relative' }} className={form.formState.errors.amountOfAdults ? 'shake' : ''}>
+                          <div
+                            style={{ position: 'relative' }}
+                            className={form.formState.errors.amountOfAdults ? 'shake' : ''}
+                          >
                             {/* @ts-ignore */}
                             <Input
                               style={{
-                                borderColor: form.formState.isSubmitted ? (form.formState.errors.amountOfAdults ? 'red' : 'green') : 'none',
+                                borderColor: form.formState.isSubmitted
+                                  ? form.formState.errors.amountOfAdults
+                                    ? 'red'
+                                    : 'green'
+                                  : 'none',
                               }}
                               className='remove-arrow'
                               type='number'
@@ -324,7 +372,8 @@ export const ContactForm: React.FC<ContactFormProps> = ({ selectedValue, selecte
                                   <MdError className={'text-red-500 text-2xl'} />
                                 </div>
                               </div>
-                            ) : form.formState.isSubmitted && !form.formState.errors.amountOfAdults ? (
+                            ) : form.formState.isSubmitted &&
+                              !form.formState.errors.amountOfAdults ? (
                               <div className='absolute top-1.5 right-0 pr-3 flex items-center pointer-events-none'>
                                 <div>
                                   <IoIosCheckmarkCircle className={'text-green-500 text-2xl'} />
@@ -363,10 +412,17 @@ export const ContactForm: React.FC<ContactFormProps> = ({ selectedValue, selecte
                       <FormItem className='mt-5'>
                         <FormLabel>Dit navn*</FormLabel>
                         <FormControl>
-                          <div style={{ position: 'relative' }} className={form.formState.errors.navn ? 'shake' : ''}>
+                          <div
+                            style={{ position: 'relative' }}
+                            className={form.formState.errors.navn ? 'shake' : ''}
+                          >
                             <Input
                               style={{
-                                borderColor: form.formState.isSubmitted ? (form.formState.errors.navn ? 'red' : 'green') : 'none',
+                                borderColor: form.formState.isSubmitted
+                                  ? form.formState.errors.navn
+                                    ? 'red'
+                                    : 'green'
+                                  : 'none',
                               }}
                               placeholder='John Jensen'
                               {...field}
@@ -416,10 +472,17 @@ export const ContactForm: React.FC<ContactFormProps> = ({ selectedValue, selecte
                       <FormItem className='mt-5'>
                         <FormLabel>Email*</FormLabel>
                         <FormControl>
-                          <div style={{ position: 'relative' }} className={form.formState.errors.email ? 'shake' : ''}>
+                          <div
+                            style={{ position: 'relative' }}
+                            className={form.formState.errors.email ? 'shake' : ''}
+                          >
                             <Input
                               style={{
-                                borderColor: form.formState.isSubmitted ? (form.formState.errors.email ? 'red' : 'green') : 'none',
+                                borderColor: form.formState.isSubmitted
+                                  ? form.formState.errors.email
+                                    ? 'red'
+                                    : 'green'
+                                  : 'none',
                               }}
                               placeholder='John@jensen.dk'
                               {...field}
@@ -469,7 +532,10 @@ export const ContactForm: React.FC<ContactFormProps> = ({ selectedValue, selecte
                       <FormItem className='mt-5'>
                         <FormLabel>Telefon nr.</FormLabel>
                         <FormControl>
-                          <div style={{ position: 'relative' }} className={form.formState.errors.phoneNum ? 'shake' : ''}>
+                          <div
+                            style={{ position: 'relative' }}
+                            className={form.formState.errors.phoneNum ? 'shake' : ''}
+                          >
                             <InputMask
                               name='phoneNum'
                               className='flex h-10 w-full rounded bg-contrastCol px-3 py-2 border-b-transparent border-b-2 text-sm file:border-0 transition ease-in duration-300 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:border-b-2 focus-visible:border-secondaryCol disabled:cursor-not-allowed disabled:opacity-50'
@@ -480,7 +546,11 @@ export const ContactForm: React.FC<ContactFormProps> = ({ selectedValue, selecte
                               value={field.value}
                               onChange={field.onChange}
                               style={{
-                                borderColor: form.formState.errors.phoneNum ? 'red' : form.formState.touchedFields.phoneNum ? 'green' : '',
+                                borderColor: form.formState.errors.phoneNum
+                                  ? 'red'
+                                  : form.formState.touchedFields.phoneNum
+                                  ? 'green'
+                                  : '',
                               }}
                             />
                             {form.formState.errors.phoneNum ? (
@@ -536,10 +606,17 @@ export const ContactForm: React.FC<ContactFormProps> = ({ selectedValue, selecte
                       <FormItem className='mt-5'>
                         <FormLabel>* Din besked</FormLabel>
                         <FormControl>
-                          <div style={{ position: 'relative' }} className={form.formState.errors.textFieldMessage ? 'shake' : ''}>
+                          <div
+                            style={{ position: 'relative' }}
+                            className={form.formState.errors.textFieldMessage ? 'shake' : ''}
+                          >
                             <Textarea
                               style={{
-                                borderColor: form.formState.isSubmitted ? (form.formState.errors.textFieldMessage ? 'red' : 'green') : 'none',
+                                borderColor: form.formState.isSubmitted
+                                  ? form.formState.errors.textFieldMessage
+                                    ? 'red'
+                                    : 'green'
+                                  : 'none',
                               }}
                               placeholder='Jeg vil gerne høre om...'
                               {...field}
@@ -550,7 +627,8 @@ export const ContactForm: React.FC<ContactFormProps> = ({ selectedValue, selecte
                                   <MdError className={'text-red-500 text-2xl'} />
                                 </div>
                               </div>
-                            ) : form.formState.isSubmitted && !form.formState.errors.textFieldMessage ? (
+                            ) : form.formState.isSubmitted &&
+                              !form.formState.errors.textFieldMessage ? (
                               <div className='absolute top-1.5 right-0 pr-3 flex items-center pointer-events-none'>
                                 <div>
                                   <IoIosCheckmarkCircle className={'text-green-500 text-2xl'} />
@@ -592,7 +670,10 @@ export const ContactForm: React.FC<ContactFormProps> = ({ selectedValue, selecte
                         ease: [0, 0.71, 0.2, 1.01],
                       }}
                     >
-                      <Button disabled className='mt-8 w-48 cursor-not-allowed'>
+                      <Button
+                        disabled
+                        className='mt-8 w-48 cursor-not-allowed'
+                      >
                         <span className='loader'></span>
                       </Button>
                     </motion.div>
@@ -637,9 +718,12 @@ export const ContactForm: React.FC<ContactFormProps> = ({ selectedValue, selecte
                       <FormItem className='mt-5'>
                         <FormLabel>Dato*</FormLabel>
                         <FormControl>
-                          <div style={{ position: 'relative' }} className={form.formState.errors.inputDatePick ? 'shake' : ''}>
+                          <div
+                            style={{ position: 'relative' }}
+                            className={form.formState.errors.inputDatePick ? 'shake' : ''}
+                          >
                             <InputDatePicker
-                              onDateChange={(value) => {
+                              onDateChange={value => {
                                 handleDateChange(value);
                                 field.onChange(value); // Ensure the field's onChange is called
                               }}
@@ -651,7 +735,8 @@ export const ContactForm: React.FC<ContactFormProps> = ({ selectedValue, selecte
                                   <MdError className={'text-red-500 text-2xl'} />
                                 </div>
                               </div>
-                            ) : form.formState.isSubmitted && !form.formState.errors.inputDatePick ? (
+                            ) : form.formState.isSubmitted &&
+                              !form.formState.errors.inputDatePick ? (
                               <div className='absolute top-2 left-52 pr-3 flex items-center pointer-events-none'>
                                 <div>
                                   <IoIosCheckmarkCircle className={'text-green-500 text-2xl'} />
@@ -677,11 +762,18 @@ export const ContactForm: React.FC<ContactFormProps> = ({ selectedValue, selecte
                       <FormItem className='mt-5'>
                         <FormLabel>Antal deltagende*</FormLabel>
                         <FormControl>
-                          <div style={{ position: 'relative' }} className={form.formState.errors.amountOfParticipants ? 'shake' : ''}>
+                          <div
+                            style={{ position: 'relative' }}
+                            className={form.formState.errors.amountOfParticipants ? 'shake' : ''}
+                          >
                             {/* @ts-ignore */}
                             <Input
                               style={{
-                                borderColor: form.formState.isSubmitted ? (form.formState.errors.amountOfParticipants ? 'red' : 'green') : 'none',
+                                borderColor: form.formState.isSubmitted
+                                  ? form.formState.errors.amountOfParticipants
+                                    ? 'red'
+                                    : 'green'
+                                  : 'none',
                               }}
                               className='remove-arrow'
                               type='number'
@@ -694,7 +786,8 @@ export const ContactForm: React.FC<ContactFormProps> = ({ selectedValue, selecte
                                   <MdError className={'text-red-500 text-2xl'} />
                                 </div>
                               </div>
-                            ) : form.formState.isSubmitted && !form.formState.errors.amountOfParticipants ? (
+                            ) : form.formState.isSubmitted &&
+                              !form.formState.errors.amountOfParticipants ? (
                               <div className='absolute top-1.5 right-0 pr-3 flex items-center pointer-events-none'>
                                 <div>
                                   <IoIosCheckmarkCircle className={'text-green-500 text-2xl'} />
@@ -733,10 +826,17 @@ export const ContactForm: React.FC<ContactFormProps> = ({ selectedValue, selecte
                       <FormItem className='mt-5'>
                         <FormLabel>Dit navn*</FormLabel>
                         <FormControl>
-                          <div style={{ position: 'relative' }} className={form.formState.errors.navn ? 'shake' : ''}>
+                          <div
+                            style={{ position: 'relative' }}
+                            className={form.formState.errors.navn ? 'shake' : ''}
+                          >
                             <Input
                               style={{
-                                borderColor: form.formState.isSubmitted ? (form.formState.errors.navn ? 'red' : 'green') : 'none',
+                                borderColor: form.formState.isSubmitted
+                                  ? form.formState.errors.navn
+                                    ? 'red'
+                                    : 'green'
+                                  : 'none',
                               }}
                               placeholder='John Jensen'
                               {...field}
@@ -786,10 +886,17 @@ export const ContactForm: React.FC<ContactFormProps> = ({ selectedValue, selecte
                       <FormItem className='mt-5'>
                         <FormLabel>Email*</FormLabel>
                         <FormControl>
-                          <div style={{ position: 'relative' }} className={form.formState.errors.email ? 'shake' : ''}>
+                          <div
+                            style={{ position: 'relative' }}
+                            className={form.formState.errors.email ? 'shake' : ''}
+                          >
                             <Input
                               style={{
-                                borderColor: form.formState.isSubmitted ? (form.formState.errors.email ? 'red' : 'green') : 'none',
+                                borderColor: form.formState.isSubmitted
+                                  ? form.formState.errors.email
+                                    ? 'red'
+                                    : 'green'
+                                  : 'none',
                               }}
                               placeholder='John@jensen.dk'
                               {...field}
@@ -839,7 +946,10 @@ export const ContactForm: React.FC<ContactFormProps> = ({ selectedValue, selecte
                       <FormItem className='mt-5'>
                         <FormLabel>Telefon nr.</FormLabel>
                         <FormControl>
-                          <div style={{ position: 'relative' }} className={form.formState.errors.phoneNum ? 'shake' : ''}>
+                          <div
+                            style={{ position: 'relative' }}
+                            className={form.formState.errors.phoneNum ? 'shake' : ''}
+                          >
                             <InputMask
                               name='phoneNum'
                               className='flex h-10 w-full rounded bg-contrastCol px-3 py-2 border-b-transparent border-b-2 text-sm file:border-0 transition ease-in duration-300 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:border-b-2 focus-visible:border-secondaryCol disabled:cursor-not-allowed disabled:opacity-50'
@@ -850,7 +960,11 @@ export const ContactForm: React.FC<ContactFormProps> = ({ selectedValue, selecte
                               value={field.value}
                               onChange={field.onChange}
                               style={{
-                                borderColor: form.formState.errors.phoneNum ? 'red' : form.formState.touchedFields.phoneNum ? 'green' : '',
+                                borderColor: form.formState.errors.phoneNum
+                                  ? 'red'
+                                  : form.formState.touchedFields.phoneNum
+                                  ? 'green'
+                                  : '',
                               }}
                             />
                             {form.formState.errors.phoneNum ? (
@@ -906,10 +1020,17 @@ export const ContactForm: React.FC<ContactFormProps> = ({ selectedValue, selecte
                       <FormItem className='mt-5'>
                         <FormLabel>Din besked*</FormLabel>
                         <FormControl>
-                          <div style={{ position: 'relative' }} className={form.formState.errors.textFieldMessage ? 'shake' : ''}>
+                          <div
+                            style={{ position: 'relative' }}
+                            className={form.formState.errors.textFieldMessage ? 'shake' : ''}
+                          >
                             <Textarea
                               style={{
-                                borderColor: form.formState.isSubmitted ? (form.formState.errors.textFieldMessage ? 'red' : 'green') : 'none',
+                                borderColor: form.formState.isSubmitted
+                                  ? form.formState.errors.textFieldMessage
+                                    ? 'red'
+                                    : 'green'
+                                  : 'none',
                               }}
                               placeholder='Jeg vil gerne høre om...'
                               {...field}
@@ -920,7 +1041,8 @@ export const ContactForm: React.FC<ContactFormProps> = ({ selectedValue, selecte
                                   <MdError className={'text-red-500 text-2xl'} />
                                 </div>
                               </div>
-                            ) : form.formState.isSubmitted && !form.formState.errors.textFieldMessage ? (
+                            ) : form.formState.isSubmitted &&
+                              !form.formState.errors.textFieldMessage ? (
                               <div className='absolute top-1.5 right-0 pr-3 flex items-center pointer-events-none'>
                                 <div>
                                   <IoIosCheckmarkCircle className={'text-green-500 text-2xl'} />
@@ -961,7 +1083,10 @@ export const ContactForm: React.FC<ContactFormProps> = ({ selectedValue, selecte
                         ease: [0, 0.71, 0.2, 1.01],
                       }}
                     >
-                      <Button disabled className='mt-8 w-48 cursor-not-allowed'>
+                      <Button
+                        disabled
+                        className='mt-8 w-48 cursor-not-allowed'
+                      >
                         <span className='loader'></span>
                       </Button>
                     </motion.div>
@@ -1007,10 +1132,17 @@ export const ContactForm: React.FC<ContactFormProps> = ({ selectedValue, selecte
                       <FormItem className='mt-5'>
                         <FormLabel>Dit navn*</FormLabel>
                         <FormControl>
-                          <div style={{ position: 'relative' }} className={form.formState.errors.navn ? 'shake' : ''}>
+                          <div
+                            style={{ position: 'relative' }}
+                            className={form.formState.errors.navn ? 'shake' : ''}
+                          >
                             <Input
                               style={{
-                                borderColor: form.formState.isSubmitted ? (form.formState.errors.navn ? 'red' : 'green') : 'none',
+                                borderColor: form.formState.isSubmitted
+                                  ? form.formState.errors.navn
+                                    ? 'red'
+                                    : 'green'
+                                  : 'none',
                               }}
                               placeholder='John Jensen'
                               {...field}
@@ -1060,10 +1192,17 @@ export const ContactForm: React.FC<ContactFormProps> = ({ selectedValue, selecte
                       <FormItem className='mt-5'>
                         <FormLabel>Email*</FormLabel>
                         <FormControl>
-                          <div style={{ position: 'relative' }} className={form.formState.errors.email ? 'shake' : ''}>
+                          <div
+                            style={{ position: 'relative' }}
+                            className={form.formState.errors.email ? 'shake' : ''}
+                          >
                             <Input
                               style={{
-                                borderColor: form.formState.isSubmitted ? (form.formState.errors.email ? 'red' : 'green') : 'none',
+                                borderColor: form.formState.isSubmitted
+                                  ? form.formState.errors.email
+                                    ? 'red'
+                                    : 'green'
+                                  : 'none',
                               }}
                               placeholder='John@jensen.dk'
                               {...field}
@@ -1113,7 +1252,10 @@ export const ContactForm: React.FC<ContactFormProps> = ({ selectedValue, selecte
                       <FormItem className='mt-5'>
                         <FormLabel>Telefon nr.</FormLabel>
                         <FormControl>
-                          <div style={{ position: 'relative' }} className={form.formState.errors.phoneNum ? 'shake' : ''}>
+                          <div
+                            style={{ position: 'relative' }}
+                            className={form.formState.errors.phoneNum ? 'shake' : ''}
+                          >
                             <InputMask
                               name='phoneNum'
                               className='flex h-10 w-full rounded bg-contrastCol px-3 py-2 border-b-transparent border-b-2 text-sm file:border-0 transition ease-in duration-300 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:border-b-2 focus-visible:border-secondaryCol disabled:cursor-not-allowed disabled:opacity-50'
@@ -1124,7 +1266,11 @@ export const ContactForm: React.FC<ContactFormProps> = ({ selectedValue, selecte
                               value={field.value}
                               onChange={field.onChange}
                               style={{
-                                borderColor: form.formState.errors.phoneNum ? 'red' : form.formState.touchedFields.phoneNum ? 'green' : '',
+                                borderColor: form.formState.errors.phoneNum
+                                  ? 'red'
+                                  : form.formState.touchedFields.phoneNum
+                                  ? 'green'
+                                  : '',
                               }}
                             />
                             {form.formState.errors.phoneNum ? (
@@ -1180,10 +1326,17 @@ export const ContactForm: React.FC<ContactFormProps> = ({ selectedValue, selecte
                       <FormItem className='mt-5'>
                         <FormLabel>Din besked*</FormLabel>
                         <FormControl>
-                          <div style={{ position: 'relative' }} className={form.formState.errors.textFieldMessage ? 'shake' : ''}>
+                          <div
+                            style={{ position: 'relative' }}
+                            className={form.formState.errors.textFieldMessage ? 'shake' : ''}
+                          >
                             <Textarea
                               style={{
-                                borderColor: form.formState.isSubmitted ? (form.formState.errors.textFieldMessage ? 'red' : 'green') : 'none',
+                                borderColor: form.formState.isSubmitted
+                                  ? form.formState.errors.textFieldMessage
+                                    ? 'red'
+                                    : 'green'
+                                  : 'none',
                               }}
                               placeholder='Jeg vil gerne høre om...'
                               {...field}
@@ -1194,7 +1347,8 @@ export const ContactForm: React.FC<ContactFormProps> = ({ selectedValue, selecte
                                   <MdError className={'text-red-500 text-2xl'} />
                                 </div>
                               </div>
-                            ) : form.formState.isSubmitted && !form.formState.errors.textFieldMessage ? (
+                            ) : form.formState.isSubmitted &&
+                              !form.formState.errors.textFieldMessage ? (
                               <div className='absolute top-1.5 right-0 pr-3 flex items-center pointer-events-none'>
                                 <div>
                                   <IoIosCheckmarkCircle className={'text-green-500 text-2xl'} />
@@ -1235,7 +1389,10 @@ export const ContactForm: React.FC<ContactFormProps> = ({ selectedValue, selecte
                         ease: [0, 0.71, 0.2, 1.01],
                       }}
                     >
-                      <Button disabled className='mt-8 w-48 cursor-not-allowed'>
+                      <Button
+                        disabled
+                        className='mt-8 w-48 cursor-not-allowed'
+                      >
                         <span className='loader'></span>
                       </Button>
                     </motion.div>
@@ -1281,10 +1438,17 @@ export const ContactForm: React.FC<ContactFormProps> = ({ selectedValue, selecte
                       <FormItem className='mt-5'>
                         <FormLabel>Dit navn*</FormLabel>
                         <FormControl>
-                          <div style={{ position: 'relative' }} className={form.formState.errors.navn ? 'shake' : ''}>
+                          <div
+                            style={{ position: 'relative' }}
+                            className={form.formState.errors.navn ? 'shake' : ''}
+                          >
                             <Input
                               style={{
-                                borderColor: form.formState.isSubmitted ? (form.formState.errors.navn ? 'red' : 'green') : 'none',
+                                borderColor: form.formState.isSubmitted
+                                  ? form.formState.errors.navn
+                                    ? 'red'
+                                    : 'green'
+                                  : 'none',
                               }}
                               placeholder='John Jensen'
                               {...field}
@@ -1334,10 +1498,17 @@ export const ContactForm: React.FC<ContactFormProps> = ({ selectedValue, selecte
                       <FormItem className='mt-5'>
                         <FormLabel>Email*</FormLabel>
                         <FormControl>
-                          <div style={{ position: 'relative' }} className={form.formState.errors.email ? 'shake' : ''}>
+                          <div
+                            style={{ position: 'relative' }}
+                            className={form.formState.errors.email ? 'shake' : ''}
+                          >
                             <Input
                               style={{
-                                borderColor: form.formState.isSubmitted ? (form.formState.errors.email ? 'red' : 'green') : 'none',
+                                borderColor: form.formState.isSubmitted
+                                  ? form.formState.errors.email
+                                    ? 'red'
+                                    : 'green'
+                                  : 'none',
                               }}
                               placeholder='John@jensen.dk'
                               {...field}
@@ -1387,7 +1558,10 @@ export const ContactForm: React.FC<ContactFormProps> = ({ selectedValue, selecte
                       <FormItem className='mt-5'>
                         <FormLabel>Telefon nr.</FormLabel>
                         <FormControl>
-                          <div style={{ position: 'relative' }} className={form.formState.errors.phoneNum ? 'shake' : ''}>
+                          <div
+                            style={{ position: 'relative' }}
+                            className={form.formState.errors.phoneNum ? 'shake' : ''}
+                          >
                             <InputMask
                               name='phoneNum'
                               className='flex h-10 w-full rounded bg-contrastCol px-3 py-2 border-b-transparent border-b-2 text-sm file:border-0 transition ease-in duration-300 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:border-b-2 focus-visible:border-secondaryCol disabled:cursor-not-allowed disabled:opacity-50'
@@ -1398,7 +1572,11 @@ export const ContactForm: React.FC<ContactFormProps> = ({ selectedValue, selecte
                               value={field.value}
                               onChange={field.onChange}
                               style={{
-                                borderColor: form.formState.errors.phoneNum ? 'red' : form.formState.touchedFields.phoneNum ? 'green' : '',
+                                borderColor: form.formState.errors.phoneNum
+                                  ? 'red'
+                                  : form.formState.touchedFields.phoneNum
+                                  ? 'green'
+                                  : '',
                               }}
                             />
                             {form.formState.errors.phoneNum ? (
@@ -1454,10 +1632,17 @@ export const ContactForm: React.FC<ContactFormProps> = ({ selectedValue, selecte
                       <FormItem className='mt-5'>
                         <FormLabel>Din besked*</FormLabel>
                         <FormControl>
-                          <div style={{ position: 'relative' }} className={form.formState.errors.textFieldMessage ? 'shake' : ''}>
+                          <div
+                            style={{ position: 'relative' }}
+                            className={form.formState.errors.textFieldMessage ? 'shake' : ''}
+                          >
                             <Textarea
                               style={{
-                                borderColor: form.formState.isSubmitted ? (form.formState.errors.textFieldMessage ? 'red' : 'green') : 'none',
+                                borderColor: form.formState.isSubmitted
+                                  ? form.formState.errors.textFieldMessage
+                                    ? 'red'
+                                    : 'green'
+                                  : 'none',
                               }}
                               placeholder='Jeg vil gerne høre om...'
                               {...field}
@@ -1468,7 +1653,8 @@ export const ContactForm: React.FC<ContactFormProps> = ({ selectedValue, selecte
                                   <MdError className={'text-red-500 text-2xl'} />
                                 </div>
                               </div>
-                            ) : form.formState.isSubmitted && !form.formState.errors.textFieldMessage ? (
+                            ) : form.formState.isSubmitted &&
+                              !form.formState.errors.textFieldMessage ? (
                               <div className='absolute top-1.5 right-0 pr-3 flex items-center pointer-events-none'>
                                 <div>
                                   <IoIosCheckmarkCircle className={'text-green-500 text-2xl'} />
@@ -1509,7 +1695,10 @@ export const ContactForm: React.FC<ContactFormProps> = ({ selectedValue, selecte
                         ease: [0, 0.71, 0.2, 1.01],
                       }}
                     >
-                      <Button disabled className='mt-8 w-48 cursor-not-allowed'>
+                      <Button
+                        disabled
+                        className='mt-8 w-48 cursor-not-allowed'
+                      >
                         <span className='loader'></span>
                       </Button>
                     </motion.div>
@@ -1543,9 +1732,12 @@ export const ContactForm: React.FC<ContactFormProps> = ({ selectedValue, selecte
                     <FormItem className='mt-5'>
                       <FormLabel>Dato*</FormLabel>
                       <FormControl>
-                        <div style={{ position: 'relative' }} className={form.formState.errors.inputDatePick ? 'shake' : ''}>
+                        <div
+                          style={{ position: 'relative' }}
+                          className={form.formState.errors.inputDatePick ? 'shake' : ''}
+                        >
                           <InputDatePicker
-                            onDateChange={(value) => {
+                            onDateChange={value => {
                               handleDateChange(value);
                               field.onChange(value); // Ensure the field's onChange is called
                             }}
@@ -1583,11 +1775,18 @@ export const ContactForm: React.FC<ContactFormProps> = ({ selectedValue, selecte
                     <FormItem className='mt-5'>
                       <FormLabel>Antal deltagende*</FormLabel>
                       <FormControl>
-                        <div style={{ position: 'relative' }} className={form.formState.errors.amountOfParticipants ? 'shake' : ''}>
+                        <div
+                          style={{ position: 'relative' }}
+                          className={form.formState.errors.amountOfParticipants ? 'shake' : ''}
+                        >
                           {/* @ts-ignore */}
                           <Input
                             style={{
-                              borderColor: form.formState.isSubmitted ? (form.formState.errors.amountOfParticipants ? 'red' : 'green') : 'none',
+                              borderColor: form.formState.isSubmitted
+                                ? form.formState.errors.amountOfParticipants
+                                  ? 'red'
+                                  : 'green'
+                                : 'none',
                             }}
                             className='remove-arrow'
                             type='number'
@@ -1600,7 +1799,8 @@ export const ContactForm: React.FC<ContactFormProps> = ({ selectedValue, selecte
                                 <MdError className={'text-red-500 text-2xl'} />
                               </div>
                             </div>
-                          ) : form.formState.isSubmitted && !form.formState.errors.amountOfParticipants ? (
+                          ) : form.formState.isSubmitted &&
+                            !form.formState.errors.amountOfParticipants ? (
                             <div className='absolute top-1.5 right-0 pr-3 flex items-center pointer-events-none'>
                               <div>
                                 <IoIosCheckmarkCircle className={'text-green-500 text-2xl'} />
@@ -1637,10 +1837,17 @@ export const ContactForm: React.FC<ContactFormProps> = ({ selectedValue, selecte
                       <FormItem className='mt-5'>
                         <FormLabel>Dit navn*</FormLabel>
                         <FormControl>
-                          <div style={{ position: 'relative' }} className={form.formState.errors.navn ? 'shake' : ''}>
+                          <div
+                            style={{ position: 'relative' }}
+                            className={form.formState.errors.navn ? 'shake' : ''}
+                          >
                             <Input
                               style={{
-                                borderColor: form.formState.isSubmitted ? (form.formState.errors.navn ? 'red' : 'green') : 'none',
+                                borderColor: form.formState.isSubmitted
+                                  ? form.formState.errors.navn
+                                    ? 'red'
+                                    : 'green'
+                                  : 'none',
                               }}
                               placeholder='John Jensen'
                               {...field}
@@ -1690,10 +1897,17 @@ export const ContactForm: React.FC<ContactFormProps> = ({ selectedValue, selecte
                       <FormItem className='mt-5'>
                         <FormLabel>Email*</FormLabel>
                         <FormControl>
-                          <div style={{ position: 'relative' }} className={form.formState.errors.email ? 'shake' : ''}>
+                          <div
+                            style={{ position: 'relative' }}
+                            className={form.formState.errors.email ? 'shake' : ''}
+                          >
                             <Input
                               style={{
-                                borderColor: form.formState.isSubmitted ? (form.formState.errors.email ? 'red' : 'green') : 'none',
+                                borderColor: form.formState.isSubmitted
+                                  ? form.formState.errors.email
+                                    ? 'red'
+                                    : 'green'
+                                  : 'none',
                               }}
                               placeholder='John@jensen.dk'
                               {...field}
@@ -1743,7 +1957,10 @@ export const ContactForm: React.FC<ContactFormProps> = ({ selectedValue, selecte
                       <FormItem className='mt-5'>
                         <FormLabel>Telefon nr.</FormLabel>
                         <FormControl>
-                          <div style={{ position: 'relative' }} className={form.formState.errors.phoneNum ? 'shake' : ''}>
+                          <div
+                            style={{ position: 'relative' }}
+                            className={form.formState.errors.phoneNum ? 'shake' : ''}
+                          >
                             <InputMask
                               name='phoneNum'
                               className='flex h-10 w-full rounded bg-contrastCol px-3 py-2 border-b-transparent border-b-2 text-sm file:border-0 transition ease-in duration-300 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:border-b-2 focus-visible:border-secondaryCol disabled:cursor-not-allowed disabled:opacity-50'
@@ -1754,7 +1971,11 @@ export const ContactForm: React.FC<ContactFormProps> = ({ selectedValue, selecte
                               value={field.value}
                               onChange={field.onChange}
                               style={{
-                                borderColor: form.formState.errors.phoneNum ? 'red' : form.formState.touchedFields.phoneNum ? 'green' : '',
+                                borderColor: form.formState.errors.phoneNum
+                                  ? 'red'
+                                  : form.formState.touchedFields.phoneNum
+                                  ? 'green'
+                                  : '',
                               }}
                             />
                             {form.formState.errors.phoneNum ? (
@@ -1810,10 +2031,17 @@ export const ContactForm: React.FC<ContactFormProps> = ({ selectedValue, selecte
                       <FormItem className='mt-5'>
                         <FormLabel>Din besked*</FormLabel>
                         <FormControl>
-                          <div style={{ position: 'relative' }} className={form.formState.errors.textFieldMessage ? 'shake' : ''}>
+                          <div
+                            style={{ position: 'relative' }}
+                            className={form.formState.errors.textFieldMessage ? 'shake' : ''}
+                          >
                             <Textarea
                               style={{
-                                borderColor: form.formState.isSubmitted ? (form.formState.errors.textFieldMessage ? 'red' : 'green') : 'none',
+                                borderColor: form.formState.isSubmitted
+                                  ? form.formState.errors.textFieldMessage
+                                    ? 'red'
+                                    : 'green'
+                                  : 'none',
                               }}
                               placeholder='Jeg vil gerne høre om...'
                               {...field}
@@ -1824,7 +2052,8 @@ export const ContactForm: React.FC<ContactFormProps> = ({ selectedValue, selecte
                                   <MdError className={'text-red-500 text-2xl'} />
                                 </div>
                               </div>
-                            ) : form.formState.isSubmitted && !form.formState.errors.textFieldMessage ? (
+                            ) : form.formState.isSubmitted &&
+                              !form.formState.errors.textFieldMessage ? (
                               <div className='absolute top-1.5 right-0 pr-3 flex items-center pointer-events-none'>
                                 <div>
                                   <IoIosCheckmarkCircle className={'text-green-500 text-2xl'} />
@@ -1865,7 +2094,10 @@ export const ContactForm: React.FC<ContactFormProps> = ({ selectedValue, selecte
                         ease: [0, 0.71, 0.2, 1.01],
                       }}
                     >
-                      <Button disabled className='mt-8 w-48 cursor-not-allowed'>
+                      <Button
+                        disabled
+                        className='mt-8 w-48 cursor-not-allowed'
+                      >
                         <span className='loader'></span>
                       </Button>
                     </motion.div>
