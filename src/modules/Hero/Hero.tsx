@@ -45,7 +45,7 @@ export const Hero = ({ header, content, buttonProps, redWord, isFrontPage, link 
     <>
       <header
         className={`flex min-h-[50vh] justify-center ${
-          isFrontPage ? "bg-hero2_mobile md:bg-hero2  md:bg-left-top" : "bg-hero1 md:bg-left"
+          isFrontPage ? "bg-hero2_mobile md:bg-left-top" : "bg-hero1 md:bg-left"
         } bg-center bg-cover bg-no-repeat pb-10`}
       >
         <div className="max-w-screen-xl w-full mt-20  spacer">
