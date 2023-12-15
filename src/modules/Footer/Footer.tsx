@@ -12,6 +12,7 @@ export const Footer = () => {
           <header className="flex justify-between md:justify-start  items-center gap-8 md:order-2 md:flex-col ">
             <a
               href="/"
+              aria-label="Forside"
               className="w-full text-secondaryCol max-w-xs "
             >
               <svg
@@ -241,7 +242,7 @@ export const Footer = () => {
                     Se vores priser{" "}
                     <a
                       href="/priserl"
-                      className=" text-accentCol text-lg font-bold"
+                      className=" text-accentCol text-lge font-bold"
                     >
                       her
                     </a>
