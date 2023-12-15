@@ -150,7 +150,12 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
           >
             {variant !== 'nlp' ? (
               <>
-                <motion.div
+                <motion.a
+                  href={
+                    variant === 'bday1' || variant === 'bday2'
+                      ? '/om-os/kontakt?foedselsdag'
+                      : '/booking'
+                  }
                   initial='default'
                   animate={isHovered || width < 640 ? 'hover' : 'default'}
                   transition={{ duration: 0.1 }}
@@ -286,7 +291,7 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
                       ) : null}
                     </div>
                   </div>
-                </motion.div>
+                </motion.a>
                 <motion.div
                   initial={{ opacity: 0 }}
                   animate={isHovered || width < 640 ? { opacity: 1 } : { opacity: 0 }}

@@ -23,11 +23,13 @@ export default function Events() {
             <article className="flex justify-center">
               <div className="spacer w-full">
                 <div>
+
                   <h2 className=" hyphens-auto">
                     Forskellige typer <span className="text-accentCol">events</span>
                   </h2>
                   <p>
                     Som standard udbyder vi en række forskellige events. Har du et ønske om et skræddersyet event, så{" "}
+
                     <a
                       className="text-accentCol"
                       href="/om-os/kontakt"
@@ -56,9 +58,11 @@ export default function Events() {
                       }}
                     />
                     <EventCard
-                      header="Tuernering"
-                      content="Vi afholder de fedeste turneringer, med de bedste præmier. Vi afholder turneringer i Counter-Strike, League of Legends, Dota 2 og mange flere."
-                      image="turnering"
+
+                      header='Turnering'
+                      content='Vi afholder de fedeste turneringer, med de bedste præmier. Vi afholder turneringer i Counter-Strike, League of Legends, Dota 2 og mange flere.'
+                      image='turnering'
+
                       buttonProps={{
                         children: `Læs mere om turneringer`,
                         link: "/events/turneringer",

@@ -10,18 +10,23 @@ import { FaLinkedin } from "react-icons/fa";
 import { FaInstagram } from "react-icons/fa";
 import { FaTwitch } from "react-icons/fa";
 
-import { AnimatePresence, motion } from "framer-motion";
-import { Accordions } from "../../components/Accordion/Accordion";
-import { useEffect, useState, useRef } from "react";
-import { HiCpuChip } from "react-icons/hi2";
-import { BsGpuCard } from "react-icons/bs";
-import { FaDesktop, FaHeadset, FaKeyboard, FaMemory, FaMouse } from "react-icons/fa";
+
+import { AnimatePresence, motion } from 'framer-motion';
+import { Accordions } from '../../components/Accordion/Accordion';
+import { useEffect, useState, useRef } from 'react';
+import { HiCpuChip } from 'react-icons/hi2';
+import { BsGpuCard } from 'react-icons/bs';
+import { FaDesktop, FaHeadset, FaKeyboard, FaMemory, FaMouse } from 'react-icons/fa';
+import { useAtom } from 'jotai';
+import { submitFormAtom } from '@/states/store';
+
 
 export default function Kontakt() {
   const currentUrl = typeof window !== "undefined" ? window.location.href : "";
   const [selectedValue, setSelectedValue] = useState("");
   const [selectedDate, setSelectedDate] = useState("");
   const contactFormRef = useRef<HTMLDivElement | null>(null);
+  const [submitForm, setSubmitForm] = useAtom(submitFormAtom);
 
   useEffect(() => {
     if (currentUrl.includes("foedselsdag")) {
@@ -84,14 +89,16 @@ export default function Kontakt() {
             content="Vi elsker at høre fra jer. Hvis du har nogle spørgsmål, så tøv ikke med at kontakte os hvis du har nogle spørgsmål."
             isFrontPage={true}
           />
-          <section className="flex justify-center">
-            <article className="spacer w-full md:grid md:grid-cols-2">
-              <h2 className="md:col-span-2">"Der findes ikke dumme spørgsmål"</h2>
+
+          <section className='flex justify-center'>
+            <article className='spacer w-full md:grid md:grid-cols-2'>
+              <h2 className='md:col-span-2'>"Der findes ikke dumme spørgsmål"</h2>
+
               <div
                 ref={contactFormRef}
                 className="md:row-start-2 md:col-start-2 md:row-span-3"
               >
-                <h3>Send os dit spørgsmål</h3>
+                {!submitForm && <h3>Send os dit spørgsmål</h3>}
                 <ContactForm
                   onDateChange={handleDateChange}
                   selectedValue={selectedValue}
@@ -152,12 +159,14 @@ export default function Kontakt() {
                             <FaClock className={"text-accentCol"} />
                             <div className="flex flex-col gap-6">
                               <div>
-                                <p className="font-bold mt-0">Søndag til torsdag</p>
-                                <p className="mt-2 ">14:00 til 03:00</p>
+
+                                <p className='font-bold mt-0'>Søndag til torsdag</p>
+                                <p className='mt-2 '>14:00 til 03:00</p>
                               </div>
                               <div>
-                                <p className="font-bold mt-0">Fredag til Lørdag</p>
-                                <p className="mt-2 ">14:00 til 04:00</p>
+                                <p className='font-bold mt-0'>Fredag til Lørdag</p>
+                                <p className='mt-2 '>14:00 til 04:00</p>
+
                               </div>
                             </div>
                           </div>
@@ -188,7 +197,9 @@ export default function Kontakt() {
                             target="_blank"
                             href="https://www.youtube.com/channel/UCG4CeyBvWjuyDxkYGlloVfg"
                           >
-                            <FaYoutube className={"text-3xl cursor-pointer text-accentCol"} />
+
+                            <FaYoutube className={'text-3xl cursor-pointer text-accentCol'} />
+
                           </a>
                         </motion.div>
                         <motion.div
@@ -204,7 +215,9 @@ export default function Kontakt() {
                             target="_blank"
                             href="https://www.facebook.com/Nextlvl.dk/"
                           >
-                            <FaFacebook className={"text-3xl cursor-pointer text-accentCol"} />
+
+                            <FaFacebook className={'text-3xl cursor-pointer text-accentCol'} />
+
                           </a>
                         </motion.div>
                         <motion.div
@@ -220,7 +233,9 @@ export default function Kontakt() {
                             target="_blank"
                             href="https://www.tiktok.com/"
                           >
-                            <FaTiktok className={"text-3xl cursor-pointer text-accentCol"} />
+
+                            <FaTiktok className={'text-3xl cursor-pointer text-accentCol'} />
+
                           </a>
                         </motion.div>
                         <motion.div
@@ -236,7 +251,9 @@ export default function Kontakt() {
                             target="_blank"
                             href="https://www.linkedin.com/feed/"
                           >
-                            <FaLinkedin className={"text-3xl cursor-pointer text-accentCol"} />
+
+                            <FaLinkedin className={'text-3xl cursor-pointer text-accentCol'} />
+
                           </a>
                         </motion.div>
                         <motion.div
@@ -252,7 +269,9 @@ export default function Kontakt() {
                             target="_blank"
                             href="https://www.twitch.tv/"
                           >
-                            <FaTwitch className={"text-3xl cursor-pointer text-accentCol"} />
+
+                            <FaTwitch className={'text-3xl cursor-pointer text-accentCol'} />
+
                           </a>
                         </motion.div>
                         <motion.div
@@ -268,7 +287,9 @@ export default function Kontakt() {
                             target="_blank"
                             href="https://www.instagram.com/nextlvl.dk/?hl=da"
                           >
-                            <FaInstagram className={"text-3xl cursor-pointer text-accentCol"} />
+
+                            <FaInstagram className={'text-3xl cursor-pointer text-accentCol'} />
+
                           </a>
                         </motion.div>
                       </AnimatePresence>
@@ -295,21 +316,27 @@ export default function Kontakt() {
                                       className="flex-shrink-0"
                                       size={20}
                                     />
-                                    <p className="text-secondaryCol mt-0">i9-14900KF</p>
+
+                                    <p className='text-secondaryCol mt-0'>i9-14900KF</p>
+
                                   </div>
                                   <div className="flex gap-3">
                                     <BsGpuCard
                                       className="flex-shrink-0"
                                       size={20}
                                     />
-                                    <p className="text-secondaryCol mt-0">RTX 4080</p>
+
+                                    <p className='text-secondaryCol mt-0'>RTX 4080</p>
+
                                   </div>
                                   <div className="flex gap-3">
                                     <FaMemory
                                       className="flex-shrink-0"
                                       size={20}
                                     />
-                                    <p className="text-secondaryCol mt-0"> 64GB DDR5 RAM</p>
+
+                                    <p className='text-secondaryCol mt-0'> 64GB DDR5 RAM</p>
+
                                   </div>
                                 </div>
                                 <div className="flex flex-col gap-5 mt-5 md:mt-0">
@@ -318,7 +345,9 @@ export default function Kontakt() {
                                       className="flex-shrink-0"
                                       size={20}
                                     />
-                                    <p className="text-secondaryCol mt-0">27" 1440p 240HZ</p>
+
+                                    <p className='text-secondaryCol mt-0'>27" 1440p 240HZ</p>
+
                                   </div>
                                   <div className="flex gap-3">
                                     <FaMouse
@@ -332,7 +361,9 @@ export default function Kontakt() {
                                       className="flex-shrink-0"
                                       size={20}
                                     />
-                                    <p className="text-secondaryCol mt-0">CORSAIR K55 RGB PRO</p>
+
+                                    <p className='text-secondaryCol mt-0'>CORSAIR K55 RGB PRO</p>
+
                                   </div>
                                   <div className="flex gap-3">
                                     <FaHeadset
@@ -385,14 +416,18 @@ export default function Kontakt() {
                       },
                       {
                         item: {
-                          itemHeader: "Hvor gammel skal jeg være for at kunne game?",
+
+                          itemHeader: 'Hvor gammel skal jeg være for at kunne game?',
+
                           itemContent:
                             "Der er ingen aldersgrænse hos os. Dog anbefaler vi at en forældre hjælper med evt. oprettelse af et medlemsskab, eller medbringer kode til barnets konto (fx. til Fortnite",
                         },
                       },
                       {
                         item: {
-                          itemHeader: "Hvordan booker jeg plads i gaming centret?",
+
+                          itemHeader: 'Hvordan booker jeg plads i gaming centret?',
+
                           itemContent:
                             "Vi har gjort booking nemt. Det er muligt at booke tid 14 dage ud i fremtiden. Ønsker du derimod at booket et event, kan du kontakte os ",
                           children: [
@@ -407,7 +442,9 @@ export default function Kontakt() {
                       },
                       {
                         item: {
-                          itemHeader: "Hvad er forskellen på NLP og gaming centret?",
+
+                          itemHeader: 'Hvad er forskellen på NLP og gaming centret?',
+
                           itemContent:
                             "NLP rummet står for Next Level Pro room. Det siger sig selv at her får du en ekstra Next Level oplevelse. Her har vi skabt et rum hvor der er skruet op for intensiteten og specs på computerne. Det er muligt at reservere NLP-rummet hvis i er min. 6 personer. Forespørg på reservation ",
                           children: [
