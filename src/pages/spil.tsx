@@ -20,9 +20,7 @@ export default function Spil({ gamelist }: { gamelist: GameCardRoot[] }) {
   const [genreValue, setGenreValue] = useState('');
   const [searchValue, setSearcheValue] = useState('');
 
-  const [filteredGames, setFilteredGames] = useState<GameCardRoot[] | null>(
-    null
-  );
+  const [filteredGames, setFilteredGames] = useState<GameCardRoot[] | null>(null);
 
   const gameTags = [
     { name: 'Alle', value: -1 },
@@ -56,31 +54,23 @@ export default function Spil({ gamelist }: { gamelist: GameCardRoot[] }) {
   };
 
   const filterGames = (genreValue: string, searchValue: string) => {
-    const filteredGameList = gamelist.filter((game) => {
+    const filteredGameList = gamelist.filter(game => {
       const hasGenre =
-        genreValue && genreValue !== 'Alle'
-          ? game.tags.some((tag) => tag.name === genreValue)
-          : true;
+        genreValue && genreValue !== 'Alle' ? game.tags.some(tag => tag.name === genreValue) : true;
       const matchesSearch = searchValue
         ? game.title.toLowerCase().includes(searchValue.toLowerCase()) ||
           game.id.toString().includes(searchValue.toLowerCase()) ||
           game.platforms.some(
-            (platform) =>
-              platform.name.toString().toLowerCase() ===
-              searchValue.toLowerCase()
+            platform => platform.name.toString().toLowerCase() === searchValue.toLowerCase()
           ) ||
-          game.tags.some(
-            (tag) => tag.name.toLowerCase() === searchValue.toLowerCase()
-          )
+          game.tags.some(tag => tag.name.toLowerCase() === searchValue.toLowerCase())
         : true;
 
       return hasGenre && matchesSearch;
     });
 
     const sortedGames = filteredGameList.sort((a, b) => {
-      return acsending
-        ? a.title.localeCompare(b.title)
-        : b.title.localeCompare(a.title);
+      return acsending ? a.title.localeCompare(b.title) : b.title.localeCompare(a.title);
     });
 
     setFilteredGames(sortedGames);
@@ -122,7 +112,7 @@ export default function Spil({ gamelist }: { gamelist: GameCardRoot[] }) {
                   <FilterField
                     filterType='dropDown'
                     dropDownHeader='Genre'
-                    dropDownItems={gameTags.map((tag) => tag.name)}
+                    dropDownItems={gameTags.map(tag => tag.name)}
                     onChange={handleSelectChange}
                   />
                 </div>
@@ -130,12 +120,12 @@ export default function Spil({ gamelist }: { gamelist: GameCardRoot[] }) {
             </div>
           </nav>
           <section>
-            <div className="flex justify-center">
-              <div className="spacer w-full ">
-                <div className="flex flex-wrap gap-6 justify-center sm:justify-between lg:grid lg:grid-cols-3 xl:grid-cols-4">
+            <div className='flex justify-center'>
+              <div className='spacer w-full '>
+                <div className='flex flex-wrap gap-6 justify-center sm:justify-between lg:grid lg:grid-cols-3 xl:grid-cols-4'>
                   {/*     <div className="flex flex-wrap gap-6 justify-center md:justify-between lg:justify-start"> */}
                   {filteredGames &&
-                    filteredGames.map((game) => (
+                    filteredGames.map(game => (
                       <div
                         key={game.id}
                         className='mb-10 '
@@ -143,15 +133,12 @@ export default function Spil({ gamelist }: { gamelist: GameCardRoot[] }) {
                         <GameCard
                           Name={game.title}
                           Image_={`${game.background_image}`}
-                          Console={game.platforms.map(
-                            (platform) => platform.name
-                          )}
-                          Tags={game.tags.map((tag) => tag.name)}
+                          Console={game.platforms.map(platform => platform.name)}
+                          Tags={game.tags.map(tag => tag.name)}
                           Description={game.description}
                         />
                       </div>
                     ))}
-                  <button onClick={() => console.log(gamelist)}>Load Data</button>
                 </div>
               </div>
             </div>

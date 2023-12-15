@@ -132,8 +132,6 @@ export const SpilListe = () => {
     }
   }, [gameId && !gameDataIsLoading]);
 
-  /* Image loader */
-
   console.log('gameData & db', gameData && gameData?.results, dbGameData);
   return (
     <div className='w-full flex flex-col gap-3'>
