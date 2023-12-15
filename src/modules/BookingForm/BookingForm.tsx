@@ -53,6 +53,8 @@ export const BookingForm: React.FC<BookingProps> = ({ userChoices, bookingOvervi
   const timerImellem = () => {
     const startTimeString: string | undefined = startTid?.replace('.', ':');
     const endTimeString: string | undefined = slutTid?.replace('.', ':');
+    const startTimeString: string | undefined = startTid?.replace('.', ':');
+    const endTimeString: string | undefined = slutTid?.replace('.', ':');
 
     // Convert time strings to Date objects
     const startTime: Date = new Date(`2000-01-01T${startTimeString}`);
@@ -70,7 +72,9 @@ export const BookingForm: React.FC<BookingProps> = ({ userChoices, bookingOvervi
   // Errormessages for validation of the string in the input field.
   const formSchema = z.object({
     email: z.string().email('Indtast en gyldig email'),
+    email: z.string().email('Indtast en gyldig email'),
     navn: z.string().min(1, {
+      message: 'Dit navn skal minimum have 1 tegn ',
       message: 'Dit navn skal minimum have 1 tegn ',
     }),
     telefon: z
@@ -116,6 +120,7 @@ export const BookingForm: React.FC<BookingProps> = ({ userChoices, bookingOvervi
       if (error) {
         console.log(error);
         let errorMessage = 'Fej bror';
+        let errorMessage = 'Fej bror';
         setSupabaseError(errorMessage); // Set the error message
         setIsBookingValid(false);
         throw new Error(errorMessage);
@@ -123,19 +128,35 @@ export const BookingForm: React.FC<BookingProps> = ({ userChoices, bookingOvervi
 
       if (data) {
         console.log('data', data);
+        console.log('data', data);
         setIsBookingValid(true);
         setBookingComplete(true);
       }
     } catch (error) {
+      console.error('Error:', error);
       console.error('Error:', error);
     }
   };
 
   const sendToSupabase = async (object: any) => {
     const { data, error } = await supabase.from('Bookings').insert([object]).select();
+    const { data, error } = await supabase.from('Bookings').insert([object]).select();
   };
 
   const basePc = [
+    { time: '14.00', booked: false, bookedCount: 0 },
+    { time: '14.30', booked: false, bookedCount: 0 },
+    { time: '15.00', booked: false, bookedCount: 0 },
+    { time: '15.30', booked: false, bookedCount: 0 },
+    { time: '16.00', booked: false, bookedCount: 0 },
+    { time: '16.30', booked: false, bookedCount: 0 },
+    { time: '17.00', booked: false, bookedCount: 0 },
+    { time: '17.30', booked: false, bookedCount: 0 },
+    { time: '18.00', booked: false, bookedCount: 0 },
+    { time: '18.30', booked: false, bookedCount: 0 },
+    { time: '19.00', booked: false, bookedCount: 0 },
+    { time: '19.30', booked: false, bookedCount: 0 },
+    { time: '20.00', booked: false, bookedCount: 0 },
     { time: '14.00', booked: false, bookedCount: 0 },
     { time: '14.30', booked: false, bookedCount: 0 },
     { time: '15.00', booked: false, bookedCount: 0 },
@@ -162,14 +183,17 @@ export const BookingForm: React.FC<BookingProps> = ({ userChoices, bookingOvervi
       for (let i = 1; i < 6; i++) {
         if (i <= amount) {
           console.log('i:', i, 'userAmount:', amount);
+          console.log('i:', i, 'userAmount:', amount);
 
           bookedPcs.push(
             basePc.map(timeSlot => {
               if (timesToBook.includes(timeSlot.time) && timeSlot.booked === false) {
                 console.log('im included: ', timeSlot.time);
+                console.log('im included: ', timeSlot.time);
 
                 return { time: timeSlot.time, booked: true, bookedCount: 0 };
               } else {
+                console.log('im not included:', timeSlot.time);
                 console.log('im not included:', timeSlot.time);
 
                 return timeSlot;
@@ -189,6 +213,7 @@ export const BookingForm: React.FC<BookingProps> = ({ userChoices, bookingOvervi
         PC5: bookedPcs[4],
         NLP: null,
       };
+      console.log('supabaseObject', supabaseObject);
       console.log('supabaseObject', supabaseObject);
 
       sendToSupabase(supabaseObject);
@@ -214,6 +239,7 @@ export const BookingForm: React.FC<BookingProps> = ({ userChoices, bookingOvervi
       for (let i = 1; i < 6; i++) {
         if (i <= amount) {
           console.log('i:', i, 'userAmount:', amount);
+          console.log('i:', i, 'userAmount:', amount);
 
           let updatedPcs = 0;
 
@@ -231,6 +257,7 @@ export const BookingForm: React.FC<BookingProps> = ({ userChoices, bookingOvervi
                 if (timesToBook.includes(timeSlot.time) && timeSlot.booked === false) {
                   //@ts-ignore
                   console.log('im included: ', timeSlot.time);
+                  console.log('im included: ', timeSlot.time);
                   //@ts-ignore
                   updatedPcs++;
                   return { time: timeSlot.time, booked: true, bookedCount: 0 };
@@ -244,6 +271,9 @@ export const BookingForm: React.FC<BookingProps> = ({ userChoices, bookingOvervi
               return newPcs;
             }
           });
+          console.log('existingDay', existingDay());
+          console.log('tempBooking', tempBooking);
+          console.log('updatedExistingDay', updatedExistingDay);
           console.log('existingDay', existingDay());
           console.log('tempBooking', tempBooking);
           console.log('updatedExistingDay', updatedExistingDay);
@@ -292,8 +322,6 @@ export const BookingForm: React.FC<BookingProps> = ({ userChoices, bookingOvervi
         { time: '19.00', booked: false, bookedCount: 0 },
         { time: '19.30', booked: false, bookedCount: 0 },
         { time: '20.00', booked: false, bookedCount: 0 },
-      ],
-      [
         { time: '14.00', booked: false, bookedCount: 0 },
         { time: '14.30', booked: false, bookedCount: 0 },
         { time: '15.00', booked: false, bookedCount: 0 },
@@ -322,8 +350,6 @@ export const BookingForm: React.FC<BookingProps> = ({ userChoices, bookingOvervi
         { time: '19.00', booked: false, bookedCount: 0 },
         { time: '19.30', booked: false, bookedCount: 0 },
         { time: '20.00', booked: false, bookedCount: 0 },
-      ],
-      [
         { time: '14.00', booked: false, bookedCount: 0 },
         { time: '14.30', booked: false, bookedCount: 0 },
         { time: '15.00', booked: false, bookedCount: 0 },
@@ -339,6 +365,75 @@ export const BookingForm: React.FC<BookingProps> = ({ userChoices, bookingOvervi
         { time: '20.00', booked: false, bookedCount: 0 },
       ],
       [
+        { time: '14.00', booked: false, bookedCount: 0 },
+        { time: '14.30', booked: false, bookedCount: 0 },
+        { time: '15.00', booked: false, bookedCount: 0 },
+        { time: '15.30', booked: false, bookedCount: 0 },
+        { time: '16.00', booked: false, bookedCount: 0 },
+        { time: '16.30', booked: false, bookedCount: 0 },
+        { time: '17.00', booked: false, bookedCount: 0 },
+        { time: '17.30', booked: false, bookedCount: 0 },
+        { time: '18.00', booked: false, bookedCount: 0 },
+        { time: '18.30', booked: false, bookedCount: 0 },
+        { time: '19.00', booked: false, bookedCount: 0 },
+        { time: '19.30', booked: false, bookedCount: 0 },
+        { time: '20.00', booked: false, bookedCount: 0 },
+        { time: '14.00', booked: false, bookedCount: 0 },
+        { time: '14.30', booked: false, bookedCount: 0 },
+        { time: '15.00', booked: false, bookedCount: 0 },
+        { time: '15.30', booked: false, bookedCount: 0 },
+        { time: '16.00', booked: false, bookedCount: 0 },
+        { time: '16.30', booked: false, bookedCount: 0 },
+        { time: '17.00', booked: false, bookedCount: 0 },
+        { time: '17.30', booked: false, bookedCount: 0 },
+        { time: '18.00', booked: false, bookedCount: 0 },
+        { time: '18.30', booked: false, bookedCount: 0 },
+        { time: '19.00', booked: false, bookedCount: 0 },
+        { time: '19.30', booked: false, bookedCount: 0 },
+        { time: '20.00', booked: false, bookedCount: 0 },
+      ],
+      [
+        { time: '14.00', booked: false, bookedCount: 0 },
+        { time: '14.30', booked: false, bookedCount: 0 },
+        { time: '15.00', booked: false, bookedCount: 0 },
+        { time: '15.30', booked: false, bookedCount: 0 },
+        { time: '16.00', booked: false, bookedCount: 0 },
+        { time: '16.30', booked: false, bookedCount: 0 },
+        { time: '17.00', booked: false, bookedCount: 0 },
+        { time: '17.30', booked: false, bookedCount: 0 },
+        { time: '18.00', booked: false, bookedCount: 0 },
+        { time: '18.30', booked: false, bookedCount: 0 },
+        { time: '19.00', booked: false, bookedCount: 0 },
+        { time: '19.30', booked: false, bookedCount: 0 },
+        { time: '20.00', booked: false, bookedCount: 0 },
+        { time: '14.00', booked: false, bookedCount: 0 },
+        { time: '14.30', booked: false, bookedCount: 0 },
+        { time: '15.00', booked: false, bookedCount: 0 },
+        { time: '15.30', booked: false, bookedCount: 0 },
+        { time: '16.00', booked: false, bookedCount: 0 },
+        { time: '16.30', booked: false, bookedCount: 0 },
+        { time: '17.00', booked: false, bookedCount: 0 },
+        { time: '17.30', booked: false, bookedCount: 0 },
+        { time: '18.00', booked: false, bookedCount: 0 },
+        { time: '18.30', booked: false, bookedCount: 0 },
+        { time: '19.00', booked: false, bookedCount: 0 },
+        { time: '19.30', booked: false, bookedCount: 0 },
+        { time: '20.00', booked: false, bookedCount: 0 },
+      ],
+      [
+        { time: '14.00', booked: false, bookedCount: 0 },
+        { time: '14.30', booked: false, bookedCount: 0 },
+        { time: '15.00', booked: false, bookedCount: 0 },
+        { time: '15.30', booked: false, bookedCount: 0 },
+        { time: '16.00', booked: false, bookedCount: 0 },
+        { time: '16.30', booked: false, bookedCount: 0 },
+        { time: '17.00', booked: false, bookedCount: 0 },
+        { time: '17.30', booked: false, bookedCount: 0 },
+        { time: '18.00', booked: false, bookedCount: 0 },
+        { time: '18.30', booked: false, bookedCount: 0 },
+        { time: '19.00', booked: false, bookedCount: 0 },
+        { time: '19.30', booked: false, bookedCount: 0 },
+        { time: '20.00', booked: false, bookedCount: 0 },
         { time: '14.00', booked: false, bookedCount: 0 },
         { time: '14.30', booked: false, bookedCount: 0 },
         { time: '15.00', booked: false, bookedCount: 0 },
@@ -385,6 +480,8 @@ export const BookingForm: React.FC<BookingProps> = ({ userChoices, bookingOvervi
             </p>
             <p className='flex flex-row align-middle'>
               <IoTime className='inline-block mr-3 text-accentCol' />
+            <p className='flex flex-row align-middle'>
+              <IoTime className='inline-block mr-3 text-accentCol' />
               <span>
                 {timerImellem()} timer ({startTid} - {slutTid})
               </span>
@@ -401,7 +498,9 @@ export const BookingForm: React.FC<BookingProps> = ({ userChoices, bookingOvervi
             <FormField
               control={form.control}
               name='navn'
+              name='navn'
               render={({ field }) => (
+                <FormItem className='mt-5'>
                 <FormItem className='mt-5'>
                   <FormLabel>Navn</FormLabel>
                   <FormControl>
@@ -424,24 +523,32 @@ export const BookingForm: React.FC<BookingProps> = ({ userChoices, bookingOvervi
                         {...field}
                         id='navn'
                         type='text'
+                        id='navn'
+                        type='text'
                       />
                       {form.formState.errors.navn || isBookingValid === false ? (
                         <div className='absolute top-2 right-0 pr-3 flex items-center pointer-events-none'>
+                        <div className='absolute top-2 right-0 pr-3 flex items-center pointer-events-none'>
                           <div>
+                            <MdError className={'text-red-500 text-2xl'} />
                             <MdError className={'text-red-500 text-2xl'} />
                           </div>
                         </div>
                       ) : form.formState.isSubmitted && !form.formState.errors.email ? (
                         <div className='absolute top-2 right-0 pr-3 flex items-center pointer-events-none'>
+                        <div className='absolute top-2 right-0 pr-3 flex items-center pointer-events-none'>
                           <div>
+                            <IoIosCheckmarkCircle className={'text-green-500 text-2xl'} />
                             <IoIosCheckmarkCircle className={'text-green-500 text-2xl'} />
                           </div>
                         </div>
                       ) : (
                         ''
+                        ''
                       )}
                     </div>
                   </FormControl>
+                  <FormDescription className='text-transparent'>
                   <FormDescription className='text-transparent'>
                     Placeholder text
                     {/* Remove text-transparent if you need to use the field description */}
@@ -453,7 +560,9 @@ export const BookingForm: React.FC<BookingProps> = ({ userChoices, bookingOvervi
             <FormField
               control={form.control}
               name='email'
+              name='email'
               render={({ field }) => (
+                <FormItem className='mt-5'>
                 <FormItem className='mt-5'>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
@@ -505,7 +614,9 @@ export const BookingForm: React.FC<BookingProps> = ({ userChoices, bookingOvervi
             <FormField
               control={form.control}
               name='telefon'
+              name='telefon'
               render={({ field }) => (
+                <FormItem className='mt-5'>
                 <FormItem className='mt-5'>
                   <FormLabel>Telefon nummmer</FormLabel>
                   <FormControl>
@@ -528,24 +639,32 @@ export const BookingForm: React.FC<BookingProps> = ({ userChoices, bookingOvervi
                         {...field}
                         id='telefon'
                         type='tel'
+                        id='telefon'
+                        type='tel'
                       />
                       {form.formState.errors.telefon || isBookingValid === false ? (
                         <div className='absolute top-2 right-0 pr-3 flex items-center pointer-events-none'>
+                        <div className='absolute top-2 right-0 pr-3 flex items-center pointer-events-none'>
                           <div>
+                            <MdError className={'text-red-500 text-2xl'} />
                             <MdError className={'text-red-500 text-2xl'} />
                           </div>
                         </div>
                       ) : form.formState.isSubmitted && !form.formState.errors.telefon ? (
                         <div className='absolute top-2 right-0 pr-3 flex items-center pointer-events-none'>
+                        <div className='absolute top-2 right-0 pr-3 flex items-center pointer-events-none'>
                           <div>
+                            <IoIosCheckmarkCircle className={'text-green-500 text-2xl'} />
                             <IoIosCheckmarkCircle className={'text-green-500 text-2xl'} />
                           </div>
                         </div>
                       ) : (
                         ''
+                        ''
                       )}
                     </div>
                   </FormControl>
+                  <FormDescription className='text-transparent'>
                   <FormDescription className='text-transparent'>
                     Placeholder text
                     {/* Remove text-transparent if you need to use the field description */}

@@ -67,6 +67,11 @@ small {
   @apply mx-6 mt-14 max-w-[1280px] md:mx-12 md:mt-20 lg:mx-20;
 }
 
+.bookingTable td,
+.bookingTable th {
+  text-align: center;
+}
+
 .calendarDatePickerMate .rdp-tbody .\[\&\:has\(\[aria-selected\]\)\]\:bg-accent:has([aria-selected]) {
   background-color: transparent !important;
 }
