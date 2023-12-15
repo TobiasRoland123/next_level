@@ -32,6 +32,7 @@ export const SpilListe = () => {
   const [editOpen, setEditOpen] = useAtom(showEditGameAtom);
   const [acsending, setAcsedning] = useState(true);
   const [genreValue, setGenreValue] = useState('');
+  const [platformValue, setPlatformValue] = useState('');
   const [searchValue, setSearcheValue] = useState('');
   const [filteredGames, setFilteredGames] = useState<GameCardRoot[] | null>(null);
 
@@ -84,18 +85,30 @@ export const SpilListe = () => {
     { name: 'Survival', value: 17 },
   ];
 
+  const consoles = [
+    { name: 'Alle', value: -1 },
+    { name: 'PC', value: 0 },
+    { name: 'PS5', value: 1 },
+    { name: 'VR', value: 2 },
+  ];
+
   const handleSelectChange = (value: string, type: string) => {
     type === 'genre' && setGenreValue(value);
     type === 'search' && setSearcheValue(value);
+    type === 'platform' && setPlatformValue(value);
   };
 
   const onChangeSort = () => {
     setAcsedning(!acsending);
   };
 
-  const filterGames = (genreValue: string, searchValue: string) => {
+  const filterGames = (genreValue: string, searchValue: string, platformValue: string) => {
     if (dbGameData) {
       const filteredGameList = dbGameData.filter(game => {
+        const hasPlatform =
+          platformValue && platformValue !== 'Alle'
+            ? game.platforms.some(platform => platform.name === platformValue)
+            : true;
         const hasGenre =
           genreValue && genreValue !== 'Alle'
             ? game.tags.some(tag => tag.name === genreValue)
@@ -109,7 +122,7 @@ export const SpilListe = () => {
             game.tags.some(tag => tag.name.toLowerCase() === searchValue.toLowerCase())
           : true;
 
-        return hasGenre && matchesSearch;
+        return hasGenre && matchesSearch && hasPlatform;
       });
       const sortedGames = filteredGameList?.sort((a, b) => {
         return acsending ? a.title.localeCompare(b.title) : b.title.localeCompare(a.title);
@@ -121,8 +134,8 @@ export const SpilListe = () => {
   };
 
   useEffect(() => {
-    filterGames(genreValue, searchValue);
-  }, [dbGameData, acsending, genreValue, searchValue]);
+    filterGames(genreValue, searchValue, platformValue);
+  }, [dbGameData, acsending, genreValue, searchValue, platformValue]);
 
   useEffect(() => {
     if (gameId !== 0) {
@@ -170,6 +183,12 @@ export const SpilListe = () => {
             filterType='dropDown'
             dropDownHeader='Genre'
             dropDownItems={gameTags.map(tag => tag.name)}
+            onChange={handleSelectChange}
+          />
+          <FilterField
+            filterType='dropDown'
+            dropDownHeader='Platform'
+            dropDownItems={consoles.map(tag => tag.name)}
             onChange={handleSelectChange}
           />
         </div>
