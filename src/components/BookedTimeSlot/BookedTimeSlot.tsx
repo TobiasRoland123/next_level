@@ -1,5 +1,5 @@
-import { BookingTimeSlot, UserBooking } from "@/Types/calendar";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { BookingTimeSlot, UserBooking } from '../../Types/calendar';
+import { Popover, PopoverContent, PopoverTrigger } from '../../components/ui/popover';
 
 interface BookedTimeSlotProps {
   time: BookingTimeSlot;
@@ -19,7 +19,7 @@ export const BookedTimeSlot = ({ time, index, allTimes, userChoices }: BookedTim
       return (
         <>
           <p>Vælg en start tid for din booking af de mulige ledige tider:</p>
-          <ul className="flex flex-row flex-wrap">
+          <ul className='flex flex-row flex-wrap'>
             {availibleTimes.map((time) => (
               <li key={time}>{time}, </li>
             ))}
@@ -44,7 +44,7 @@ export const BookedTimeSlot = ({ time, index, allTimes, userChoices }: BookedTim
         // <p>
         //   Hvis du starter kl. {userChoices.startTime.time} er det seneste du kan booke til kl. {shortendArray[indexOfFirstPossible].time}.
         // </p>
-        ""
+        ''
       );
     }
   };
@@ -52,27 +52,27 @@ export const BookedTimeSlot = ({ time, index, allTimes, userChoices }: BookedTim
   return (
     <>
       <input
-        type="checkbox"
-        name="tid"
+        type='checkbox'
+        name='tid'
         id={time.time}
         key={index}
-        className="absolute z-0 opacity-0"
+        className='absolute z-0 opacity-0'
         disabled
       />
       <Popover>
-        <PopoverTrigger className="min-w-[85px] cursor-not-allowed">
+        <PopoverTrigger className='min-w-[85px] cursor-not-allowed'>
           <label
             htmlFor={time.time}
-            className="w-full block text-center py-2 border bg-slate-500 border-slate-500 text-slate-700 pointer-events-none cursor-not-allowed"
+            className='w-full block text-center py-2 border bg-slate-500 border-slate-500 text-slate-700 pointer-events-none cursor-not-allowed'
           >
             {time.time}
           </label>
         </PopoverTrigger>
         <PopoverContent
-          side="top"
+          side='top'
           sideOffset={15}
         >
-          <p className="mt-0">Vi er desværre fuldt booket kl. {time.time}.</p>
+          <p className='mt-0'>Vi er desværre fuldt booket kl. {time.time}.</p>
           {nextAvailibleTime()}
         </PopoverContent>
       </Popover>
