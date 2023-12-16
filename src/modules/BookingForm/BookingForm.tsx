@@ -131,7 +131,6 @@ export const BookingForm: React.FC<BookingProps> = ({
 
       if (data) {
         console.log('data', data);
-        console.log('data', data);
         setIsBookingValid(true);
         setBookingComplete(true);
       }
@@ -162,19 +161,19 @@ export const BookingForm: React.FC<BookingProps> = ({
     { time: '19.00', booked: false, bookedCount: 0 },
     { time: '19.30', booked: false, bookedCount: 0 },
     { time: '20.00', booked: false, bookedCount: 0 },
-    { time: '14.00', booked: false, bookedCount: 0 },
-    { time: '14.30', booked: false, bookedCount: 0 },
-    { time: '15.00', booked: false, bookedCount: 0 },
-    { time: '15.30', booked: false, bookedCount: 0 },
-    { time: '16.00', booked: false, bookedCount: 0 },
-    { time: '16.30', booked: false, bookedCount: 0 },
-    { time: '17.00', booked: false, bookedCount: 0 },
-    { time: '17.30', booked: false, bookedCount: 0 },
-    { time: '18.00', booked: false, bookedCount: 0 },
-    { time: '18.30', booked: false, bookedCount: 0 },
-    { time: '19.00', booked: false, bookedCount: 0 },
-    { time: '19.30', booked: false, bookedCount: 0 },
-    { time: '20.00', booked: false, bookedCount: 0 },
+    // { time: '14.00', booked: false, bookedCount: 0 },
+    // { time: '14.30', booked: false, bookedCount: 0 },
+    // { time: '15.00', booked: false, bookedCount: 0 },
+    // { time: '15.30', booked: false, bookedCount: 0 },
+    // { time: '16.00', booked: false, bookedCount: 0 },
+    // { time: '16.30', booked: false, bookedCount: 0 },
+    // { time: '17.00', booked: false, bookedCount: 0 },
+    // { time: '17.30', booked: false, bookedCount: 0 },
+    // { time: '18.00', booked: false, bookedCount: 0 },
+    // { time: '18.30', booked: false, bookedCount: 0 },
+    // { time: '19.00', booked: false, bookedCount: 0 },
+    // { time: '19.30', booked: false, bookedCount: 0 },
+    // { time: '20.00', booked: false, bookedCount: 0 },
   ];
 
   const createBooking = (amount: number, alreadyDate: boolean) => {
@@ -196,7 +195,6 @@ export const BookingForm: React.FC<BookingProps> = ({
       for (let i = 1; i < 6; i++) {
         if (i <= amount) {
           console.log('i:', i, 'userAmount:', amount);
-          console.log('i:', i, 'userAmount:', amount);
 
           bookedPcs.push(
             basePc.map((timeSlot) => {
@@ -205,11 +203,9 @@ export const BookingForm: React.FC<BookingProps> = ({
                 timeSlot.booked === false
               ) {
                 console.log('im included: ', timeSlot.time);
-                console.log('im included: ', timeSlot.time);
 
                 return { time: timeSlot.time, booked: true, bookedCount: 0 };
               } else {
-                console.log('im not included:', timeSlot.time);
                 console.log('im not included:', timeSlot.time);
 
                 return timeSlot;
@@ -229,10 +225,12 @@ export const BookingForm: React.FC<BookingProps> = ({
         PC5: bookedPcs[4],
         NLP: null,
       };
-      console.log('supabaseObject', supabaseObject);
+
       console.log('supabaseObject', supabaseObject);
 
       sendToSupabase(supabaseObject);
+
+      console.log('NEW PC');
     } else {
       const existingDay = () => {
         for (let i = 0; i < bookingOverview.length; i++) {
@@ -255,7 +253,6 @@ export const BookingForm: React.FC<BookingProps> = ({
       for (let i = 1; i < 6; i++) {
         if (i <= amount) {
           console.log('i:', i, 'userAmount:', amount);
-          console.log('i:', i, 'userAmount:', amount);
 
           let updatedPcs = 0;
 
@@ -276,7 +273,6 @@ export const BookingForm: React.FC<BookingProps> = ({
                 ) {
                   //@ts-ignore
                   console.log('im included: ', timeSlot.time);
-                  console.log('im included: ', timeSlot.time);
                   //@ts-ignore
                   updatedPcs++;
                   return { time: timeSlot.time, booked: true, bookedCount: 0 };
@@ -293,15 +289,11 @@ export const BookingForm: React.FC<BookingProps> = ({
           console.log('existingDay', existingDay());
           console.log('tempBooking', tempBooking);
           console.log('updatedExistingDay', updatedExistingDay);
-          console.log('existingDay', existingDay());
-          console.log('tempBooking', tempBooking);
-          console.log('updatedExistingDay', updatedExistingDay);
         }
       }
 
       const supabaseObject = updatedExistingDay && {
         id: existingDay()?.id,
-
         date: userChoices?.date,
         PC1: updatedExistingDay[0],
         PC2: updatedExistingDay[1],
