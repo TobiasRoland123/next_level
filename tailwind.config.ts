@@ -77,6 +77,7 @@ module.exports = {
       backgroundImage: {
         hero1: "url('../../public/images/hero-placeholder.webp')",
         hero2: "url('../../public/images/hero-placeholder-2.webp')",
+        hero2_mobile: "url('../../public/images/hero-placeholder-2-mobile.webp')",
         gradientSvg: "url('../../public/bg/gradient.svg",
       },
     },
