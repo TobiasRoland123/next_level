@@ -116,7 +116,10 @@ export const Header = ({ pageList }: HeaderProps) => {
           } flex justify-between items-center px-4 gap-6 rounded-sm  md:bg-contrastCol/70 xl:mx-auto max-w-main h-16`}
         >
           <div className='items-center h-full flex gap-8 font-bold '>
-            <a href='/'>
+            <a
+              href='/'
+              aria-label='Forside'
+            >
               <svg
                 width='40'
                 height='40'
@@ -231,6 +234,7 @@ export const Header = ({ pageList }: HeaderProps) => {
           <button
             className='w-8 flex flex-col gap-2 justify-center items-center h-14 z-10 md:hidden'
             onClick={ToggleMenu}
+            aria-label='Åben menu'
           >
             <span className={`h-1 bg-accentCol w-full ${isOpen && 'translate-y-[0.4rem] rotate-45'}  transition-all	`}></span>
             <span className={`h-1 bg-accentCol w-full ${isOpen && 'hidden'}`}></span>
