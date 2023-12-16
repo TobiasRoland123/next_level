@@ -234,6 +234,7 @@ export const Header = ({ pageList }: HeaderProps) => {
           <button
             className="w-8 flex flex-col gap-2 justify-center items-center h-14 z-10 md:hidden"
             onClick={ToggleMenu}
+            aria-label="Åben menu"
           >
             <span className={`h-1 bg-accentCol w-full ${isOpen && "translate-y-[0.4rem] rotate-45"}  transition-all	`}></span>
             <span className={`h-1 bg-accentCol w-full ${isOpen && "hidden"}`}></span>

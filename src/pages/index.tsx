@@ -67,8 +67,7 @@ export default function Home() {
             <article className='backdrop-brightness-50 h-full py-14 md:py-16 lg:py-20 flex justify-center '>
               <div className='spacer !mt-0 w-full'>
                 <h2>
-                  Skal du holde et{' '}
-                  <span className='text-accentCol'>Event?</span>
+                  Skal du holde et <span className='text-accentCol'>Event?</span>
                 </h2>
                 <ParagraphBold
                   underlined
@@ -76,13 +75,10 @@ export default function Home() {
                 />
 
                 <p>
-                  Så er Next Level gaming stedet. Vi tilbyder en række
-                  forskellige events til grupper i alle størrelser. Skal du give
-                  dine medarbejdere en på opleveren? Måske skal i holde en
-                  polterabend og leder efter noget hvor kun fantasien sætter
-                  grænser? Det kan også være en tilfældig weekend med vennerne
-                  eller veninderne. Vi garanterer at sjov konkurrence og
-                  fællesskab er inkluderet når i besøger Next Level Gaming.
+                  Så er Next Level gaming stedet. Vi tilbyder en række forskellige events til grupper i alle størrelser. Skal du
+                  give dine medarbejdere en på opleveren? Måske skal i holde en polterabend og leder efter noget hvor kun
+                  fantasien sætter grænser? Det kan også være en tilfældig weekend med vennerne eller veninderne. Vi garanterer at
+                  sjov konkurrence og fællesskab er inkluderet når i besøger Next Level Gaming.
                 </p>
 
                 <Button
