@@ -127,6 +127,7 @@ small {
 
   #bookingBlock > article {
     display: grid;
+    gap: 1rem;
     grid-template-columns: repeat(2, 1fr);
     margin-bottom: 48px;
   }
@@ -134,10 +135,6 @@ small {
   #bookingBlock > article > div,
   #contactForm > div {
     height: fit-content;
-  }
-  #bookingBlock > article > div:first-child,
-  #contactForm > div:first-child {
-    max-width: 75%;
   }
 }
 
@@ -290,22 +287,26 @@ small {
 
 @-webkit-keyframes at-ripple-pink {
   0% {
-    box-shadow: 0 4px 10px rgba(255, 10, 27, 0.1), 0 0 0 0 rgba(255, 10, 27, 0.6),
-      0 0 0 5px rgba(255, 10, 27, 0.2), 0 0 0 10px rgba(255, 10, 27, 0.1);
+    box-shadow: 0 4px 10px rgba(255, 10, 27, 0.1),
+      0 0 0 0 rgba(255, 10, 27, 0.6), 0 0 0 5px rgba(255, 10, 27, 0.2),
+      0 0 0 10px rgba(255, 10, 27, 0.1);
   }
   100% {
-    box-shadow: 0 4px 10px rgba(255, 10, 27, 0.6), 0 0 0 5px rgba(255, 10, 27, 0.2),
-      0 0 0 10px rgba(255, 10, 27, 0.1), 0 0 0 20px rgba(255, 10, 27, 0);
+    box-shadow: 0 4px 10px rgba(255, 10, 27, 0.6),
+      0 0 0 5px rgba(255, 10, 27, 0.2), 0 0 0 10px rgba(255, 10, 27, 0.1),
+      0 0 0 20px rgba(255, 10, 27, 0);
   }
 }
 @keyframes at-ripple-pink {
   0% {
-    box-shadow: 0 4px 10px rgba(255, 10, 27, 0.1), 0 0 0 0 rgba(255, 10, 27, 0.6),
-      0 0 0 5px rgba(255, 10, 27, 0.2), 0 0 0 10px rgba(255, 10, 27, 0.1);
+    box-shadow: 0 4px 10px rgba(255, 10, 27, 0.1),
+      0 0 0 0 rgba(255, 10, 27, 0.6), 0 0 0 5px rgba(255, 10, 27, 0.2),
+      0 0 0 10px rgba(255, 10, 27, 0.1);
   }
   100% {
-    box-shadow: 0 4px 10px rgba(255, 10, 27, 0.6), 0 0 0 5px rgba(255, 10, 27, 0.2),
-      0 0 0 10px rgba(255, 10, 27, 0.1), 0 0 0 20px rgba(255, 10, 27, 0);
+    box-shadow: 0 4px 10px rgba(255, 10, 27, 0.6),
+      0 0 0 5px rgba(255, 10, 27, 0.2), 0 0 0 10px rgba(255, 10, 27, 0.1),
+      0 0 0 20px rgba(255, 10, 27, 0);
   }
 }
 

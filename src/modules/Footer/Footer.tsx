@@ -159,13 +159,6 @@ export const Footer = () => {
                 </g>
               </svg>
             </a>
-
-            <Button
-              className='md:items-center w-full'
-              link='/booking'
-            >
-              Book nu
-            </Button>
           </header>
           <section className='md:order-1 md:flex md:gap-x-20 '>
             <div className='mt-12 md:mt-0'>
