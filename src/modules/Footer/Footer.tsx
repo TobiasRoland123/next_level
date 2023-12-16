@@ -1,18 +1,12 @@
 import { ParagraphBold } from '../../components/ParagraphBold/ParagraphBold';
 import { Button } from '../../components/Button/Button';
 import Image from 'next/image';
-import { ParagraphBold } from '../../components/ParagraphBold/ParagraphBold';
-import { Button } from '../../components/Button/Button';
-import Image from 'next/image';
 
 interface FooterProps {}
 
 export const Footer = () => {
   return (
     <>
-      <footer className=' bg-contrastCol  w-full mt-14 md:mt16 lg:mt-20 xl:px-20   '>
-        <div className='xl:mx-auto  mx-6 md:mx-12 lg:mx-20 flex flex-col  py-6 md:grid md:gap-10  md:grid-cols-[3fr,1fr] max-w-main '>
-          <header className='flex justify-between md:justify-start  items-center gap-8 md:order-2 md:flex-col '>
       <footer className=' bg-contrastCol  w-full mt-14 md:mt16 lg:mt-20 xl:px-20   '>
         <div className='xl:mx-auto  mx-6 md:mx-12 lg:mx-20 flex flex-col  py-6 md:grid md:gap-10  md:grid-cols-[3fr,1fr] max-w-main '>
           <header className='flex justify-between md:justify-start  items-center gap-8 md:order-2 md:flex-col '>
