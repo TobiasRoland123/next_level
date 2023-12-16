@@ -14,6 +14,7 @@ import { ParagraphBold } from '@/components/ParagraphBold/ParagraphBold';
 import { CustomerQuoteSet } from '@/modules/CustomerQuoteSet/CustomerQuoteSet';
 
 import { Layout } from '@/Layout';
+import { link } from 'fs';
 
 export default function Home() {
   return (
@@ -25,6 +26,7 @@ export default function Home() {
             redWord={['bedste']}
             content='Leder du efter de bedste rammer til at game? Vi har lige det du leder efter. Vi er et top moderne gaming center hvor kvalitet og service er i højsædet. Vi tilbyder et stort udvalg af snacks, sandwiches og drikke.Vi arrangerer både børnefødselsdage og firma events, med fokus på fællesskabet. Hos Next Level mener vi ikke at gaming behøver at være asocialt. Tværtimod er det noget vi samles om!'
             buttonProps={{ children: 'Book Nu' }}
+            link='/booking'
             isFrontPage={true}
           />
           <section className='flex justify-center'>

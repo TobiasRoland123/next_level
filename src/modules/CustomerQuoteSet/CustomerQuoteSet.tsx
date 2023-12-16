@@ -50,7 +50,7 @@ export const CustomerQuoteSet = ({ header, redWord, customerQuotes }: customerQu
             </svg>
             {renderHeader()}
           </div>
-          <div className="flex flex-col md:flex-row gap-10 spacer !w-auto !mt-0">
+          <div className="flex flex-col md:grid md:grid-cols-3 gap-10 spacer !w-auto !mt-0">
             {customerQuotes.map((Quote) => {
               const quote = Quote.quote;
               return (
