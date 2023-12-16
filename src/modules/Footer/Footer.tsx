@@ -239,7 +239,7 @@ export const Footer = () => {
                   <p className=''>
                     Se vores priser{' '}
                     <a
-                      href='/priserl'
+                      href='/priser'
                       className=' text-accentCol text-lge font-bold'
                     >
                       her
