@@ -468,8 +468,8 @@ export const BookingForm: React.FC<BookingProps> = ({
         { time: '20.00', booked: false, bookedCount: 0 },
       ],
     ];
-    // @ts-ignore
     let alreadyDate: boolean = bookingOverview.some(
+      // @ts-ignore
       (el) => el.date === userChoices?.date
     );
 

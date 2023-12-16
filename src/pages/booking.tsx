@@ -204,8 +204,8 @@ export default function Booking({ john }: { john: Bookings[] }) {
   };
 
   function bookingTimes(chosenDate: string) {
-    //@ts-ignore
     const matchingDate = Boolean(
+      //@ts-ignore
       john.find((booking) => booking.date === chosenDate)
     );
 
@@ -258,6 +258,7 @@ export default function Booking({ john }: { john: Bookings[] }) {
           availibleTimes[i].bookedCount > 4 &&
           //@ts-ignore
           (availibleTimes[i + 1].bookedCount > 4 ||
+            //@ts-ignore
             availibleTimes[i - 1].bookedCount > 4)
         ) {
           availibleTimes[i].booked = true;
@@ -288,9 +289,10 @@ export default function Booking({ john }: { john: Bookings[] }) {
         } else if (userChoices?.endTime?.index === index) {
           // console.log('userChoices?.endTime?.index === index');
           editBookedTimes(tid, index, BookingTypes.SingleValueStart);
-          //@ts-ignore
           setTimeChosen({
+            //@ts-ignore
             time: userChoices.startTime.time,
+            //@ts-ignore
             index: userChoices.startTime.index,
           });
           //@ts-ignore
@@ -464,9 +466,9 @@ export default function Booking({ john }: { john: Bookings[] }) {
             errorMessagePopUp(userChoices.startTime.time, tid, isolatedArray);
             setOpenDialogAlert(true);
           } else {
-            //@ts-ignore
             let newBookArray: BookingTimeSlot[] = bookingDateTimes.slice(
               index,
+              //@ts-ignore
               userChoices?.endTime?.index + 1
             );
             for (let i = 0; i < newBookArray.length; i++) {
@@ -496,9 +498,9 @@ export default function Booking({ john }: { john: Bookings[] }) {
             errorMessagePopUp(tid, userChoices.startTime.time, isolatedArray);
             setOpenDialogAlert(true);
           } else {
-            //@ts-ignore
             let newBookArray: BookingTimeSlot[] = bookingDateTimes.slice(
               index,
+              //@ts-ignore
               userChoices?.endTime?.index + 1
             );
             for (let i = 0; i < newBookArray.length; i++) {
@@ -905,10 +907,10 @@ export default function Booking({ john }: { john: Bookings[] }) {
                             </span>
                             <span className='block mt-2'>
                               Timer:
-                              {/* @ts-ignore */}
                               <b>
                                 {Math.abs(
                                   userChoices?.startTime?.index -
+                                    // @ts-ignore
                                     userChoices?.endTime?.index
                                 ) / 2}
                               </b>
