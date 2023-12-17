@@ -436,7 +436,7 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
                 </motion.a>
                 <motion.div
                   initial={{ opacity: 0 }}
-                  animate={isHovered || width < 640 ? { opacity: 1 } : { opacity: 0 }}
+                  animate={width > 768 && isHovered ? { opacity: 1 } : { opacity: 0 }}
                   transition={{ duration: 0.1 }}
                   className='flex justify-end -mt-5'
                 >
