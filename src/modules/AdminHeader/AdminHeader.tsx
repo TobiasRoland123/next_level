@@ -33,7 +33,7 @@ export const AdminHeader = ({ pageList }: HeaderProps) => {
     setIsOpen(!isOpen);
   };
 
-  console.log(pageList);
+  //console.log(pageList);
 
   return (
     <>

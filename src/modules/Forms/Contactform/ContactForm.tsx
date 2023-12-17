@@ -132,11 +132,11 @@ export const ContactForm: React.FC<ContactFormProps> = ({ selectedValue, selecte
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     setSubmitForm(false);
     setIsLoading(true);
-    console.log('form submitted', submitForm);
+    //console.log('form submitted', submitForm);
 
     const timeoutId = setTimeout(() => {
-      console.log(selectedValue);
-      console.log(values);
+      //console.log(selectedValue);
+      //console.log(values);
       setSubmitForm(true);
       setIsLoading(false);
     }, 5000); // Adjust the delay time as needed (e.g., 1000 milliseconds)
@@ -145,7 +145,7 @@ export const ContactForm: React.FC<ContactFormProps> = ({ selectedValue, selecte
   };
 
   useEffect(() => {
-    console.log('form submitted', submitForm);
+    //console.log('form submitted', submitForm);
   }, [submitForm]);
   return (
     <AnimatePresence>
