@@ -42,9 +42,8 @@ export default function OmOs() {
                 >
                   <Image
                     src={ParkMap}
-                    width={450}
-                    height={450}
-                    quality={30}
+                    width={700}
+                    quality={70}
                     alt='Et kort, som viser hvilke muligheder der er for parkering'
                   />
                 </div>
