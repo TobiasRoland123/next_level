@@ -245,10 +245,10 @@ export default function Booking({ UserBookings, Bookings }: { UserBookings: User
     //filter out dates from today and after today ++ sort according to starttimes.
     const today = new Date().toISOString().split('T')[0];
     const bookings: UserBookingsProps[] = [];
-    for (let i = 0; i < UserBookings.length; i++) {
-      const userDate = UserBookings[i].dato.toString();
+    for (let i = 0; i < userBookings.length; i++) {
+      const userDate = userBookings[i].dato.toString();
       if (userDate !== today) {
-        bookings.push(UserBookings[i]);
+        bookings.push(userBookings[i]);
       }
     }
     const sortedbooking = bookings.sort(sortedBookings);
@@ -270,15 +270,11 @@ export default function Booking({ UserBookings, Bookings }: { UserBookings: User
   }, []); // Empty dependency array ensures this runs only once
 
   function showData() {
-    console.log('UserBookings', UserBookings);
-    console.log('Bookings', Bookings);
+    console.log('UserBookings', userBookings);
+    console.log('Bookings', bookings);
   }
 
   showData();
-
-  function isChecked(e: any) {
-    setShowExpiredBookings(e);
-  }
 
   // En checkbox om du vil se forrige bookinger også, lav et tredje table under der viser disse.
   return (
@@ -307,20 +303,15 @@ export default function Booking({ UserBookings, Bookings }: { UserBookings: User
               <div className='bg-contrastCol mt-8 p-4 lg:block flex align-middle justify-center'>
                 {userBookings.length < 1 ? (
                   <p className='m-0'>Ingen bookinger.</p>
-                ) : showExpiredBookings ? (
-                  <DataTable
-                    columns={columns}
-                    data={allBookings()}
-                    udløbne={true}
-                    onCheckedChange={(e: any) => isChecked(e)}
-                  />
                 ) : (
-                  <DataTable
-                    columns={columns}
-                    data={futureBookings()}
-                    udløbne={true}
-                    onCheckedChange={(e: any) => isChecked(e)}
-                  />
+                  <>
+                    <DataTable
+                      columns={columns}
+                      data={showExpiredBookings ? allBookings() : futureBookings()}
+                      udløbne={true}
+                      onCheckedChange={() => setShowExpiredBookings(!showExpiredBookings)}
+                    />
+                  </>
                 )}
               </div>
             </article>
