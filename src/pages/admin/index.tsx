@@ -1,17 +1,21 @@
 import { LayoutAdmin } from '@/Layout_Admin';
 import { createClient } from '@supabase/supabase-js';
-import { useRouter } from 'next/router';
+
 import { supabase } from '../../../utils/supabaseClient';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 
 export default function Admin() {
   // COMMENT OUT FROM HERE TO DISABLE LOGIN GUARD
   const router = useRouter();
 
-  getSession();
+  useEffect(() => {
+    getSession();
+  }, []);
+
   async function getSession() {
     const { data, error } = await supabase.auth.getSession();
     if (data.session === null) {
-      router.push('/login');
       router.push('/login');
     }
   }

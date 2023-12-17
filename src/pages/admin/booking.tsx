@@ -256,20 +256,22 @@ export default function Booking({ UserBookings, Bookings }: { UserBookings: User
     return sortedbooking;
   };
 
-  // COMMENT OUT FROM HERE TO DISABLE LOGIN GUARD
   const router = useRouter();
-
-  getSession();
-  async function getSession() {
-    const { data, error } = await supabase.auth.getSession();
-    if (data.session === null) {
-      router.push('/login');
+  // COMMENT OUT FROM HERE TO DISABLE LOGIN GUARD
+  useEffect(() => {
+    async function getSession() {
+      const { data, error } = await supabase.auth.getSession();
+      if (data.session === null) {
+        router.push('/login');
+      }
     }
-  }
+
+    getSession();
+  }, []); // Empty dependency array ensures this runs only once
 
   function showData() {
-    //console.log("UserBookings", UserBookings);
-    //console.log("Bookings", Bookings);
+    console.log('UserBookings', UserBookings);
+    console.log('Bookings', Bookings);
   }
 
   showData();
