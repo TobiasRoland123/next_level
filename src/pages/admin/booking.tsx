@@ -235,6 +235,16 @@ export default function Booking({ UserBookings, Bookings }: { UserBookings: User
   // COMMENT OUT FROM HERE TO DISABLE LOGIN GUARD
   const router = useRouter();
 
+  useEffect(() => {
+    getSession();
+    async function getSession() {
+      const { data, error } = await supabase.auth.getSession();
+      if (data.session === null) {
+        router.push('/login');
+      }
+    }
+  }, []);
+
   getSession();
   async function getSession() {
     const { data, error } = await supabase.auth.getSession();
