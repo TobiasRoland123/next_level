@@ -4,6 +4,7 @@ import { FaHouse, FaPhone, FaClock, FaPeopleGroup } from 'react-icons/fa6';
 import { MdEmail } from 'react-icons/md';
 import ParkMap from '../../public/images/parkmap.png';
 import { Layout } from '@/Layout';
+import Head from 'next/head';
 export default function OmOs() {
   return (
     <>

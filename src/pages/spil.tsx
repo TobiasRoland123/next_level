@@ -106,7 +106,7 @@ export default function Spil({ gamelist }: { gamelist: GameCardRoot[] }) {
             isFrontPage={false}
             header='Vores spil'
             redWord={['spil']}
-            content='De nyeste spil på markedet, men også de ældste (for det meste). Vi tilbyder en lang række spil, både dem du kender, men også dem som du ikke har hørt om. Uanset hvilket spil du vælger, så er der garanteret underholdning for alle pengene!'
+            content='Next Level Gaming tilbyder et spændende udvalg af spil, der spænder fra de nyeste hits til tidløse klassikere. Med en bred vifte af genrer og platforme, er der noget for enhver smag. Uanset om du er til actionfyldte eventyr, strategiske udfordringer eller familievenlig underholdning, finder du det her. Vores spilunivers er designet til at give dig den ultimative spiloplevelse, hvor kvalitet og underholdningsværdi går hånd i hånd. Besøg os og opdag dit næste yndlingsspil!'
           />
 
           <nav className='flex justify-center'>
