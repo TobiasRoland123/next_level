@@ -114,14 +114,14 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
     return (
       <AnimatePresence>
         <Tilt
-          tiltEnable={width > 640 && variant !== 'nlp' ? true : false}
+          tiltEnable={width > 768 && variant !== 'nlp' ? true : false}
           tiltMaxAngleX={5}
           tiltMaxAngleY={5}
           className={`z-10 ${variant === 'bday1' || variant === 'bday2' ? 'grid' : null}`}
         >
           <motion.div
             whileHover={
-              width > 640
+              width > 768
                 ? variant !== 'nlp'
                   ? variant !== 'eventCard'
                     ? {
@@ -141,8 +141,8 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
                     }
                 : {}
             }
-            onHoverStart={() => width > 640 && setIsHovered(true)}
-            onHoverEnd={() => width > 640 && setIsHovered(false)}
+            onHoverStart={() => width > 768 && setIsHovered(true)}
+            onHoverEnd={() => width > 768 && setIsHovered(false)}
             transition={{ duration: 0.25 }}
             ref={ref}
             className={`${cardClassName} ${variant === 'eventCard' && 'px-0 py-0'}`}
@@ -294,7 +294,7 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
                 </motion.a>
                 <motion.div
                   initial={{ opacity: 0 }}
-                  animate={isHovered || width < 640 ? { opacity: 1 } : { opacity: 0 }}
+                  animate={isHovered || width > 768 ? { opacity: 1 } : { opacity: 0 }}
                   transition={{ duration: 0.1 }}
                   className='flex justify-end -mt-1'
                 >
