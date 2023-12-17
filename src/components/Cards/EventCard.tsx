@@ -34,6 +34,8 @@ export const EventCard = ({ header, image, content, buttonProps }: EventCardProp
               src={setImage()}
               fill={false}
               alt='event billede'
+              width={700}
+              quality={70}
             />
           </div>
         )}

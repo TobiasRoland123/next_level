@@ -6,6 +6,7 @@ import { Hero } from '@/modules/Hero/Hero';
 import { FilterField } from '@/components/FilterField/FilterField';
 import { useEffect, useState } from 'react';
 import { AscendingDescending } from '@/components/AscendingDescending/AscendingDescending';
+import Head from 'next/head';
 
 export async function getServerSideProps() {
   let { data: gamelist, error } = await supabase.from('gamelist').select('*');
@@ -92,6 +93,13 @@ export default function Spil({ gamelist }: { gamelist: GameCardRoot[] }) {
 
   return (
     <>
+      <Head>
+        <title>Next Level Gaming: Et bredt udvalg af videospil for alle aldre og interesser</title>
+        <meta
+          name='description'
+          content='Oplev en verden af spil hos Next Level Gaming. Udforsk de nyeste og klassiske videospil i mange genrer og platforme. Perfekt for underholdning og events, åbent dagligt. Find spændende spiloplevelser til alle aldre og smag. Besøg os for en uforglemmelig gamingoplevelse.'
+        />
+      </Head>
       <Layout>
         <main>
           <Hero

@@ -5,12 +5,20 @@ import { InfoBox } from '@/components/InfoBox/InfoBox';
 import { ParagraphBold } from '@/components/ParagraphBold/ParagraphBold';
 import { EventBanner } from '@/modules/EventBanner/EventBanner';
 import { Hero } from '@/modules/Hero/Hero';
+import Head from 'next/head';
 import { Children } from 'react';
 import { MdCheck } from 'react-icons/md';
 
 export default function Priser() {
   return (
     <>
+      <Head>
+        <title>Next Level Gaming Priser: Overkommelige Gaming Oplevelser for Alle</title>
+        <meta
+          name='description'
+          content='Opdag attraktive priser på gaming hos Next Level Gaming. Vælg mellem gæstepriser og medlemsfordele for den bedste gaming tid. Uanset om du er hardcore gamer eller nybegynder, tilbyder vi pakker og timepriser, der passer til dit behov. Besøg os for en prisvenlig og kvalitets gamingoplevelse i Glostrup.'
+        />
+      </Head>
       <Layout>
         <main>
           <Hero
@@ -29,10 +37,9 @@ priser på gaming'
                   Next Level <span className='text-accentCol'>priser</span>
                 </h2>
                 <p>
-                  Hos Next Level kan du både spille som gæst eller medlem. Som
-                  medlem får du de bedste priser på din gaming tid. Uanset om du
-                  er gæst eller medlem får du de samme gode rammer, for at nyde
-                  din oplevelse hos os. Vi gør ikke forskel!
+                  Hos Next Level kan du både spille som gæst eller medlem. Som medlem får du de bedste priser på din gaming tid.
+                  Uanset om du er gæst eller medlem får du de samme gode rammer, for at nyde din oplevelse hos os. Vi gør ikke
+                  forskel!
                 </p>
                 <Button
                   variant={'secondary'}
@@ -69,10 +76,8 @@ priser på gaming'
                     text='Hvad får du som medlem?'
                   />
                   <p className=' mt-8'>
-                    Medlemsskabet du har ventet på. Vi lover at når du er medlem
-                    får du de bedste priser og nogle fede fordele med oven i
-                    hatten. Et medlemsskab koster kun 35,- og sikrer dig adgang
-                    til vores medlemspriser.
+                    Medlemsskabet du har ventet på. Vi lover at når du er medlem får du de bedste priser og nogle fede fordele med
+                    oven i hatten. Et medlemsskab koster kun 35,- og sikrer dig adgang til vores medlemspriser.
                   </p>
                 </div>
                 <InfoBox className='md:mt-0 h-fit'>
@@ -90,15 +95,11 @@ priser på gaming'
                     </li>
                     <li className='flex gap-6 items-center'>
                       <MdCheck className='w-6 text-[#36DF5B] h-auto' />
-                      <p className='mt-0'>
-                        1 gratis drikkevarer ved hvert besøg
-                      </p>
+                      <p className='mt-0'>1 gratis drikkevarer ved hvert besøg</p>
                     </li>
                     <li className='flex gap-6 items-center'>
                       <MdCheck className='w-6 text-[#36DF5B] h-auto' />
-                      <p className='mt-0'>
-                        Tag en ven med gratis én gang om måneden
-                      </p>
+                      <p className='mt-0'>Tag en ven med gratis én gang om måneden</p>
                     </li>
                     <li className='flex gap-6 items-center'>
                       <MdCheck className='w-6 text-[#36DF5B] h-auto' />
@@ -115,10 +116,8 @@ priser på gaming'
               <div className='spacer w-full'>
                 <h3>Dækker de fleste behov</h3>
                 <p>
-                  Perfekt til en hurtig gamingsession. Vores Level pakker dækker
-                  langt de fleste behov. Det er uanset om du er på udkig efter
-                  en hurtigt session, eller gerne fordele dine timer ud på flere
-                  sessioner.{' '}
+                  Perfekt til en hurtig gamingsession. Vores Level pakker dækker langt de fleste behov. Det er uanset om du er på
+                  udkig efter en hurtigt session, eller gerne fordele dine timer ud på flere sessioner.{' '}
                 </p>
                 <div className='flex justify-center md:justify-around flex-wrap md:flex-row mt-14 md:mt-20 gap-10'>
                   <Card
@@ -149,10 +148,8 @@ priser på gaming'
               <div className='spacer w-full'>
                 <h3>Til den der ikke kan få nok</h3>
                 <p>
-                  Perfekt til en hurtig gamingsession. Vores Level pakker dækker
-                  langt de fleste behov. Det er uanset om du er på udkig efter
-                  en hurtigt session, eller gerne fordele dine timer ud på flere
-                  sessioner.{' '}
+                  Perfekt til en hurtig gamingsession. Vores Level pakker dækker langt de fleste behov. Det er uanset om du er på
+                  udkig efter en hurtigt session, eller gerne fordele dine timer ud på flere sessioner.{' '}
                 </p>
                 <div className='flex justify-center md:justify-around flex-wrap md:flex-row mt-14 md:mt-20 gap-10'>
                   <Card

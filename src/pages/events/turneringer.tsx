@@ -4,10 +4,18 @@ import { Hero } from '@/modules/Hero/Hero';
 import { Accordion } from '@radix-ui/react-accordion';
 import { Accordions } from '@/components/Accordion/Accordion';
 import { Button } from '@/components/Button/Button';
+import Head from 'next/head';
 
 export default function Turneringer() {
   return (
     <>
+      <Head>
+        <title>Spændende Gaming Turneringer hos Next Level Gaming: Vis Din Færdighed</title>
+        <meta
+          name='description'
+          content='Deltag i Next Level Gamings episke gaming turneringer. Fra League of Legends til Fortnite, vi har turneringer for alle populære spil. Perfekt for konkurrencedygtige spillere, der vil teste deres færdigheder og vinde præmier. Se vores tidsplan og tilmeld dit hold til vores næste store event.'
+        />
+      </Head>
       <Layout>
         <main>
           <Hero
@@ -25,8 +33,7 @@ export default function Turneringer() {
             <article className='flex justify-center'>
               <div className='spacer w-full'>
                 <h2>
-                  Find din næste{' '}
-                  <span className='text-accentCol'>turnering</span>
+                  Find din næste <span className='text-accentCol'>turnering</span>
                 </h2>
                 <p className='mb-10'>Se de kommende turneringer nedenfor.</p>
 
@@ -40,9 +47,7 @@ export default function Turneringer() {
                         children: [
                           <span>
                             <br />
-                            <Button link='/om-os/kontakt?turnering'>
-                              Tilmed dit hold
-                            </Button>
+                            <Button link='/om-os/kontakt?turnering'>Tilmed dit hold</Button>
                           </span>,
                         ],
                       },
@@ -55,9 +60,7 @@ export default function Turneringer() {
                         children: [
                           <span>
                             <br />
-                            <Button link='/om-os/kontakt?turnering'>
-                              Tilmed dit hold
-                            </Button>
+                            <Button link='/om-os/kontakt?turnering'>Tilmed dit hold</Button>
                           </span>,
                         ],
                       },
@@ -65,14 +68,11 @@ export default function Turneringer() {
                     {
                       item: {
                         itemHeader: 'Fortnite 13 - 14/04/24 ',
-                        itemContent:
-                          'Den ultimative Fortnite turnering. Store præmier fra Shark Gaming, BenQ og Logitech. ',
+                        itemContent: 'Den ultimative Fortnite turnering. Store præmier fra Shark Gaming, BenQ og Logitech. ',
                         children: [
                           <span>
                             <br />
-                            <Button link='/om-os/kontakt?turnering'>
-                              Tilmed dit hold
-                            </Button>
+                            <Button link='/om-os/kontakt?turnering'>Tilmed dit hold</Button>
                           </span>,
                         ],
                       },

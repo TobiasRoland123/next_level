@@ -45,6 +45,7 @@ import { useAtom } from 'jotai';
 import { BookingRecieved } from '@/modules/BookingRecieved/bookingRecieved';
 import { useRouter } from 'next/router';
 import { log } from 'console';
+import Head from 'next/head';
 
 export async function getServerSideProps() {
   let { data: john, error } = await supabase.from('Bookings').select('*');
