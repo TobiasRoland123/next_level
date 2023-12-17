@@ -12,20 +12,8 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table';
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table';
+import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Input } from '../Inputfields/Inputfield';
 import { Checkbox } from '@/components/ui/checkbox';
 import React from 'react';
@@ -38,12 +26,7 @@ interface DataTableProps<TData, TValue> {
   onCheckedChange?: (isChecked: boolean) => void;
 }
 
-export function DataTable<TData, TValue>({
-  columns,
-  data,
-  udløbne,
-  onCheckedChange,
-}: DataTableProps<TData, TValue>) {
+export function DataTable<TData, TValue>({ columns, data, udløbne, onCheckedChange }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
   const [rowSelection, setRowSelection] = React.useState({});
@@ -87,15 +70,14 @@ export function DataTable<TData, TValue>({
       <div className='mb-2'>
         <ul>
           {/* Med dette kan vi lave en function der sletter de valgte fx */}
-          {table.getFilteredSelectedRowModel().rows.map(booking => (
+          {table.getFilteredSelectedRowModel().rows.map((booking) => (
             <li>{booking.getValue('id')}</li>
           ))}
         </ul>
       </div>
       {columns.length > 10 ? (
         <div className='flex-1 text-sm text-muted-foreground mb-2'>
-          {table.getFilteredSelectedRowModel().rows.length} ud af{' '}
-          {table.getFilteredRowModel().rows.length} rækker er valgt.
+          {table.getFilteredSelectedRowModel().rows.length} ud af {table.getFilteredRowModel().rows.length} rækker er valgt.
         </div>
       ) : (
         ''
@@ -104,14 +86,12 @@ export function DataTable<TData, TValue>({
       <div className='rounded-md border'>
         <Table>
           <TableHeader>
-            {table.getHeaderGroups().map(headerGroup => (
+            {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map(header => {
+                {headerGroup.headers.map((header) => {
                   return (
                     <TableHead key={`${header.id}${Math.floor(Math.random() * 1000)}`}>
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(header.column.columnDef.header, header.getContext())}
+                      {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
                     </TableHead>
                   );
                 })}
@@ -120,13 +100,13 @@ export function DataTable<TData, TValue>({
           </TableHeader>
           <TableBody>
             {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map(row => (
+              table.getRowModel().rows.map((row) => (
                 //Add an on click that only shows the content on mobile where the table might not be so readable
                 <TableRow
                   key={`${row.id}${Math.floor(Math.random() * 1000)}`}
                   data-state={row.getIsSelected() && 'selected'}
                 >
-                  {row.getVisibleCells().map(cell => (
+                  {row.getVisibleCells().map((cell) => (
                     <TableCell key={`${cell.id}${Math.floor(Math.random() * 1000)}`}>
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </TableCell>
