@@ -33,12 +33,12 @@ export const AdminHeader = ({ pageList }: HeaderProps) => {
     setIsOpen(!isOpen);
   };
 
-  console.log(pageList);
+  //console.log(pageList);
 
   return (
     <>
       <div
-        className={` bg-primaryCol w-screen h-screen fixed top-0 transition-all md:hidden  z-10 overflow-scroll pb-6  ${
+        className={` bg-primaryCol w-screen h-screen fixed top-0 transition-all md:hidden overflow-scroll pb-6 z-[11]  ${
           isOpen ? 'right-0' : 'right-full'
         } flex flex-col pt-28`}
       >

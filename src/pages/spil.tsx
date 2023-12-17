@@ -10,7 +10,7 @@ import Head from 'next/head';
 
 export async function getServerSideProps() {
   let { data: gamelist, error } = await supabase.from('gamelist').select('*');
-  console.log(gamelist);
+  //console.log(gamelist);
 
   return { props: { gamelist } };
 }
@@ -22,7 +22,9 @@ export default function Spil({ gamelist }: { gamelist: GameCardRoot[] }) {
   const [platformValue, setPlatformValue] = useState('');
   const [searchValue, setSearcheValue] = useState('');
 
-  const [filteredGames, setFilteredGames] = useState<GameCardRoot[] | null>(null);
+  const [filteredGames, setFilteredGames] = useState<GameCardRoot[] | null>(
+    null
+  );
 
   const gameTags = [
     { name: 'Alle', value: -1 },
@@ -63,28 +65,45 @@ export default function Spil({ gamelist }: { gamelist: GameCardRoot[] }) {
     setAcsedning(!acsending);
   };
 
-  const filterGames = (genreValue: string, searchValue: string, platformValue: string) => {
+  const filterGames = (
+    genreValue: string,
+    searchValue: string,
+    platformValue: string
+  ) => {
     const filteredGameList = gamelist.filter((game) => {
       const hasPlatform =
-        platformValue && platformValue !== 'Alle' ? game.platforms.some((platform) => platform.name === platformValue) : true;
-      const hasGenre = genreValue && genreValue !== 'Alle' ? game.tags.some((tag) => tag.name === genreValue) : true;
+        platformValue && platformValue !== 'Alle'
+          ? game.platforms.some((platform) => platform.name === platformValue)
+          : true;
+      const hasGenre =
+        genreValue && genreValue !== 'Alle'
+          ? game.tags.some((tag) => tag.name === genreValue)
+          : true;
 
       const matchesSearch = searchValue
         ? game.title.toLowerCase().includes(searchValue.toLowerCase()) ||
           game.id.toString().includes(searchValue.toLowerCase()) ||
-          game.platforms.some((platform) => platform.name.toString().toLowerCase() === searchValue.toLowerCase()) ||
-          game.tags.some((tag) => tag.name.toLowerCase() === searchValue.toLowerCase())
+          game.platforms.some(
+            (platform) =>
+              platform.name.toString().toLowerCase() ===
+              searchValue.toLowerCase()
+          ) ||
+          game.tags.some(
+            (tag) => tag.name.toLowerCase() === searchValue.toLowerCase()
+          )
         : true;
 
       return hasGenre && matchesSearch && hasPlatform;
     });
 
     const sortedGames = filteredGameList.sort((a, b) => {
-      return acsending ? a.title.localeCompare(b.title) : b.title.localeCompare(a.title);
+      return acsending
+        ? a.title.localeCompare(b.title)
+        : b.title.localeCompare(a.title);
     });
 
     setFilteredGames(sortedGames);
-    console.log('filteredGameList: ', filteredGameList);
+    //console.log('filteredGameList: ', filteredGameList);
   };
 
   useEffect(() => {
@@ -160,7 +179,9 @@ export default function Spil({ gamelist }: { gamelist: GameCardRoot[] }) {
                         <GameCard
                           Name={game.title}
                           Image_={`${game.background_image}`}
-                          Console={game.platforms.map((platform) => platform.name)}
+                          Console={game.platforms.map(
+                            (platform) => platform.name
+                          )}
                           Tags={game.tags.map((tag) => tag.name)}
                           Description={game.description}
                         />

@@ -43,8 +43,8 @@ const GameCard = forwardRef<HTMLDivElement, GameCardProps>(
         <Dialog>
           <DialogTrigger asChild>
             <motion.div
-              onHoverStart={() => width > 640 && setIsHovered(true)}
-              onHoverEnd={() => width > 640 && setIsHovered(false)}
+              onHoverStart={() => width > 768 && setIsHovered(true)}
+              onHoverEnd={() => width > 768 && setIsHovered(false)}
               className={cn(gameCardVariants({ variant, className }))}
               ref={ref}
               {...props}
