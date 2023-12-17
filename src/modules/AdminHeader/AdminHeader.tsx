@@ -148,24 +148,14 @@ export const AdminHeader = ({ pageList }: HeaderProps) => {
             </ul>
           </div>
 
-          <Button
+          <button
             className='w-8 flex flex-col gap-2 justify-center items-center h-14 z-10 md:hidden'
             onClick={ToggleMenu}
           >
-            <span
-              className={`h-1 bg-accentCol  w-full ${
-                isOpen && 'translate-y-[0.4rem] rotate-45'
-              }  transition-all	`}
-            ></span>
-            <span
-              className={`h-1 bg-accentCol  w-full ${isOpen && 'hidden'}`}
-            ></span>
-            <span
-              className={`h-1 bg-accentCol  w-full ${
-                isOpen && 'translate-y-[-0.35rem] -rotate-45 '
-              }  transition-all	`}
-            ></span>
-          </Button>
+            <span className={`h-1 bg-accentCol  w-full ${isOpen && 'translate-y-[0.4rem] rotate-45'}  transition-all	`}></span>
+            <span className={`h-1 bg-accentCol  w-full ${isOpen && 'hidden'}`}></span>
+            <span className={`h-1 bg-accentCol  w-full ${isOpen && 'translate-y-[-0.35rem] -rotate-45 '}  transition-all	`}></span>
+          </button>
 
           <Button
             className='hidden md:block my-1'
