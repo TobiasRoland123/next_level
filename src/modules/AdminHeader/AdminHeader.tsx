@@ -158,7 +158,7 @@ export const AdminHeader = ({ pageList }: HeaderProps) => {
           </button>
 
           <Button
-            className='hidden md:block my-1'
+            className='hidden  my-1 md:!flex'
             onClick={signUserOut}
           >
             Log ud
