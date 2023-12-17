@@ -157,7 +157,7 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
                       : '/booking'
                   }
                   initial='default'
-                  animate={isHovered || width < 640 ? 'hover' : 'default'}
+                  animate={isHovered || width <= 768 ? 'hover' : 'default'}
                   transition={{ duration: 0.1 }}
                   variants={InnerBoxVariants}
                   className={`bg-primaryCol flex flex-col  ${
@@ -293,8 +293,8 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
                   </div>
                 </motion.a>
                 <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={width > 768 && isHovered ? { opacity: 1 } : { opacity: 0 }}
+                  initial={width <= 768 ? { opacity: 1 } : { opacity: 0 }}
+                  animate={isHovered || width <= 768 ? { opacity: 1 } : { opacity: 0 }}
                   transition={{ duration: 0.1 }}
                   className='flex justify-end -mt-1'
                 >
@@ -325,7 +325,7 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
                 <motion.a
                   href='./om-os/kontakt?nlp'
                   initial='default'
-                  animate={width < 768 && isHovered ? 'hover' : 'default'}
+                  animate={isHovered || width <= 768 ? 'hover' : 'default'}
                   transition={{ duration: 0.1 }}
                   variants={InnerBoxVariantNlp}
                   className='bg-primaryCol flex flex-col md:flex-row  justify-between p-7 w-full gap-14 rounded cursor-pointer'
@@ -435,8 +435,8 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
                   </div>
                 </motion.a>
                 <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={width > 768 && isHovered ? { opacity: 1 } : { opacity: 0 }}
+                  initial={width < 768 ? { opacity: 1 } : { opacity: 0 }}
+                  animate={isHovered || width <= 768 ? { opacity: 1 } : { opacity: 0 }}
                   transition={{ duration: 0.1 }}
                   className='flex justify-end -mt-5'
                 >
