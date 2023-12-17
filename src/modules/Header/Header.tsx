@@ -58,7 +58,7 @@ export const Header = ({ pageList }: HeaderProps) => {
         } flex flex-col pt-28`}
       >
         <ul className='flex mx-8 flex-col gap-8  '>
-          {pageList.map((pages) => {
+          {pageList.map(pages => {
             return (
               <>
                 <li>
@@ -71,7 +71,7 @@ export const Header = ({ pageList }: HeaderProps) => {
                         {pages.page.pageTitle}
                       </a>
                       <div className='pl-8 flex flex-col gap-2 mt-3 '>
-                        {pages.page.subPages.map((subpage) => {
+                        {pages.page.subPages.map(subpage => {
                           return (
                             <>
                               <a
@@ -187,20 +187,18 @@ export const Header = ({ pageList }: HeaderProps) => {
                         transition={{ duration: 0.28 }}
                         className='bg-contrastCol/80 backdrop-blur-md w-[115px] py-0 flex-col absolute flex top-16 rounded-b-sm overflow-hidden'
                       >
-                        {pages.page.subPages.map((subPage) => (
-                          <motion.div className='h-7 flex items-center hover:border-l-2 border-accentCol transition-all duration-75 p-2 ease-in-out'>
+                        {pages.page.subPages.map(subPage => (
+                          <motion.a
+                            href={subPage.href}
+                            className='h-7 flex items-center hover:border-l-2 border-accentCol transition-all duration-75 p-2 ease-in-out'
+                          >
                             <motion.div
                               className=''
                               whileHover={{ x: 4 }}
                             >
-                              <Link
-                                className='text-xs'
-                                href={subPage.href}
-                              >
-                                {subPage.pageTitle}
-                              </Link>
+                              <p className='text-xs font-bold mt-0'>{subPage.pageTitle}</p>
                             </motion.div>
-                          </motion.div>
+                          </motion.a>
                         ))}
                       </motion.div>
                     </motion.div>
@@ -236,9 +234,17 @@ export const Header = ({ pageList }: HeaderProps) => {
             onClick={ToggleMenu}
             aria-label='Åben menu'
           >
-            <span className={`h-1 bg-accentCol w-full ${isOpen && 'translate-y-[0.4rem] rotate-45'}  transition-all	`}></span>
+            <span
+              className={`h-1 bg-accentCol w-full ${
+                isOpen && 'translate-y-[0.4rem] rotate-45'
+              }  transition-all	`}
+            ></span>
             <span className={`h-1 bg-accentCol w-full ${isOpen && 'hidden'}`}></span>
-            <span className={`h-1 bg-accentCol w-full ${isOpen && 'translate-y-[-0.35rem] -rotate-45 '}  transition-all	`}></span>
+            <span
+              className={`h-1 bg-accentCol w-full ${
+                isOpen && 'translate-y-[-0.35rem] -rotate-45 '
+              }  transition-all	`}
+            ></span>
           </button>
 
           <Button
