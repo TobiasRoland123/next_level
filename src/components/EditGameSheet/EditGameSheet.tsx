@@ -27,22 +27,32 @@ export const EditGameSheet = (game: Game) => {
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
-  const [selectedTags, setSelectedTags] = useState<Array<{ name: string; value: number }>>([]);
-  const [selectedPlatform, setSelectedPlatform] = useState<Array<{ name: string; value: number }>>(
-    []
-  );
+  const [selectedTags, setSelectedTags] = useState<
+    Array<{ name: string; value: number }>
+  >([]);
+  const [selectedPlatform, setSelectedPlatform] = useState<
+    Array<{ name: string; value: number }>
+  >([]);
 
   const handleCheckboxChange = (tag: { name: string; value: number }) => {
-    if (selectedTags.some(selectedTag => selectedTag.value === tag.value)) {
-      setSelectedTags(selectedTags.filter(selectedTag => selectedTag.value !== tag.value));
+    if (selectedTags.some((selectedTag) => selectedTag.value === tag.value)) {
+      setSelectedTags(
+        selectedTags.filter((selectedTag) => selectedTag.value !== tag.value)
+      );
     } else if (selectedTags.length < 3) {
       setSelectedTags([...selectedTags, tag]);
     }
   };
   const handlePlatformChange = (platform: { name: string; value: number }) => {
-    if (selectedPlatform.some(selectedPlatform => selectedPlatform.value === platform.value)) {
+    if (
+      selectedPlatform.some(
+        (selectedPlatform) => selectedPlatform.value === platform.value
+      )
+    ) {
       setSelectedPlatform(
-        selectedPlatform.filter(selectedPlatform => selectedPlatform.value !== platform.value)
+        selectedPlatform.filter(
+          (selectedPlatform) => selectedPlatform.value !== platform.value
+        )
       );
     } else {
       setSelectedPlatform([...selectedPlatform, platform]);
@@ -70,7 +80,7 @@ export const EditGameSheet = (game: Game) => {
     { name: 'VR', value: 2 },
   ];
 
-  console.log('editGame', editGame);
+  //console.log('editGame', editGame);
 
   const {
     handleSubmit,
@@ -99,10 +109,10 @@ export const EditGameSheet = (game: Game) => {
     editGame?.tags && setSelectedTags(editGame.tags);
   }, [editGame, setValue]);
 
-  const onSubmit: SubmitHandler<Game> = async gameData => {
+  const onSubmit: SubmitHandler<Game> = async (gameData) => {
     setSubmitting(true);
-    console.log('Submitted data', gameData);
-    console.log('selected tags', selectedTags);
+    //console.log('Submitted data', gameData);
+    //console.log('selected tags', selectedTags);
 
     gameData.tags = selectedTags;
     gameData.platforms = selectedPlatform;
@@ -129,7 +139,7 @@ export const EditGameSheet = (game: Game) => {
     }, 3000);
   };
 
-  console.log(game);
+  //console.log(game);
   const handleClose = () => {
     setEditOpen(false);
   };
@@ -192,7 +202,7 @@ export const EditGameSheet = (game: Game) => {
                   {consoles.map((console, index) => (
                     <div
                       className={`${
-                        selectedPlatform.some(p => p.value === console.value)
+                        selectedPlatform.some((p) => p.value === console.value)
                           ? 'bg-accentCol'
                           : 'bg-contrastCol'
                       } w-fit px-2 rounded-full transition ease-in-out duration-150  `}
@@ -203,12 +213,16 @@ export const EditGameSheet = (game: Game) => {
                       >
                         <Checkbox
                           className={`border-none transition-all ease-in-out data-[state=checked]:bg-transparent duration-150 ${
-                            selectedPlatform.some(p => p.value === console.value)
+                            selectedPlatform.some(
+                              (p) => p.value === console.value
+                            )
                               ? 'w-4 opacity-100'
                               : 'w-0 opacity-0'
                           } `}
                           value={console.value}
-                          checked={selectedPlatform.some(p => p.value === console.value)}
+                          checked={selectedPlatform.some(
+                            (p) => p.value === console.value
+                          )}
                           {...register('platforms')}
                           onCheckedChange={() => handlePlatformChange(console)}
                         />
@@ -224,11 +238,12 @@ export const EditGameSheet = (game: Game) => {
                   {gameTags.map((tag, index) => (
                     <div
                       className={`${
-                        selectedTags.some(p => p.value === tag.value)
+                        selectedTags.some((p) => p.value === tag.value)
                           ? 'bg-accentCol'
                           : 'bg-contrastCol'
                       } w-fit px-2 rounded-full ${
-                        !selectedTags.some(p => p.value === tag.value) && selectedTags.length >= 3
+                        !selectedTags.some((p) => p.value === tag.value) &&
+                        selectedTags.length >= 3
                           ? 'opacity-25'
                           : ''
                       } transition ease-in-out duration-150 `}
@@ -240,15 +255,17 @@ export const EditGameSheet = (game: Game) => {
                         <Checkbox
                           value={tag.value}
                           className={`border-none transition-all ease-in-out data-[state=checked]:bg-transparent duration-150 ${
-                            selectedTags.some(p => p.value === tag.value)
+                            selectedTags.some((p) => p.value === tag.value)
                               ? 'w-4 opacity-100'
                               : 'w-0 opacity-0'
                           }`}
-                          checked={selectedTags.some(p => p.value === tag.value)}
+                          checked={selectedTags.some(
+                            (p) => p.value === tag.value
+                          )}
                           {...register('tags')}
                           onCheckedChange={() => handleCheckboxChange(tag)}
                           disabled={
-                            !selectedTags.some(p => p.value === tag.value) &&
+                            !selectedTags.some((p) => p.value === tag.value) &&
                             selectedTags.length >= 3
                           }
                         />
