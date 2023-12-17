@@ -1,6 +1,4 @@
 import { ParagraphBold } from '../../components/ParagraphBold/ParagraphBold';
-import { Button } from '../../components/Button/Button';
-import Image from 'next/image';
 
 interface FooterProps {}
 

@@ -2,8 +2,6 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '../ui/nav-dropdown-menu';
 import { useEffect, useState } from 'react';

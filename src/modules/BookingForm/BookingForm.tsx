@@ -1,15 +1,12 @@
-import { FormEvent, useState } from 'react';
+import { useState } from 'react';
 import { Input } from '@/components/Inputfields/Inputfield';
 import { Button } from '@/components/Button/Button';
-import { createClient } from '@supabase/supabase-js';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
 import { MdError } from 'react-icons/md';
 import { IoIosCheckmarkCircle } from 'react-icons/io';
 import * as z from 'zod';
 import InputMask from 'react-input-mask';
-import { AnimatePresence, motion } from 'framer-motion';
-import { Layout } from '@/Layout';
 import {
   FormControl,
   FormItem,
@@ -28,8 +25,6 @@ import { FaUserGroup } from 'react-icons/fa6';
 import { FaCalendarAlt } from 'react-icons/fa';
 import { IoTime } from 'react-icons/io5';
 import { Bookings } from '@/Types/Bookings';
-import { type } from 'os';
-import { log } from 'console';
 import { supabase } from '../../../utils/supabaseClient';
 
 interface BookingProps {
@@ -37,10 +32,7 @@ interface BookingProps {
   bookingOverview: Array<Bookings>;
 }
 
-export const BookingForm: React.FC<BookingProps> = ({
-  userChoices,
-  bookingOverview,
-}) => {
+export const BookingForm: React.FC<BookingProps> = ({ userChoices, bookingOverview }) => {
   const [supabaseError, setSupabaseError] = useState<string | null>(null);
   const [isBookingValid, setIsBookingValid] = useState<boolean | null>(null);
   const [bookingComplete, setBookingComplete] = useAtom(bookingCompleteAtom);
@@ -80,9 +72,7 @@ export const BookingForm: React.FC<BookingProps> = ({
     }),
     telefon: z
       .union([
-        z
-          .string()
-          .length(0, { message: 'Indtast venligst et gyldigt telefonnummer' }),
+        z.string().length(0, { message: 'Indtast venligst et gyldigt telefonnummer' }),
         z.string().min(8),
       ])
       .optional(),
@@ -141,10 +131,7 @@ export const BookingForm: React.FC<BookingProps> = ({
   };
 
   const sendToSupabase = async (object: any) => {
-    const { data, error } = await supabase
-      .from('Bookings')
-      .insert([object])
-      .select();
+    const { data, error } = await supabase.from('Bookings').insert([object]).select();
   };
 
   const basePc = [
@@ -164,31 +151,20 @@ export const BookingForm: React.FC<BookingProps> = ({
   ];
 
   const createBooking = (amount: number, alreadyDate: boolean) => {
-    const startToBook = basePc.findIndex(
-      (index) => index.time === userChoices?.startTime?.time
-    );
-    const endToBook = basePc.findIndex(
-      (index) => index.time === userChoices?.endTime?.time
-    );
-    const timesToBook = basePc
-      .slice(startToBook, endToBook + 1)
-      .map((time) => time.time);
+    const startToBook = basePc.findIndex(index => index.time === userChoices?.startTime?.time);
+    const endToBook = basePc.findIndex(index => index.time === userChoices?.endTime?.time);
+    const timesToBook = basePc.slice(startToBook, endToBook + 1).map(time => time.time);
 
     if (!alreadyDate) {
-      const bookedPcs: Array<
-        Array<{ time: string; booked: boolean; bookedCount: number }>
-      > = [];
+      const bookedPcs: Array<Array<{ time: string; booked: boolean; bookedCount: number }>> = [];
 
       for (let i = 1; i < 6; i++) {
         if (i <= amount) {
           console.log('i:', i, 'userAmount:', amount);
 
           bookedPcs.push(
-            basePc.map((timeSlot) => {
-              if (
-                timesToBook.includes(timeSlot.time) &&
-                timeSlot.booked === false
-              ) {
+            basePc.map(timeSlot => {
+              if (timesToBook.includes(timeSlot.time) && timeSlot.booked === false) {
                 console.log('im included: ', timeSlot.time);
 
                 return { time: timeSlot.time, booked: true, bookedCount: 0 };
@@ -243,21 +219,18 @@ export const BookingForm: React.FC<BookingProps> = ({
 
           let updatedPcs = 0;
 
-          updatedExistingDay = tempBooking.map((pc) => {
+          updatedExistingDay = tempBooking.map(pc => {
             console.log('pc', pc);
 
             if (updatedPcs === timesToBook.length * amount) {
               return pc;
             } else {
               // @ts-ignore
-              const newPcs = pc.map((timeSlot) => {
+              const newPcs = pc.map(timeSlot => {
                 console.log('timeSlot', timeSlot);
 
                 //@ts-ignore
-                if (
-                  timesToBook.includes(timeSlot.time) &&
-                  timeSlot.booked === false
-                ) {
+                if (timesToBook.includes(timeSlot.time) && timeSlot.booked === false) {
                   //@ts-ignore
                   console.log('im included: ', timeSlot.time);
                   //@ts-ignore
@@ -384,7 +357,7 @@ export const BookingForm: React.FC<BookingProps> = ({
     ];
     let alreadyDate: boolean = bookingOverview.some(
       // @ts-ignore
-      (el) => el.date === userChoices?.date
+      el => el.date === userChoices?.date
     );
 
     //Loop through each pc and change booked === true for the times used, for every amount of PC booked
@@ -400,8 +373,8 @@ export const BookingForm: React.FC<BookingProps> = ({
         <div className='bg-contrastCol mt-6 p-4 lg:block '>
           <h4 className='mt-0'>Kontaktoplysnigner</h4>
           <p>
-            Så mangler vi bare de sidste detaljer for at din booking er klaret!
-            Udfyld navn, email og telefonnummer for at fuldføre din reservation.
+            Så mangler vi bare de sidste detaljer for at din booking er klaret! Udfyld navn, email
+            og telefonnummer for at fuldføre din reservation.
           </p>
           <h4>Booking Oplysninger</h4>
 
@@ -437,9 +410,7 @@ export const BookingForm: React.FC<BookingProps> = ({
                     <div
                       style={{ position: 'relative' }}
                       className={
-                        form.formState.errors.navn || isBookingValid === false
-                          ? 'shake'
-                          : ''
+                        form.formState.errors.navn || isBookingValid === false ? 'shake' : ''
                       }
                     >
                       <Input
@@ -447,8 +418,7 @@ export const BookingForm: React.FC<BookingProps> = ({
                         style={{
                           borderColor:
                             form.formState.isSubmitted &&
-                            (form.formState.errors.navn ||
-                              isBookingValid === false)
+                            (form.formState.errors.navn || isBookingValid === false)
                               ? 'red'
                               : isBookingValid === true
                               ? 'green'
@@ -458,20 +428,16 @@ export const BookingForm: React.FC<BookingProps> = ({
                         id='navn'
                         type='text'
                       />
-                      {form.formState.errors.navn ||
-                      isBookingValid === false ? (
+                      {form.formState.errors.navn || isBookingValid === false ? (
                         <div className='absolute top-2 right-0 pr-3 flex items-center pointer-events-none'>
                           <div>
                             <MdError className={'text-red-500 text-2xl'} />
                           </div>
                         </div>
-                      ) : form.formState.isSubmitted &&
-                        !form.formState.errors.email ? (
+                      ) : form.formState.isSubmitted && !form.formState.errors.email ? (
                         <div className='absolute top-2 right-0 pr-3 flex items-center pointer-events-none'>
                           <div>
-                            <IoIosCheckmarkCircle
-                              className={'text-green-500 text-2xl'}
-                            />
+                            <IoIosCheckmarkCircle className={'text-green-500 text-2xl'} />
                           </div>
                         </div>
                       ) : (
@@ -498,9 +464,7 @@ export const BookingForm: React.FC<BookingProps> = ({
                     <div
                       style={{ position: 'relative' }}
                       className={
-                        form.formState.errors.email || isBookingValid === false
-                          ? 'shake'
-                          : ''
+                        form.formState.errors.email || isBookingValid === false ? 'shake' : ''
                       }
                     >
                       <Input
@@ -508,8 +472,7 @@ export const BookingForm: React.FC<BookingProps> = ({
                         style={{
                           borderColor:
                             form.formState.isSubmitted &&
-                            (form.formState.errors.email ||
-                              isBookingValid === false)
+                            (form.formState.errors.email || isBookingValid === false)
                               ? 'red'
                               : isBookingValid === true
                               ? 'green'
@@ -519,20 +482,16 @@ export const BookingForm: React.FC<BookingProps> = ({
                         id='email'
                         type='email'
                       />
-                      {form.formState.errors.email ||
-                      isBookingValid === false ? (
+                      {form.formState.errors.email || isBookingValid === false ? (
                         <div className='absolute top-2 right-0 pr-3 flex items-center pointer-events-none'>
                           <div>
                             <MdError className={'text-red-500 text-2xl'} />
                           </div>
                         </div>
-                      ) : form.formState.isSubmitted &&
-                        !form.formState.errors.email ? (
+                      ) : form.formState.isSubmitted && !form.formState.errors.email ? (
                         <div className='absolute top-2 right-0 pr-3 flex items-center pointer-events-none'>
                           <div>
-                            <IoIosCheckmarkCircle
-                              className={'text-green-500 text-2xl'}
-                            />
+                            <IoIosCheckmarkCircle className={'text-green-500 text-2xl'} />
                           </div>
                         </div>
                       ) : (
@@ -558,10 +517,7 @@ export const BookingForm: React.FC<BookingProps> = ({
                     <div
                       style={{ position: 'relative' }}
                       className={
-                        form.formState.errors.telefon ||
-                        isBookingValid === false
-                          ? 'shake'
-                          : ''
+                        form.formState.errors.telefon || isBookingValid === false ? 'shake' : ''
                       }
                     >
                       <InputMask
@@ -580,20 +536,16 @@ export const BookingForm: React.FC<BookingProps> = ({
                             : '',
                         }}
                       />
-                      {form.formState.errors.telefon ||
-                      isBookingValid === false ? (
+                      {form.formState.errors.telefon || isBookingValid === false ? (
                         <div className='absolute top-2 right-0 pr-3 flex items-center pointer-events-none'>
                           <div>
                             <MdError className={'text-red-500 text-2xl'} />
                           </div>
                         </div>
-                      ) : form.formState.isSubmitted &&
-                        !form.formState.errors.telefon ? (
+                      ) : form.formState.isSubmitted && !form.formState.errors.telefon ? (
                         <div className='absolute top-2 right-0 pr-3 flex items-center pointer-events-none'>
                           <div>
-                            <IoIosCheckmarkCircle
-                              className={'text-green-500 text-2xl'}
-                            />
+                            <IoIosCheckmarkCircle className={'text-green-500 text-2xl'} />
                           </div>
                         </div>
                       ) : (

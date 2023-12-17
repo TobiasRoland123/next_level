@@ -13,12 +13,6 @@ import {
   useReactTable,
 } from '@tanstack/react-table';
 import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import {
   Table,
   TableBody,
   TableCell,
@@ -26,7 +20,6 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { Input } from '../Inputfields/Inputfield';
 import { Checkbox } from '@/components/ui/checkbox';
 import React from 'react';
 import { Button } from '../ui/button';

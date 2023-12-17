@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { Button } from '../../components/Button/Button';
 import { NavLinkDropDown } from '../../components/NavLinkDropDown/NavLinkDropDown';
-import { Router, useRouter } from 'next/router';
-import { createClient } from '@supabase/supabase-js';
+import { useRouter } from 'next/router';
 import { supabase } from '../../../utils/supabaseClient';
 
 interface HeaderProps {

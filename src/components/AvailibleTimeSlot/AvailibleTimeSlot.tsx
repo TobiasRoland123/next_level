@@ -1,5 +1,4 @@
-import { BookingTimeSlot, UserBooking } from '@/Types/calendar';
-import { useState } from 'react';
+import { BookingTimeSlot } from '@/Types/calendar';
 
 interface AvailibleTimeSlotsProps {
   time: BookingTimeSlot;
@@ -11,8 +10,19 @@ interface AvailibleTimeSlotsProps {
 export const AvailibleTimeSlot = ({ time, index, ...props }: AvailibleTimeSlotsProps) => {
   return (
     <>
-      <input type='checkbox' name='tid' id={time.time} key={index} className={`absolute z-0 invisible peer/${index}`} defaultChecked={props.defaultChecked} />
-      <label htmlFor={time.time} onClick={props.onClick} className={props.className}>
+      <input
+        type='checkbox'
+        name='tid'
+        id={time.time}
+        key={index}
+        className={`absolute z-0 invisible peer/${index}`}
+        defaultChecked={props.defaultChecked}
+      />
+      <label
+        htmlFor={time.time}
+        onClick={props.onClick}
+        className={props.className}
+      >
         {time.time}
       </label>
     </>

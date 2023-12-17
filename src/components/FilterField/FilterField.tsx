@@ -1,14 +1,11 @@
 import {
   Select,
   SelectContent,
-  SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Input, InputProps } from '../Inputfields/Inputfield';
-import { on } from 'stream';
+import { Input } from '../Inputfields/Inputfield';
 import { useEffect, useState } from 'react';
 
 interface filterFieldProps {

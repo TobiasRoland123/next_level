@@ -1,8 +1,6 @@
-import clsx from 'clsx';
-import { AnimatePresence, motion } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { useState } from 'react';
 import { useController } from 'react-hook-form';
-import { MdOutlineContentCopy } from 'react-icons/md';
 
 // @ts-ignore
 const ControlledEditableTextarea = props => {
