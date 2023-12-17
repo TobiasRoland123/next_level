@@ -29,24 +29,13 @@ export async function getServerSideProps() {
   return { props: { UserBookings, Bookings } };
 }
 
-export default function Booking({
-  UserBookings,
-  Bookings,
-}: {
-  UserBookings: UserBookingsProps[];
-  Bookings: Bookings[];
-}) {
-  const [showExpiredBookings, setShowExpiredBookings] =
-    useState<Boolean>(false);
+export default function Booking({ UserBookings, Bookings }: { UserBookings: UserBookingsProps[]; Bookings: Bookings[] }) {
+  const [showExpiredBookings, setShowExpiredBookings] = useState<Boolean>(false);
   const [openDialogAlert, setOpenDialogAlert] = useState(false);
   const [sendID, setSendID] = useAtom(deleteEntry);
 
   const sendToSupabaseBookings = async (object: any) => {
-    const { data, error } = await supabase
-      .from('Bookings')
-      .update([object])
-      .eq('id', object.id)
-      .select();
+    const { data, error } = await supabase.from('Bookings').update([object]).eq('id', object.id).select();
     if (data) {
       //console.log("bookingData is updated!", data);
     } else if (error) {
@@ -54,10 +43,7 @@ export default function Booking({
     }
   };
   const sendToSupabaseUserBookings = async (idValue: number | null) => {
-    const { error } = await supabase
-      .from('UserBookings')
-      .delete()
-      .eq('id', idValue);
+    const { error } = await supabase.from('UserBookings').delete().eq('id', idValue);
     if (error) {
       //console.log("error", error);
     }
@@ -112,9 +98,7 @@ export default function Booking({
 
     const startToBook = basePc.findIndex((index) => index.time === start);
     const endToBook = basePc.findIndex((index) => index.time === slut);
-    const timesToBook = basePc
-      .slice(startToBook, endToBook + 1)
-      .map((time) => time.time);
+    const timesToBook = basePc.slice(startToBook, endToBook + 1).map((time) => time.time);
     //console.log("startToBook", startToBook);
     //console.log("endToBook", endToBook);
     //console.log("timesToBook", timesToBook);
@@ -130,13 +114,7 @@ export default function Booking({
 
     //console.log(dayBooking());
 
-    const tempBooking = [
-      dayBooking()?.PC1,
-      dayBooking()?.PC2,
-      dayBooking()?.PC3,
-      dayBooking()?.PC4,
-      dayBooking()?.PC5,
-    ];
+    const tempBooking = [dayBooking()?.PC1, dayBooking()?.PC2, dayBooking()?.PC3, dayBooking()?.PC4, dayBooking()?.PC5];
     //console.log("tempBooking", tempBooking);
 
     let updatedExistingDay;
@@ -157,10 +135,7 @@ export default function Booking({
               //console.log("timeSlot", timeSlot);
 
               //@ts-ignore
-              if (
-                timesToBook.includes(timeSlot.time) &&
-                timeSlot.booked === true
-              ) {
+              if (timesToBook.includes(timeSlot.time) && timeSlot.booked === true) {
                 //@ts-ignore
                 //console.log("im included: ", timeSlot.time);
                 //@ts-ignore
@@ -257,15 +232,15 @@ export default function Booking({
   };
 
   // COMMENT OUT FROM HERE TO DISABLE LOGIN GUARD
-  const router = useRouter();
+  // const router = useRouter();
 
-  getSession();
-  async function getSession() {
-    const { data, error } = await supabase.auth.getSession();
-    if (data.session === null) {
-      router.push('/login');
-    }
-  }
+  // getSession();
+  // async function getSession() {
+  //   const { data, error } = await supabase.auth.getSession();
+  //   if (data.session === null) {
+  //     router.push('/login');
+  //   }
+  // }
 
   function showData() {
     //console.log("UserBookings", UserBookings);
@@ -332,17 +307,12 @@ export default function Booking({
             <AlertDialogHeader>
               <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
               <AlertDialogDescription>
-                This action cannot be undone. This will permanently delete your
-                account and remove your data from our servers.
+                This action cannot be undone. This will permanently delete your account and remove your data from our servers.
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
-              <AlertDialogCancel onClick={() => setSendID(null)}>
-                Fortryd
-              </AlertDialogCancel>
-              <AlertDialogAction onClick={() => deleteBookingEntry(sendID)}>
-                Slet booking
-              </AlertDialogAction>
+              <AlertDialogCancel onClick={() => setSendID(null)}>Fortryd</AlertDialogCancel>
+              <AlertDialogAction onClick={() => deleteBookingEntry(sendID)}>Slet booking</AlertDialogAction>
             </AlertDialogFooter>
           </AlertDialogContent>
         </AlertDialog>
