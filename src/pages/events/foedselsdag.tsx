@@ -7,10 +7,18 @@ import { Button } from '@/components/Button/Button';
 import foedselsdagImg1 from '../../../public/images/event/foedselsdag/barn-vr.jpeg';
 import foedselsdagImg2 from '../../../public/images/event/foedselsdag.jpg';
 import { RelatedContact } from '../../components/RelatedContact/RelatedContact';
+import Head from 'next/head';
 
 export default function Foedselsdag() {
   return (
     <>
+      <Head>
+        <title>Unikke Fødselsdagsfester hos Next Level Gaming: En Gaming Oplevelse for Børn</title>
+        <meta
+          name='description'
+          content='Fejr din fødselsdag med en uforglemmelig gaming oplevelse hos Next Level Gaming. Vores specialdesignede fødselsdagspakker inkluderer spændende spil, lækker mad og en fantastisk atmosfære, perfekt for børn og unge. Skræddersy din fest med vores forskellige spil og aktiviteter for en mindeværdig fødselsdag.'
+        />
+      </Head>
       <Layout>
         <main>
           <Hero
@@ -41,15 +49,16 @@ export default function Foedselsdag() {
                     Elsker du og dine venner at game?
                   </h3>
                   <p>
-                    Vores forskellige fødselsdagsarrangementer giver dig
-                    mulighed for at vælge lige den oplevelse du gerne vil have.
+                    Vores forskellige fødselsdagsarrangementer giver dig mulighed for at vælge lige den oplevelse du gerne vil
+                    have.
                   </p>
                 </div>
                 <div>
                   <Image
                     src={barnVr}
-                    width={1000}
-                    height={1000}
+                    width={700}
+                    height={700}
+                    quality={60}
                     alt='barn der spiller i vr'
                   />
                 </div>
@@ -77,15 +86,11 @@ export default function Foedselsdag() {
                 <div>
                   <h3 className='md:mt-0'>Gamer's Paradise Birthday Bash</h3>
                   <p>
-                    Giv fødselsdagsbarnet den ultimative gave med en Gamer's
-                    Paradise Birthday Bash! Vores gaming center er det perfekte
-                    sted at fejre med venner og familie. Vi sørger for en dag
-                    fyldt med sjove gaming-aktiviteter, lækker festmad og
-                    drikke, og selvfølgelig en overdådig kage! Lad os skabe den
-                    perfekte ramme for en fødselsdag, der vil blive husket
-                    længe. Vi tilpasser arrangementet til fødselsdagsbarnets
-                    ønsker og sørger for, at alle får en fantastisk tid.
-                    Tillykke med fødselsdagen – lad os game!
+                    Giv fødselsdagsbarnet den ultimative gave med en Gamer's Paradise Birthday Bash! Vores gaming center er det
+                    perfekte sted at fejre med venner og familie. Vi sørger for en dag fyldt med sjove gaming-aktiviteter, lækker
+                    festmad og drikke, og selvfølgelig en overdådig kage! Lad os skabe den perfekte ramme for en fødselsdag, der
+                    vil blive husket længe. Vi tilpasser arrangementet til fødselsdagsbarnets ønsker og sørger for, at alle får en
+                    fantastisk tid. Tillykke med fødselsdagen – lad os game!
                   </p>
                 </div>
                 <div className='md:max-w-[40%]'>
@@ -114,15 +119,11 @@ export default function Foedselsdag() {
                 <div className='order-1 md:order-2'>
                   <h3 className='md:mt-0'>Game On, Party On!</h3>
                   <p>
-                    Gør fødselsdagen ekstra speciel med vores 'Game On, Party
-                    On!' pakke. Vi forvandler vores gaming center til en festlig
-                    oase, hvor fødselsdagsbarnet og gæsterne kan nyde en dag med
-                    gaming, sjove aktiviteter og lækker mad. Fra turneringer til
-                    virtual reality-oplevelser tilbyder vi en bred vifte af
-                    underholdning for alle aldre. Lad os tage hånd om alle
-                    detaljer, så I kan fokusere på at fejre og have det sjovt.
-                    Book jeres fødselsdagsfest hos os og lad festlighederne
-                    begynde!
+                    Gør fødselsdagen ekstra speciel med vores 'Game On, Party On!' pakke. Vi forvandler vores gaming center til en
+                    festlig oase, hvor fødselsdagsbarnet og gæsterne kan nyde en dag med gaming, sjove aktiviteter og lækker mad.
+                    Fra turneringer til virtual reality-oplevelser tilbyder vi en bred vifte af underholdning for alle aldre. Lad
+                    os tage hånd om alle detaljer, så I kan fokusere på at fejre og have det sjovt. Book jeres fødselsdagsfest hos
+                    os og lad festlighederne begynde!
                   </p>
                 </div>
               </div>

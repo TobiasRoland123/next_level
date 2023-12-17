@@ -6,6 +6,7 @@ import { Hero } from '@/modules/Hero/Hero';
 import { FilterField } from '@/components/FilterField/FilterField';
 import { useEffect, useState } from 'react';
 import { AscendingDescending } from '@/components/AscendingDescending/AscendingDescending';
+import Head from 'next/head';
 
 export async function getServerSideProps() {
   let { data: gamelist, error } = await supabase.from('gamelist').select('*');
@@ -111,13 +112,20 @@ export default function Spil({ gamelist }: { gamelist: GameCardRoot[] }) {
 
   return (
     <>
+      <Head>
+        <title>Next Level Gaming: Et bredt udvalg af videospil for alle aldre og interesser</title>
+        <meta
+          name='description'
+          content='Oplev en verden af spil hos Next Level Gaming. Udforsk de nyeste og klassiske videospil i mange genrer og platforme. Perfekt for underholdning og events, åbent dagligt. Find spændende spiloplevelser til alle aldre og smag. Besøg os for en uforglemmelig gamingoplevelse.'
+        />
+      </Head>
       <Layout>
         <main>
           <Hero
             isFrontPage={false}
             header='Vores spil'
             redWord={['spil']}
-            content='De nyeste spil på markedet, men også de ældste (for det meste). Vi tilbyder en lang række spil, både dem du kender, men også dem som du ikke har hørt om. Uanset hvilket spil du vælger, så er der garanteret underholdning for alle pengene!'
+            content='Next Level Gaming tilbyder et spændende udvalg af spil, der spænder fra de nyeste hits til tidløse klassikere. Med en bred vifte af genrer og platforme, er der noget for enhver smag. Uanset om du er til actionfyldte eventyr, strategiske udfordringer eller familievenlig underholdning, finder du det her. Vores spilunivers er designet til at give dig den ultimative spiloplevelse, hvor kvalitet og underholdningsværdi går hånd i hånd. Besøg os og opdag dit næste yndlingsspil!'
           />
 
           <nav className='flex justify-center'>
