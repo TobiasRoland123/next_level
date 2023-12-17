@@ -85,7 +85,7 @@ priser på gaming'
                     className='mt-0 text-2xl font-bold hyphens-auto'
                     lang='da'
                   >
-                    Timepris for ikke medlemmer
+                    Bliv medlem hos next level
                   </h3>
 
                   <ul className='mt-6 gap-3 flex flex-col'>
