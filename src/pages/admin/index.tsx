@@ -13,7 +13,6 @@ export default function Admin() {
     const { data, error } = await supabase.auth.getSession();
     if (data.session === null) {
       router.push('/login');
-      router.push('/login');
     }
   }
   // COMMENT OUT TO HERE TO DISABLE LOGIN GUARD
