@@ -18,7 +18,10 @@ export const columns: ColumnDef<UserBookingsProps>[] = [
     cell: ({ row }) => {
       const [sendID, setSendID] = useAtom(deleteEntry);
       return (
-        <Button variant='ghost' onClick={() => setSendID(row.getValue('id'))}>
+        <Button
+          variant='ghost'
+          onClick={() => setSendID(row.getValue('id'))}
+        >
           Slet booking
         </Button>
       );
@@ -28,7 +31,10 @@ export const columns: ColumnDef<UserBookingsProps>[] = [
     accessorKey: 'id',
     header: ({ column }) => {
       return (
-        <Button variant='ghost' onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}>
+        <Button
+          variant='ghost'
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        >
           ID
           <ArrowUpDown className='ml-2 h-4 w-4' />
         </Button>
@@ -39,7 +45,10 @@ export const columns: ColumnDef<UserBookingsProps>[] = [
     accessorKey: 'dato',
     header: ({ column }) => {
       return (
-        <Button variant='ghost' onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}>
+        <Button
+          variant='ghost'
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        >
           DATO
           <ArrowUpDown className='ml-2 h-4 w-4' />
         </Button>
@@ -50,7 +59,10 @@ export const columns: ColumnDef<UserBookingsProps>[] = [
     accessorKey: 'antal',
     header: ({ column }) => {
       return (
-        <Button variant='ghost' onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}>
+        <Button
+          variant='ghost'
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        >
           ANTAL PC'ER
           <ArrowUpDown className='ml-2 h-4 w-4' />
         </Button>
@@ -61,7 +73,10 @@ export const columns: ColumnDef<UserBookingsProps>[] = [
     accessorKey: 'startTid',
     header: ({ column }) => {
       return (
-        <Button variant='ghost' onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}>
+        <Button
+          variant='ghost'
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        >
           START TID
           <ArrowUpDown className='ml-2 h-4 w-4' />
         </Button>
@@ -72,7 +87,10 @@ export const columns: ColumnDef<UserBookingsProps>[] = [
     accessorKey: 'slutTid',
     header: ({ column }) => {
       return (
-        <Button variant='ghost' onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}>
+        <Button
+          variant='ghost'
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        >
           SLUT TID
           <ArrowUpDown className='ml-2 h-4 w-4' />
         </Button>
@@ -83,29 +101,25 @@ export const columns: ColumnDef<UserBookingsProps>[] = [
     accessorKey: 'email',
     header: ({ column }) => {
       return (
-        <Button variant='ghost' onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}>
+        <Button
+          variant='ghost'
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        >
           EMAIL
           <ArrowUpDown className='ml-2 h-4 w-4' />
         </Button>
       );
     },
   },
-  {
-    accessorKey: 'email',
-    header: ({ column }) => {
-      return (
-        <Button variant='ghost' onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}>
-          EMAIL
-          <ArrowUpDown className='ml-2 h-4 w-4' />
-        </Button>
-      );
-    },
-  },
+
   {
     accessorKey: 'telefon',
     header: ({ column }) => {
       return (
-        <Button variant='ghost' onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}>
+        <Button
+          variant='ghost'
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        >
           TELEFONNUMMER
           <ArrowUpDown className='ml-2 h-4 w-4' />
         </Button>
