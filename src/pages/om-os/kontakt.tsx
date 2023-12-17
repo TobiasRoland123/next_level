@@ -24,6 +24,7 @@ import {
 } from 'react-icons/fa';
 import { useAtom } from 'jotai';
 import { submitFormAtom } from '@/states/store';
+import Head from 'next/head';
 
 export default function Kontakt() {
   const currentUrl = typeof window !== 'undefined' ? window.location.href : '';
@@ -85,6 +86,13 @@ export default function Kontakt() {
 
   return (
     <>
+      <Head>
+        <title>Kontakt Next Level Gaming: Vi er her for at Hjælpe</title>
+        <meta
+          name='description'
+          content='Har du spørgsmål eller forespørgsler til Next Level Gaming? Vores kontakt side giver dig alle nødvendige informationer for at komme i kontakt med os. Vi er tilgængelige via telefon, email og sociale medier. Uanset om det er forespørgsler om events, spørgsmål om vores services eller generel information, er vores team klar til at hjælpe. Besøg vores side for kontaktoplysninger og åbningstider.'
+        />
+      </Head>
       <Layout>
         <main>
           <Hero
@@ -94,12 +102,25 @@ export default function Kontakt() {
             isFrontPage={true}
           />
 
-          <section className='flex justify-center'>
-            <article className='spacer w-full md:grid md:grid-cols-2'>
+          <div className='flex justify-center'>
+            <div className='spacer w-full'>
               <h2 className='md:col-span-2'>
                 "Der findes ikke dumme spørgsmål"
               </h2>
+              <p>
+                Har du brug for hjælp eller har du spørgsmål? Vi er her for at
+                hjælpe dig! Uanset om det drejer sig om vores spiludvalg,
+                eventplanlægning eller medlemskabsinformation, står vores team
+                klar til at give dig svar. Kontakt os via telefon, email, eller
+                kom forbi vores lokation i Glostrup for en personlig snak. Husk,
+                at hos Next Level Gaming er vi mere end et spillested - vi er en
+                del af din spiloplevelse!
+              </p>
+            </div>
+          </div>
 
+          <section className='flex justify-center'>
+            <article className='spacer w-full md:grid md:grid-cols-2'>
               <div
                 ref={contactFormRef}
                 className='md:row-start-2 md:col-start-2 md:row-span-3'
@@ -144,6 +165,7 @@ export default function Kontakt() {
                             </a>
                           </div>
                         </li>
+
                         <li>
                           <div className='flex items-center gap-4 mt-4'>
                             <MdEmail className={'text-accentCol'} />

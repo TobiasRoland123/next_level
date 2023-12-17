@@ -55,6 +55,7 @@ import { useAtom } from 'jotai';
 import { BookingRecieved } from '@/modules/BookingRecieved/bookingRecieved';
 import { useRouter } from 'next/router';
 import { log } from 'console';
+import Head from 'next/head';
 
 export async function getServerSideProps() {
   let { data: john, error } = await supabase.from('Bookings').select('*');
@@ -744,15 +745,20 @@ export default function Booking({ john }: { john: Bookings[] }) {
 
   return (
     <>
+      <Head>
+        <title>Book din Gaming Oplevelse hos Next Level Gaming</title>
+        <meta
+          name='description'
+          content='Reserver din gaming session hos Next Level Gaming. Vores online booking system gør det nemt at sikre pladser og computere til din næste gaming oplevelse. Perfekt til både individuelle spillere og grupper, vores center tilbyder fleksible bookinger. Nyd topmoderne gaming udstyr og en hyggelig atmosfære. Book nu for at sikre en uforglemmelig gaming dag i Glostrup.'
+        />
+      </Head>
       <Layout>
         <main>
           <Hero
             header="Book DK's mest unikke gaming oplevelse"
             redWord={['unikke']}
             isFrontPage={false}
-            content='På Next Level Gaming kan du forudbestille computere,
-            Sikr dig en plads og nyd spillet uden travlhed.
-            Book nu og garanter en hyggelig oplevelse!'
+            content='På Next Level Gaming kan du forudbestille computere og sikre dig en plads til at nyde spillet uden travlhed. Book nu for at garantere en hyggelig og afslappende spiloplevelse, hvor du kan dykke ned i nye verdener og opleve spændingen ved gaming i komfortable omgivelser. Gør din spilletid speciel med vores avancerede udstyr og venlige atmosfære.'
           />
           {bookingComplete === false ? (
             <AnimatePresence>

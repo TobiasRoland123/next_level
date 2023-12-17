@@ -20,19 +20,44 @@ import {
 import { deleteEntry } from '@/states/store';
 import { useAtom } from 'jotai';
 import { Bookings } from '@/Types/Bookings';
-
-export async function getServerSideProps() {
-  let { data: UserBookings } = await supabase.from('UserBookings').select('*');
-  let { data: Bookings, error } = await supabase.from('Bookings').select('*');
-  //console.log("error", error);
-
-  return { props: { UserBookings, Bookings } };
-}
+import { UserBooking } from '@/Types/calendar';
 
 export default function Booking({ UserBookings, Bookings }: { UserBookings: UserBookingsProps[]; Bookings: Bookings[] }) {
   const [showExpiredBookings, setShowExpiredBookings] = useState<Boolean>(false);
   const [openDialogAlert, setOpenDialogAlert] = useState(false);
   const [sendID, setSendID] = useAtom(deleteEntry);
+  const [userBookings, setUserBookings] = useState<UserBookingsProps[]>([]);
+  const [bookings, setBookings] = useState<Bookings[]>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      let { data: UserBookingsData } = await supabase.from('UserBookings').select('*');
+      let { data: BookingsData } = await supabase.from('Bookings').select('*');
+
+      UserBookingsData && setUserBookings(UserBookingsData);
+
+      BookingsData && setBookings(BookingsData);
+    };
+
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    const subscription = supabase
+      .channel('custom-all-channel')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'UserBookings' }, async (payload) => {
+        console.log('Change received!', payload);
+        // Fetch updated data
+        let { data: updatedUserBookings } = await supabase.from('UserBookings').select('*');
+        updatedUserBookings && setUserBookings(updatedUserBookings);
+      })
+      .subscribe();
+
+    // Clean up subscription on unmount
+    return () => {
+      supabase.removeChannel(subscription);
+    };
+  }, []);
 
   const sendToSupabaseBookings = async (object: any) => {
     const { data, error } = await supabase.from('Bookings').update([object]).eq('id', object.id).select();
@@ -65,9 +90,9 @@ export default function Booking({ UserBookings, Bookings }: { UserBookings: User
     //console.log(id);
     // get the Booking from the UserBookings
     const userBooking = () => {
-      for (let i = 0; i < UserBookings.length; i++) {
-        if (UserBookings[i].id === id) {
-          return UserBookings[i];
+      for (let i = 0; i < userBookings.length; i++) {
+        if (userBookings[i].id === id) {
+          return userBookings[i];
         }
       }
     };
@@ -104,10 +129,10 @@ export default function Booking({ UserBookings, Bookings }: { UserBookings: User
     //console.log("timesToBook", timesToBook);
 
     const dayBooking = () => {
-      for (let i = 0; i < Bookings.length; i++) {
+      for (let i = 0; i < bookings.length; i++) {
         //@ts-ignore
-        if (Bookings[i].date === dato) {
-          return Bookings[i];
+        if (bookings[i].date === dato) {
+          return bookings[i];
         }
       }
     };
@@ -131,7 +156,7 @@ export default function Booking({ UserBookings, Bookings }: { UserBookings: User
             return pc;
           } else {
             // @ts-ignore
-            const newPcs = pc.map((timeSlot) => {
+            const newPcs = pc?.map((timeSlot) => {
               //console.log("timeSlot", timeSlot);
 
               //@ts-ignore
@@ -189,10 +214,10 @@ export default function Booking({ UserBookings, Bookings }: { UserBookings: User
   const bookingsToday = () => {
     const today = new Date().toISOString().split('T')[0];
     const bookings: UserBookingsProps[] = [];
-    for (let i = 0; i < UserBookings.length; i++) {
-      const userDate = UserBookings[i].dato.toString();
+    for (let i = 0; i < userBookings.length; i++) {
+      const userDate = userBookings[i].dato.toString();
       if (userDate === today) {
-        bookings.push(UserBookings[i]);
+        bookings.push(userBookings[i]);
       }
     }
 
@@ -205,7 +230,7 @@ export default function Booking({ UserBookings, Bookings }: { UserBookings: User
     const today = new Date();
 
     // Filter the array based on date comparison
-    const filteredArray = UserBookings.filter((item) => {
+    const filteredArray = userBookings.filter((item) => {
       const itemDate = new Date(item.dato);
       return itemDate >= today;
     });
@@ -280,7 +305,7 @@ export default function Booking({ UserBookings, Bookings }: { UserBookings: User
               <h3>Alle bookinger</h3>
               {/* <DataTable columns={columns} data={futureBookings()} udløbne={true} onCheckedChange={(e: any) => isChecked(e)} /> */}
               <div className='bg-contrastCol mt-8 p-4 lg:block flex align-middle justify-center'>
-                {UserBookings.length < 1 ? (
+                {userBookings.length < 1 ? (
                   <p className='m-0'>Ingen bookinger.</p>
                 ) : showExpiredBookings ? (
                   <DataTable
@@ -300,24 +325,29 @@ export default function Booking({ UserBookings, Bookings }: { UserBookings: User
               </div>
             </article>
           </section>
+
+          <div className='flex justify-center'>
+            <div className='spacer w-full'>
+              <AlertDialog
+                open={openDialogAlert}
+                onOpenChange={setOpenDialogAlert}
+              >
+                <AlertDialogContent className=' w-[80vw] max-w-[800px] border-accentCol'>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>Er du sikker på at du vil slette?</AlertDialogTitle>
+                    <AlertDialogDescription>
+                      Dette vil slette den valgte booking, og kan ikke fortrydes. Er du sikker på at du vil gennemføre handligen?
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel onClick={() => setSendID(null)}>Fortryd</AlertDialogCancel>
+                    <AlertDialogAction onClick={() => deleteBookingEntry(sendID)}>Slet booking</AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+            </div>
+          </div>
         </main>
-        <AlertDialog
-          open={openDialogAlert}
-          onOpenChange={setOpenDialogAlert}
-        >
-          <AlertDialogContent>
-            <AlertDialogHeader>
-              <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-              <AlertDialogDescription>
-                This action cannot be undone. This will permanently delete your account and remove your data from our servers.
-              </AlertDialogDescription>
-            </AlertDialogHeader>
-            <AlertDialogFooter>
-              <AlertDialogCancel onClick={() => setSendID(null)}>Fortryd</AlertDialogCancel>
-              <AlertDialogAction onClick={() => deleteBookingEntry(sendID)}>Slet booking</AlertDialogAction>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialog>
       </LayoutAdmin>
     </>
   );

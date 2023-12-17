@@ -36,15 +36,12 @@ export const SletSpil = () => {
         </Button>
       </AlertDialogTrigger>
       <AlertDialogPortal>
-        <AlertDialogContent className='border-none max-w-[500px]'>
+        <AlertDialogContent className='border-accentCol max-w-[500px] '>
           <AlertDialogHeader>
             <h4>Er du sikker?</h4>
           </AlertDialogHeader>
           <AlertDialogDescription>
-            <p>
-              Denne handling kan ikke fortrydes. Dette vil permanent slette spillet og vil selv
-              skulle tilføje det igen.
-            </p>
+            <p>Denne handling kan ikke fortrydes. Dette vil permanent slette spillet og vil selv skulle tilføje det igen.</p>
           </AlertDialogDescription>
           <div className='flex justify-end gap-3'>
             <AlertDialogAction asChild>
