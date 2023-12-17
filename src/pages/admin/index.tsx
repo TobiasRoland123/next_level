@@ -33,7 +33,7 @@ export default function Admin() {
               Her kan du tilføje/fjerne eller ændre spil.
             </a>
             <a
-              href='/admin/spil'
+              href='/admin/booking'
               className='underline text-accentCol hover:text-blue-600'
             >
               Eller du kan se / slette PC bookinger.
