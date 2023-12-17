@@ -4,11 +4,11 @@ const handler = async (req, res) => {
   const search = req.query.search;
   const gameId = req.query.gameId;
   try {
-    console.log('API_KEY:', API_KEY);
+    //console.log('API_KEY:', API_KEY);
     const rawgResponse = await fetch(
-      `https://api.rawg.io/api/games${gameId == 0 ? '' : `/${gameId}`}?key=${API_KEY}${
-        search !== '' ? `&search=${search}` : ''
-      }`
+      `https://api.rawg.io/api/games${
+        gameId == 0 ? '' : `/${gameId}`
+      }?key=${API_KEY}${search !== '' ? `&search=${search}` : ''}`
     );
 
     if (!rawgResponse.ok) {
