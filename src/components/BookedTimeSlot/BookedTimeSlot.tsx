@@ -1,9 +1,5 @@
 import { BookingTimeSlot, UserBooking } from '../../Types/calendar';
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '../../components/ui/popover';
+import { Popover, PopoverContent, PopoverTrigger } from '../../components/ui/popover';
 
 interface BookedTimeSlotProps {
   time: BookingTimeSlot;
@@ -11,12 +7,7 @@ interface BookedTimeSlotProps {
   allTimes: BookingTimeSlot[];
   userChoices: UserBooking | undefined;
 }
-export const BookedTimeSlot = ({
-  time,
-  index,
-  allTimes,
-  userChoices,
-}: BookedTimeSlotProps) => {
+export const BookedTimeSlot = ({ time, index, allTimes, userChoices }: BookedTimeSlotProps) => {
   const nextAvailibleTime = () => {
     let availibleTimes = [];
     for (let i = 0; i < allTimes.length; i++) {
@@ -24,10 +15,7 @@ export const BookedTimeSlot = ({
         availibleTimes.push(allTimes[i].time);
       }
     }
-    if (
-      userChoices?.startTime === undefined ||
-      userChoices?.endTime?.index === undefined
-    ) {
+    if (userChoices?.startTime === undefined || userChoices?.endTime?.index === undefined) {
       return (
         <>
           <p>Vælg en start tid for din booking af de mulige ledige tider:</p>
@@ -38,32 +26,24 @@ export const BookedTimeSlot = ({
           </ul>
         </>
       );
-    } else if (
-      userChoices?.startTime?.index !== undefined &&
-      userChoices.startTime.index < index
-    ) {
+    } else if (userChoices?.startTime?.index !== undefined && userChoices.startTime.index < index) {
       let slicing = userChoices.startTime.index;
       let shortendArray = allTimes.slice(slicing);
-      let indexOfLastPossible =
-        shortendArray.findIndex((tid) => tid.booked === true) - 1;
+      let indexOfLastPossible = shortendArray.findIndex((tid) => tid.booked === true) - 1;
       return (
         <p>
           {/* Hvis du starter kl. {userChoices.startTime.time} er det seneste du kan booke til kl. {shortendArray[indexOfLastPossible].time}. */}
         </p>
       );
-    } else if (
-      userChoices?.startTime?.index !== undefined &&
-      userChoices.startTime.index > index
-    ) {
+    } else if (userChoices?.startTime?.index !== undefined && userChoices.startTime.index > index) {
       let slicing = userChoices.startTime.index;
       let shortendArray = allTimes.slice(0, -slicing);
-      let indexOfFirstPossible =
-        shortendArray.findIndex((tid) => tid.booked === false) + 1;
+      let indexOfFirstPossible = shortendArray.findIndex((tid) => tid.booked === false) + 1;
       // console.log("Test", slicing, shortendArray, indexOfFirstPossible);
       return (
         <p>
-          Hvis du starter kl. {userChoices.startTime.time} er det seneste du kan
-          booke til kl. {shortendArray[indexOfFirstPossible].time}.
+          Hvis du starter kl. {userChoices.startTime.time} er det seneste du kan booke til kl.{' '}
+          {shortendArray[indexOfFirstPossible]?.time}.
         </p>
       );
     }
