@@ -270,15 +270,11 @@ export default function Booking({ UserBookings, Bookings }: { UserBookings: User
   }, []); // Empty dependency array ensures this runs only once
 
   function showData() {
-    console.log('UserBookings', UserBookings);
-    console.log('Bookings', Bookings);
+    console.log('UserBookings', userBookings);
+    console.log('Bookings', bookings);
   }
 
   showData();
-
-  function isChecked(e: any) {
-    e && setShowExpiredBookings(e);
-  }
 
   // En checkbox om du vil se forrige bookinger også, lav et tredje table under der viser disse.
   return (
@@ -307,20 +303,15 @@ export default function Booking({ UserBookings, Bookings }: { UserBookings: User
               <div className='bg-contrastCol mt-8 p-4 lg:block flex align-middle justify-center'>
                 {userBookings.length < 1 ? (
                   <p className='m-0'>Ingen bookinger.</p>
-                ) : showExpiredBookings ? (
-                  <DataTable
-                    columns={columns}
-                    data={allBookings()}
-                    udløbne={true}
-                    onCheckedChange={(e: any) => isChecked(e)}
-                  />
                 ) : (
-                  <DataTable
-                    columns={columns}
-                    data={futureBookings()}
-                    udløbne={true}
-                    onCheckedChange={(e: any) => isChecked(e)}
-                  />
+                  <>
+                    <DataTable
+                      columns={columns}
+                      data={showExpiredBookings ? allBookings() : futureBookings()}
+                      udløbne={true}
+                      onCheckedChange={() => setShowExpiredBookings(!showExpiredBookings)}
+                    />
+                  </>
                 )}
               </div>
             </article>
