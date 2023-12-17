@@ -49,7 +49,7 @@ const GameCard = forwardRef<HTMLDivElement, GameCardProps>(
               ref={ref}
               {...props}
             >
-              <div className='flex w-full h-full col-start-1 row-start-1  rounded overflow-hidden'>
+              <div className='flex w-full h-full col-start-1 row-start-1 aspect-video  rounded overflow-hidden'>
                 <Image
                   src={`${Image_}`}
                   width={700}
