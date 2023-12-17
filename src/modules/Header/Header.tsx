@@ -53,12 +53,12 @@ export const Header = ({ pageList }: HeaderProps) => {
     <>
       {/* MOBILE MENU */}
       <div
-        className={` bg-primaryCol w-screen h-screen fixed top-0 transition-all md:hidden z-20 overflow-scroll pb-6  ${
+        className={` bg-primaryCol w-screen h-screen fixed top-0 transition-all lg:hidden z-20 overflow-scroll pb-6  ${
           isOpen ? 'right-0' : 'right-full'
         } flex flex-col pt-28`}
       >
         <ul className='flex mx-8 flex-col gap-8  '>
-          {pageList.map((pages) => {
+          {pageList.map(pages => {
             return (
               <>
                 <li>
@@ -71,7 +71,7 @@ export const Header = ({ pageList }: HeaderProps) => {
                         {pages.page.pageTitle}
                       </a>
                       <div className='pl-8 flex flex-col gap-2 mt-3 '>
-                        {pages.page.subPages.map((subpage) => {
+                        {pages.page.subPages.map(subpage => {
                           return (
                             <>
                               <a
@@ -145,7 +145,7 @@ export const Header = ({ pageList }: HeaderProps) => {
             {/* DESKTOP MENU */}
 
             <AnimatePresence>
-              <div className=' hidden md:flex uppercase h-full items-center'>
+              <div className=' hidden lg:flex uppercase h-full items-center'>
                 {pageList.map((pages, index) =>
                   pages.page.subPages ? (
                     <motion.div
@@ -187,7 +187,7 @@ export const Header = ({ pageList }: HeaderProps) => {
                         transition={{ duration: 0.28 }}
                         className='bg-contrastCol/80 backdrop-blur-md w-[115px] py-0 flex-col absolute flex top-16 rounded-b-sm overflow-hidden'
                       >
-                        {pages.page.subPages.map((subPage) => (
+                        {pages.page.subPages.map(subPage => (
                           <motion.div className='h-7 flex items-center hover:border-l-2 border-accentCol transition-all duration-75 p-2 ease-in-out'>
                             <motion.div
                               className=''
@@ -232,17 +232,25 @@ export const Header = ({ pageList }: HeaderProps) => {
           </div>
 
           <button
-            className='w-8 flex flex-col gap-2 justify-center items-center h-14 z-10 md:hidden'
+            className='w-8 flex flex-col gap-2 justify-center items-center h-14 z-10 lg:hidden'
             onClick={ToggleMenu}
             aria-label='Åben menu'
           >
-            <span className={`h-1 bg-accentCol w-full ${isOpen && 'translate-y-[0.4rem] rotate-45'}  transition-all	`}></span>
+            <span
+              className={`h-1 bg-accentCol w-full ${
+                isOpen && 'translate-y-[0.4rem] rotate-45'
+              }  transition-all	`}
+            ></span>
             <span className={`h-1 bg-accentCol w-full ${isOpen && 'hidden'}`}></span>
-            <span className={`h-1 bg-accentCol w-full ${isOpen && 'translate-y-[-0.35rem] -rotate-45 '}  transition-all	`}></span>
+            <span
+              className={`h-1 bg-accentCol w-full ${
+                isOpen && 'translate-y-[-0.35rem] -rotate-45 '
+              }  transition-all	`}
+            ></span>
           </button>
 
           <Button
-            className='hidden md:block my-1'
+            className='hidden lg:block my-1'
             link='/booking'
           >
             Book tid
