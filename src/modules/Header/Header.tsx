@@ -240,7 +240,7 @@ export const Header = ({ pageList }: HeaderProps) => {
           </button>
 
           <Button
-            className='hidden lg:block my-1'
+            className='hidden lg:block my-1 md:!flex'
             link='/booking'
           >
             Book tid
