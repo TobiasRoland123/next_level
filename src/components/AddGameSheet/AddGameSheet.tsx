@@ -9,7 +9,12 @@ import {
   SheetTitle,
 } from '@/components/ui/sheet';
 import { useAtom } from 'jotai';
-import { addNewGameAtom, gameIdAtom, openErrorAtom, showAddGameAtom } from '../../states/store';
+import {
+  addNewGameAtom,
+  gameIdAtom,
+  openErrorAtom,
+  showAddGameAtom,
+} from '../../states/store';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import ControlledEditableField from '../EditableInputField/ControlledEditableField';
 import ControlledEditableTextarea from '../ControlledEditableTextArea/ControlledEditableTextarea';
@@ -39,23 +44,33 @@ export const AddGameSheet = (game: Game) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [openError, setOpenError] = useAtom(openErrorAtom);
 
-  const [selectedTags, setSelectedTags] = useState<Array<{ name: string; value: number }>>([]);
-  const [selectedPlatform, setSelectedPlatform] = useState<Array<{ name: string; value: number }>>(
-    []
-  );
+  const [selectedTags, setSelectedTags] = useState<
+    Array<{ name: string; value: number }>
+  >([]);
+  const [selectedPlatform, setSelectedPlatform] = useState<
+    Array<{ name: string; value: number }>
+  >([]);
 
   const handleCheckboxChange = (tag: { name: string; value: number }) => {
-    if (selectedTags.some(selectedTag => selectedTag.value === tag.value)) {
-      setSelectedTags(selectedTags.filter(selectedTag => selectedTag.value !== tag.value));
+    if (selectedTags.some((selectedTag) => selectedTag.value === tag.value)) {
+      setSelectedTags(
+        selectedTags.filter((selectedTag) => selectedTag.value !== tag.value)
+      );
     } else {
       setSelectedTags([...selectedTags, tag]);
     }
   };
 
   const handlePlatformChange = (platform: { name: string; value: number }) => {
-    if (selectedPlatform.some(selectedPlatform => selectedPlatform.value === platform.value)) {
+    if (
+      selectedPlatform.some(
+        (selectedPlatform) => selectedPlatform.value === platform.value
+      )
+    ) {
       setSelectedPlatform(
-        selectedPlatform.filter(selectedPlatform => selectedPlatform.value !== platform.value)
+        selectedPlatform.filter(
+          (selectedPlatform) => selectedPlatform.value !== platform.value
+        )
       );
     } else {
       setSelectedPlatform([...selectedPlatform, platform]);
@@ -63,7 +78,7 @@ export const AddGameSheet = (game: Game) => {
   };
 
   const handleImageLoad = () => {
-    console.log('Is loaded now');
+    //console.log('Is loaded now');
 
     setIsLoaded(true);
   };
@@ -97,7 +112,7 @@ export const AddGameSheet = (game: Game) => {
     { name: 'VR', value: 2 },
   ];
 
-  console.log('add new game', addNewGame);
+  //console.log('add new game', addNewGame);
 
   const {
     handleSubmit,
@@ -123,14 +138,17 @@ export const AddGameSheet = (game: Game) => {
     setValue('background_image', addNewGame?.background_image || '');
   }, [addNewGame, setValue]);
 
-  const onSubmit: SubmitHandler<Game> = async gameData => {
+  const onSubmit: SubmitHandler<Game> = async (gameData) => {
     setSubmitting(true);
-    console.log('Submitted data', gameData);
-    console.log('selected tags', selectedTags);
+    //console.log('Submitted data', gameData);
+    //console.log('selected tags', selectedTags);
     gameData.tags = selectedTags;
     gameData.platforms = selectedPlatform;
 
-    const { data, error } = await supabase.from('gamelist').insert([gameData]).select();
+    const { data, error } = await supabase
+      .from('gamelist')
+      .insert([gameData])
+      .select();
 
     queryClient.invalidateQueries({ queryKey: ['hydrate-gameDBData'] });
 
@@ -142,12 +160,12 @@ export const AddGameSheet = (game: Game) => {
       return;
     }
 
-    console.log('before', selectedTags);
+    //console.log('before', selectedTags);
 
     setSelectedPlatform([]);
     setSelectedTags([]);
 
-    console.log('after', selectedTags);
+    //console.log('after', selectedTags);
 
     setSubmitting(false);
     setSubmitted(true);
@@ -155,11 +173,11 @@ export const AddGameSheet = (game: Game) => {
       setSubmitted(false);
       setGameId(0);
       setAddOpen(false);
-      console.log('on close', selectedTags);
+      //console.log('on close', selectedTags);
     }, 3000);
   };
 
-  console.log(game);
+  //console.log(game);
   const handleClose = () => {
     setGameId(0);
     setAddOpen(false);
@@ -224,7 +242,7 @@ export const AddGameSheet = (game: Game) => {
                   {consoles.map((console, index) => (
                     <div
                       className={`${
-                        selectedPlatform.some(p => p.value === console.value)
+                        selectedPlatform.some((p) => p.value === console.value)
                           ? 'bg-accentCol'
                           : 'bg-contrastCol'
                       } w-fit px-2 rounded-full transition ease-in-out duration-150  `}
@@ -235,12 +253,16 @@ export const AddGameSheet = (game: Game) => {
                       >
                         <Checkbox
                           className={`border-none transition-all ease-in-out data-[state=checked]:bg-transparent duration-150 ${
-                            selectedPlatform.some(p => p.value === console.value)
+                            selectedPlatform.some(
+                              (p) => p.value === console.value
+                            )
                               ? 'w-4 opacity-100'
                               : 'w-0 opacity-0'
                           } `}
                           value={console.value}
-                          checked={selectedPlatform.some(p => p.value === console.value)}
+                          checked={selectedPlatform.some(
+                            (p) => p.value === console.value
+                          )}
                           {...register('platforms')}
                           onCheckedChange={() => handlePlatformChange(console)}
                         />
@@ -256,11 +278,12 @@ export const AddGameSheet = (game: Game) => {
                   {gameTags.map((tag, index) => (
                     <div
                       className={`${
-                        selectedTags.some(p => p.value === tag.value)
+                        selectedTags.some((p) => p.value === tag.value)
                           ? 'bg-accentCol'
                           : 'bg-contrastCol'
                       } w-fit px-2 rounded-full ${
-                        !selectedTags.some(p => p.value === tag.value) && selectedTags.length >= 3
+                        !selectedTags.some((p) => p.value === tag.value) &&
+                        selectedTags.length >= 3
                           ? 'opacity-25'
                           : ''
                       } transition ease-in-out duration-150 `}
@@ -272,15 +295,17 @@ export const AddGameSheet = (game: Game) => {
                         <Checkbox
                           value={tag.value}
                           className={`border-none transition-all ease-in-out data-[state=checked]:bg-transparent duration-150 ${
-                            selectedTags.some(p => p.value === tag.value)
+                            selectedTags.some((p) => p.value === tag.value)
                               ? 'w-4 opacity-100'
                               : 'w-0 opacity-0'
                           }`}
-                          checked={selectedTags.some(p => p.value === tag.value)}
+                          checked={selectedTags.some(
+                            (p) => p.value === tag.value
+                          )}
                           {...register('tags')}
                           onCheckedChange={() => handleCheckboxChange(tag)}
                           disabled={
-                            !selectedTags.some(p => p.value === tag.value) &&
+                            !selectedTags.some((p) => p.value === tag.value) &&
                             selectedTags.length >= 3
                           }
                         />
@@ -329,7 +354,8 @@ export const ErrorMsg = () => {
           </AlertDialogHeader>
           <AlertDialogDescription>
             <p>
-              Denne handling kunne ikke gennemføres, da dette spil allerede er I jeres sortiment.
+              Denne handling kunne ikke gennemføres, da dette spil allerede er I
+              jeres sortiment.
             </p>
           </AlertDialogDescription>
           <div className='flex justify-end gap-3'>

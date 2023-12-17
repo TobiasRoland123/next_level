@@ -33,17 +33,17 @@ export const AdminHeader = ({ pageList }: HeaderProps) => {
     setIsOpen(!isOpen);
   };
 
-  console.log(pageList);
+  //console.log(pageList);
 
   return (
     <>
       <div
-        className={` bg-primaryCol w-screen h-screen fixed top-0 transition-all md:hidden  z-10 overflow-scroll pb-6  ${
+        className={` bg-primaryCol w-screen h-screen fixed top-0 transition-all md:hidden overflow-scroll pb-6 z-[11]  ${
           isOpen ? 'right-0' : 'right-full'
         } flex flex-col pt-28`}
       >
         <ul className='flex mx-8 flex-col gap-8  '>
-          {pageList.map(pages => {
+          {pageList.map((pages) => {
             return (
               <>
                 <li>
@@ -56,7 +56,7 @@ export const AdminHeader = ({ pageList }: HeaderProps) => {
                         {pages.page.pageTitle}
                       </a>
                       <div className='pl-8 flex flex-col gap-2 mt-3 '>
-                        {pages.page.subPages.map(subpage => {
+                        {pages.page.subPages.map((subpage) => {
                           return (
                             <>
                               <a
@@ -125,7 +125,7 @@ export const AdminHeader = ({ pageList }: HeaderProps) => {
             </a>
 
             <ul className='md:flex hidden items-center border-l-2 border-l-accentCol pl-8 gap-6 '>
-              {pageList.map(pages => {
+              {pageList.map((pages) => {
                 return (
                   <>
                     {pages.page.subPages ? (
@@ -148,22 +148,14 @@ export const AdminHeader = ({ pageList }: HeaderProps) => {
             </ul>
           </div>
 
-          <Button
+          <button
             className='w-8 flex flex-col gap-2 justify-center items-center h-14 z-10 md:hidden'
             onClick={ToggleMenu}
           >
-            <span
-              className={`h-1 bg-accentCol  w-full ${
-                isOpen && 'translate-y-[0.4rem] rotate-45'
-              }  transition-all	`}
-            ></span>
+            <span className={`h-1 bg-accentCol  w-full ${isOpen && 'translate-y-[0.4rem] rotate-45'}  transition-all	`}></span>
             <span className={`h-1 bg-accentCol  w-full ${isOpen && 'hidden'}`}></span>
-            <span
-              className={`h-1 bg-accentCol  w-full ${
-                isOpen && 'translate-y-[-0.35rem] -rotate-45 '
-              }  transition-all	`}
-            ></span>
-          </Button>
+            <span className={`h-1 bg-accentCol  w-full ${isOpen && 'translate-y-[-0.35rem] -rotate-45 '}  transition-all	`}></span>
+          </button>
 
           <Button
             className='hidden md:block my-1'

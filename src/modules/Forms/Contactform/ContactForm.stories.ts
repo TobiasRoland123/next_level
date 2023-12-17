@@ -1,12 +1,12 @@
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from '@storybook/react';
 
-import { ContactForm } from "./ContactForm";
+import { ContactForm } from './ContactForm';
 const meta = {
-  title: "Modules/ContactForm",
+  title: 'Modules/ContactForm',
   component: ContactForm,
-  parameters: { layout: "centered" },
+  parameters: { layout: 'centered' },
 
-  tags: ["autodocs"],
+  tags: ['autodocs'],
 } satisfies Meta<typeof ContactForm>;
 
 export default meta;
@@ -14,9 +14,9 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    selectedValue: "fødselsdag", // provide a default selected value
+    selectedValue: 'fødselsdag', // provide a default selected value
     onSelectChange: (selectValue: string) => {
-      console.log("Selected value:", selectValue);
+      //console.log("Selected value:", selectValue);
     },
   },
 };

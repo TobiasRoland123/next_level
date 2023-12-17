@@ -8,10 +8,20 @@ import { DatePicker } from '@/components/Calender/DatePicker';
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { BookingTypes } from '@/enum/BookingTimes';
 import { Matcher } from 'react-day-picker';
-import { BookingTimeSlot, PCObjects, TimeSlot, TimeSlotOptions, UserBooking } from '@/Types/calendar';
+import {
+  BookingTimeSlot,
+  PCObjects,
+  TimeSlot,
+  TimeSlotOptions,
+  UserBooking,
+} from '@/Types/calendar';
 import { supabase } from '../../utils/supabaseClient';
 import { Bookings } from '@/Types/Bookings';
-import { formattedDate, futureDays, pastDays } from '@/calendarFunctions/calendarFunctions';
+import {
+  formattedDate,
+  futureDays,
+  pastDays,
+} from '@/calendarFunctions/calendarFunctions';
 import timeSlots from '@/Types/TimesArray';
 import { AvailibleTimeSlot } from '@/components/AvailibleTimeSlot/AvailibleTimeSlot';
 import { BookedTimeSlot } from '@/components/BookedTimeSlot/BookedTimeSlot';
@@ -70,7 +80,8 @@ export default function Booking({ john }: { john: Bookings[] }) {
     index: undefined,
   });
   const [bookTimes, setBookTimes] = useState<string[]>([]);
-  const [bookingDateTimes, setBookingDateTimes] = useState<BookingTimeSlot[]>(timeSlots);
+  const [bookingDateTimes, setBookingDateTimes] =
+    useState<BookingTimeSlot[]>(timeSlots);
   const amountRef = useRef<HTMLDivElement | null>(null);
   const dateRef = useRef<HTMLDivElement | null>(null);
   const timeRef = useRef<HTMLDivElement | null>(null);
@@ -80,7 +91,7 @@ export default function Booking({ john }: { john: Bookings[] }) {
   useEffect(() => {
     // Subscribe to the router's "routeChangeComplete" event
     const handleRouteChange = (url: string) => {
-      console.log(`Route changed to: ${url}`);
+      //console.log(`Route changed to: ${url}`);
       setBookingComplete(false);
     };
 
@@ -93,11 +104,16 @@ export default function Booking({ john }: { john: Bookings[] }) {
     };
   }, [router.events]);
   useEffect(() => {
-    if (bookingRef.current && userChoices?.startTime?.index !== undefined && userChoices?.amount && userChoices.date) {
+    if (
+      bookingRef.current &&
+      userChoices?.startTime?.index !== undefined &&
+      userChoices?.amount &&
+      userChoices.date
+    ) {
       bookingRef.current.scrollIntoView({ behavior: 'smooth' });
-      console.log('1');
-      console.log(userChoices.startTime);
-      console.log(userChoices.endTime);
+      //console.log('1');
+      //console.log(userChoices.startTime);
+      //console.log(userChoices.endTime);
     } else if (
       timeRef.current &&
       userChoices?.amount &&
@@ -107,7 +123,7 @@ export default function Booking({ john }: { john: Bookings[] }) {
       timeChosen.index === undefined
     ) {
       timeRef.current.scrollIntoView({ behavior: 'smooth' });
-      console.log('2');
+      //console.log('2');
     } else if (
       dateRef.current &&
       userChoices?.amount &&
@@ -115,34 +131,37 @@ export default function Booking({ john }: { john: Bookings[] }) {
       timeChosen.index === undefined
     ) {
       dateRef.current?.scrollIntoView({ behavior: 'smooth' });
-      console.log('3');
-      console.log(userChoices.startTime);
+      //console.log('3');
+      //console.log(userChoices.startTime);
     }
   }, [userChoices]);
 
   //Make same function and use Enums with a switch Statement
   const handleAmountChange = (e: ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.value);
+    //console.log(e.target.value);
     let amountChosen = e.target.value;
     if (e.target.value.length >= 1) {
-      amountChosen = e.target.value.substring(e.target.value.length - 1, e.target.value.length);
-      console.log('HER1');
+      amountChosen = e.target.value.substring(
+        e.target.value.length - 1,
+        e.target.value.length
+      );
+      //console.log('HER1');
     }
 
     if (/^[1-5]$/.test(amountChosen) || amountChosen === '') {
-      console.log('HER2');
+      //console.log('HER2');
       setOpenAmount(false);
       if (/^[1-5]$/.test(amountChosen)) {
-        console.log(typeof Number(amountChosen), Number(amountChosen));
-        console.log('HER3');
+        //console.log(typeof Number(amountChosen), Number(amountChosen));
+        //console.log('HER3');
         setUserChoices((prevData) => ({
           ...prevData,
           amount: Number(amountChosen),
         }));
         setAmountValue(Number(amountChosen));
       } else if (amountChosen === '') {
-        console.log('HER4');
-        console.log(typeof Number(amountChosen), Number(amountChosen));
+        //console.log('HER4');
+        //console.log(typeof Number(amountChosen), Number(amountChosen));
         setUserChoices((prevData) => ({
           ...prevData,
           amount: null,
@@ -150,7 +169,7 @@ export default function Booking({ john }: { john: Bookings[] }) {
         setAmountValue('');
       }
     } else {
-      console.log('HER5');
+      //console.log('HER5');
       setOpenAmount(true);
     }
   };
@@ -167,7 +186,7 @@ export default function Booking({ john }: { john: Bookings[] }) {
         date: undefined,
       }));
     } else {
-      console.log(e);
+      //console.log(e);
       const date = new Date(e);
       const Year = date.getFullYear();
       const Month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-indexed
@@ -211,7 +230,9 @@ export default function Booking({ john }: { john: Bookings[] }) {
       // @ts-ignore
       for (const entry of PCS[pc]) {
         // Find the corresponding entry in the resultArray or create a new one
-        const resultEntry: BookingTimeSlot | undefined = availibleTimes.find((item) => item.time === entry.time);
+        const resultEntry: BookingTimeSlot | undefined = availibleTimes.find(
+          (item) => item.time === entry.time
+        );
 
         if (resultEntry) {
           // If the entry exists, update the count based on the booked status
@@ -259,14 +280,14 @@ export default function Booking({ john }: { john: Bookings[] }) {
 
   function addTime(tid: string, index: number) {
     if (timeChosen.index === undefined) {
-      // console.log('!timeChosen');
+      // //console.log('!timeChosen');
       if (userChoices?.startTime?.index || userChoices?.endTime?.index) {
-        // console.log('userChoices?.startTime?.index && userChoices?.endTime?.index');
+        // //console.log('userChoices?.startTime?.index && userChoices?.endTime?.index');
         if (userChoices?.startTime?.index === index) {
-          // console.log('userChoices?.startTime?.index === index');
+          // //console.log('userChoices?.startTime?.index === index');
           editBookedTimes(tid, index, BookingTypes.SingleValueEnd);
         } else if (userChoices?.endTime?.index === index) {
-          // console.log('userChoices?.endTime?.index === index');
+          // //console.log('userChoices?.endTime?.index === index');
           editBookedTimes(tid, index, BookingTypes.SingleValueStart);
           setTimeChosen({
             //@ts-ignore
@@ -282,7 +303,7 @@ export default function Booking({ john }: { john: Bookings[] }) {
             startTime: { time: '', index: undefined },
           }));
         } else {
-          // console.log('Check hvilken værdi som er tættest på tid/index, skift rundt');
+          // //console.log('Check hvilken værdi som er tættest på tid/index, skift rundt');
 
           // Skal der køres script her som tjekker om der er nogle booked dates i mellem?
           //@ts-ignore
@@ -290,14 +311,14 @@ export default function Booking({ john }: { john: Bookings[] }) {
           //@ts-ignore
           const diffSlut = Math.abs(userChoices?.endTime?.index - index); // Calculate absolute difference between constant2 and targetValue
 
-          // console.log('diffStart:', diffStart, 'diffSlut:', diffSlut);
+          // //console.log('diffStart:', diffStart, 'diffSlut:', diffSlut);
 
           if (diffStart < diffSlut) {
-            // console.log"Index closes to startTime");
+            // //console.log"Index closes to startTime");
             editBookedTimes(tid, index, BookingTypes.UpdateStart);
             // timesArray(index, BookingTypes.StartLowerEnd);
           } else if (diffStart > diffSlut) {
-            // console.log"Index closes to endTime");
+            // //console.log"Index closes to endTime");
             editBookedTimes(tid, index, BookingTypes.UpdateEnd);
             // timesArray(index, BookingTypes.StartHigherEnd);
           } else {
@@ -305,26 +326,30 @@ export default function Booking({ john }: { john: Bookings[] }) {
           }
         }
       } else {
-        // console.log('UserChoices Empty --> timeChosen = tid + index');
+        // //console.log('UserChoices Empty --> timeChosen = tid + index');
         editBookedTimes(tid, index, BookingTypes.SingleValue);
       }
     } else if (timeChosen.index === index) {
-      // console.log('Sæt timeChosen === ()');
+      // //console.log('Sæt timeChosen === ()');
       editBookedTimes(tid, index, BookingTypes.ClearTimeChosen);
       setTimeChosen({ time: '', index: undefined });
     } else if (timeChosen.index !== index && timeChosen.index !== undefined) {
       if (timeChosen.index < index) {
-        // console.log('timeChosen er lavere end index - Sæt timeChosen til starr.');
+        // //console.log('timeChosen er lavere end index - Sæt timeChosen til starr.');
         editBookedTimes(tid, index, BookingTypes.SetStartToTimeChosen);
       } else if (timeChosen.index > index) {
-        // console.log('timeChosen højere end index - Sæt timeChosen til end.');
+        // //console.log('timeChosen højere end index - Sæt timeChosen til end.');
         editBookedTimes(tid, index, BookingTypes.SetEndToTimeChosen);
       }
     }
-    // console.log(timeChosen);
+    // //console.log(timeChosen);
   }
 
-  function editBookedTimes(tid: string, index: number, statement: string | undefined) {
+  function editBookedTimes(
+    tid: string,
+    index: number,
+    statement: string | undefined
+  ) {
     let isolatedArray: BookingTimeSlot[];
     let bookInstance: boolean;
     let newBookTimes: string[] = [];
@@ -378,7 +403,7 @@ export default function Booking({ john }: { john: Bookings[] }) {
         isolatedArray = bookingDateTimes.slice(timeChosen.index, index + 1);
         bookInstance = isolatedArray.some((el) => el.booked === true);
 
-        console.log('isolatedArray, SetStartToTimeChosen', isolatedArray);
+        //console.log('isolatedArray, SetStartToTimeChosen', isolatedArray);
 
         if (bookInstance) {
           // Lav en Alert Dialog som kommer op. Vælg ny tid.
@@ -403,7 +428,7 @@ export default function Booking({ john }: { john: Bookings[] }) {
         isolatedArray = bookingDateTimes.slice(index, timeChosen.index + 1);
         bookInstance = isolatedArray.some((el) => el.booked === true);
 
-        console.log('isolatedArray, SetEndToTimeChosen', isolatedArray);
+        //console.log('isolatedArray, SetEndToTimeChosen', isolatedArray);
 
         if (bookInstance) {
           // Lav en Alert Dialog som kommer op. Vælg ny tid.
@@ -425,12 +450,18 @@ export default function Booking({ john }: { john: Bookings[] }) {
         break;
       case BookingTypes.UpdateStart:
         //Index er tættest på start, så det er denne der skal opdateres - hvis ikke der er bookinger i vejen!
-        if (userChoices?.startTime?.index !== undefined && index > userChoices?.startTime?.index) {
+        if (
+          userChoices?.startTime?.index !== undefined &&
+          index > userChoices?.startTime?.index
+        ) {
           //@ts-ignore
-          isolatedArray = bookingDateTimes.slice(userChoices.startTime.index, index + 1);
+          isolatedArray = bookingDateTimes.slice(
+            userChoices.startTime.index,
+            index + 1
+          );
           bookInstance = isolatedArray.some((el) => el.booked === true);
 
-          console.log('isolatedArray, UpdateStart1', isolatedArray);
+          //console.log('isolatedArray, UpdateStart1', isolatedArray);
           if (bookInstance) {
             errorMessagePopUp(userChoices.startTime.time, tid, isolatedArray);
             setOpenDialogAlert(true);
@@ -449,12 +480,18 @@ export default function Booking({ john }: { john: Bookings[] }) {
               startTime: { time: tid, index: index },
             }));
           }
-        } else if (userChoices?.startTime?.index !== undefined && index < userChoices?.startTime.index) {
+        } else if (
+          userChoices?.startTime?.index !== undefined &&
+          index < userChoices?.startTime.index
+        ) {
           //@ts-ignore
-          isolatedArray = bookingDateTimes.slice(index, userChoices.startTime.index + 1);
+          isolatedArray = bookingDateTimes.slice(
+            index,
+            userChoices.startTime.index + 1
+          );
           bookInstance = isolatedArray.some((el) => el.booked === true);
 
-          console.log('isolatedArray, UpdateStart2', isolatedArray);
+          //console.log('isolatedArray, UpdateStart2', isolatedArray);
 
           if (bookInstance) {
             //@ts-ignore
@@ -478,18 +515,27 @@ export default function Booking({ john }: { john: Bookings[] }) {
         }
         break;
       case BookingTypes.UpdateEnd:
-        if (userChoices?.endTime?.index !== undefined && index > userChoices?.endTime?.index) {
+        if (
+          userChoices?.endTime?.index !== undefined &&
+          index > userChoices?.endTime?.index
+        ) {
           //@ts-ignore
-          isolatedArray = bookingDateTimes.slice(userChoices.endTime.index, index + 1);
+          isolatedArray = bookingDateTimes.slice(
+            userChoices.endTime.index,
+            index + 1
+          );
           bookInstance = isolatedArray.some((el) => el.booked === true);
 
-          console.log('isolatedArray, UpdateEnd1', isolatedArray);
+          //console.log('isolatedArray, UpdateEnd1', isolatedArray);
 
           if (bookInstance) {
             errorMessagePopUp(userChoices.endTime.time, tid, isolatedArray);
             setOpenDialogAlert(true);
           } else {
-            let newBookArray: BookingTimeSlot[] = bookingDateTimes.slice(userChoices?.startTime?.index, index + 1);
+            let newBookArray: BookingTimeSlot[] = bookingDateTimes.slice(
+              userChoices?.startTime?.index,
+              index + 1
+            );
             for (let i = 0; i < newBookArray.length; i++) {
               newBookTimes.push(newBookArray[i].time);
             }
@@ -499,19 +545,28 @@ export default function Booking({ john }: { john: Bookings[] }) {
               endTime: { time: tid, index: index },
             }));
           }
-        } else if (userChoices?.endTime?.index !== undefined && index < userChoices?.endTime.index) {
+        } else if (
+          userChoices?.endTime?.index !== undefined &&
+          index < userChoices?.endTime.index
+        ) {
           //@ts-ignore
-          isolatedArray = bookingDateTimes.slice(index, userChoices.endTime.index + 1);
+          isolatedArray = bookingDateTimes.slice(
+            index,
+            userChoices.endTime.index + 1
+          );
           bookInstance = isolatedArray.some((el) => el.booked === true);
 
-          console.log('isolatedArray, UpdateEnd2', isolatedArray);
+          //console.log('isolatedArray, UpdateEnd2', isolatedArray);
 
           if (bookInstance) {
             //@ts-ignore
             errorMessagePopUp(tid, userChoices.endTime.time, isolatedArray);
             setOpenDialogAlert(true);
           } else {
-            let newBookArray: BookingTimeSlot[] = bookingDateTimes.slice(userChoices?.startTime?.index, index + 1);
+            let newBookArray: BookingTimeSlot[] = bookingDateTimes.slice(
+              userChoices?.startTime?.index,
+              index + 1
+            );
             for (let i = 0; i < newBookArray.length; i++) {
               newBookTimes.push(newBookArray[i].time);
             }
@@ -535,10 +590,12 @@ export default function Booking({ john }: { john: Bookings[] }) {
     }
   }
 
-  const disabledDays123 = (numberOfDays: number): Matcher | Matcher[] | undefined => {
+  const disabledDays123 = (
+    numberOfDays: number
+  ): Matcher | Matcher[] | undefined => {
     const disabledDays: Date[] = [];
     const daysInWeek = 7;
-    // console.log"numberOfDays", numberOfDays);
+    // //console.log"numberOfDays", numberOfDays);
 
     for (let i = 0; i < numberOfDays; i++) {
       const currentDate = new Date();
@@ -552,7 +609,9 @@ export default function Booking({ john }: { john: Bookings[] }) {
         const day = String(currentDate.getDate()).padStart(2, '0');
 
         // Format the date as "YYYY, MM, DD"
-        const formattedDate = `${Number(year)}, ${Number(month)}, ${Number(day)}`;
+        const formattedDate = `${Number(year)}, ${Number(month)}, ${Number(
+          day
+        )}`;
 
         disabledDays.push(new Date(formattedDate));
       }
@@ -577,8 +636,12 @@ export default function Booking({ john }: { john: Bookings[] }) {
           futureDate.setDate(currentDate.getDate() + days);
 
           // Check if the inputDate is between currentDate and futureDate
-          if (inputDate >= currentDate && inputDate <= futureDate && userChoices?.amount !== undefined) {
-            // console.log"The date is between today and the latest possible day in the future.");
+          if (
+            inputDate >= currentDate &&
+            inputDate <= futureDate &&
+            userChoices?.amount !== undefined
+          ) {
+            // //console.log"The date is between today and the latest possible day in the future.");
             const PCS: PCObjects = {
               PC1: bookings[i].PC1,
               PC2: bookings[i].PC2,
@@ -586,7 +649,7 @@ export default function Booking({ john }: { john: Bookings[] }) {
               PC4: bookings[i].PC1,
               PC5: bookings[i].PC1,
             };
-            // console.logPCS);
+            // //console.logPCS);
 
             // Create a new array to store the results
             const resultArray: BookingTimeSlot[] = [];
@@ -597,11 +660,13 @@ export default function Booking({ john }: { john: Bookings[] }) {
               // @ts-ignore
               for (const entry of PCS[pc]) {
                 // Find the corresponding entry in the resultArray or create a new one
-                const resultEntry: BookingTimeSlot | undefined = resultArray.find((item) => item.time === entry.time);
+                const resultEntry: BookingTimeSlot | undefined =
+                  resultArray.find((item) => item.time === entry.time);
                 if (resultEntry) {
                   // If the entry exists, update the count based on the booked status
                   if (entry.booked) {
-                    resultEntry.bookedCount = (resultEntry.bookedCount || 0) + 1;
+                    resultEntry.bookedCount =
+                      (resultEntry.bookedCount || 0) + 1;
                   }
                 } else {
                   // If the entry doesn't exist, create a new one
@@ -614,11 +679,14 @@ export default function Booking({ john }: { john: Bookings[] }) {
               }
             }
 
-            // console.log"resultArray", resultArray);
+            // //console.log"resultArray", resultArray);
             const PCLedigeTider = resultArray.some((slot, index) => {
               //@ts-ignore
-              const maxPC = 5 - userChoices?.amount;
-              if (index < resultArray.length - 1 && slot.bookedCount !== undefined) {
+              const maxPC = 6 - userChoices?.amount;
+              if (
+                index < resultArray.length - 1 &&
+                slot.bookedCount !== undefined
+              ) {
                 const nextSlot = resultArray[index + 1];
                 //@ts-ignore
                 return slot.bookedCount < maxPC && nextSlot.bookedCount < maxPC;
@@ -626,18 +694,17 @@ export default function Booking({ john }: { john: Bookings[] }) {
               return false;
             });
             if (PCLedigeTider === true) {
-              // console.logPCLedigeTider);
+              //console.log('ledige tider', PCLedigeTider);
             } else {
-              // console.logPCLedigeTider);
-              // console.lognew Date(bookings[i].date));
-
+              //console.log('ledige tider?', PCLedigeTider);
+              // //console.log(new Date(bookings[i].date));
               disabledDays.push(new Date(bookings[i].date));
             }
           }
         }
       }
     }
-    // console.log"disabledDays", disabledDays);
+    // //console.log"disabledDays", disabledDays);
 
     return disabledDays;
   };
@@ -645,7 +712,11 @@ export default function Booking({ john }: { john: Bookings[] }) {
   const disabledDays: Matcher | Matcher[] | undefined = disabledDays123(21);
 
   // function bookPCTimes(PC: BookingTimeSlot[], times: string[]) {}
-  function errorMessagePopUp(start: string | undefined, slut: string, arr: BookingTimeSlot[]) {
+  function errorMessagePopUp(
+    start: string | undefined,
+    slut: string,
+    arr: BookingTimeSlot[]
+  ) {
     const errorTimes: string[] = [];
     for (let i = 0; i < arr.length; i++) {
       if (arr[i].booked === true) {
@@ -653,7 +724,7 @@ export default function Booking({ john }: { john: Bookings[] }) {
       }
     }
     setAlertDetail({ start: start, slut: slut, arr: errorTimes });
-    console.log(alertDetail);
+    //console.log(alertDetail);
   }
 
   // const handleBookingChange = (statement: string, value: string) => {
@@ -696,7 +767,11 @@ export default function Booking({ john }: { john: Bookings[] }) {
                 >
                   <div className='bg-contrastCol mt-8 p-4 lg:block min-h-[152px]'>
                     <h4 className='mt-0'>Hvor mange computere vil du booke?</h4>
-                    <p> For at vi kan checke om der er PC'er nok til jer, så vil vi gerne vide hvor mange I kommer. </p>
+                    <p>
+                      {' '}
+                      For at vi kan checke om der er PC'er nok til jer, så vil
+                      vi gerne vide hvor mange I kommer.{' '}
+                    </p>
                   </div>
                   <div className='bg-contrastCol md:mt-8 p-4 lg:block min-h-[152px]'>
                     <h4 className='mt-0 flex flex-row align-middle gap-x-2'>
@@ -704,7 +779,11 @@ export default function Booking({ john }: { john: Bookings[] }) {
                       <span>Antal computere</span>
                     </h4>
                     <span>(max 5)</span>
-                    <span className={openAmount ? 'block text-accentCol' : 'hidden'}>Du må max vælge et tal mellem 1-5.</span>
+                    <span
+                      className={openAmount ? 'block text-accentCol' : 'hidden'}
+                    >
+                      Du må max vælge et tal mellem 1-5.
+                    </span>
                     <Input
                       type='number'
                       className='border-white remove-arrow'
@@ -713,7 +792,9 @@ export default function Booking({ john }: { john: Bookings[] }) {
                     ></Input>
                   </div>
                 </article>
-                {amountValue !== undefined && Number(amountValue) < 6 && Number(amountValue) > 0 ? (
+                {amountValue !== undefined &&
+                Number(amountValue) < 6 &&
+                Number(amountValue) > 0 ? (
                   <motion.article
                     ref={dateRef}
                     id='date'
@@ -731,8 +812,12 @@ export default function Booking({ john }: { john: Bookings[] }) {
                       <h4 className='mt-0'>Hvilken dag vil i komme?</h4>
                       <p>
                         {' '}
-                        I kan booke tid 14 dage frem og alle ledige datoer vil være markeret med grøn farve. Dage vi er fuldt
-                        bookede er market med rød.
+                        I kan booke tid 14 dage frem og alle ledige datoer vil
+                        være markeret med grøn farve. Dage vi er fuldt bookede
+                        er market med rød. <br />
+                        <br />
+                        <b>Obs.</b> vi modtager ikke bookinger fredag og lørdag.
+                        Alle andre dage kan du booke ml. 14 - 20
                       </p>
                     </div>
                     <div className='bg-contrastCol md:mt-8 p-4 lg:block'>
@@ -740,7 +825,11 @@ export default function Booking({ john }: { john: Bookings[] }) {
                         <FaCalendarAlt className='inline-block mt-0.4' />
                         <span>Dato</span>
                       </h4>
-                      <span>{userChoices?.date === undefined ? '' : `${formattedDate(userChoices?.date)}`}</span>
+                      <span>
+                        {userChoices?.date === undefined
+                          ? ''
+                          : `${formattedDate(userChoices?.date)}`}
+                      </span>
                       <DatePicker
                         // @ts-ignore
                         disabledDays={disabledDays}
@@ -771,7 +860,8 @@ export default function Booking({ john }: { john: Bookings[] }) {
                     <div className='bg-contrastCol mt-8 p-4 lg:block'>
                       <h4 className='mt-0'>Hvor længe skal i game?</h4>
                       <p>
-                        Vi booker i tidsrummet 14.00 - 20.00, vælg hvor mange timer og hvornår i vil booke pc'er, ud fra de ledige
+                        Vi booker i tidsrummet 14.00 - 20.00, vælg hvor mange
+                        timer og hvornår i vil booke pc'er, ud fra de ledige
                         tider for neden
                       </p>
                     </div>
@@ -779,25 +869,28 @@ export default function Booking({ john }: { john: Bookings[] }) {
                       <h4 className='mt-0 flex flex-row align-middle gap-x-2'>
                         <IoTime className='inline-block mt-0.4' />
                         <span>Antal timer</span>
-                        {/* <button className='p-4 border border-white ' onClick={() => console.log(bookTimes)}>
+                        {/* <button className='p-4 border border-white ' onClick={() => //console.log(bookTimes)}>
                         Check Booking Status
                       </button>
-                      <button className='p-4 border border-white ' onClick={() => console.log(john)}>
+                      <button className='p-4 border border-white ' onClick={() => //console.log(john)}>
                         Check Supabase
                       </button>
-                      <button className='p-4 border border-white ' onClick={() => console.log(userChoices)}>
+                      <button className='p-4 border border-white ' onClick={() => //console.log(userChoices)}>
                         Check Choices State
                       </button>
-                      <button className='p-4 border border-white ' onClick={() => console.log(timeChosen)}>
+                      <button className='p-4 border border-white ' onClick={() => //console.log(timeChosen)}>
                         Check timeChosen
                       </button>
-                      <button className='p-4 border border-white ' onClick={() => console.log(bookingDateTimes)}>
+                      <button className='p-4 border border-white ' onClick={() => //console.log(bookingDateTimes)}>
                         Check Boking Date Times
                       </button> */}
                       </h4>
-                      <span className='font-bold'>Du kan booke ml. 14 - 20</span>
+                      <span className='font-bold'>
+                        Du kan booke ml. 14 - 20
+                      </span>
                       <div className='mt-3'>
-                        {userChoices?.startTime?.index === undefined || userChoices?.endTime?.time === undefined ? (
+                        {userChoices?.startTime?.index === undefined ||
+                        userChoices?.endTime?.time === undefined ? (
                           <p>
                             Vælg et tidsrum du vil spille i:
                             <span>
@@ -830,60 +923,76 @@ export default function Booking({ john }: { john: Bookings[] }) {
                         )}
                       </div>
                       <div className=' timeslots flex gap-2 flex-wrap mt-3'>
-                        {bookingDateTimes.map((time: BookingTimeSlot, index: number) => (
-                          <div className='relative flex justify-between gap-2 flex-wrap mt-3'>
-                            {time.booked ? (
-                              <BookedTimeSlot
-                                time={time}
-                                index={index}
-                                allTimes={bookingDateTimes}
-                                userChoices={userChoices}
-                              />
-                            ) : (
-                              //  <input type="checkbox" name="tid" id={time.time} key={index} className="absolute z-0 opacity-0 peer" defaultChecked={bTS.includes(index)} disabled={time.booked} />
-                              // <label
-                              //   htmlFor={time.time}
-                              //   onClick={() => addTime(time.time, index)}
-                              //   className={
-                              //     (startTid.index !== undefined && slutTid.index !== undefined && startTid.index !== null && slutTid.index !== null && index >= startTid.index && index <= slutTid.index) || startTid.index === index || slutTid.index === index
-                              //       ? "z-10 min-w-[85px] text-center py-2 border border-accentCol font-semibold transition ease-in-out duration-150 cursor-pointer bg-accentCol peer-disabled:bg-slate-500 peer-disabled:border-slate-500 peer-disabled:text-slate-700 peer-disabled:pointer-events-none peer-disabled:cursor-not-allowed"
-                              //       : "z-10 min-w-[85px] text-center py-2 border border-accentCol font-semibold transition ease-in-out duration-150 cursor-pointer peer-disabled:bg-slate-500 peer-disabled:border-slate-500 peer-disabled:text-slate-700 peer-disabled:pointer-events-none peer-disabled:cursor-not-allowed"
-                              //   }
-                              // >
-                              //   {time.time}
-                              // </label>
-                              <AvailibleTimeSlot
-                                className={
-                                  bookTimes.includes(time.time)
-                                    ? 'z-10 min-w-[85px] text-center py-2 border border-accentCol font-semibold transition ease-in-out duration-150 cursor-pointer bg-accentCol'
-                                    : 'z-10 min-w-[85px] text-center py-2 border border-accentCol font-semibold transition ease-in-out duration-150 cursor-pointer'
-                                }
-                                defaultChecked={bookTimes.includes(time.time)}
-                                index={index}
-                                onClick={() => addTime(time.time, index)}
-                                time={time}
-                              />
-                            )}
-                          </div>
-                        ))}
+                        {bookingDateTimes.map(
+                          (time: BookingTimeSlot, index: number) => (
+                            <div className='relative flex justify-between gap-2 flex-wrap mt-3'>
+                              {time.booked ? (
+                                <BookedTimeSlot
+                                  time={time}
+                                  index={index}
+                                  allTimes={bookingDateTimes}
+                                  userChoices={userChoices}
+                                />
+                              ) : (
+                                //  <input type="checkbox" name="tid" id={time.time} key={index} className="absolute z-0 opacity-0 peer" defaultChecked={bTS.includes(index)} disabled={time.booked} />
+                                // <label
+                                //   htmlFor={time.time}
+                                //   onClick={() => addTime(time.time, index)}
+                                //   className={
+                                //     (startTid.index !== undefined && slutTid.index !== undefined && startTid.index !== null && slutTid.index !== null && index >= startTid.index && index <= slutTid.index) || startTid.index === index || slutTid.index === index
+                                //       ? "z-10 min-w-[85px] text-center py-2 border border-accentCol font-semibold transition ease-in-out duration-150 cursor-pointer bg-accentCol peer-disabled:bg-slate-500 peer-disabled:border-slate-500 peer-disabled:text-slate-700 peer-disabled:pointer-events-none peer-disabled:cursor-not-allowed"
+                                //       : "z-10 min-w-[85px] text-center py-2 border border-accentCol font-semibold transition ease-in-out duration-150 cursor-pointer peer-disabled:bg-slate-500 peer-disabled:border-slate-500 peer-disabled:text-slate-700 peer-disabled:pointer-events-none peer-disabled:cursor-not-allowed"
+                                //   }
+                                // >
+                                //   {time.time}
+                                // </label>
+                                <AvailibleTimeSlot
+                                  className={
+                                    bookTimes.includes(time.time)
+                                      ? 'z-10 min-w-[85px] text-center py-2 border border-accentCol font-semibold transition ease-in-out duration-150 cursor-pointer bg-accentCol'
+                                      : 'z-10 min-w-[85px] text-center py-2 border border-accentCol font-semibold transition ease-in-out duration-150 cursor-pointer'
+                                  }
+                                  defaultChecked={bookTimes.includes(time.time)}
+                                  index={index}
+                                  onClick={() => addTime(time.time, index)}
+                                  time={time}
+                                />
+                              )}
+                            </div>
+                          )
+                        )}
                         <AlertDialog
                           open={openDialogAlert}
                           onOpenChange={setOpenDialogAlert}
                         >
                           <AlertDialogContent className='max-w-[300px] sm:max-w-[400px]'>
                             <AlertDialogHeader>
-                              <AlertDialogTitle>Du kan ikke booke her.</AlertDialogTitle>
+                              <AlertDialogTitle>
+                                Du kan ikke booke her.
+                              </AlertDialogTitle>
                               <AlertDialogDescription className='text-left'>
-                                Det er ikke muligt at booke fra <span className='font-semibold'>{alertDetail?.start}</span> til{' '}
-                                <span className='font-semibold'>{alertDetail?.slut}</span>, da følgende tider er fuldt bookede:{' '}
+                                Det er ikke muligt at booke fra{' '}
+                                <span className='font-semibold'>
+                                  {alertDetail?.start}
+                                </span>{' '}
+                                til{' '}
+                                <span className='font-semibold'>
+                                  {alertDetail?.slut}
+                                </span>
+                                , da følgende tider er fuldt bookede:{' '}
                                 <ul className='flex flex-col pt-2'>
                                   {alertDetail?.arr.map((tid) => (
                                     <li className='mt-1'>
-                                      <span className='font-semibold'>{tid}</span>
+                                      <span className='font-semibold'>
+                                        {tid}
+                                      </span>
                                     </li>
                                   ))}
                                 </ul>
-                                <span className='mt-2 block'>Vælg en ny tid, som ikke går ind over de bookede tider.</span>
+                                <span className='mt-2 block'>
+                                  Vælg en ny tid, som ikke går ind over de
+                                  bookede tider.
+                                </span>
                               </AlertDialogDescription>
                             </AlertDialogHeader>
                             <AlertDialogFooter>

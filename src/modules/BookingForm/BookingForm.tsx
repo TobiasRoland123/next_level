@@ -121,7 +121,7 @@ export const BookingForm: React.FC<BookingProps> = ({
 
       // ! Set errormessage for Supabase here.
       if (error) {
-        console.log(error);
+        //console.log(error);
         let errorMessage = 'Fej bror';
 
         setSupabaseError(errorMessage); // Set the error message
@@ -130,7 +130,7 @@ export const BookingForm: React.FC<BookingProps> = ({
       }
 
       if (data) {
-        console.log('data', data);
+        //console.log('data', data);
         setIsBookingValid(true);
         setBookingComplete(true);
       }
@@ -181,7 +181,7 @@ export const BookingForm: React.FC<BookingProps> = ({
 
       for (let i = 1; i < 6; i++) {
         if (i <= amount) {
-          console.log('i:', i, 'userAmount:', amount);
+          //console.log('i:', i, 'userAmount:', amount);
 
           bookedPcs.push(
             basePc.map((timeSlot) => {
@@ -189,11 +189,11 @@ export const BookingForm: React.FC<BookingProps> = ({
                 timesToBook.includes(timeSlot.time) &&
                 timeSlot.booked === false
               ) {
-                console.log('im included: ', timeSlot.time);
+                //console.log('im included: ', timeSlot.time);
 
                 return { time: timeSlot.time, booked: true, bookedCount: 0 };
               } else {
-                console.log('im not included:', timeSlot.time);
+                //console.log('im not included:', timeSlot.time);
 
                 return timeSlot;
               }
@@ -213,11 +213,11 @@ export const BookingForm: React.FC<BookingProps> = ({
         NLP: null,
       };
 
-      console.log('supabaseObject', supabaseObject);
+      //console.log('supabaseObject', supabaseObject);
 
       sendToSupabase(supabaseObject);
 
-      console.log('NEW PC');
+      //console.log('NEW PC');
     } else {
       const existingDay = () => {
         for (let i = 0; i < bookingOverview.length; i++) {
@@ -239,19 +239,19 @@ export const BookingForm: React.FC<BookingProps> = ({
       let updatedExistingDay;
       for (let i = 1; i < 6; i++) {
         if (i <= amount) {
-          console.log('i:', i, 'userAmount:', amount);
+          //console.log('i:', i, 'userAmount:', amount);
 
           let updatedPcs = 0;
 
           updatedExistingDay = tempBooking.map((pc) => {
-            console.log('pc', pc);
+            //console.log('pc', pc);
 
             if (updatedPcs === timesToBook.length * amount) {
               return pc;
             } else {
               // @ts-ignore
               const newPcs = pc.map((timeSlot) => {
-                console.log('timeSlot', timeSlot);
+                //console.log('timeSlot', timeSlot);
 
                 //@ts-ignore
                 if (
@@ -259,13 +259,13 @@ export const BookingForm: React.FC<BookingProps> = ({
                   timeSlot.booked === false
                 ) {
                   //@ts-ignore
-                  console.log('im included: ', timeSlot.time);
+                  //console.log('im included: ', timeSlot.time);
                   //@ts-ignore
                   updatedPcs++;
                   return { time: timeSlot.time, booked: true, bookedCount: 0 };
                 } else {
                   //@ts-ignore
-                  console.log('im not included:', timeSlot.time);
+                  //console.log('im not included:', timeSlot.time);
 
                   return timeSlot;
                 }
@@ -273,9 +273,9 @@ export const BookingForm: React.FC<BookingProps> = ({
               return newPcs;
             }
           });
-          console.log('existingDay', existingDay());
-          console.log('tempBooking', tempBooking);
-          console.log('updatedExistingDay', updatedExistingDay);
+          //console.log('existingDay', existingDay());
+          //console.log('tempBooking', tempBooking);
+          //console.log('updatedExistingDay', updatedExistingDay);
         }
       }
 
@@ -289,7 +289,7 @@ export const BookingForm: React.FC<BookingProps> = ({
         PC5: updatedExistingDay[4],
         NLP: null,
       };
-      console.log('supabaseObject', supabaseObject);
+      //console.log('supabaseObject', supabaseObject);
       sendUpdateToSupabase(supabaseObject);
     }
   };
@@ -300,8 +300,8 @@ export const BookingForm: React.FC<BookingProps> = ({
       .update([supabaseObject])
       .eq('id', supabaseObject.id)
       .select();
-    console.log('$123', data);
-    console.log('pusherror', error);
+    //console.log('$123', data);
+    //console.log('pusherror', error);
   }
 
   function updateSupabase() {
@@ -614,7 +614,7 @@ export const BookingForm: React.FC<BookingProps> = ({
           </form>
         </Form>
       </article>
-      {/* <button onClick={() => console.log(bookingOverview)}>Test</button>; */}
+      {/* <button onClick={() => //console.log(bookingOverview)}>Test</button>; */}
     </>
   );
 };
